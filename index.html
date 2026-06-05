@@ -129,6 +129,62 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 
 /* Divider */
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:40px 0}
+
+/* === 路维光电 Section === */
+.luwei-wrap .luwei-header{display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid var(--border);margin-bottom:24px}
+.luwei-wrap .luwei-header-left h1{font-size:28px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.luwei-wrap .luwei-header-left .subtitle{color:var(--muted);font-size:14px;margin-top:4px}
+.luwei-wrap .luwei-tag{display:inline-block;background:var(--card);border:1px solid var(--border);padding:2px 10px;border-radius:12px;font-size:12px;color:var(--cyan);margin-top:6px}
+.luwei-wrap .luwei-header-right{text-align:right}
+.luwei-wrap .luwei-price{font-size:36px;font-weight:700;color:var(--green)}
+.luwei-wrap .luwei-change{font-size:14px;color:var(--green)}
+.luwei-wrap .luwei-date{font-size:12px;color:var(--muted);margin-top:4px}
+.luwei-wrap .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.luwei-wrap .metric-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:transform .2s,border-color .2s}
+.luwei-wrap .metric-card:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.luwei-wrap .metric-card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.luwei-wrap .metric-card .value{font-size:24px;font-weight:700;margin:8px 0}
+.luwei-wrap .metric-card .value.green{color:var(--green)}
+.luwei-wrap .metric-card .value.yellow{color:var(--orange)}
+.luwei-wrap .metric-card .value.red{color:var(--red)}
+.luwei-wrap .metric-card .value.cyan{color:var(--cyan)}
+.luwei-wrap .metric-card .note{font-size:11px;color:var(--muted)}
+.luwei-wrap .luwei-section-title{font-size:18px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.luwei-wrap .luwei-section-title::before{content:'';width:4px;height:20px;background:linear-gradient(180deg,var(--cyan),var(--purple));border-radius:2px}
+.luwei-wrap .chart-container{width:100%;height:400px}
+.luwei-wrap .chart-row{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+.luwei-wrap .signal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.luwei-wrap .signal-item{background:var(--bg);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px}
+.luwei-wrap .signal-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.luwei-wrap .signal-icon.bull{background:rgba(16,185,129,.15);color:var(--green)}
+.luwei-wrap .signal-icon.neutral{background:rgba(245,158,11,.15);color:var(--orange)}
+.luwei-wrap .signal-icon.bear{background:rgba(239,68,68,.15);color:var(--red)}
+.luwei-wrap .signal-text .sig-label{font-size:12px;color:var(--muted)}
+.luwei-wrap .signal-text .sig-value{font-size:16px;font-weight:600}
+.luwei-wrap .flag-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.luwei-wrap .flag-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg);border-radius:8px}
+.luwei-wrap .flag-icon{font-size:20px}
+.luwei-wrap .flag-text{font-size:14px}
+.luwei-wrap .flag-note{font-size:12px;color:var(--muted);margin-left:auto}
+.luwei-wrap .rating-summary{display:flex;align-items:center;gap:24px;margin-bottom:20px}
+.luwei-wrap .rating-score{text-align:center}
+.luwei-wrap .rating-score .score-num{font-size:48px;font-weight:800;color:var(--green)}
+.luwei-wrap .rating-score .score-denom{font-size:20px;color:var(--muted)}
+.luwei-wrap .rating-score .stars{font-size:24px;color:var(--orange);margin-top:4px}
+.luwei-wrap .rec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.luwei-wrap .rec-card{background:var(--bg);border-radius:12px;padding:20px;border-left:4px solid var(--cyan)}
+.luwei-wrap .rec-card.mid{border-left-color:var(--purple)}
+.luwei-wrap .rec-card.long{border-left-color:var(--green)}
+.luwei-wrap .rec-card h4{font-size:14px;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.luwei-wrap .rec-card p{font-size:14px;line-height:1.7}
+.luwei-wrap .risk-list{list-style:none}
+.luwei-wrap .risk-list li{padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;font-size:14px}
+.luwei-wrap .risk-list li::before{content:'⚠️';flex-shrink:0}
+.luwei-wrap .risk-list li:last-child{border-bottom:none}
+.luwei-wrap .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.luwei-wrap .luwei-card-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+@media(max-width:900px){.luwei-wrap .chart-row{grid-template-columns:1fr}}
+@media(max-width:768px){.luwei-wrap .rec-grid{grid-template-columns:1fr}.luwei-wrap .two-col{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -143,6 +199,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
   <a href="#vibe">Vibe-Trading</a>
   <a href="#cases">实战案例</a>
   <a href="#workflow">工作流</a>
+  <a href="#luwei">路维光电</a>
   <a href="briefings.html" style="color:#d4a853 !important">📰 简报归档</a>
 </nav>
 
@@ -619,6 +676,222 @@ vibe-trading run -p "Analyze my trading behavior, extract shadow strategy"</code
   </div>
 </section>
 
+<!-- 路维光电 (688401.SH) -->
+<section class="section" id="luwei">
+  <div class="section-header">
+    <h2>路维光电 (688401.SH)</h2>
+    <p>半导体掩膜版 · 科创板 · 数据截止 2026-05-29</p>
+  </div>
+  <div class="luwei-wrap">
+
+    <!-- Header bar -->
+    <div class="luwei-header">
+      <div class="luwei-header-left">
+        <h1>路维光电</h1>
+        <div class="subtitle">688401.SH · 科创板</div>
+        <span class="luwei-tag">电子/半导体材料（掩膜版）</span>
+      </div>
+      <div class="luwei-header-right">
+        <div class="luwei-price">¥79.06</div>
+        <div class="luwei-change">+255.01% (区间涨幅)</div>
+        <div class="luwei-date">数据截止: 2026-05-29 | 报告期: 2026-03-31 (Q1)</div>
+      </div>
+    </div>
+
+    <!-- Core Metrics -->
+    <div class="card-grid">
+      <div class="metric-card">
+        <div class="label">毛利率</div>
+        <div class="value green">35.39%</div>
+        <div class="note">Q1同比↑</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">净利率</div>
+        <div class="value green">20.88%</div>
+        <div class="note">Q1同比↑</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">ROE</div>
+        <div class="value green">16.54%</div>
+        <div class="note">年化16.54%</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">营收增速</div>
+        <div class="value green">+25.56%</div>
+        <div class="note">Q1同比</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">利润增速</div>
+        <div class="value green">+38.81%</div>
+        <div class="note">Q1同比</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">现金比率</div>
+        <div class="value cyan">1.49</div>
+        <div class="note">偿债能力极强</div>
+      </div>
+    </div>
+
+    <!-- K-Line Chart -->
+    <div class="luwei-card-section">
+      <div class="luwei-section-title">K线走势 · 均线 · 成交量</div>
+      <div id="luweiKlineChart" style="width:100%;height:500px;"></div>
+    </div>
+
+    <!-- Technical Signals -->
+    <div class="luwei-card-section">
+      <div class="luwei-section-title">技术信号</div>
+      <div class="signal-grid">
+        <div class="signal-item">
+          <div class="signal-icon bull">📈</div>
+          <div class="signal-text">
+            <div class="sig-label">趋势</div>
+            <div class="sig-value">多头排列（MA5>MA10>MA20>MA60）</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon neutral">📊</div>
+          <div class="signal-text">
+            <div class="sig-label">RSI (14)</div>
+            <div class="sig-value">59.18 - 中性偏强</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon bull">🎯</div>
+          <div class="signal-text">
+            <div class="sig-label">MACD</div>
+            <div class="sig-value">金叉延续</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon neutral">🎚️</div>
+          <div class="signal-text">
+            <div class="sig-label">布林带</div>
+            <div class="sig-value">接近上轨</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon bull">📢</div>
+          <div class="signal-text">
+            <div class="sig-label">成交量</div>
+            <div class="sig-value">放量</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Charts -->
+    <div class="chart-row">
+      <div class="luwei-card-section">
+        <div class="luwei-section-title">盈利能力</div>
+        <div id="luweiProfitChart" style="width:100%;height:300px;"></div>
+      </div>
+      <div class="luwei-card-section">
+        <div class="luwei-section-title">偿债能力</div>
+        <div id="luweiSolvencyChart" style="width:100%;height:300px;"></div>
+      </div>
+    </div>
+
+    <!-- DuPont Analysis -->
+    <div class="luwei-card-section">
+      <div class="luwei-section-title">杜邦分析 · ROE分解</div>
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:300px;">
+          <div id="luweiDupontChart" style="width:100%;height:280px;"></div>
+        </div>
+        <div style="min-width:200px;">
+          <div class="metric-card" style="margin-bottom:12px;">
+            <div class="label">ROE</div>
+            <div class="value green">16.54%</div>
+          </div>
+          <div class="metric-card" style="margin-bottom:12px;">
+            <div class="label">净利率</div>
+            <div class="value cyan">21.81%</div>
+          </div>
+          <div class="metric-card" style="margin-bottom:12px;">
+            <div class="label">总资产周转率</div>
+            <div class="value yellow">0.43</div>
+          </div>
+          <div class="metric-card">
+            <div class="label">权益乘数</div>
+            <div class="value cyan">1.79</div>
+          </div>
+          <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px;color:var(--orange);">
+            💡 驱动因素: 高净利率驱动型
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Red Flags -->
+    <div class="luwei-card-section">
+      <div class="luwei-section-title">红旗扫描 · 9项安全 / 1项关注 / 0项警告</div>
+      <div class="flag-list">
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">营收增速骤降</span><span class="flag-note">25.6%仍处高速</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">毛利率异常下滑</span><span class="flag-note">毛利率逆势上升</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">应收账款增速>营收增速</span><span class="flag-note">周转天数稳定</span></div>
+        <div class="flag-item"><span class="flag-icon">🟡</span><span class="flag-text">存货异常积压</span><span class="flag-note">周转101天，需看同行</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">经营现金流<净利润</span><span class="flag-note">现金流>净利润40%</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">扣非占比过低</span><span class="flag-note">93.3%，利润质量高</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">资产负债率过高</span><span class="flag-note">45.5%，适中</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">短期借款激增</span><span class="flag-note">现金比率1.49，无压力</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">商誉占比过高</span><span class="flag-note">科创板轻商誉</span></div>
+        <div class="flag-item"><span class="flag-icon">✅</span><span class="flag-text">费用率异常上升</span><span class="flag-note">全部下降</span></div>
+      </div>
+    </div>
+
+    <!-- Overall Rating -->
+    <div class="luwei-card-section">
+      <div class="luwei-section-title">综合评分</div>
+      <div class="rating-summary">
+        <div class="rating-score">
+          <div><span class="score-num">28</span><span class="score-denom">/30</span></div>
+          <div class="stars">★★★★★</div>
+        </div>
+        <div style="flex:1;min-width:300px;">
+          <div id="luweiRatingChart" style="width:100%;height:280px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risks & Recommendations -->
+    <div class="two-col">
+      <div class="luwei-card-section">
+        <div class="luwei-section-title">风险提示</div>
+        <ul class="risk-list">
+          <li>存货周转偏慢（101天）— 掩膜版行业特性，但需关注跌价风险</li>
+          <li>总资产周转率低（0.43）— 重资产行业，扩产周期较长</li>
+          <li>客户集中度 — 半导体掩膜版下游集中，需关注大客户订单波动</li>
+          <li>行业周期性 — 半导体周期波动可能影响需求</li>
+        </ul>
+      </div>
+      <div class="luwei-card-section">
+        <div class="luwei-section-title">操作建议</div>
+        <div class="rec-grid">
+          <div class="rec-card">
+            <h4>短期</h4>
+            <p>财报数据健康，Q1业绩超预期，技术面多头排列，可关注回调买点</p>
+          </div>
+          <div class="rec-card mid">
+            <h4>中期</h4>
+            <p>半导体掩膜版国产替代逻辑清晰，产能释放期</p>
+          </div>
+          <div class="rec-card long">
+            <h4>长期</h4>
+            <p>高毛利率+高现金流+低负债，具备长期持有基础</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:24px;">
+      <p>数据来源: akshare + vibe-trading (HKUDS) | 生成时间: 2026-05-31</p>
+      <p style="margin-top:8px;">⚠️ 免责声明: 本分析仅供参考，不构成投资建议。投资有风险，决策需谨慎。</p>
+    </div>
+
+  </div>
+</section>
+
 <footer class="footer">
   <p>Built with <span class="heart">❤️</span> by 曼尼 (Hermes Agent) · Powered by <a href="https://github.com/HKUDS/Vibe-Trading" target="_blank">HKUDS Vibe-Trading</a></p>
   <p style="margin-top:8px">a-stock-data · AkShare · Metaso · Kimi Code · vibe-trading-ai</p>
@@ -699,13 +972,135 @@ flowChart.setOption({
     ]
   }]
 });
-window.addEventListener('resize', () => flowChart.resize());
+window.addEventListener('resize', () => { flowChart.resize(); resizeLuweiCharts(); });
 
 // Intersection Observer for animations
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {if(e.isIntersecting){e.target.classList.add('animate');observer.unobserve(e.target)}});
 },{threshold:0.1});
 document.querySelectorAll('.tool-card,.case-card,.tl-item,.db-card').forEach(el => observer.observe(el));
+
+// === 路维光电 Charts ===
+const luweiKlineRaw = [["2026-01-12",59.5,58.2,57.05,60.22],["2026-01-13",57.85,57.26,57.1,60.0],["2026-01-14",57.72,58.05,56.49,59.99],["2026-01-15",58.3,61.46,57.7,61.5],["2026-01-16",62.49,62.2,60.35,62.85],["2026-01-19",62.2,61.35,60.62,63.68],["2026-01-20",60.98,60.41,59.6,61.83],["2026-01-21",59.85,62.55,59.82,63.7],["2026-01-22",62.55,57.18,56.65,62.55],["2026-01-23",57.2,57.4,56.6,57.97],["2026-01-26",57.5,55.35,54.87,57.5],["2026-01-27",55.26,56.31,54.0,56.52],["2026-01-28",56.16,56.2,55.51,57.62],["2026-01-29",56.2,52.91,52.5,56.4],["2026-01-30",53.0,53.84,51.65,54.72],["2026-02-02",53.55,50.66,50.66,53.8],["2026-02-03",51.57,52.55,50.5,53.2],["2026-02-04",52.0,51.51,50.86,52.78],["2026-02-05",51.2,50.24,49.63,51.2],["2026-02-06",49.85,50.27,49.43,50.94],["2026-02-09",51.09,51.37,50.73,51.87],["2026-02-10",51.6,51.91,51.29,52.76],["2026-02-11",52.03,54.5,51.91,55.45],["2026-02-12",54.0,54.11,53.6,54.66],["2026-02-13",54.0,53.21,53.2,54.4],["2026-02-24",53.91,54.14,52.01,54.75],["2026-02-25",54.01,55.19,52.92,55.44],["2026-02-26",55.18,56.33,53.94,56.44],["2026-02-27",55.02,55.84,54.8,56.49],["2026-03-02",55.29,54.94,54.7,56.4],["2026-03-03",55.24,51.4,51.33,55.43],["2026-03-04",50.96,51.07,50.57,52.48],["2026-03-05",52.05,54.43,52.0,56.6],["2026-03-06",53.7,53.65,53.19,54.6],["2026-03-09",52.0,51.23,49.45,52.0],["2026-03-10",52.5,53.05,52.18,53.98],["2026-03-11",53.26,53.35,53.0,54.75],["2026-03-12",52.95,52.36,51.05,53.32],["2026-03-13",52.3,51.03,51.03,52.87],["2026-03-16",50.99,51.74,49.79,52.18],["2026-03-17",51.9,49.52,49.5,52.05],["2026-03-18",49.89,49.87,48.8,50.15],["2026-03-19",48.9,47.75,47.52,49.2],["2026-03-20",48.0,47.04,47.04,48.85],["2026-03-23",46.33,44.87,44.36,47.0],["2026-03-24",45.58,46.32,44.2,46.6],["2026-03-25",46.7,48.37,46.7,49.85],["2026-03-26",48.4,48.01,47.51,48.6],["2026-03-27",47.5,48.5,47.12,49.55],["2026-03-30",47.56,48.87,47.14,49.22],["2026-03-31",48.58,48.04,47.31,48.83],["2026-04-01",49.0,50.8,49.0,51.3],["2026-04-02",50.7,49.12,48.9,51.0],["2026-04-03",49.54,50.17,49.5,50.96],["2026-04-07",50.0,50.23,47.3,50.98],["2026-04-08",51.0,53.0,50.6,53.44],["2026-04-09",52.2,52.7,51.3,52.99],["2026-04-10",53.5,53.78,52.72,54.3],["2026-04-13",54.1,54.35,53.6,55.22],["2026-04-14",54.1,55.96,54.08,56.0],["2026-04-15",55.7,53.62,53.37,55.98],["2026-04-16",53.5,54.45,53.5,55.42],["2026-04-17",54.9,55.76,54.2,56.6],["2026-04-20",55.5,56.38,55.36,57.69],["2026-04-21",56.3,58.95,56.3,59.0],["2026-04-22",58.8,63.38,58.6,64.39],["2026-04-23",63.0,62.41,60.87,63.5],["2026-04-24",61.5,63.41,61.03,64.0],["2026-04-27",64.0,65.18,62.15,65.3],["2026-04-28",65.8,67.05,64.51,67.99],["2026-04-29",65.3,63.6,62.0,66.0],["2026-04-30",64.23,66.27,63.31,67.24],["2026-05-06",66.0,64.97,62.5,66.5],["2026-05-07",64.8,66.19,63.76,66.88],["2026-05-08",66.0,66.23,64.82,66.9],["2026-05-11",66.5,67.35,65.5,69.2],["2026-05-12",67.9,68.51,66.41,69.0],["2026-05-13",68.6,68.49,66.8,69.3],["2026-05-14",68.0,68.45,66.11,69.68],["2026-05-15",68.88,71.36,68.0,71.38],["2026-05-18",70.0,66.99,66.5,71.99],["2026-05-19",67.0,70.4,65.68,70.69],["2026-05-20",70.6,72.43,69.31,72.48],["2026-05-21",73.0,69.52,69.3,73.2],["2026-05-22",69.0,72.42,69.0,72.94],["2026-05-25",72.5,75.93,71.63,78.88],["2026-05-26",76.3,77.88,74.71,79.88],["2026-05-27",78.5,79.8,77.1,81.5],["2026-05-28",82.0,84.7,80.1,86.5],["2026-05-29",84.0,79.06,78.8,85.2]];
+const luweiVolRaw = [["2026-01-12",68888],["2026-01-13",51606],["2026-01-14",74899],["2026-01-15",67400],["2026-01-16",63070],["2026-01-19",40466],["2026-01-20",43035],["2026-01-21",53965],["2026-01-22",118470],["2026-01-23",62812],["2026-01-26",50894],["2026-01-27",41245],["2026-01-28",43023],["2026-01-29",54972],["2026-01-30",42196],["2026-02-02",49459],["2026-02-03",40622],["2026-02-04",37071],["2026-02-05",27324],["2026-02-06",25114],["2026-02-09",24598],["2026-02-10",31071],["2026-02-11",71741],["2026-02-12",27499],["2026-02-13",23204],["2026-02-24",37694],["2026-02-25",47516],["2026-02-26",46521],["2026-02-27",30821],["2026-03-02",38651],["2026-03-03",41859],["2026-03-04",22399],["2026-03-05",57063],["2026-03-06",29027],["2026-03-09",48117],["2026-03-10",38289],["2026-03-11",35785],["2026-03-12",28919],["2026-03-13",25664],["2026-03-16",25419],["2026-03-17",25691],["2026-03-18",32068],["2026-03-19",30039],["2026-03-20",25409],["2026-03-23",37574],["2026-03-24",36221],["2026-03-25",38465],["2026-03-26",19730],["2026-03-27",29090],["2026-03-30",23271],["2026-03-31",25990],["2026-04-01",42316],["2026-04-02",22196],["2026-04-03",22021],["2026-04-07",21546],["2026-04-08",39757],["2026-04-09",42530],["2026-04-10",43818],["2026-04-13",32955],["2026-04-14",36877],["2026-04-15",31263],["2026-04-16",45034],["2026-04-17",60240],["2026-04-20",40739],["2026-04-21",53123],["2026-04-22",186389],["2026-04-23",161167],["2026-04-24",131085],["2026-04-27",119941],["2026-04-28",96877],["2026-04-29",78981],["2026-04-30",84252],["2026-05-06",107539],["2026-05-07",98481],["2026-05-08",87061],["2026-05-11",86616],["2026-05-12",71340],["2026-05-13",66568],["2026-05-14",103312],["2026-05-15",110375],["2026-05-18",102358],["2026-05-19",93298],["2026-05-20",96146],["2026-05-21",114178],["2026-05-22",96285],["2026-05-25",107768],["2026-05-26",114656],["2026-05-27",101827],["2026-05-28",90845],["2026-05-29",109804]];
+const luweiMa5Raw = [["2026-01-12",55.99],["2026-01-13",57.29],["2026-01-14",57.96],["2026-01-15",58.75],["2026-01-16",59.43],["2026-01-19",60.06],["2026-01-20",60.69],["2026-01-21",61.59],["2026-01-22",60.74],["2026-01-23",59.78],["2026-01-26",58.58],["2026-01-27",57.76],["2026-01-28",56.49],["2026-01-29",55.63],["2026-01-30",54.92],["2026-02-02",53.98],["2026-02-03",53.23],["2026-02-04",52.29],["2026-02-05",51.76],["2026-02-06",51.05],["2026-02-09",51.19],["2026-02-10",51.06],["2026-02-11",51.66],["2026-02-12",52.43],["2026-02-13",53.02],["2026-02-24",53.57],["2026-02-25",54.23],["2026-02-26",54.6],["2026-02-27",54.94],["2026-03-02",55.29],["2026-03-03",54.74],["2026-03-04",53.92],["2026-03-05",53.54],["2026-03-06",53.1],["2026-03-09",52.36],["2026-03-10",52.69],["2026-03-11",53.14],["2026-03-12",52.73],["2026-03-13",52.2],["2026-03-16",52.31],["2026-03-17",51.6],["2026-03-18",50.9],["2026-03-19",49.98],["2026-03-20",49.18],["2026-03-23",47.81],["2026-03-24",47.17],["2026-03-25",46.87],["2026-03-26",46.92],["2026-03-27",47.21],["2026-03-30",48.01],["2026-03-31",48.36],["2026-04-01",48.84],["2026-04-02",49.11],["2026-04-03",49.45],["2026-04-07",49.61],["2026-04-08",50.68],["2026-04-09",51.08],["2026-04-10",51.8],["2026-04-13",52.39],["2026-04-14",53.07],["2026-04-15",52.92],["2026-04-16",53.28],["2026-04-17",54.11],["2026-04-20",54.77],["2026-04-21",55.82],["2026-04-22",59.26],["2026-04-23",61.0],["2026-04-24",62.58],["2026-04-27",64.13],["2026-04-28",65.3],["2026-04-29",64.12],["2026-04-30",64.52],["2026-05-06",64.6],["2026-05-07",65.75],["2026-05-08",66.34],["2026-05-11",67.56],["2026-05-12",68.19],["2026-05-13",68.68],["2026-05-14",68.62],["2026-05-15",69.19],["2026-05-18",68.65],["2026-05-19",69.19],["2026-05-20",70.49],["2026-05-21",70.46],["2026-05-22",71.3],["2026-05-25",74.52],["2026-05-26",76.36],["2026-05-27",77.95],["2026-05-28",81.35],["2026-05-29",82.33]];
+const luweiMa20Raw = [["2026-01-12",52.06],["2026-01-13",52.27],["2026-01-14",52.49],["2026-01-15",53.0],["2026-01-16",53.52],["2026-01-19",54.04],["2026-01-20",54.58],["2026-01-21",55.2],["2026-01-22",55.53],["2026-01-23",55.83],["2026-01-26",56.09],["2026-01-27",56.4],["2026-01-28",56.74],["2026-01-29",56.92],["2026-01-30",57.17],["2026-02-02",57.16],["2026-02-03",57.24],["2026-02-04",57.08],["2026-02-05",56.72],["2026-02-06",56.3],["2026-02-09",55.95],["2026-02-10",55.69],["2026-02-11",55.51],["2026-02-12",55.14],["2026-02-13",54.69],["2026-02-24",54.33],["2026-02-25",54.07],["2026-02-26",53.76],["2026-02-27",53.69],["2026-03-02",53.57],["2026-03-03",53.37],["2026-03-04",53.11],["2026-03-05",53.02],["2026-03-06",53.06],["2026-03-09",52.93],["2026-03-10",53.05],["2026-03-11",53.09],["2026-03-12",53.13],["2026-03-13",53.17],["2026-03-16",53.24],["2026-03-17",53.15],["2026-03-18",53.05],["2026-03-19",52.71],["2026-03-20",52.36],["2026-03-23",51.94],["2026-03-24",51.55],["2026-03-25",51.21],["2026-03-26",50.79],["2026-03-27",50.42],["2026-03-30",50.12],["2026-03-31",49.95],["2026-04-01",49.94],["2026-04-02",49.69],["2026-04-03",49.51],["2026-04-07",49.44],["2026-04-08",49.45],["2026-04-09",49.42],["2026-04-10",49.45],["2026-04-13",49.56],["2026-04-14",49.63],["2026-04-15",49.78],["2026-04-16",50.02],["2026-04-17",50.49],["2026-04-20",50.96],["2026-04-21",51.63],["2026-04-22",52.8],["2026-04-23",53.55],["2026-04-24",54.4],["2026-04-27",55.19],["2026-04-28",55.95],["2026-04-29",56.75],["2026-04-30",57.47],["2026-05-06",58.27],["2026-05-07",59.26],["2026-05-08",60.13],["2026-05-11",60.96],["2026-05-12",61.75],["2026-05-13",62.49],["2026-05-14",63.32],["2026-05-15",64.16],["2026-05-18",64.9],["2026-05-19",65.73],["2026-05-20",66.59],["2026-05-21",67.24],["2026-05-22",68.03],["2026-05-25",68.71],["2026-05-26",69.57],["2026-05-27",70.43],["2026-05-28",71.55],["2026-05-29",72.29]];
+const luweiMa60Raw = [["2026-01-12",49.59],["2026-01-13",49.78],["2026-01-14",49.98],["2026-01-15",50.22],["2026-01-16",50.49],["2026-01-19",50.74],["2026-01-20",50.94],["2026-01-21",51.15],["2026-01-22",51.29],["2026-01-23",51.4],["2026-01-26",51.51],["2026-01-27",51.62],["2026-01-28",51.77],["2026-01-29",51.87],["2026-01-30",51.98],["2026-02-02",52.03],["2026-02-03",52.12],["2026-02-04",52.19],["2026-02-05",52.27],["2026-02-06",52.35],["2026-02-09",52.45],["2026-02-10",52.57],["2026-02-11",52.7],["2026-02-12",52.78],["2026-02-13",52.84],["2026-02-24",52.91],["2026-02-25",53.03],["2026-02-26",53.2],["2026-02-27",53.36],["2026-03-02",53.48],["2026-03-03",53.55],["2026-03-04",53.57],["2026-03-05",53.63],["2026-03-06",53.69],["2026-03-09",53.73],["2026-03-10",53.79],["2026-03-11",53.85],["2026-03-12",53.86],["2026-03-13",53.81],["2026-03-16",53.78],["2026-03-17",53.72],["2026-03-18",53.67],["2026-03-19",53.57],["2026-03-20",53.5],["2026-03-23",53.38],["2026-03-24",53.31],["2026-03-25",53.29],["2026-03-26",53.25],["2026-03-27",53.22],["2026-03-30",53.17],["2026-03-31",53.14],["2026-04-01",53.15],["2026-04-02",53.15],["2026-04-03",53.16],["2026-04-07",53.18],["2026-04-08",53.22],["2026-04-09",53.25],["2026-04-10",53.22],["2026-04-13",53.15],["2026-04-14",53.06],["2026-04-15",52.96],["2026-04-16",52.92],["2026-04-17",52.9],["2026-04-20",52.82],["2026-04-21",52.75],["2026-04-22",52.89],["2026-04-23",52.94],["2026-04-24",52.98],["2026-04-27",53.1],["2026-04-28",53.21],["2026-04-29",53.36],["2026-04-30",53.51],["2026-05-06",53.66],["2026-05-07",53.94],["2026-05-08",54.17],["2026-05-11",54.49],["2026-05-12",54.75],["2026-05-13",55.03],["2026-05-14",55.35],["2026-05-15",55.68],["2026-05-18",55.94],["2026-05-19",56.26],["2026-05-20",56.59],["2026-05-21",56.85],["2026-05-22",57.2],["2026-05-25",57.69],["2026-05-26",58.11],["2026-05-27",58.54],["2026-05-28",59.05],["2026-05-29",59.45]];
+
+let luweiKlineChart, luweiProfitChart, luweiSolvencyChart, luweiDupontChart, luweiRatingChart;
+let _luweiInited = false;
+function initLuweiCharts() {
+  if (_luweiInited) return; _luweiInited = true;
+  const kc = echarts.init(document.getElementById('luweiKlineChart'));
+  kc.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+    legend: { data: ['K线', 'MA5', 'MA20', 'MA60'], textStyle: { color: '#94a3b8' }, top: 0 },
+    grid: [{ left: '8%', right: '8%', top: '12%', height: '55%' },
+           { left: '8%', right: '8%', top: '72%', height: '18%' }],
+    xAxis: [
+      { type: 'category', data: luweiKlineRaw.map(d => d[0]), scale: true, boundaryGap: false,
+        axisLine: { lineStyle: { color: '#1e293b' } }, axisLabel: { color: '#64748b' }, splitLine: { show: false } },
+      { type: 'category', gridIndex: 1, data: luweiKlineRaw.map(d => d[0]), scale: true, boundaryGap: false,
+        axisLine: { lineStyle: { color: '#1e293b' } }, axisLabel: { show: false }, splitLine: { show: false } }
+    ],
+    yAxis: [
+      { scale: true, axisLine: { lineStyle: { color: '#1e293b' } }, axisLabel: { color: '#64748b' },
+        splitLine: { lineStyle: { color: '#1e293b' } } },
+      { scale: true, gridIndex: 1, axisLine: { lineStyle: { color: '#1e293b' } }, axisLabel: { color: '#64748b' },
+        splitLine: { lineStyle: { color: '#1e293b' } } }
+    ],
+    dataZoom: [{ type: 'inside', xAxisIndex: [0,1], start: 50, end: 100 }],
+    series: [
+      { name: 'K线', type: 'candlestick', data: luweiKlineRaw.map(d => [d[1], d[2], d[3], d[4]]),
+        itemStyle: { color: '#ef4444', color0: '#10b981', borderColor: '#ef4444', borderColor0: '#10b981' } },
+      { name: 'MA5', type: 'line', data: luweiMa5Raw.map(d => d[1]), smooth: true, lineStyle: { color: '#f59e0b', width: 1 }, symbol: 'none' },
+      { name: 'MA20', type: 'line', data: luweiMa20Raw.map(d => d[1]), smooth: true, lineStyle: { color: '#8b5cf6', width: 1 }, symbol: 'none' },
+      { name: 'MA60', type: 'line', data: luweiMa60Raw.map(d => d[1]), smooth: true, lineStyle: { color: '#06b6d4', width: 1 }, symbol: 'none' },
+      { name: '成交量', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: luweiVolRaw.map(d => d[1]),
+        itemStyle: { color: (p) => luweiKlineRaw[p.dataIndex][1] > luweiKlineRaw[p.dataIndex][2] ? '#10b981' : '#ef4444' } }
+    ]
+  });
+  luweiKlineChart = kc;
+
+  const pc = echarts.init(document.getElementById('luweiProfitChart'));
+  pc.setOption({
+    backgroundColor: 'transparent', tooltip: { trigger: 'axis' },
+    grid: { left: '3%', right: '8%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['毛利率','净利率','ROE','ROA','营收增速','利润增速'], axisLabel: { color: '#94a3b8', rotate: 15 }, axisLine: { lineStyle: { color: '#1e293b' } } },
+    yAxis: { type: 'value', axisLabel: { color: '#64748b', formatter: '{value}%' }, splitLine: { lineStyle: { color: '#1e293b' } } },
+    series: [{ data: [35.39, 20.88, 16.54, 11.45, 25.56, 38.81], type: 'bar', barWidth: '50%',
+      itemStyle: { color: (p) => p.value > 20 ? '#10b981' : p.value > 10 ? '#06b6d4' : '#f59e0b', borderRadius: [4,4,0,0] },
+      label: { show: true, position: 'top', color: '#e2e8f0', formatter: '{c}%' } }]
+  });
+  luweiProfitChart = pc;
+
+  const sc = echarts.init(document.getElementById('luweiSolvencyChart'));
+  sc.setOption({
+    backgroundColor: 'transparent', tooltip: { trigger: 'axis' },
+    grid: { left: '3%', right: '8%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['资产负债率','流动比率','速动比率','现金比率'], axisLabel: { color: '#94a3b8', rotate: 15 }, axisLine: { lineStyle: { color: '#1e293b' } } },
+    yAxis: { type: 'value', axisLabel: { color: '#64748b' }, splitLine: { lineStyle: { color: '#1e293b' } } },
+    series: [{ data: [45.47, 2.6, 2.14, 1.49], type: 'bar', barWidth: '50%',
+      itemStyle: { color: (p) => p.dataIndex === 0 ? '#f59e0b' : '#10b981', borderRadius: [4,4,0,0] },
+      label: { show: true, position: 'top', color: '#e2e8f0' } }]
+  });
+  luweiSolvencyChart = sc;
+
+  const dc = echarts.init(document.getElementById('luweiDupontChart'));
+  dc.setOption({
+    backgroundColor: 'transparent', tooltip: { trigger: 'axis' },
+    grid: { left: '3%', right: '8%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['净利率','总资产周转率','权益乘数','ROE'], axisLabel: { color: '#94a3b8' }, axisLine: { lineStyle: { color: '#1e293b' } } },
+    yAxis: { type: 'value', axisLabel: { color: '#64748b' }, splitLine: { lineStyle: { color: '#1e293b' } } },
+    series: [{ data: [21.81, 0.43, 1.79, 16.54], type: 'bar', barWidth: '50%',
+      itemStyle: { color: ['#06b6d4', '#8b5cf6', '#f59e0b', '#10b981'], borderRadius: [4,4,0,0] },
+      label: { show: true, position: 'top', color: '#e2e8f0' } }]
+  });
+  luweiDupontChart = dc;
+
+  const rc = echarts.init(document.getElementById('luweiRatingChart'));
+  rc.setOption({
+    backgroundColor: 'transparent', tooltip: {},
+    radar: {
+      indicator: [{name:'成长性',max:5},{name:'盈利能力',max:5},{name:'偿债能力',max:5},{name:'现金流',max:5},{name:'营运效率',max:5},{name:'收益质量',max:5}],
+      axisName: { color: '#94a3b8' },
+      splitArea: { areaStyle: { color: ['rgba(6,182,212,0.05)', 'rgba(6,182,212,0.1)'] } },
+      axisLine: { lineStyle: { color: '#1e293b' } },
+      splitLine: { lineStyle: { color: '#1e293b' } }
+    },
+    series: [{ type: 'radar',
+      data: [{ value: [5, 5, 5, 5, 3, 5], name: '评分', areaStyle: { color: 'rgba(16,185,129,0.2)' }, lineStyle: { color: '#10b981', width: 2 }, itemStyle: { color: '#10b981' } }]
+    }]
+  });
+  luweiRatingChart = rc;
+}
+
+function resizeLuweiCharts() {
+  if (luweiKlineChart) luweiKlineChart.resize();
+  if (luweiProfitChart) luweiProfitChart.resize();
+  if (luweiSolvencyChart) luweiSolvencyChart.resize();
+  if (luweiDupontChart) luweiDupontChart.resize();
+  if (luweiRatingChart) luweiRatingChart.resize();
+}
+
+// Init luwei charts on scroll (lazy) or immediately if section visible
+(function() {
+  function tryInitLuwei() {
+    const el = document.getElementById('luweiKlineChart');
+    if (el && el.offsetParent !== null) { initLuweiCharts(); return true; }
+    return false;
+  }
+  if (!tryInitLuwei()) {
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { initLuweiCharts(); obs.disconnect(); } });
+    });
+    const sec = document.getElementById('luwei');
+    if (sec) obs.observe(sec);
+    // Fallback: init after 3s if not triggered
+    setTimeout(function() { tryInitLuwei(); }, 3000);
+  }
+})();
 </script>
 </body>
 </html>
