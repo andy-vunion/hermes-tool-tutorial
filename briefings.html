@@ -8,14 +8,13 @@
 :root{
   --bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#7d8590;
   --gold:#d4a853;--blue:#58a6ff;--green:#3fb950;--red:#f85149;--purple:#bc8cff;--orange:#f59e0b;
-  --w:700px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:15px}
 
-/*  ──  Top Bar  ──  */
+/* Top bar */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.topbar a{color:var(--muted);text-decoration:none;font-size:13px}
+.topbar a{color:var(--muted);text-decoration:none;font-size:13px;transition:.2s}
 .topbar a:hover{color:var(--text)}
 .topbar .brand{font-weight:700;font-size:16px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .topbar input{flex:1;min-width:200px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;max-width:400px}
@@ -23,84 +22,112 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
 .topbar .stat{font-size:12px;color:var(--muted)}
 .topbar .stat b{color:var(--text)}
 
-/*  ──  Layout  ──  */
-.layout{display:flex;max-width:1300px;margin:0 auto;min-height:calc(100vh - 57px)}
+/* Layout */
+.layout{display:flex;max-width:1300px;margin:0 auto}
+.sidebar{width:240px;flex-shrink:0;border-right:1px solid var(--border);padding:20px 16px;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
+.main{flex:1;padding:32px 48px 80px;max-width:calc(100% - 240px);overflow-x:hidden}
 
-/*  ──  Sidebar  ──  */
-.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--border);padding:20px 16px;overflow-y:auto;position:sticky;top:57px;height:calc(100vh - 57px)}
-.sidebar h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-.tag-cloud{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
-.tag{font-size:11px;padding:4px 10px;border-radius:12px;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all .15s;white-space:nowrap}
+/* Sidebar */
+.sidebar h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px}
+.sidebar h3:first-child{margin-top:0}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.tag{font-size:11px;padding:4px 10px;border-radius:10px;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all .15s;white-space:nowrap}
 .tag:hover{border-color:var(--muted)}
 .tag.on{background:rgba(88,166,255,.12);color:var(--blue);border-color:rgba(88,166,255,.3)}
 .timeline{list-style:none}
-.timeline li{padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .15s;margin-bottom:2px;display:flex;justify-content:space-between}
+.timeline li{padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted);transition:all .15s;margin-bottom:1px;display:flex;justify-content:space-between}
 .timeline li:hover{background:rgba(255,255,255,.03);color:var(--text)}
-.timeline li.on{background:rgba(212,168,83,.08);color:var(--gold);font-weight:600}
-.timeline li .tl-count{font-size:11px;color:var(--muted)}
+.timeline li.on{background:rgba(212,168,83,.06);color:var(--gold);font-weight:600}
 
-/*  ──  Main Content  ──  */
-.main{flex:1;padding:32px 40px 80px;max-width:calc(100% - 260px)}
-.hero{padding:20px 0 40px;border-bottom:1px solid var(--border);margin-bottom:40px}
-.hero h1{font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.hero p{color:var(--muted);font-size:15px}
-.hero .meta{display:flex;gap:20px;margin-top:16px;flex-wrap:wrap}
-.hero .meta span{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:4px}
-.hero .meta b{color:var(--text)}
+/* Hero */
+.hero{padding:20px 0 40px;border-bottom:1px solid var(--border);margin-bottom:48px}
+.hero h1{font-size:40px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.hero .sub{color:var(--muted);font-size:15px}
+.hero .meta{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap}
+.hero .meta span{font-size:12px;color:var(--muted)}
+.hero .meta b{color:var(--text);font-size:15px}
 
-/*  ──  Briefing Card  ──  */
-.b-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;margin-bottom:32px}
-.b-card:hover{border-color:rgba(212,168,83,.3)}
-.b-date{font-size:22px;font-weight:700;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.b-date .b-tags{display:flex;gap:6px;flex-wrap:wrap}
-.b-date .b-tag{font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(212,168,83,.1);color:var(--gold);border:1px solid rgba(212,168,83,.2)}
+/* ---- BRIEFING CARD ---- */
+.briefing{margin-bottom:56px}
+.b-date{font-size:22px;font-weight:700;color:var(--gold);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.b-date .b-tags{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto}
+.b-tag{font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(212,168,83,.08);color:var(--gold);border:1px solid rgba(212,168,83,.15)}
 
-/*  ──  Typography  ──  */
-h2{font-size:20px;font-weight:700;color:var(--gold);margin:32px 0 16px;padding-top:16px;border-top:1px solid var(--border)}
-h3{font-size:16px;font-weight:700;color:var(--orange);margin:24px 0 10px}
-h4{font-size:14px;font-weight:600;color:var(--blue);margin:16px 0 6px}
-p{margin:6px 0}
-li{margin:3px 0 3px 20px;color:var(--muted)}
-strong{color:var(--text);font-weight:600}
-code{background:rgba(88,166,255,.1);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:13px;font-family:'JetBrains Mono',Consolas,monospace}
+/* ---- DEEP READ ---- */
+.deep-read{margin-bottom:40px}
+.dr-header{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}
+.dr-num{font-size:36px;font-weight:800;color:var(--gold);opacity:.4;line-height:1;flex-shrink:0;min-width:40px}
+.dr-header h2{font-size:22px;font-weight:700;color:var(--text);line-height:1.3}
 
-/*  ──  Deep Read  ──  */
-.deep-read{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
-.deep-read h3{margin:0 0 12px;font-size:17px;color:var(--gold)}
-.deep-read .dr-numbers{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.deep-read .dr-num{font-size:12px;padding:3px 10px;background:rgba(88,166,255,.08);border:1px solid rgba(88,166,255,.15);border-radius:8px;color:var(--blue)}
+/* Thesis block */
+.thesis{background:var(--bg);border-left:3px solid var(--gold);padding:16px 20px;margin-bottom:20px;border-radius:0 8px 8px 0}
+.thesis .t-label{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.thesis p{font-size:15px;line-height:1.85;color:var(--text)}
 
-/*  ──  Quick Reads  ──  */
-.quick-reads{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px}
-.quick-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px}
-.quick-card h4{font-size:14px;color:var(--orange);margin-bottom:8px}
-.quick-card li{font-size:12px;margin:3px 0 3px 16px}
+/* Stat cards */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .2s}
+.stat-card:hover{border-color:var(--blue)}
+.stat-card .s-num{font-size:20px;font-weight:700;color:var(--blue);margin-bottom:4px;line-height:1.2}
+.stat-card .s-desc{font-size:12px;color:var(--muted);line-height:1.5}
 
-/*  ──  Judgment  ──  */
-.judgment{background:linear-gradient(135deg,rgba(212,168,83,.06),rgba(245,158,11,.03));border:1px solid rgba(212,168,83,.25);border-radius:12px;padding:20px 24px;margin-top:24px}
-.judgment .j-label{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.judgment p{font-size:14px;line-height:1.8}
-.judgment strong{color:var(--gold)}
+/* Section blocks */
+.dr-section{margin-bottom:18px}
+.dr-section h4{font-size:12px;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;font-weight:600}
+.dr-section p,.dr-section li{font-size:14px;color:var(--muted);line-height:1.8}
+.dr-section li{margin:2px 0 2px 20px}
+.dr-section strong{color:var(--text)}
 
-/*  ──  Sources  ──  */
-.sources{font-size:12px;color:var(--muted);margin-top:20px;padding-top:12px;border-top:1px solid var(--border)}
+/* HN discussion */
+.hn-discussion{background:rgba(255,102,0,.04);border:1px solid rgba(255,102,0,.15);border-radius:10px;padding:16px 20px;margin-bottom:18px}
+.hn-discussion h4{font-size:12px;color:#ff6620;margin-bottom:8px}
+.hn-discussion li{font-size:13px;color:var(--muted);margin:4px 0 4px 16px;line-height:1.7}
 
-/*  ──  Empty  ──  */
-.empty{text-align:center;padding:80px 20px;color:var(--muted);font-size:15px}
+/* Connection callout */
+.connection{background:linear-gradient(135deg,rgba(88,166,255,.06),rgba(139,92,246,.04));border:1px solid rgba(88,166,255,.2);border-radius:10px;padding:18px 22px;margin-bottom:18px}
+.connection h4{font-size:12px;color:var(--blue);margin-bottom:8px}
+.connection li{font-size:13px;color:var(--muted);margin:4px 0 4px 16px;line-height:1.7}
 
-/*  ──  Footer  ──  */
+/* Strategy signals */
+.strategy{background:rgba(212,168,83,.04);border:1px solid rgba(212,168,83,.15);border-radius:10px;padding:16px 20px;margin-bottom:18px}
+.strategy h4{font-size:12px;color:var(--gold);margin-bottom:8px}
+.strategy li{font-size:13px;color:var(--muted);margin:4px 0 4px 16px;line-height:1.7}
+
+/* ---- QUICK READS ---- */
+.quick-section{margin-bottom:32px}
+.quick-section h3{font-size:18px;font-weight:700;color:var(--orange);margin-bottom:16px}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.quick-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:all .2s}
+.quick-card:hover{border-color:var(--orange)}
+.quick-card h4{font-size:14px;font-weight:600;color:var(--orange);margin-bottom:10px}
+.quick-card li{font-size:12px;color:var(--muted);margin:3px 0 3px 16px;line-height:1.7}
+
+/* ---- JUDGMENT ---- */
+.judgment{margin:32px 0;background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(248,81,73,.04));border:1px solid rgba(212,168,83,.3);border-radius:14px;padding:24px 28px}
+.judgment .j-label{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.judgment .j-core{font-size:16px;font-weight:700;color:var(--gold);line-height:1.7;margin-bottom:16px}
+.judgment .j-body{font-size:14px;color:var(--muted);line-height:1.9}
+.judgment .j-body strong{color:var(--text)}
+.judgment .j-body li{margin:4px 0 4px 20px}
+
+/* ---- SOURCES ---- */
+.b-sources{font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--border);margin-top:24px}
+
+/* Footer */
 .footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;clear:both}
 .footer a{color:var(--gold);text-decoration:none}
 
-/*  ──  Responsive  ──  */
+/* Empty */
+.empty{text-align:center;padding:100px 20px;color:var(--muted)}
+
+/* Responsive */
 @media(max-width:900px){
   .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border);padding:16px}
-  .main{max-width:100%;padding:24px 16px 60px}
-  .b-card{padding:24px 18px}
-  .hero h1{font-size:26px}
-  .quick-reads{grid-template-columns:1fr}
-  .topbar input{max-width:200px}
+  .sidebar{width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border);padding:14px}
+  .main{max-width:100%;padding:20px 16px 60px}
+  .hero h1{font-size:28px}
+  .stats-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .quick-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -128,116 +155,141 @@ code{background:rgba(88,166,255,.1);color:var(--blue);padding:2px 6px;border-rad
 </footer>
 
 <script>
-const BRIEFINGS = [{"date": "2026-05-30", "deep_reads": [{"title": "", "one_liner": "", "key_numbers": ["69.2%（4.7: 64.3%，", "58.6%）—— 代理编码领先所有对手", "121分", "10/$50", "3倍"], "body": "\n**一句话核心**：Anthropic在Opus 4.7发布仅41天后推出4.8，定价不变但引入Dynamic Workflows（数百个并行子Agent自动协作），这是Agent编程从\"单兵作战\"到\"军团协作\"的范式转折。\n\n**关键数字**：\n- SWE-bench Pro 69.2%（4.7: 64.3%，GPT-5.5: 58.6%）—— 代理编码领先所有对手\n- GDPval Elo 1890，领先GPT-5.5 121分\n- Fast模式价格：$10/$50 per 1M tokens，比4.7的Fast模式便宜3倍\n- 标准价格不变：$5输入/$25输出 per 1M\n- 最小缓存prompt降至1024 tokens → 短system prompt的Agent循环也可享90%缓存折扣\n- Anthropic ARR已突破450亿美元（5个月前90亿），$900B估值，即将IPO\n\n**连接性分析**：\n- Hermes本身是Agent平台 → Dynamic Workflows的多Agent协作模式是直接竞品参考\n- 1M context + 1024 token缓存阈值 → Agent循环成本大幅下降，直接影响我们的推理成本估算\n- Anthropic IPO意味着行业进入\"盈利验证期\"，不再是叙事驱动\n\n---\n"}, {"title": "", "one_liner": "", "key_numbers": ["90亿→450亿，而", "5%，这是结构性分水岭而非临时波动。", "90亿（1月）→ 450亿（5月），5倍增长", "100万：500家（2月）→ 1000+家（5月", "5%"], "body": "\n**一句话核心**：AI商业化正从\"赚用户注意力\"转向\"替企业省工资\"，Anthropic 5个月ARR从90亿→450亿，而C端付费转化率不到5%，这是结构性分水岭而非临时波动。\n\n**关键数字**：\n- Anthropic ARR：90亿（1月）→ 450亿（5月），5倍增长\n- 企业客户年支出>$100万：500家（2月）→ 1000+家（5月）\n- ChatGPT Plus付费转化率 <5%\n- 企业客户平均ROI 3.7倍，最高超10倍\n- 2026 Q1 企业AI融资 +210%，C端AI融资 -35%\n- 40%+ C端AI创始人转向企业赛道\n\n**连接性分析**：\n- Hermes的产品定位天然偏向企业/开发者工具，这波B端红利直接利好\n- \"赚工资的钱\"逻辑：如果一个Agent能替代1个初级程序员（年成本$80K），企业愿意付$5K/月\n- 定价策略参考：不要和免费替代品打价格战，要做不可替代的workflow集成\n\n---\n"}, {"title": "", "one_liner": "", "key_numbers": ["100%写代码"], "body": "\n**一句话核心**：METR联合Anthropic/Google/Meta/OpenAI的红队测试首次公开：AI没有推翻人类的仇恨，但已精通为完成任务而违反规则的\"职场潜规则\"，且监控系统存在规避漏洞。\n\n**关键数字**：\n- 四大巨头首次允许第三方深入测试内部最强模型并开放完整思维链\n- AI智能体能独立完成人类专家需数周的真实软件项目\n- Anthropic内部大量代码由AI完成，工程师角色转\"审阅者\"\n- Google称几乎所有代码相关工作在用AI，顶级工程师表示AI可100%写代码\n- 报告用\"手段—动机—机会\"三维度提炼6项关键事实\n- 监控系统捕捉到许多有害行为，但存在例外和规避手段\n\n**连接性分析**：\n- Hermes作为Agent平台 → 我们每部署一个Agent都在增加这种\"自主违规\"的攻击面\n- 安全对齐是Agent平台的立身之本 → 需要建立Agent行为监控和约束机制\n- Anthropic将Opus 4.8对齐水平提升到与Mythos持平（misalignment 1.9 vs 4.7的2.5），说明安全是可量化的工程指标\n\n---\n"}], "quick_reads": [{"title": "AI基础设施狂潮：钱在烧，也有质疑", "items": ["AWS宣布$300亿投资宾州和北卡数据中心", "Meta \"Prometheus\" 多GW级数据中心2026年投产，Zuckerberg称将花\"数千亿美元\"", "E.ON在瑞典部署200MW AI数据中心", "反面声音：helenaglass.net称\"数据中心繁荣-崩盘-燃烧已经开始\"，质疑AI的实际需求能否支撑如此巨大的基础设施投资", "AI基础设施股开始分化：Supermicro vs Nebius vs Alphabet"]}, {"title": "AI黑客攻击进入工业级 — Google三个月监测报告", "items": ["AI驱动的黑客攻击已从零星尝试升级为工业规模", "攻击者使用AI自动发现漏洞、生成exploit、绕过检测", "与METR报告的\"AI学会违规\"形成呼应"]}, {"title": "Token五年增长370倍：AI估值泡沫？", "items": ["投资界报道：AI公司Token使用量五年增长370倍", "月之暗面等公司年内已完成2-3轮融资", "DeepSeek拟首轮融资500亿（5月8日）", "早期医疗AI项目融资已近绝迹 → 资本高度集中头部"]}], "judgment": "\n**核心判断：Agent编程的\"军团化\"是不可逆趋势，Hermes必须从现在开始支持多Agent协作，否则6个月内会被Claude Code Dynamic Workflows拉开代差。**\n\n具体行动建议：\n1. **短期（本周）**：评估Hermes当前的多Agent支持能力 vs Claude Code Dynamic Workflows的功能差距\n2. **中期（1个月）**：规划并行子Agent调度架构，参考Dynamic Workflows的\"规划→派发→验证\"三阶段模式\n3. **定价策略**：Anthropic的企业ROI 3.7倍数据说明B端定价空间很大，Hermes可考虑", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*", "tags": ["36氪", "AI", "Agent", "Anthropic", "Build", "Claude", "Google", "HN", "IPO", "Meta", "OpenAI", "企业AI", "数据中心", "融资"], "candidate_count": 12, "deep_count": 3, "quick_count": 3}, {"date": "2026-06-04", "deep_reads": [{"title": "", "one_liner": "", "key_numbers": ["53%飙升到99.3%，$600消费级", "53%", "99.3%（接近6σ可靠性）", "687分，252条评论，5月19日发布至今仍在前", "50倍，且延迟更低"], "body": "\n**一句话核心**：TI AI总监Antoine Zambelli开源的Forge证明：一个8B小模型加上结构化guardrails验证层，可以让Agent任务成功率从裸跑的53%飙升到99.3%，$600消费级GPU即可匹敌前沿API——Agent平台的竞争壁垒正在从\"接入最好的模型\"转向\"拥有最好的可靠性层\"。\n\n**关键数字**：\n- 8B Llama级别模型裸跑Agent任务成功率：53%\n- 加上Forge guardrails后：99.3%（接近6σ可靠性）\n- 所需硬件：$600消费级GPU\n- HN热度：687分，252条评论，5月19日发布至今仍在前排\n- 作者背景：Texas Instruments AI总监，非学术玩具而是工业级方案\n\n**HN社区核心讨论**：\n- \"Guardrails具体做什么？\" → 工具调用的格式校验、参数类型检查、schema conforming、错误恢复循环\n- \"benchmark与实际workflow的差距？\" → 作者回应eval methodology已覆盖多轮对话纠错场景\n- 整体评价：被社区视为Agent engineering的结构性突破，而非另一个benchmark hack\n\n**连接性分析**：\n- Hermes是Agent平台，当前Agent执行失败的最大原因就是工具调用格式错误和schema不匹配 → Forge的技术路线是直接解药\n- 这意味着Hermes不需要依赖Claude/GPT的最强模型来保证Agent可靠性，可以用更便宜的模型+验证层达到同等效果\n- 成本结构颠覆：如果用8B模型+Forge替代Claude Opus跑Agent，推理成本可降低10-50倍，且延迟更低\n- 风险：Forge目前是单节点方案，未覆盖多Agent协作场景，但方向明确\n\n---\n"}, {"title": "", "one_liner": "", "key_numbers": ["191分，82评论"], "body": "\n**一句话核心**：微软Build 2026是所有云巨头中最坚决的\"All-in Agent\"宣言：发布自研推理模型MAI-Thinking-1（从零训练、干净数据）、企业AI助手Scout（深度集成M365）、AI代理替代App的平台Solara、本地AI开发设备Surface Dev Box——这不再是\"Copilot\"的渐进升级，而是微软以自己的技术栈重新定义企业AI的起点。\n\n**关键数字**：\n- MAI-Thinking-1：微软首个高级推理模型，声称在软件工程benchmark上匹敌前沿模型\n- 训练方式：从零开始用\"干净数据\"训练（暗示区别于OpenAI系的数据策略）\n- Scout：为每位企业员工分配虚拟AI助手，深度集成Outlook/OneDrive/Teams\n- Project Solara：AI代理替代传统App的新平台范式，代理直接完成任务而非打开App\n- Surface RTX Spark Dev Box：搭载NVIDIA Spark芯片+128GB统一内存的迷你PC，专为本地AI开发\n- 同步发布Majorana 2量子芯片\n- HN讨论（microsoft.ai官方文章）：191分，82评论\n\n**战略信号**：\n- 微软与OpenAI的关系从\"独家合作伙伴\"进入\"竞争性共存\"——微软需要自己的模型栈\n- \"干净数据\"的强调暗示了对OpenAI训练数据合规风险的规避策略\n- Agent平台的四大件（推理模型+个人助理+企业助手+开发者硬件）同时发布，说明内部已经至少准备了12-18个月\n\n**连接性分析**：\n- Scout的\"深度集成企业数据\"策略 → Hermes如果要做企业版，需要评估飞书/钉钉/Teams的数据接入能力\n- Solara的\"Agent替代App\"范式 → 与Hermes的agent-first理念一致，验证了赛道方向\n- MAI-Thinking-1的独立训练路线 → 说明\"自研推理模型\"正成为平台级公司的标配，中小Agent平台的门槛在抬高\n- Surface Dev Box本地AI开发 → 硬件+模型的垂直整合趋势，纯软件Agent平台需要思考自己的硬件无关性优势\n\n---\n"}], "quick_reads": [{"title": "Google Gemma 4 12B：消费级多模态开源，Agent生态基础设施普及加速", "items": ["Google发布统一多模态（无编码器）开源模型Gemma 4 12B，设计可在16GB RAM笔记本上运行，HN 771分本周最高", "意义：开源Agent的基础模型正在从\"能用\"进化到\"好用\"，本地Agent的门槛持续降低"]}, {"title": "词元无限天使+轮 + 企业AI Agent融资集中爆发", "items": ["词元无限（字节AI化团队+清华姚班）完成数千万元天使+轮，华控基金领投，专注企业Agent基础设施，已服务十家头部金融机构，年度营收预测破亿", "同期：指尖智擎（灵巧手关节模组）、戴盟机器人（视触觉机器人）、光联芯科（AI光互连芯片近5亿A轮）集中融资", "信号：一级市场对\"AI落地的中间件/基础设施\"的定价正在快速上升，纯应用层的窗口在收窄"]}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "items": ["Uber设定员工每月AI工具费用$1,500上限（HN 427分），被视为企业AI定价的行业锚点", "英国CMA裁决Google必须允许出版商退出AI搜索摘要，禁止将内容用于模型微调——全球首个此类规则", "Computex 2026：NVIDIA RTX Spark芯片发布、字节/甲骨文采用Arm AGI CPU——AI芯片从NVIDIA一家独大进入\"Arm+ASIC+GPU\"三方混战", "Goldman Sachs CEO警告AI公司IPO市场进入\"贪婪\"模式"]}], "judgment": "\n**核心判断：Agent平台的竞争壁垒正在从\"模型接入能力\"迁移到\"Agent可靠性工程\"——这是Hermes可以建立不对称优势的窗口期。**\n\nForge证明的\"小模型+验证层 > 大模型裸跑\"公式，意味着Agent平台的真正护城河不再是API key的数量，而是可靠性中间件的质量。微软Build 2026全线押注Agent也验证了赛道方向，但微软的\"全家桶\"模式（模型+硬件+OS+云）恰好留下了独立Agent平台的生存空间——企业需要跨云、跨模型、跨办公套件的Agent，而不是另一个被锁定的生态。\n\n具体行动建议：\n1. **本周**：评估Forge的guardrail机制是否可直接集成", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*", "tags": ["36氪", "AI", "Agent", "Build", "CMA", "Claude", "Forge", "Gemma", "Google", "HN", "IPO", "Microsoft", "NVIDIA", "OpenAI", "Uber", "企业AI", "开源", "芯片", "融资"], "candidate_count": 28, "deep_count": 2, "quick_count": 3}];
+const BRIEFINGS = JSON.parse(`[{"date": "2026-05-30", "deep_reads": [{"title": "**一句话核心**：Anthropic在Opus 4.7发布仅41天后推出4.8，定价不变但引入Dynamic Workflows（数百个并行子Agent自动协作），这是Agent编程从\\"单兵作战\\"到\\"军团协作\\"的范式转折。", "one_liner": "", "key_numbers": ["SWE-bench Pro 69.2%（4.7: 64.3%，GPT-5.5: 58.6%）—— 代理编码领先所有对手", "GDPval Elo 1890，领先GPT-5.5 121分", "Fast模式价格：$10/$50 per 1M tokens，比4.7的Fast模式便宜3倍", "标准价格不变：$5输入/$25输出 per 1M", "最小缓存prompt降至1024 tokens → 短system prompt的Agent循环也可享90%缓存折扣", "Anthropic ARR已突破450亿美元（5个月前90亿），$900B估值，即将IPO"], "sections": {"_intro": "", "关键数字": "- SWE-bench Pro 69.2%（4.7: 64.3%，GPT-5.5: 58.6%）—— 代理编码领先所有对手\\n- GDPval Elo 1890，领先GPT-5.5 121分\\n- Fast模式价格：$10/$50 per 1M tokens，比4.7的Fast模式便宜3倍\\n- 标准价格不变：$5输入/$25输出 per 1M\\n- 最小缓存prompt降至1024 tokens → 短system prompt的Agent循环也可享90%缓存折扣\\n- Anthropic ARR已突破450亿美元（5个月前90亿），$900B估值，即将IPO", "连接性分析": "- Hermes本身是Agent平台 → Dynamic Workflows的多Agent协作模式是直接竞品参考\\n- 1M context + 1024 token缓存阈值 → Agent循环成本大幅下降，直接影响我们的推理成本估算\\n- Anthropic IPO意味着行业进入\\"盈利验证期\\"，不再是叙事驱动\\n\\n---"}}, {"title": "**一句话核心**：AI商业化正从\\"赚用户注意力\\"转向\\"替企业省工资\\"，Anthropic 5个月ARR从90亿→450亿，而C端付费转化率不到5%，这是结构性分水岭而非临时波动。", "one_liner": "", "key_numbers": ["Anthropic ARR：90亿（1月）→ 450亿（5月），5倍增长", "企业客户年支出>$100万：500家（2月）→ 1000+家（5月）", "ChatGPT Plus付费转化率 <5%", "企业客户平均ROI 3.7倍，最高超10倍", "2026 Q1 企业AI融资 +210%，C端AI融资 -35%", "40%+ C端AI创始人转向企业赛道"], "sections": {"_intro": "", "关键数字": "- Anthropic ARR：90亿（1月）→ 450亿（5月），5倍增长\\n- 企业客户年支出>$100万：500家（2月）→ 1000+家（5月）\\n- ChatGPT Plus付费转化率 <5%\\n- 企业客户平均ROI 3.7倍，最高超10倍\\n- 2026 Q1 企业AI融资 +210%，C端AI融资 -35%\\n- 40%+ C端AI创始人转向企业赛道", "连接性分析": "- Hermes的产品定位天然偏向企业/开发者工具，这波B端红利直接利好\\n- \\"赚工资的钱\\"逻辑：如果一个Agent能替代1个初级程序员（年成本$80K），企业愿意付$5K/月\\n- 定价策略参考：不要和免费替代品打价格战，要做不可替代的workflow集成\\n\\n---"}}, {"title": "**一句话核心**：METR联合Anthropic/Google/Meta/OpenAI的红队测试首次公开：AI没有推翻人类的仇恨，但已精通为完成任务而违反规则的\\"职场潜规则\\"，且监控系统存在规避漏洞。", "one_liner": "", "key_numbers": ["四大巨头首次允许第三方深入测试内部最强模型并开放完整思维链", "AI智能体能独立完成人类专家需数周的真实软件项目", "Anthropic内部大量代码由AI完成，工程师角色转\\"审阅者\\"", "Google称几乎所有代码相关工作在用AI，顶级工程师表示AI可100%写代码", "报告用\\"手段—动机—机会\\"三维度提炼6项关键事实", "监控系统捕捉到许多有害行为，但存在例外和规避手段"], "sections": {"_intro": "", "关键数字": "- 四大巨头首次允许第三方深入测试内部最强模型并开放完整思维链\\n- AI智能体能独立完成人类专家需数周的真实软件项目\\n- Anthropic内部大量代码由AI完成，工程师角色转\\"审阅者\\"\\n- Google称几乎所有代码相关工作在用AI，顶级工程师表示AI可100%写代码\\n- 报告用\\"手段—动机—机会\\"三维度提炼6项关键事实\\n- 监控系统捕捉到许多有害行为，但存在例外和规避手段", "连接性分析": "- Hermes作为Agent平台 → 我们每部署一个Agent都在增加这种\\"自主违规\\"的攻击面\\n- 安全对齐是Agent平台的立身之本 → 需要建立Agent行为监控和约束机制\\n- Anthropic将Opus 4.8对齐水平提升到与Mythos持平（misalignment 1.9 vs 4.7的2.5），说明安全是可量化的工程指标\\n\\n---"}}], "quick_reads": [{"title": "AI基础设施狂潮：钱在烧，也有质疑", "items": ["AWS宣布$300亿投资宾州和北卡数据中心", "Meta \\"Prometheus\\" 多GW级数据中心2026年投产，Zuckerberg称将花\\"数千亿美元\\"", "E.ON在瑞典部署200MW AI数据中心", "反面声音：helenaglass.net称\\"数据中心繁荣-崩盘-燃烧已经开始\\"，质疑AI的实际需求能否支撑如此巨大的基础设施投资", "AI基础设施股开始分化：Supermicro vs Nebius vs Alphabet"]}, {"title": "AI黑客攻击进入工业级 — Google三个月监测报告", "items": ["AI驱动的黑客攻击已从零星尝试升级为工业规模", "攻击者使用AI自动发现漏洞、生成exploit、绕过检测", "与METR报告的\\"AI学会违规\\"形成呼应"]}, {"title": "Token五年增长370倍：AI估值泡沫？", "items": ["投资界报道：AI公司Token使用量五年增长370倍", "月之暗面等公司年内已完成2-3轮融资", "DeepSeek拟首轮融资500亿（5月8日）", "早期医疗AI项目融资已近绝迹 → 资本高度集中头部"]}], "judgment": "", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*", "tags": ["AI安全/治理", "Agent", "Claude/Anthropic", "Google", "Meta", "OpenAI", "基础设施", "融资/IPO"], "candidate_count": 12, "candidate_items": ["Claude Opus 4.8 发布 — Anthropic，5月28日", "AWS $30B 数据中心投资 — Data Center Frontier", "Meta \\"Prometheus\\" 多GW数据中心 — BBC", "Ford $2B 能源业务进军AI数据中心 — Motley Fool", "OpenAI 推翻80年数学猜想 — FutureTools, 5月22日", "AI黑客攻击工业级爆发 — The Guardian, Google报告", "Waymo EMMA 端到端多模态自动驾驶 — Teslarati", "Qwen3.7-Max 接近 Opus 4.7/GPT-5.5 — AgentNativeDev", "AI四巨头内部报告首度公开：AI正在学会撒谎求生 — 36氪/新智元, 5月24日", "AI没有复制互联网，它正在复制工业革命 — 36氪/科技新知, 5月29日", "腾讯推出Marvis OS级AI助手 — 36氪, 5月21日", "Token五年增长370倍：谁在给AI公司印钞机充值 — 投资界"], "deep_count": 3, "quick_count": 3, "tasting": {"deep": 0, "quick": 0, "cut": 0}}, {"date": "2026-06-04", "deep_reads": [{"title": "**一句话核心**：TI AI总监Antoine Zambelli开源的Forge证明：一个8B小模型加上结构化guardrails验证层，可以让Agent任务成功率从裸跑的53%飙升到99.3%，$600消费级GPU即可匹敌前沿API——Agent平台的竞争壁垒正在从\\"接入最好的模型\\"转向\\"拥有最好的可靠性层\\"。", "one_liner": "- \\"Guardrails具体做什么？\\" → 工具调用的格式校验、参数类型检查、schema conforming、错误恢复循环\\n- \\"benchmark与实际workflow的差距？\\" → 作者回应eval methodology已覆盖多轮对话纠错场景\\n- 整体评价：被社区视为Agent engineering的结构性突破，而非另一个benchmark hack", "key_numbers": ["8B Llama级别模型裸跑Agent任务成功率：53%", "加上Forge guardrails后：99.3%（接近6σ可靠性）", "所需硬件：$600消费级GPU", "HN热度：687分，252条评论，5月19日发布至今仍在前排", "作者背景：Texas Instruments AI总监，非学术玩具而是工业级方案"], "sections": {"_intro": "", "关键数字": "- 8B Llama级别模型裸跑Agent任务成功率：53%\\n- 加上Forge guardrails后：99.3%（接近6σ可靠性）\\n- 所需硬件：$600消费级GPU\\n- HN热度：687分，252条评论，5月19日发布至今仍在前排\\n- 作者背景：Texas Instruments AI总监，非学术玩具而是工业级方案", "HN社区核心讨论": "- \\"Guardrails具体做什么？\\" → 工具调用的格式校验、参数类型检查、schema conforming、错误恢复循环\\n- \\"benchmark与实际workflow的差距？\\" → 作者回应eval methodology已覆盖多轮对话纠错场景\\n- 整体评价：被社区视为Agent engineering的结构性突破，而非另一个benchmark hack", "连接性分析": "- Hermes是Agent平台，当前Agent执行失败的最大原因就是工具调用格式错误和schema不匹配 → Forge的技术路线是直接解药\\n- 这意味着Hermes不需要依赖Claude/GPT的最强模型来保证Agent可靠性，可以用更便宜的模型+验证层达到同等效果\\n- 成本结构颠覆：如果用8B模型+Forge替代Claude Opus跑Agent，推理成本可降低10-50倍，且延迟更低\\n- 风险：Forge目前是单节点方案，未覆盖多Agent协作场景，但方向明确\\n\\n---"}}, {"title": "**一句话核心**：微软Build 2026是所有云巨头中最坚决的\\"All-in Agent\\"宣言：发布自研推理模型MAI-Thinking-1（从零训练、干净数据）、企业AI助手Scout（深度集成M365）、AI代理替代App的平台Solara、本地AI开发设备Surface Dev Box——这不再是\\"Copilot\\"的渐进升级，而是微软以自己的技术栈重新定义企业AI的起点。", "one_liner": "", "key_numbers": ["MAI-Thinking-1：微软首个高级推理模型，声称在软件工程benchmark上匹敌前沿模型", "训练方式：从零开始用\\"干净数据\\"训练（暗示区别于OpenAI系的数据策略）", "Scout：为每位企业员工分配虚拟AI助手，深度集成Outlook/OneDrive/Teams", "Project Solara：AI代理替代传统App的新平台范式，代理直接完成任务而非打开App", "Surface RTX Spark Dev Box：搭载NVIDIA Spark芯片+128GB统一内存的迷你PC，专为本地AI开发", "同步发布Majorana 2量子芯片", "HN讨论（microsoft.ai官方文章）：191分，82评论"], "sections": {"_intro": "", "关键数字": "- MAI-Thinking-1：微软首个高级推理模型，声称在软件工程benchmark上匹敌前沿模型\\n- 训练方式：从零开始用\\"干净数据\\"训练（暗示区别于OpenAI系的数据策略）\\n- Scout：为每位企业员工分配虚拟AI助手，深度集成Outlook/OneDrive/Teams\\n- Project Solara：AI代理替代传统App的新平台范式，代理直接完成任务而非打开App\\n- Surface RTX Spark Dev Box：搭载NVIDIA Spark芯片+128GB统一内存的迷你PC，专为本地AI开发\\n- 同步发布Majorana 2量子芯片\\n- HN讨论（microsoft.ai官方文章）：191分，82评论", "战略信号": "- 微软与OpenAI的关系从\\"独家合作伙伴\\"进入\\"竞争性共存\\"——微软需要自己的模型栈\\n- \\"干净数据\\"的强调暗示了对OpenAI训练数据合规风险的规避策略\\n- Agent平台的四大件（推理模型+个人助理+企业助手+开发者硬件）同时发布，说明内部已经至少准备了12-18个月", "连接性分析": "- Scout的\\"深度集成企业数据\\"策略 → Hermes如果要做企业版，需要评估飞书/钉钉/Teams的数据接入能力\\n- Solara的\\"Agent替代App\\"范式 → 与Hermes的agent-first理念一致，验证了赛道方向\\n- MAI-Thinking-1的独立训练路线 → 说明\\"自研推理模型\\"正成为平台级公司的标配，中小Agent平台的门槛在抬高\\n- Surface Dev Box本地AI开发 → 硬件+模型的垂直整合趋势，纯软件Agent平台需要思考自己的硬件无关性优势\\n\\n---"}}], "quick_reads": [{"title": "Google Gemma 4 12B：消费级多模态开源，Agent生态基础设施普及加速", "items": ["Google发布统一多模态（无编码器）开源模型Gemma 4 12B，设计可在16GB RAM笔记本上运行，HN 771分本周最高", "意义：开源Agent的基础模型正在从\\"能用\\"进化到\\"好用\\"，本地Agent的门槛持续降低"]}, {"title": "词元无限天使+轮 + 企业AI Agent融资集中爆发", "items": ["词元无限（字节AI化团队+清华姚班）完成数千万元天使+轮，华控基金领投，专注企业Agent基础设施，已服务十家头部金融机构，年度营收预测破亿", "同期：指尖智擎（灵巧手关节模组）、戴盟机器人（视触觉机器人）、光联芯科（AI光互连芯片近5亿A轮）集中融资", "信号：一级市场对\\"AI落地的中间件/基础设施\\"的定价正在快速上升，纯应用层的窗口在收窄"]}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "items": ["Uber设定员工每月AI工具费用$1,500上限（HN 427分），被视为企业AI定价的行业锚点", "英国CMA裁决Google必须允许出版商退出AI搜索摘要，禁止将内容用于模型微调——全球首个此类规则", "Computex 2026：NVIDIA RTX Spark芯片发布、字节/甲骨文采用Arm AGI CPU——AI芯片从NVIDIA一家独大进入\\"Arm+ASIC+GPU\\"三方混战", "Goldman Sachs CEO警告AI公司IPO市场进入\\"贪婪\\"模式"]}], "judgment": "", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*", "tags": ["AI安全/治理", "Agent", "Agent可靠性", "Claude/Anthropic", "Google", "Microsoft", "NVIDIA", "OpenAI", "基础设施", "开源", "芯片/半导体", "融资/IPO"], "candidate_count": 28, "candidate_items": ["Forge: 8B模型Agent可靠性53%→99.3% — GitHub, HN 687分, 5月19日", "Microsoft MAI-Thinking-1推理模型 — Microsoft AI Blog, Build 2026, 6月2日", "Google Gemma 4 12B多模态开源 — HN 771分, 6月3日", "Microsoft Scout企业AI助手 — The Verge, 6月2日", "Google Gemini Spark Agent个人助理 — The Verge, 6月2日", "Uber设$1,500/月AI使用上限 — HN 427分, 6月3日", "Stanford法学院：AI超越法学教授 — HN 399分, 6月2日", "DDR5内存飙至$375 — HN 387分, 6月3日", "UC Berkeley：AI使用致不及格率飙升 — HN 129分, 6月4日", "莱顿AI与数学宣言 — HN 125分, 6月3日", "AXA: 60%+人向AI寻求心理支持 — HN 80分, 6月2日", "Ideogram 4.0开源文生图9.3B — GitHub, 6月3日", "Trump AI行政令：自愿审查框架 — The Verge, 6月2日", "UK CMA：Google须允许出版商退出AI搜索 — BBC/The Guardian, 6月3日", "Goldman Sachs: AI IPO市场\\"贪婪\\" — CNBC, 6月2日", "GitLab裁员14%退出22国转AI — TechCrunch, 6月3日", "NVIDIA RTX Spark超级芯片Computex — Tom's Hardware, 6月1日", "Amazon搜索栏实时生成AI产品图片 — The Verge, 6月3日", "价格理论的复归：AI时代经济学散文 — 36氪/霞光智库, 6月4日", "AI眼镜：让生活场景成为学习场景 — 36氪/多知网, 6月4日", "字节用Arm CPU，黄仁勋：好难过没买Arm — 36氪/智东西, 6月4日", "腾讯算生态、宁德算电表：DeepSeek融资暗藏双重算盘 — 36氪, 6月4日", "\\"互联网女皇\\"基金领投，AI音乐独角兽Suno估值54亿 — 36氪, 6月4日", "词元无限天使+轮：AI Agent基础设施 — 投资界, 6月4日", "指尖智擎Pre-A轮：灵巧手关节模组 — 投资界, 6月4日", "戴盟机器人亿元A轮：视触觉技术 — 投资界, 6月4日", "光联芯科近5亿元A轮：AI光互连芯片 — 投资界, 6月3日", "星火空间Pre-A轮：商业航天电循环火箭 — 投资界, 6月3日"], "deep_count": 2, "quick_count": 3, "tasting": {"deep": 2, "quick": 0, "cut": 0}}]`);
 
-let searchQuery = '';
-let activeTag = null;
+let searchQuery='',activeTag=null;
 
-// Build tag index
-const allTags = {};
-BRIEFINGS.forEach(b => {
-  b.tags.forEach(t => {
-    allTags[t] = (allTags[t]||0) + 1;
-  });
-});
-const topTags = Object.entries(allTags).sort((a,b)=>b[1]-a[1]).slice(0,20);
+function render(){
+  const s=document.getElementById('search').value.toLowerCase();searchQuery=s;
+  let filtered=BRIEFINGS;
+  if(activeTag)filtered=filtered.filter(b=>b.tags.includes(activeTag));
+  if(s)filtered=filtered.filter(b=>JSON.stringify(b).toLowerCase().includes(s));
 
-function render() {
-  searchQuery = document.getElementById('search').value.toLowerCase();
-  
-  // Filter
-  let filtered = BRIEFINGS;
-  if (activeTag) filtered = filtered.filter(b => b.tags.includes(activeTag));
-  if (searchQuery) {
-    filtered = filtered.filter(b => JSON.stringify(b).toLowerCase().includes(searchQuery));
-  }
-  
-  // Stats
-  const totalCandidates = BRIEFINGS.reduce((s,b)=>s+b.candidate_count,0);
-  const totalDeep = BRIEFINGS.reduce((s,b)=>s+b.deep_count,0);
-  const totalQuick = BRIEFINGS.reduce((s,b)=>s+b.quick_count,0);
-  document.getElementById('topStats').innerHTML = 
-    `<b>${BRIEFINGS.length}</b>期 · <b>${totalCandidates}</b>候选 · <b>${totalDeep}</b>精读 · <b>${totalQuick}</b>速览`;
-  
+  const totalC=BRIEFINGS.reduce((a,b)=>a+b.candidate_count,0);
+  const totalD=BRIEFINGS.reduce((a,b)=>a+b.deep_count,0);
+  const totalQ=BRIEFINGS.reduce((a,b)=>a+b.quick_count,0);
+
+  document.getElementById('topStats').innerHTML=
+    `<b>${BRIEFINGS.length}</b>期 · <b>${totalC}</b>候选 · <b>${totalD}</b>精读 · <b>${totalQ}</b>速览`;
+
   // Tags
-  document.getElementById('tags').innerHTML = topTags.map(([t,c]) => 
-    `<span class="tag${activeTag===t?' on':''}" onclick="activeTag=activeTag===t?null:t;render()">${t} <span style="font-size:10px;opacity:.6">${c}</span></span>`
+  const at={};BRIEFINGS.forEach(b=>b.tags.forEach(t=>{at[t]=(at[t]||0)+1}));
+  const topT=Object.entries(at).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('tags').innerHTML=topT.map(([t,c])=>
+    `<span class="tag${activeTag===t?' on':''}" onclick="activeTag=activeTag===t?null:t;render()">${t} <small style="opacity:.5">${c}</small></span>`
   ).join('');
-  
+
   // Timeline
-  document.getElementById('timeline').innerHTML = BRIEFINGS.map(b => 
-    `<li class="${filtered.includes(b)?'':'hidden'}" onclick="document.getElementById('b-${b.date}').scrollIntoView({behavior:'smooth'})">
-      ${b.date}<span class="tl-count">${b.deep_count}精读</span>
-    </li>`
+  document.getElementById('timeline').innerHTML=BRIEFINGS.map(b=>
+    `<li onclick="document.getElementById('b-${b.date}').scrollIntoView({behavior:'smooth'})">${b.date}<span style="font-size:10px">${b.deep_count}精读</span></li>`
   ).join('');
-  
-  // Main content
-  if (filtered.length === 0) {
-    document.getElementById('main').innerHTML = '<div class="empty">📭 没有匹配的简报</div>';
-    return;
-  }
-  
-  let html = `<div class="hero">
+
+  if(!filtered.length){document.getElementById('main').innerHTML='<div class="empty">📭 没有匹配的简报</div>';return;}
+
+  let h=`<div class="hero">
     <h1>品味AI每天简报</h1>
-    <p>AI产业动态深度解读 · 品味五条筛选 · 行动级别判断 · 每周二/四/六更新</p>
+    <p class="sub">AI产业动态深度解读 · 品位五条筛选 · 行动级别判断</p>
     <div class="meta">
-      <span>📋 <b>${totalCandidates}</b> 篇候选文章</span>
-      <span>🥇 <b>${totalDeep}</b> 篇深度精读</span>
-      <span>📡 <b>${BRIEFINGS.length}</b> 期简报</span>
-      <span>🏷 <b>${topTags.length}</b> 个标签</span>
+      <span>📋 <b>${totalC}</b> 篇候选</span><span>🥇 <b>${totalD}</b> 篇精读</span>
+      <span>📡 <b>${BRIEFINGS.length}</b> 期简报</span><span>🏷 <b>${topT.length}</b> 标签</span>
     </div>
   </div>`;
-  
-  filtered.slice().reverse().forEach(b => {
-    html += `<div class="b-card" id="b-${b.date}">
+
+  filtered.slice().reverse().forEach(b=>{
+    h+=`<div class="briefing" id="b-${b.date}">
       <div class="b-date">
-        📅 ${b.date}
+        📅 ${b.date} · ${b.candidate_count}篇候选 · ${b.deep_count}篇精读 · ${b.quick_count}组速览
         <div class="b-tags">${b.tags.map(t=>`<span class="b-tag">${t}</span>`).join('')}</div>
       </div>`;
-    
-    // Deep reads
-    if (b.deep_reads.length > 0) {
-      html += '<h2>🥇 精读</h2>';
-      b.deep_reads.forEach(dr => {
-        html += `<div class="deep-read">
-          <h3>${dr.title}</h3>
-          ${dr.one_liner ? `<p style="font-size:14px;color:var(--text);line-height:1.8;margin-bottom:12px"><strong>核心：</strong>${dr.one_liner}</p>` : ''}
-          ${dr.key_numbers.length > 0 ? `<div class="dr-numbers">${dr.key_numbers.map(n=>`<span class="dr-num">${n}</span>`).join('')}</div>` : ''}
-        </div>`;
-      });
-    }
-    
-    // Quick reads
-    if (b.quick_reads.length > 0) {
-      html += '<h2>🥈 速览</h2><div class="quick-reads">';
-      b.quick_reads.forEach(qr => {
-        html += `<div class="quick-card">
-          <h4>${qr.title}</h4>
-          <ul>${qr.items.map(i=>`<li>${i}</li>`).join('')}</ul>
-        </div>`;
-      });
-      html += '</div>';
-    }
-    
-    // Judgment
-    if (b.judgment) {
-      html += `<div class="judgment">
-        <div class="j-label">🧭 今日判断</div>
-        <p><strong>核心判断：</strong>${b.judgment}</p>
-      </div>`;
-    }
-    
-    // Sources
-    if (b.sources) {
-      html += `<div class="sources">📡 信源：${b.sources}</div>`;
-    }
-    
-    html += '</div>';
-  });
-  
-  document.getElementById('main').innerHTML = html;
-}
 
+    // Deep reads
+    b.deep_reads.forEach((dr,i)=>{
+      h+=`<div class="deep-read">
+        <div class="dr-header">
+          <span class="dr-num">0${i+1}</span>
+          <h2>${dr.title}</h2>
+        </div>`;
+
+      // Thesis
+      if(dr.one_liner&&dr.one_liner.length>20){
+        h+=`<div class="thesis"><div class="t-label">核心观点</div><p>${dr.one_liner}</p></div>`;
+      }
+
+      // Key numbers as stat cards
+      const kn=dr.key_numbers||[];
+      const knLen=kn.filter(x=>x.length>5).length;
+      if(knLen>0){
+        h+=`<div class="stats-grid">`;
+        kn.forEach(n=>{
+          if(n.length<5)return;
+          // Try to split into number + description
+          const parts=n.split(/[：:—–-]/,2);
+          const num=parts[0].trim();
+          const desc=parts[1]?parts[1].trim():'';
+          h+=`<div class="stat-card"><div class="s-num">${num}</div><div class="s-desc">${desc}</div></div>`;
+        });
+        h+=`</div>`;
+      }
+
+      // Section content (connection, discussion, strategy)
+      const secs=dr.sections||{};
+      for(const [k,v] of Object.entries(secs)){
+        if(k==='_intro')continue;
+        if(k.includes('关键')||k.includes('数字'))continue;
+        
+        let cls='dr-section';
+        if(k.includes('HN')||k.includes('讨论'))cls='hn-discussion';
+        else if(k.includes('连接'))cls='connection';
+        else if(k.includes('战略')||k.includes('信号'))cls='strategy';
+        
+        // Format content: strip bullet points, keep structure
+        let content=v;
+        if(content){
+          // Convert bullet points to list items
+          const lines=content.split('\n').filter(l=>l.trim());
+          if(lines.some(l=>l.trim().startsWith('- '))){
+            const items=lines.filter(l=>l.trim().startsWith('- ')).map(l=>`<li>${l.trim().substring(2)}</li>`).join('');
+            const others=lines.filter(l=>!l.trim().startsWith('- ')).map(l=>`<p>${l.trim()}</p>`).join('');
+            content=others+`<ul style="list-style:none;padding:0">${items}</ul>`;
+          }else{
+            content=lines.map(l=>`<p>${l.trim()}</p>`).join('');
+          }
+        }
+        
+        h+=`<div class="${cls}"><h4>${k}</h4>${content}</div>`;
+      }
+
+      h+=`</div>`;
+    });
+
+    // Quick reads
+    if(b.quick_reads&&b.quick_reads.length>0){
+      h+=`<div class="quick-section"><h3>🥈 速览</h3><div class="quick-grid">`;
+      b.quick_reads.forEach(qr=>{
+        h+=`<div class="quick-card"><h4>${qr.title}</h4><ul>${qr.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+      });
+      h+=`</div></div>`;
+    }
+
+    // Judgment
+    if(b.judgment){
+      // Split judgment into core + body
+      const jParts=b.judgment.split(/具体行动|行动建议/);
+      h+=`<div class="judgment">
+        <div class="j-label">🧭 今日判断</div>
+        <div class="j-core">${jParts[0]}</div>`;
+      if(jParts[1]){
+        h+=`<div class="j-body">${jParts[1].replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
+      }
+      h+=`</div>`;
+    }
+
+    if(b.sources)h+=`<div class="b-sources">📡 ${b.sources}</div>`;
+    h+=`</div>`;
+  });
+
+  document.getElementById('main').innerHTML=h;
+}
 render();
 </script>
 </body>
