@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>品味AI简报归档 — 曼尼投研工具箱</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e0e4f0;--muted:#7b8299;--blue:#3b82f6;--purple:#8b5cf6;--green:#10b981;--orange:#f59e0b;--gold:#d4a853;--red:#f85149}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,17,23,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:56px}
+.nav a{color:var(--muted);text-decoration:none;font-size:13px;transition:all .2s}
+.nav a:hover{color:var(--text)}
+.nav .brand{font-weight:700;font-size:15px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero{padding:120px 24px 60px;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(212,168,83,.1),transparent 70%)}
+.hero h1{font-size:48px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.hero p{color:var(--muted);font-size:16px}
+.hero .stats{display:flex;gap:24px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.hero .stat{text-align:center}
+.hero .stat .num{font-size:32px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .stat .label{font-size:12px;color:var(--muted);margin-top:2px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;padding:0 24px;max-width:1200px;margin:0 auto 40px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .2s}
+.stat-card:hover{border-color:var(--gold)}
+.stat-card .icon{font-size:28px;margin-bottom:6px}
+.stat-card .desc{font-size:12px;color:var(--muted);line-height:1.5}
+.container{max-width:1100px;margin:0 auto;padding:0 24px 60px}
+.briefing{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:28px;transition:all .3s}
+.briefing:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(212,168,83,.08)}
+.briefing-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.briefing-date{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-block;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:500}
+.bg{background:rgba(212,168,83,.15);color:var(--gold)}
+.bb{background:rgba(59,130,246,.15);color:var(--blue)}
+.bgn{background:rgba(16,185,129,.15);color:var(--green)}
+.bp{background:rgba(139,92,246,.15);color:var(--purple)}
+.section-title{font-size:15px;font-weight:600;color:var(--gold);margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.deep-read{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.deep-read h4{font-size:15px;margin-bottom:6px;color:var(--gold)}
+.deep-read p{font-size:13px;color:var(--muted);line-height:1.6}
+.quick-reads{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:16px}
+.quick-read{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13px}
+.quick-read strong{color:var(--text);display:block;margin-bottom:4px}
+.quick-read span{color:var(--muted)}
+.judgment-box{background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(245,158,11,.05));border:1px solid rgba(212,168,83,.3);border-radius:12px;padding:16px 20px;margin-top:16px}
+.judgment-box .label{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.judgment-box p{font-size:14px;line-height:1.7}
+.footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+.footer a{color:var(--gold);text-decoration:none}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeInUp .5s ease-out both}
+@media(max-width:768px){.hero h1{font-size:28px}.briefing{padding:20px}.quick-reads{grid-template-columns:1fp}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" style="color:var(--muted)">← 工具箱</a>
+  <span class="brand">📰 品味AI简报归档</span>
+</nav>
+<section class="hero">
+  <h1>品味AI每天简报</h1>
+  <p>AI产业动态 · 品味五条筛选 · 行动级别判断</p>
+  <div class="stats">
+    <div class="stat"><div class="num">2</div><div class="label">期简报</div></div>
+    <div class="stat"><div class="num">40</div><div class="label">候选文章</div></div>
+    <div class="stat"><div class="num">5</div><div class="label">精读篇</div></div>
+    <div class="stat"><div class="num">8</div><div class="label">速览条目</div></div>
+  </div>
+</section>
+<div class="stats-row">
+  <div class="stat-card"><div class="icon">🎯</div><div class="desc">信源覆盖<br>HN·TC·36氪·投资界·Verge<br>等 8+ 信息源</div></div>
+  <div class="stat-card"><div class="icon">📐</div><div class="desc">品味五条方法论<br>可复用·反直觉·可行动<br>连接性·时间复利</div></div>
+  <div class="stat-card"><div class="icon">⏰</div><div class="desc">自动推送频率<br>每周二/四/六 13:31<br>Cron 全自动运行</div></div>
+  <div class="stat-card"><div class="icon">📦</div><div class="desc">多端归档<br>飞书文档 + 本地MD<br>+ GitHub Pages</div></div>
+</div>
+<div class="container" id="briefings"></div>
+<footer class="footer">
+  <p>Built with ❤️ by 曼尼 (Hermes Agent) — <a href="index.html">返回曼尼投研工具箱</a></p>
+  <p style="margin-top:8px">数据每日自动同步 · briefing_archive.db</p>
+</footer>
+<script>
+const briefings = [{"date": "2026-05-30", "candidate_count": 12, "deep_read_count": 0, "quick_read_count": 0, "cut_count": 0, "deep_reads": [{"title": "Claude Opus 4.8 — Anthropic最快迭代，Dynamic Workflows重构编程范式", "one_liner": ""}, {"title": "AI没有复制互联网，它正在复制工业革命", "one_liner": ""}, {"title": "AI四巨头内部报告 — AI正在学会\"职场潜规则\"", "one_liner": ""}], "quick_reads": [{"title": "AI基础设施狂潮：钱在烧，也有质疑", "desc": "- AWS宣布$300亿投资宾州和北卡数据中心\n- Meta \"Prometheus\" 多GW级数据中心2026年投产，Zuckerberg称将花\"数千亿美元\"\n- E.ON在瑞典部署200MW AI数据中心\n- 反面声音：helenaglass.net称\"数据中心繁荣-崩盘-燃烧已经开始\"，质疑AI的实际需求能否支撑如此巨大的基础设施投资\n- AI基础设施股开始分化：Supermicro vs "}, {"title": "AI黑客攻击进入工业级 — Google三个月监测报告", "desc": "- AI驱动的黑客攻击已从零星尝试升级为工业规模\n- 攻击者使用AI自动发现漏洞、生成exploit、绕过检测\n- 与METR报告的\"AI学会违规\"形成呼应"}, {"title": "Token五年增长370倍：AI估值泡沫？", "desc": "- 投资界报道：AI公司Token使用量五年增长370倍\n- 月之暗面等公司年内已完成2-3轮融资\n- DeepSeek拟首轮融资500亿（5月8日）\n- 早期医疗AI项目融资已近绝迹 → 资本高度集中头部\n\n---"}, {"title": "Token五年增长370倍：AI估值泡沫？", "desc": "---"}], "judgment": "", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*"}, {"date": "2026-06-04", "candidate_count": 28, "deep_read_count": 2, "quick_read_count": 0, "cut_count": 0, "deep_reads": [{"title": "Forge — 8B模型+验证层=Agent可靠性99.3%，小模型Agent的\"护城河公式\"改写", "one_liner": ""}, {"title": "Microsoft Build 2026 — 微软独立推理模型MAI-Thinking-1+Agent全线产品，西雅图正式与OpenAI分道扬镳", "one_liner": ""}], "quick_reads": [{"title": "Google Gemma 4 12B：消费级多模态开源，Agent生态基础设施普及加速", "desc": "- Google发布统一多模态（无编码器）开源模型Gemma 4 12B，设计可在16GB RAM笔记本上运行，HN 771分本周最高\n- 意义：开源Agent的基础模型正在从\"能用\"进化到\"好用\"，本地Agent的门槛持续降低"}, {"title": "词元无限天使+轮 + 企业AI Agent融资集中爆发", "desc": "- 词元无限（字节AI化团队+清华姚班）完成数千万元天使+轮，华控基金领投，专注企业Agent基础设施，已服务十家头部金融机构，年度营收预测破亿\n- 同期：指尖智擎（灵巧手关节模组）、戴盟机器人（视触觉机器人）、光联芯科（AI光互连芯片近5亿A轮）集中融资\n- 信号：一级市场对\"AI落地的中间件/基础设施\"的定价正在快速上升，纯应用层的窗口在收窄"}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "desc": "- Uber设定员工每月AI工具费用$1,500上限（HN 427分），被视为企业AI定价的行业锚点\n- 英国CMA裁决Google必须允许出版商退出AI搜索摘要，禁止将内容用于模型微调——全球首个此类规则\n- Computex 2026：NVIDIA RTX Spark芯片发布、字节/甲骨文采用Arm AGI CPU——AI芯片从NVIDIA一家独大进入\"Arm+ASIC+GPU\"三方混战\n- "}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "desc": "---"}], "judgment": "", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*"}];
+function render(){
+  const c=document.getElementById('briefings');
+  let h='';
+  briefings.slice().reverse().forEach((b,i)=>{
+    h+=`<div class="briefing animate" style="animation-delay:${i*0.1}s">
+      <div class="briefing-header">
+        <span class="briefing-date">📅 ${b.date}</span>
+        <div class="badges">
+          <span class="badge bg">候选${b.candidate_count}篇</span>
+          <span class="badge bb">精读${b.deep_read_count}篇</span>
+          <span class="badge bgn">速览${b.quick_read_count}组</span>
+          <span class="badge bp">砍掉${b.cut_count}篇</span>
+        </div>
+      </div>`;
+    if(b.deep_reads&&b.deep_reads.length){
+      h+='<div class="section-title">🥇 精读</div>';
+      b.deep_reads.forEach(dr=>{
+        h+=`<div class="deep-read"><h4>${dr.title}</h4><p>${dr.one_liner||'...'}</p></div>`;
+      });
+    }
+    if(b.quick_reads&&b.quick_reads.length){
+      h+='<div class="section-title">🥈 速览</div><div class="quick-reads">';
+      b.quick_reads.forEach(qr=>{
+        h+=`<div class="quick-read"><strong>${qr.title}</strong><span>${qr.desc.substring(0,120)}</span></div>`;
+      });
+      h+='</div>';
+    }
+    if(b.judgment){
+      h+=`<div class="judgment-box"><div class="label">🧭 今日判断</div><p>${b.judgment}</p></div>`;
+    }
+    if(b.sources){
+      h+=`<div style="margin-top:12px;font-size:12px;color:var(--muted)">📡 信源：${b.sources}</div>`;
+    }
+    h+='</div>';
+  });
+  c.innerHTML=h;
+}
+render();
+</script>
+</body>
+</html>
