@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量价罗盘 VPC — 曼尼投研工具箱</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--card2:#1a2035;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--blue:#3b82f6;--green:#10b981;--red:#ef4444;--orange:#f59e0b;--purple:#8b5cf6;--cyan:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.top{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:16px}
+.top a{color:var(--muted);text-decoration:none;font-size:14px;transition:.2s}
+.top a:hover{color:var(--text)}
+.top h1{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.top .stat{font-size:12px;color:var(--muted);margin-left:auto}
+.top .stat b{color:var(--text)}
+.container{max-width:1100px;margin:0 auto;padding:32px 24px 80px}
+.section{margin-bottom:40px}
+.section h2{font-size:22px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section h2::before{content:'';width:4px;height:22px;background:linear-gradient(180deg,var(--orange),var(--red));border-radius:2px}
+
+.quad-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:600px}
+.quad-cell{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:.2s}
+.quad-cell:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.quad-label{font-size:14px;margin-bottom:6px}
+.quad-count{font-size:28px;font-weight:800}
+
+.sig-card{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px;transition:.15s}
+.sig-card:hover{border-color:var(--orange)}
+.sig-stars{font-size:13px;color:var(--orange);min-width:70px;flex-shrink:0;line-height:1.6}
+.sig-body{flex:1}
+.sig-title{font-size:15px;font-weight:600;margin-bottom:4px}
+.sig-cat{font-size:11px;color:var(--cyan);margin-bottom:4px}
+.sig-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+.day-row{display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:4px;font-size:13px;transition:.15s;cursor:pointer}
+.day-row:hover{border-color:var(--blue)}
+.day-date{color:var(--text);font-weight:600;min-width:100px}
+.day-count{color:var(--blue);min-width:70px}
+.day-strong{color:var(--orange);min-width:80px}
+.day-note{color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.week-row{display:flex;align-items:center;gap:16px;padding:12px 16px;background:var(--card2);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;font-size:13px}
+.week-date{color:var(--text);font-weight:600;min-width:200px}
+.week-judgment{color:var(--orange);font-weight:600;min-width:200px}
+.week-trends{color:var(--muted);flex:1}
+
+#trend-chart{width:100%;height:320px;margin-top:16px}
+.market-note{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--muted)}
+.market-note b{color:var(--text)}
+
+.collapse-header{cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none;font-size:18px;font-weight:600;margin-bottom:16px;color:var(--text)}
+.collapse-header:hover{color:var(--blue)}
+.collapse-header .arrow{transition:transform .3s;font-size:12px}
+.collapse-header.open .arrow{transform:rotate(90deg)}
+.collapse-body{display:none}
+.collapse-body.open{display:block}
+
+.ft{text-align:center;padding:40px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+.ft a{color:var(--blue);text-decoration:none}
+
+@media(max-width:768px){.container{padding:20px 16px}.quad-grid{grid-template-columns:1fr}.day-row{flex-wrap:wrap;gap:8px}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="index.html">← 返回工具箱</a>
+  <h1>量价罗盘 VPC</h1>
+  <span class="stat" id="topstat"></span>
+</div>
+<div class="container">
+  <div class="market-note" id="marketnote"></div>
+  <div class="section">
+    <h2>📈 四象限概览</h2>
+    <div class="quad-grid" id="quadgrid"></div>
+  </div>
+  <div class="section">
+    <h2>📊 信号趋势 (近15日)</h2>
+    <div id="trend-chart"></div>
+  </div>
+  <div class="section">
+    <h2>🔥 强信号列表</h2>
+    <div id="stronglist"></div>
+  </div>
+  <div class="section">
+    <div class="collapse-header" onclick="toggleCollapse('daily-body',this)"><span class="arrow">▶</span>📅 日度历史</div>
+    <div class="collapse-body" id="daily-body"></div>
+  </div>
+  <div class="section">
+    <div class="collapse-header" onclick="toggleCollapse('weekly-body',this)"><span class="arrow">▶</span>📋 周度总结</div>
+    <div class="collapse-body" id="weekly-body"></div>
+  </div>
+</div>
+<footer class="ft"><p>量价罗盘 VPC · <a href="index.html">曼尼投研工具箱</a> · 每周一~五 17:30 自动扫描</p></footer>
+
+<script>
+var VPC = {"latest_date": "2026-06-05", "latest_note": "2026年6月5日市场评语：\n芯片涨价潮贯穿全产业链——MCU（意法半导体第二轮涨价）→晶圆代工（晶合集成+10%）→封装（日月光+5-20%）→终端芯片（TI暴涨85%），形成完整涨价闭环。半导体板块资金持续流入，在市场中一枝独秀。\n覆铜板新涨价周期启动，兼具涨价+AI放量双逻辑。\n大宗商品分化：炼焦煤领涨（+4.58%），碳酸锂持续探底（163350元/吨，周跌约8%），TDI跌幅居前。\n板块资金流向通信/军工/机械，中际旭创遭主力大幅净卖出超46亿。\n涨价主线被多家券商确认为2026年核心交易逻辑，A股进入盈利驱动上行阶段。", "quad": {"量价齐升↑": 9, "量价双杀↓↓": 1, "量增价跌↓": 1, "价涨量跌→": 3}, "strong": [{"stars": "★★★★★", "title": "MCU涨价潮持续，晶合集成6月起代工涨价10%", "category": "半导体/AI", "content": "MCU芯片年初中微半导提价15-50%，TI最高涨85%。晶合集成宣布6月1日起晶圆代工涨价10%。存储芯片涨幅巨大，车规级DRAM近3月涨180%。全链条涨价趋势延续。", "direction": "涨"}, {"stars": "★★★★★", "title": "半导体板块领跌，中芯国际跌8.97%", "category": "半导体/AI", "content": "半导体板块5月29日领跌，中芯国际跌8.97%，寒武纪跌5.86%。电子板块资金净流出470亿，华工科技遭净卖出17亿。前期涨幅过高的获利了结。", "direction": "跌"}, {"stars": "★★★★★", "title": "铜价暴涨1260元至104900元/吨", "category": "大宗商品", "content": "5月29日1#铜报104900元/吨，涨1260元/吨（+1.2%）。铝报24210元/吨，涨70元/吨。沪铜夜盘收盘105110涨1230。铜价受全球供需紧张驱动持续走高。", "direction": "涨"}, {"stars": "★★★★★", "title": "电力板块逆市走强，多股涨停", "category": "板块异动", "content": "粤电力A 3连板，深南电A涨停，华电能源涨停，晋控电力涨停。南方电网负荷5月25-28日连续4天创新高，最高2.75亿千瓦，今年已20次创历史新高，打破往年6-7月季节性规律。厄尔尼诺致高温提前。", "direction": "涨"}, {"stars": "★★★★★", "title": "三大指数集体收跌，科创50暴跌4.77%", "category": "资金流向", "content": "上证-0.73%报4068.57，深成-1.81%报15575.13，创业板-2.11%报4141.91，科创50-4.77%。成交额3.32万亿，与前日基本持平。半导体、光学光电子板块跌幅居前。", "direction": "跌"}, {"stars": "★★★★★", "title": "电子板块主力资金净流出470亿元", "category": "资金流向", "content": "5月29日电子板块主力资金净流出470.20亿元，半导体、机械设备同步净流出。净流入通信、食品饮料、商贸零售。亨通光电净买入40亿居首，中芯国际遭净卖出27.74亿居首。", "direction": "跌"}, {"stars": "★★★★★", "title": "覆铜板龙头建滔积层板年内第四次涨价，PCB概念爆发", "category": "公告信号", "content": "建滔积层板2026年内第四次涨价（3月/4月初/4月底/5月底），累计涨幅超40%。板料涨10%，PP涨20%。宝鼎科技3连板创历史新高。下游厂商无议价空间，所有客户统一售价。", "direction": "涨"}, {"stars": "★★★★★", "title": "半导体板块价格上涨但主力资金流出——价涨量跌格局", "category": "半导体产业链", "content": "科创芯片指数涨2.46%，华虹公司涨15.79%创新高，燕东微涨停+20%。但主力资金净流出半导体/电子板块，尾盘科技股遭砸盘。市场呈现\"价涨量跌\"格局——涨的是情绪/游资，机构在出货。", "direction": "涨"}, {"stars": "★★★★★", "title": "沪深两市主力资金总体净流出185.38亿", "category": "资金流向", "content": "沪深两市主力资金净流出185.38亿元。净流出居前：计算机、半导体（尾盘遭砸盘，通富微电尾盘净流出4.89亿）、非银金融。仅4个行业净流入：公用事业(+11.29亿)、煤炭、社会服务、国防军工。", "direction": "中性"}, {"stars": "★★★★★", "title": "通信板块主力资金大幅净流入56.26亿", "category": "资金流向", "content": "主力资金净流入通信板块56.26亿元。个股方面：工业富联净买入29.82亿居首，中兴通讯涨停，中际旭创涨超7%创历史新高。", "direction": "涨"}, {"stars": "★★★★★", "title": "半导体产业链全面涨价潮——英飞凌/矽力杰/TI/联电/台积电/建滔年内多次提价", "category": "半导体产业链", "content": "英飞凌7月1日二次涨价、矽力杰7月1日部分产品调价、德州仪器PMIC/MOSFET二次涨价、联电下半年选择性提价（2027年更大范围）、台积电3nm下半年再涨最高15%、建滔积层板年内第四次涨价累计超40%、环球晶与客户沟通下半年调涨。华虹", "direction": "涨"}, {"stars": "★★★★★", "title": "储能需求爆发，5月锂电排产创新高", "category": "宏观政策", "content": "储能订单排至2027年，1-2月新型储能新增装机同比增长470%。5月锂电排产创历史新高，核心环节同比增速预计突破60%。新能源汽车产业链景气度持续上行。", "direction": "涨"}, {"stars": "★★★★★", "title": "MCU/半导体全链条涨价潮持续", "category": "公告信号", "content": "中微半导MCU涨价15-50%，晶合集成6月1日起晶圆代工涨价10%，TI模拟芯片最高涨85%。晶圆-封测-芯片全链条涨价闭环形成。LED驱动芯片厂商集创北方/利普芯/富满微同步涨价30%+。", "direction": "涨"}, {"stars": "★★★★★", "title": "主力资金净流出电子板块超238亿", "category": "资金流向", "content": "电子板块净流出238.78亿元居首，长电科技遭净卖出29.02亿元，华天科技、华工科技、兆易创新净流出居前。", "direction": "跌"}, {"stars": "★★★★★", "title": "白酒板块异动暴涨近4%", "category": "资金流向", "content": "午后白酒板块直线拉升，水井坊、舍得酒业涨停，金徽酒逼近涨停。白酒指数暴涨近4%，板块超跌反弹。", "direction": "涨"}, {"stars": "★★★★★", "title": "大盘整体弱势，超4600只个股下跌", "category": "资金流向", "content": "上证-1.25%(4093.73), 深成指-0.88%(15736.47), 创业板+0.07%(4045.77)。成交额3.24万亿缩量890亿。上涨1350只,下跌4600+只。", "direction": "跌"}, {"stars": "★★★★★", "title": "半导体全产业链涨价潮贯穿2026年，10-80%涨幅", "category": "公告信号", "content": "2026年初至今半导体涨价潮持续：华润微全系列+10%、中微半导MCU/NOR Flash +15-50%、国科微最高+80%、士兰微MOS类+10%。联电/世界先进/力积电二季度调价。银铜等贵金属成本上涨驱动。", "direction": "涨"}, {"stars": "★★★★★", "title": "WTI原油大幅下挫8.82%，化工板块整体走弱", "category": "大宗商品", "content": "5月21日数据：WTI原油-8.82%，Brent原油同步走弱。双氧水-8.87%领跌化工板块。化工板块整体下跌品种73个，远多于上涨的31个。化工产业链多品种价格承压。", "direction": "跌"}, {"stars": "★★★★★", "title": "碳酸锂年内暴涨58-64%，锂矿概念活跃", "category": "大宗商品", "content": "碳酸锂期货LC2609逼近20万元/吨关口，年内累计涨58-64%。锂矿概念走强，红星发展涨停。但近期涨幅有所放缓，5月14日现货报价有所回调。中长期供需紧平衡格局延续。", "direction": "涨"}, {"stars": "★★★★★", "title": "锡价持续走强：5天涨5.34%，60天涨20.45%，供应偏紧", "category": "大宗商品", "content": "锡最新价425,870元/吨，5天上涨5.34%，20天上涨10.07%，60天上涨20.45%。LME锡库存持续低位，沪锡夜盘涨1.09%，内外盘联动。华锡有色今日涨停（+10.01%）。", "direction": "涨"}], "dailies": [{"date": "2026-06-05", "sc": 14, "ssc": 11, "note": "2026年6月5日市场评语：\n芯片涨价潮贯穿全产业链——MCU（意法半导体第二轮涨价）→晶圆代工（晶合集成+10%）→封装（日月光+5-20%）→终端芯片（TI"}, {"date": "2026-06-04", "sc": 14, "ssc": 9, "note": "6月4日A股震荡走弱：沪指跌0.6%，超4100股飘绿。半导体板块逆市拉升，科创综指涨0.69%。核心主线：芯片涨价潮持续扩散（MCU涨15-50%/晶圆代工涨"}, {"date": "2026-06-03", "sc": 12, "ssc": 9, "note": "6月3日A股冲高回落,创业板一度涨近4%创历史新高后收窄至+1.65%,超3700股下跌。电子/半导体板块主力净流入超120亿,CPO光通信量价齐升。半导体全链"}, {"date": "2026-06-01", "sc": 11, "ssc": 8, "note": "6月1日市场分化，煤炭等防御板块逆势走强，电子板块大幅净流出。涨价主线持续强化：半导体（存储/MCU/功率）、覆铜板、碳酸锂均获多信源确认，量价齐升信号密集。"}, {"date": "2026-05-29", "sc": 11, "ssc": 6, "note": "5月29日A股整体调整，结构分化显著。三大指数集体收跌，科创50暴跌4.77%，电子/半导体资金净流出470亿——前期AI/半导体涨幅过高的获利了结。电力板块逆"}, {"date": "2026-05-28", "sc": 11, "ssc": 5, "note": "大盘探底回升，半导体/通信/有色领涨。半导体全产业链涨价潮持续发酵（英飞凌/TI/建滔年内多次提价），通信板块获56亿主力净流入。但整体主力资金净流出185亿，"}, {"date": "2026-05-27", "sc": 13, "ssc": 5, "note": "5月27日A股三大指数涨跌不一：上证-1.25%(4093.73), 深成指-0.88%(15736.47), 创业板+0.07%(4045.77)。成交额约3"}, {"date": "2026-05-26", "sc": 11, "ssc": 6, "note": "三大指数涨跌不一，沪指跌0.17%，深成指涨0.12%，创业板指涨0.54%。成交额3.24万亿放量。有色金属板块领涨（中国铝业/华锡有色/金钼股份涨停），电力"}, {"date": "2026-05-25", "sc": 10, "ssc": 4, "note": "5月25日A股放量上攻：沪指+0.96%收4152.57，深成指+1.66%，创业板指+2.1%，科创50暴涨+5.88%成交额2219亿。全市场成交3.23万"}, {"date": "2026-05-22", "sc": 10, "ssc": 4, "note": "A股三大指数高开高走，电子/PCB/MLCC产业链全面爆发。但全市场成交缩量5826亿，指数涨而量能背离。碳酸锂从高点20万回落至17.8万。MCU第二轮涨价潮"}, {"date": "2026-05-21", "sc": 11, "ssc": 8, "note": "5月21日A股冲高回落，收盘三大指数集体回调（沪指-2.04%, 创业板-2.35%），成交额超3.5万亿放量。半导体产业链涨价信号密集（晶合集成6月涨价10%"}, {"date": "2026-05-20", "sc": 10, "ssc": 4, "note": "5月20日A股三大指数分化，沪指收跌0.18%，深证成指平收，创业板指收涨0.34%。科创50指数低开高走涨幅超3%，再创历史新高逼近2200点。沪深两市成交额"}, {"date": "2026-05-19", "sc": 9, "ssc": 6, "note": "A股分化震荡：沪指+0.92%，科创50+3.81%领涨，电力半导体主线走强；碳酸锂单日大跌-2.89%；能源金属/锂矿板块重挫"}, {"date": "2026-05-18", "sc": 10, "ssc": 4, "note": "A股缩量调整，成交2.92万亿跌破3万亿关口。三大指数微跌，科创50逆势+0.8%。半导体/存储芯片领涨，联讯仪器反超茅台成新股王。主力资金从新能源转向硬科技。"}, {"date": "2026-05-15", "sc": 9, "ssc": 6, "note": "5月15日A股全面回调但科技板块逆市走强，黄金暴跌显示资金从避险转向风险资产。碳酸锂高位震荡回调、存储芯片和MCU涨价潮延续，半导体全产业链景气度持续。"}], "weeklies": [{"ws": "2026-05-25", "we": "2026-05-29", "tj": "1. 【半导体】短期回避——周五电子板块470亿出逃尚未见底，下周一大概率惯性下探。但涨价逻辑未被破坏（晶合集成6/1起涨10%等），等科创50回踩前期平台（~1700点）再考虑布局。\n2. 【电力】继续持有/加仓——南方电网5月已20次创新高，打破历史季节规律，厄尔尼诺高温提前+AI算力用电需求双驱动，量价齐升格局可持续。粤电力A 3连板只是开始。\n3. 【铜/锡】中长期看多，短期获利了结——铜价105,000附近已达近半年高位，短期内可能有技术性回调，但全球供需缺口+AI数据中心需求下趋势未变。锡价60天涨20%，华锡有色涨停，供应偏紧格局持续。\n4. 【碳酸锂】区间震荡17-19万，不做方向——储能排产创历史新高（+470% YoY）是坚实底部，但20万上方压力明显。观望为主，等突破信号再入场。\n5. 【下周操作】不追半导体反弹（周五跌4%不等于见底），关注电力板块回调后的二次上车机会，铜价企稳后继续定持有色。整体仓位控制，市场风格切换期波动大。", "t3": "1. 半导体全链条涨价（MCU第二轮/晶圆代工+10%/LED驱动+30%/覆铜板年内四次累计+40%）：基本面最强信号，但股价已过度反应，需等待回调后介入。\n2. 夏季高温驱动电力板块爆发：南方电网5月20次历史新高（正常是6-7月才破纪录），电力板块形成\"防御+顺周期\"双重属性，是市场风格切换的最大受益者。\n3. 铜价加速上行（+1260/日→104,900/吨）：全球供需紧张+AI算力基建需求+美元走弱，铜可能成为下半年的主线品种。"}, {"ws": "2026-05-18", "we": "2026-05-22", "tj": "半导体产业链涨价逻辑持续强化，MCU/晶圆/封测全链条传导，这是当前最确定的主线，中科领创方向与之高度吻合。关注两个子方向：① 玻璃基板封装（京东方+康宁合作开辟新材料赛道→本周刚启动）；② PCB/MLCC涨价扩散（TrendForce确认下半年高端MLCC温和上行）。碳酸锂短期回避——20万见顶后放量下跌，资金连续流出，等待下一个支撑确认。关注下周量能变化：5/22指数涨但缩量5826亿，若继续量价背离则大盘有回调风险。", "t3": "[\"MCU\\u7b2c\\u4e8c\\u8f6e\\u6da8\\u4ef7\\u6f6e\\u5168\\u94fe\\u6761\\u786e\\u8ba4\\uff1a\\u6676\\u5408\\u96c6\\u62106\\u67081\\u65e5\\u6da810%\\uff0c\\u4e2d\\u5fae\\u534a\\u5bfc15-50%\\uff0cTI\\u6a21\\u62df\\u82af\\u7247\\u6700\\u9ad8\\u6da885%\\u3002\\u534a\\u5bfc\\u4f53\\u6da8\\u4ef7\\u4ece\\u9ad8\\u7aef\\u5411\\u4e2d\\u4f4e\\u7aef\\u5168\\u9762\\u8513\\u5ef6\\uff0c2026Q1\\u534a\\u5bfc\\u4f53\\u6536\\u5165\\u540c\\u6bd4+29.44%\\u3002\\u8fd9\\u662f\\u5f53\\u524d\\u6700\\u786e\\u5b9a\\u7684\\u91cf\\u4ef7\\u9f50\\u5347\\u4e3b\\u7ebf\\u3002\", \"\\u7535\\u5b50\\u677f\\u5757\\u4e3b\\u529b\\u8d44\\u91d1\\u8fde\\u7eed\\u591a\\u65e5\\u51c0\\u6d41\\u5165\\uff085/20: 374\\u4ebf\\uff0c5/22: 176\\u4ebf\\uff09\\uff0c\\u534a\\u5bfc\\u4f53\\u677f\\u5757\\u5355\\u65e5\\u51c0\\u6d41\\u5165149.57\\u4ebf\\u3002\\u8d44\\u91d1\\u4ece\\u516c\\u7528\\u4e8b\\u4e1a/\\u4f20\\u5a92/\\u975e\\u94f6\\u91d1\\u878d\\u7cfb\\u7edf\\u6027\\u8f6c\\u5411\\u786c\\u79d1\\u6280\\u3002\", \"\\u78b3\\u9178\\u950220\\u4e07\\u89c1\\u9876\\u540e\\u5feb\\u901f\\u56de\\u843d\\u81f317.8\\u4e07\\uff08\\u5468\\u8dcc\\u5e45~10%\\uff09\\uff0c\\u4e0b\\u6e38\\u50a8\\u80fd\\u9879\\u76ee\\u56e0\\u9ad8\\u4ef7\\u6682\\u505c\\uff0c\\u9ad8\\u4ef7\\u4f4d\\u63a5\\u53d7\\u5ea6\\u4e0d\\u8db3\\u3002\\u653e\\u91cf\\u589e\\u4ed3\\u4e0b\\u8dcc\\u662f\\u771f\\u8dcc\\uff0c\\u77ed\\u671f\\u56de\\u907f\\u3002\"]"}, {"ws": "2026-05-11", "we": "2026-05-16", "tj": "半导体全产业链景气度确认：存储芯片Q2合约价涨58-63%（DRAM）/70-75%（NAND），MCU晶圆代工涨价10%，CPO光通信获5亿美元订单——三重信号全部指向量价齐升。黄金暴跌逾80美元+美股AI续创新高=资金从避险大规模切换至风险资产。", "t3": "[{\"rank\": 1, \"signal\": \"存储芯片超级周期延续：DRAM Q2合约价预期涨58-63%\", \"detail\": \"TrendForce预测DRAM合约价涨58-63%、NAND涨70-75%。花旗预计全年DRAM均价涨幅88%。三星/SK海力士/美光HBM产能全部售罄。\", \"action\": \"中科领创半导体持仓继续持有，关注存储芯片+MCU双主线\"}, {\"rank\": 2, \"signal\": \"CPO概念走强：铭普光磁涨停，POET获5000万美元订单\", \"detail\": \"POET与Lumilens达成AI光互联合作，首批5000万美元EOI光引擎订单，五年内采购额有望超5亿美元。POET美股涨43%。\", \"action\": \"光通信/AI互联方向值得跟踪，CPO是AI算力瓶颈的核心突破方向\"}, {\"rank\": 3, \"signal\": \"黄金暴跌逾80美元至4569美元/盎司\", \"detail\": \"现货黄金日内暴跌逾80美元至4569美元/盎司，白银跌5%报83.62美元/盎司。美股纳指标普续创新高，资金从避险转向风险。\", \"action\": \"黄金短期回避，但持续关注何时出现企稳信号——若美联储转向鸽派则是抄底窗口\"}]"}], "trend_text": "1. 【半导体】短期回避——周五电子板块470亿出逃尚未见底，下周一大概率惯性下探。但涨价逻辑未被破坏（晶合集成6/1起涨10%等），等科创50回踩前期平台（~1700点）再考虑布局。\n2. 【电力】继续持有/加仓——南方电网5月已20次创新高，打破历史季节规律，厄尔尼诺高温提前+AI算力用电需求双驱动，量价齐升格局可持续。粤电力A 3连板只是开始。\n3. 【铜/锡】中长期看多，短期获利了结——铜价105,000附近已达近半年高位，短期内可能有技术性回调，但全球供需缺口+AI数据中心需求下趋势未变。锡价60天涨20%，华锡有色涨停，供应偏紧格局持续。\n4. 【碳酸锂】区间震荡17-19万，不做方向——储能排产创历史新高（+470% YoY）是坚实底部，但20万上方压力明显。观望为主，等突破信号再入场。\n5. 【下周操作】不追半导体反弹（周五跌4%不等于见底），关注电力板块回调后的二次上车机会，铜价企稳后继续定持有色。整体仓位控制，市场风格切换期波动大。", "top3": "1. 半导体全链条涨价（MCU第二轮/晶圆代工+10%/LED驱动+30%/覆铜板年内四次累计+40%）：基本面最强信号，但股价已过度反应，需等待回调后介入。\n2. 夏季高温驱动电力板块爆发：南方电网5月20次历史新高（正常是6-7月才破纪录），电力板块形成\"防御+顺周期\"双重属性，是市场风格切换的最大受益者。\n3. 铜价加速上行（+1260/日→104,900/吨）：全球供需紧张+AI算力基建需求+美元走弱，铜可能成为下半年的主线品种。", "chart_dates": ["2026-05-15", "2026-05-18", "2026-05-19", "2026-05-20", "2026-05-21", "2026-05-22", "2026-05-25", "2026-05-26", "2026-05-27", "2026-05-28", "2026-05-29", "2026-06-01", "2026-06-03", "2026-06-04", "2026-06-05"], "chart_counts": [9, 10, 9, 10, 11, 10, 10, 11, 13, 11, 11, 11, 12, 14, 14], "chart_strongs": [6, 4, 6, 4, 8, 4, 4, 6, 5, 5, 6, 8, 9, 9, 11]};
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  document.getElementById('topstat').innerHTML = '最新: <b>' + VPC.latest_date + '</b> | <b>' + VPC.dailies.length + '</b>天记录';
+  document.getElementById('marketnote').innerHTML = '📊 <b>今日市场:</b> ' + esc(VPC.latest_note || '暂无评语');
+  
+  // Quadrant
+  var quadColors = {'量价齐升↑':'#10b981','量价齐升':'#10b981','量价双杀↓↓':'#ef4444','量价双杀':'#ef4444','价涨量跌→':'#f59e0b','价涨量跌':'#f59e0b','量增价跌↓':'#8b5cf6','量增价跌':'#8b5cf6','未分类':'#64748b'};
+  var qh = '';
+  for (var k in VPC.quad) {
+    var c = quadColors[k] || '#64748b';
+    qh += '<div class="quad-cell" style="border-top:3px solid ' + c + '"><div class="quad-label">' + k + '</div><div class="quad-count">' + VPC.quad[k] + '条</div></div>';
+  }
+  document.getElementById('quadgrid').innerHTML = qh || '<p style="color:var(--muted)">暂无数据</p>';
+  
+  // Strong signals
+  var sh = '';
+  VPC.strong.forEach(function(s) {
+    var icon = s.direction === '涨' ? '📈' : (s.direction === '跌' ? '📉' : '➡️');
+    sh += '<div class="sig-card"><div class="sig-stars">' + s.stars + '</div><div class="sig-body"><div class="sig-title">' + icon + ' ' + esc(s.title) + '</div><div class="sig-cat">' + esc(s.category) + '</div><div class="sig-desc">' + esc(s.content) + (s.content && s.content.length >= 120 ? '...' : '') + '</div></div></div>';
+  });
+  document.getElementById('stronglist').innerHTML = sh || '<p style="color:var(--muted)">暂无强信号</p>';
+  
+  // Daily history
+  var dh = '';
+  VPC.dailies.forEach(function(d) {
+    dh += '<div class="day-row"><span class="day-date">' + d.date + '</span><span class="day-count">' + d.sc + '条信号</span><span class="day-strong">🔥' + d.ssc + '强信号</span><span class="day-note">' + esc(d.note) + '</span></div>';
+  });
+  document.getElementById('daily-body').innerHTML = dh;
+  
+  // Weekly
+  var wh = '';
+  VPC.weeklies.forEach(function(w) {
+    wh += '<div class="week-row"><span class="week-date">' + w.ws + ' ~ ' + w.we + '</span><span class="week-judgment">' + esc(w.tj) + '</span><span class="week-trends">' + esc(w.t3) + '</span></div>';
+  });
+  wh += '<div style="margin-top:16px;padding:16px;background:var(--card2);border:1px solid var(--border);border-radius:12px"><strong>📌 本周趋势判断:</strong> ' + esc(VPC.trend_text) + '<br><strong>🔑 三大趋势:</strong> ' + esc(VPC.top3) + '</div>';
+  document.getElementById('weekly-body').innerHTML = wh;
+  
+  // Chart
+  var chart = echarts.init(document.getElementById('trend-chart'));
+  chart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: {trigger:'axis'},
+    legend: {data:['总信号','强信号'], textStyle:{color:'#94a3b8'}, top:0},
+    grid: {left:'3%', right:'4%', bottom:'3%', containLabel:true},
+    xAxis: {type:'category', data:VPC.chart_dates, axisLabel:{color:'#64748b'}, axisLine:{lineStyle:{color:'#1e293b'}}},
+    yAxis: {type:'value', axisLabel:{color:'#64748b'}, splitLine:{lineStyle:{color:'#1e293b'}}},
+    series: [
+      {name:'总信号', type:'line', data:VPC.chart_counts, smooth:true, lineStyle:{color:'#3b82f6',width:2}, itemStyle:{color:'#3b82f6'}, symbol:'circle', symbolSize:6},
+      {name:'强信号', type:'bar', data:VPC.chart_strongs, barWidth:'40%', itemStyle:{color:'#f59e0b', borderRadius:[4,4,0,0]}}
+    ]
+  });
+  window.addEventListener('resize', function() { chart.resize(); });
+}
+
+function toggleCollapse(id, header) {
+  var body = document.getElementById(id);
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+}
+
+render();
+</script>
+</body>
+</html>
