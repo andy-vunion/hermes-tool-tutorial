@@ -54,10 +54,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 </style>
 </head>
 <body>
-<nav class="nav">
-  <a href="index.html" style="color:var(--muted)">← 工具箱</a>
-  <span class="brand">📰 品味AI简报归档</span>
-</nav>
+<nav class="nav"><a href="index.html">← 工具箱</a><span class="brand">📰 品味AI简报归档</span></nav>
 <section class="hero">
   <h1>品味AI每天简报</h1>
   <p>AI产业动态 · 品味五条筛选 · 行动级别判断</p>
@@ -65,7 +62,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
     <div class="stat"><div class="num">2</div><div class="label">期简报</div></div>
     <div class="stat"><div class="num">40</div><div class="label">候选文章</div></div>
     <div class="stat"><div class="num">5</div><div class="label">精读篇</div></div>
-    <div class="stat"><div class="num">8</div><div class="label">速览条目</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">速览条目</div></div>
   </div>
 </section>
 <div class="stats-row">
@@ -80,44 +77,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
   <p style="margin-top:8px">数据每日自动同步 · briefing_archive.db</p>
 </footer>
 <script>
-const briefings = [{"date": "2026-05-30", "candidate_count": 12, "deep_read_count": 0, "quick_read_count": 0, "cut_count": 0, "deep_reads": [{"title": "Claude Opus 4.8 — Anthropic最快迭代，Dynamic Workflows重构编程范式", "one_liner": ""}, {"title": "AI没有复制互联网，它正在复制工业革命", "one_liner": ""}, {"title": "AI四巨头内部报告 — AI正在学会\"职场潜规则\"", "one_liner": ""}], "quick_reads": [{"title": "AI基础设施狂潮：钱在烧，也有质疑", "desc": "- AWS宣布$300亿投资宾州和北卡数据中心\n- Meta \"Prometheus\" 多GW级数据中心2026年投产，Zuckerberg称将花\"数千亿美元\"\n- E.ON在瑞典部署200MW AI数据中心\n- 反面声音：helenaglass.net称\"数据中心繁荣-崩盘-燃烧已经开始\"，质疑AI的实际需求能否支撑如此巨大的基础设施投资\n- AI基础设施股开始分化：Supermicro vs "}, {"title": "AI黑客攻击进入工业级 — Google三个月监测报告", "desc": "- AI驱动的黑客攻击已从零星尝试升级为工业规模\n- 攻击者使用AI自动发现漏洞、生成exploit、绕过检测\n- 与METR报告的\"AI学会违规\"形成呼应"}, {"title": "Token五年增长370倍：AI估值泡沫？", "desc": "- 投资界报道：AI公司Token使用量五年增长370倍\n- 月之暗面等公司年内已完成2-3轮融资\n- DeepSeek拟首轮融资500亿（5月8日）\n- 早期医疗AI项目融资已近绝迹 → 资本高度集中头部\n\n---"}, {"title": "Token五年增长370倍：AI估值泡沫？", "desc": "---"}], "judgment": "", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*"}, {"date": "2026-06-04", "candidate_count": 28, "deep_read_count": 2, "quick_read_count": 0, "cut_count": 0, "deep_reads": [{"title": "Forge — 8B模型+验证层=Agent可靠性99.3%，小模型Agent的\"护城河公式\"改写", "one_liner": ""}, {"title": "Microsoft Build 2026 — 微软独立推理模型MAI-Thinking-1+Agent全线产品，西雅图正式与OpenAI分道扬镳", "one_liner": ""}], "quick_reads": [{"title": "Google Gemma 4 12B：消费级多模态开源，Agent生态基础设施普及加速", "desc": "- Google发布统一多模态（无编码器）开源模型Gemma 4 12B，设计可在16GB RAM笔记本上运行，HN 771分本周最高\n- 意义：开源Agent的基础模型正在从\"能用\"进化到\"好用\"，本地Agent的门槛持续降低"}, {"title": "词元无限天使+轮 + 企业AI Agent融资集中爆发", "desc": "- 词元无限（字节AI化团队+清华姚班）完成数千万元天使+轮，华控基金领投，专注企业Agent基础设施，已服务十家头部金融机构，年度营收预测破亿\n- 同期：指尖智擎（灵巧手关节模组）、戴盟机器人（视触觉机器人）、光联芯科（AI光互连芯片近5亿A轮）集中融资\n- 信号：一级市场对\"AI落地的中间件/基础设施\"的定价正在快速上升，纯应用层的窗口在收窄"}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "desc": "- Uber设定员工每月AI工具费用$1,500上限（HN 427分），被视为企业AI定价的行业锚点\n- 英国CMA裁决Google必须允许出版商退出AI搜索摘要，禁止将内容用于模型微调——全球首个此类规则\n- Computex 2026：NVIDIA RTX Spark芯片发布、字节/甲骨文采用Arm AGI CPU——AI芯片从NVIDIA一家独大进入\"Arm+ASIC+GPU\"三方混战\n- "}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "desc": "---"}], "judgment": "", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*"}];
-function render(){
-  const c=document.getElementById('briefings');
-  let h='';
-  briefings.slice().reverse().forEach((b,i)=>{
-    h+=`<div class="briefing animate" style="animation-delay:${i*0.1}s">
-      <div class="briefing-header">
-        <span class="briefing-date">📅 ${b.date}</span>
-        <div class="badges">
-          <span class="badge bg">候选${b.candidate_count}篇</span>
-          <span class="badge bb">精读${b.deep_read_count}篇</span>
-          <span class="badge bgn">速览${b.quick_read_count}组</span>
-          <span class="badge bp">砍掉${b.cut_count}篇</span>
-        </div>
-      </div>`;
-    if(b.deep_reads&&b.deep_reads.length){
-      h+='<div class="section-title">🥇 精读</div>';
-      b.deep_reads.forEach(dr=>{
-        h+=`<div class="deep-read"><h4>${dr.title}</h4><p>${dr.one_liner||'...'}</p></div>`;
-      });
-    }
-    if(b.quick_reads&&b.quick_reads.length){
-      h+='<div class="section-title">🥈 速览</div><div class="quick-reads">';
-      b.quick_reads.forEach(qr=>{
-        h+=`<div class="quick-read"><strong>${qr.title}</strong><span>${qr.desc.substring(0,120)}</span></div>`;
-      });
-      h+='</div>';
-    }
-    if(b.judgment){
-      h+=`<div class="judgment-box"><div class="label">🧭 今日判断</div><p>${b.judgment}</p></div>`;
-    }
-    if(b.sources){
-      h+=`<div style="margin-top:12px;font-size:12px;color:var(--muted)">📡 信源：${b.sources}</div>`;
-    }
-    h+='</div>';
-  });
-  c.innerHTML=h;
-}
+const briefings = [{"date": "2026-06-04", "candidate_count": 28, "deep_read_count": 2, "quick_read_count": 0, "cut_count": 0, "judgment": "", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*", "deep_reads": [{"title": "Forge — 8B模型+验证层=Agent可靠性99.3%，小模型Agent的\"护城河公式\"改写", "one_liner": ""}, {"title": "Microsoft Build 2026 — 微软独立推理模型MAI-Thinking-1+Agent全线产品，西雅图正式与OpenAI分道扬镳", "one_liner": ""}], "quick_reads": [{"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "desc": "---"}]}, {"date": "2026-05-30", "candidate_count": 12, "deep_read_count": 0, "quick_read_count": 0, "cut_count": 0, "judgment": "", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*", "deep_reads": [{"title": "Claude Opus 4.8 — Anthropic最快迭代，Dynamic Workflows重构编程范式", "one_liner": ""}, {"title": "AI没有复制互联网，它正在复制工业革命", "one_liner": ""}, {"title": "AI四巨头内部报告 — AI正在学会\"职场潜规则\"", "one_liner": ""}], "quick_reads": [{"title": "Token五年增长370倍：AI估值泡沫？", "desc": "---"}]}];
+function render(){const c=document.getElementById('briefings');let h='';briefings.slice().reverse().forEach((b,i)=>{h+=`<div class="briefing animate" style="animation-delay:${i*0.1}s"><div class="briefing-header"><span class="briefing-date">📅 ${b.date}</span><div class="badges"><span class="badge bg">候选${b.candidate_count}篇</span><span class="badge bb">精读${b.deep_read_count}篇</span><span class="badge bgn">速览${b.quick_read_count}组</span><span class="badge bp">砍掉${b.cut_count}篇</span></div></div>`;if(b.deep_reads&&b.deep_reads.length){h+='<div class="section-title">🥇 精读</div>';b.deep_reads.forEach(dr=>{h+=`<div class="deep-read"><h4>${dr.title}</h4><p>${dr.one_liner||'...'}</p></div>`;});}if(b.quick_reads&&b.quick_reads.length){h+='<div class="section-title">🥈 速览</div><div class="quick-reads">';b.quick_reads.forEach(qr=>{h+=`<div class="quick-read"><strong>${qr.title}</strong><span>${qr.desc.substring(0,120)}</span></div>`;});h+='</div>';}if(b.judgment){h+=`<div class="judgment-box"><div class="label">🧭 今日判断</div><p>${b.judgment}</p></div>`;}if(b.sources){h+=`<div style="margin-top:12px;font-size:12px;color:var(--muted)">📡 信源：${b.sources}</div>`;}h+='</div>';});c.innerHTML=h;}
 render();
 </script>
 </body>
