@@ -480,23 +480,26 @@ function renderPrevNext(currentIdx, filteredList) {
 }
 
 function R(){
-  q=document.getElementById('s').value.toLowerCase();
+  var se=document.getElementById('s'); if(!se) return;
+  q=se.value.toLowerCase();
   let F=BRIEFINGS;
   if(t)F=F.filter(b=>b.tags.includes(t));
   if(q)F=F.filter(b=>JSON.stringify(b).toLowerCase().includes(q));
   const TC=BRIEFINGS.reduce((a,b)=>a+b.candidate_count,0);
   const TD=BRIEFINGS.reduce((a,b)=>a+b.deep_count,0);
-  document.getElementById('st').innerHTML=`<b>${BRIEFINGS.length}</b>期 · <b>${TC}</b>候选 · <b>${TD}</b>精读`;
+  var st=document.getElementById('st'); if(st) st.innerHTML=`<b>${BRIEFINGS.length}</b>期 · <b>${TC}</b>候选 · <b>${TD}</b>精读`;
 
   // Build tag pills row
   const at={};BRIEFINGS.forEach(b=>b.tags.forEach(x=>{at[x]=(at[x]||0)+1}));
   const topT=Object.entries(at).sort((a,b)=>b[1]-a[1]);
-  document.getElementById('tagbar').innerHTML=
+  var tb=document.getElementById('tagbar');
+  if(tb) tb.innerHTML=
     `<span class="pills-label">标签</span>` +
     `<span class="tag-pill${t===null?' on':''}" onclick="t=null;R()">全部 <small style="opacity:.5">${BRIEFINGS.length}</small></span>` +
     topT.map(([k,v])=>`<span class="tag-pill${t===k?' on':''}" onclick="t=t===k?null:k;R()">${k} <small style="opacity:.5">${v}</small></span>`).join('');
 
-  if(!F.length){document.getElementById('m').innerHTML='<div class="empty">📭 无匹配结果</div>';return}
+  var m=document.getElementById('m'); if(!m) return;
+  if(!F.length){m.innerHTML='<div class="empty">📭 无匹配结果</div>';return}
 
   const totalReading = F.reduce((a,b) => a + estimateReadingTime(b), 0);
   let h=`<div class="hero"><h1>品味AI简报</h1><p class="sub">AI产业动态深度解读 · 每周二/四/六更新</p><div class="nums"><span><b>${TD}</b>篇精读</span><span><b>${TC}</b>篇候选</span><span><b>${BRIEFINGS.length}</b>期简报</span><span><b>${topT.length}</b>个标签</span><span><b>${totalReading} min</b>总阅读</span></div></div>`;
@@ -575,9 +578,21 @@ function R(){
 
     h+=`</div>`; // close blog-entry
   });
-  document.getElementById('m').innerHTML=h;
+  m.innerHTML=h;
 }
-R();
+// Render on DOM ready with error handling
+(function init() {
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { try { R(); } catch(e) { console.error('R() error:', e); document.getElementById('m').innerHTML='<div class=\"empty\">⚠️ 渲染出错，请刷新页面</div>'; } });
+    } else {
+      R();
+    }
+  } catch(e) {
+    console.error('Init error:', e);
+    document.getElementById('m').innerHTML='<div class=\"empty\">⚠️ 渲染出错，请刷新页面</div>';
+  }
+})();
 </script>
 
 <!-- ── AI CHAT WIDGET ── -->
@@ -699,7 +714,10 @@ R();
   function healthCheck() {
     var controller = new AbortController();
     var timeout = setTimeout(function(){ controller.abort(); }, 5000);
-    fetch(HEALTH_URL, { signal: controller.signal })
+    fetch(HEALTH_URL, {
+      signal: controller.signal,
+      headers: { 'Authorization': 'Bearer ' + API_KEY }
+    })
       .then(function(r){
         clearTimeout(timeout);
         if (r.ok) { setOnline(true); }
