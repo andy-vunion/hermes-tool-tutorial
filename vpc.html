@@ -626,5 +626,612 @@ function renderTabCounts() {
 /* ====== Boot ====== */
 render();
 </script>
+
+<!-- ========== AI Chat Assistant Widget ========== -->
+<style>
+/* AI Chat Widget — VPC 见闻白主题 */
+:root {
+  --chat-bg: #FFFFFF;
+  --chat-card: #FAFAFA;
+  --chat-border: #E5E5E5;
+  --chat-text: #333333;
+  --chat-muted: #999999;
+  --chat-user: #1A73E8;
+  --chat-ai: #F5F5F5;
+  --chat-accent: #C41230;
+}
+
+.ai-chat-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--chat-accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(196,18,48,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  line-height: 1;
+}
+.ai-chat-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(196,18,48,0.45);
+}
+.ai-chat-btn.hidden { display: none; }
+
+.ai-chat-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  z-index: 9999;
+  width: 320px;
+  height: 420px;
+  background: var(--chat-bg);
+  border: 1px solid var(--chat-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: chatSlideIn 0.25s ease-out;
+  display: none;
+}
+.ai-chat-panel.open { display: flex; }
+
+@keyframes chatSlideIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ai-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--chat-border);
+  background: var(--chat-card);
+  flex-shrink: 0;
+}
+.ai-chat-header .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--chat-text);
+  flex: 1;
+}
+.ai-chat-header .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ai-chat-header .status-dot.online  { background: #10b981; }
+.ai-chat-header .status-dot.offline { background: #999999; }
+.ai-chat-header .status-text {
+  font-size: 10px;
+  color: var(--chat-muted);
+}
+.ai-chat-header .close-btn {
+  background: none;
+  border: none;
+  color: var(--chat-muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.ai-chat-header .close-btn:hover { color: var(--chat-text); }
+
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+.ai-chat-messages::-webkit-scrollbar { width: 4px; }
+.ai-chat-messages::-webkit-scrollbar-thumb { background: var(--chat-border); border-radius: 2px; }
+
+.ai-chat-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  animation: msgFadeIn 0.2s ease-out;
+}
+@keyframes msgFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.ai-chat-msg.user { align-self: flex-end; align-items: flex-end; }
+.ai-chat-msg.ai   { align-self: flex-start; align-items: flex-start; }
+
+.ai-chat-msg .bubble {
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.ai-chat-msg.user .bubble {
+  background: var(--chat-user);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+.ai-chat-msg.ai .bubble {
+  background: var(--chat-ai);
+  color: var(--chat-text);
+  border-bottom-left-radius: 4px;
+}
+.ai-chat-msg .time {
+  font-size: 9px;
+  color: var(--chat-muted);
+  margin-top: 2px;
+  padding: 0 4px;
+}
+
+.ai-chat-typing {
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+  padding: 8px 14px;
+  background: var(--chat-ai);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+.ai-chat-typing span {
+  width: 6px; height: 6px;
+  background: #bbb;
+  border-radius: 50%;
+  animation: dotBounce 1.4s infinite ease-in-out;
+}
+.ai-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.ai-chat-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--chat-border);
+  background: var(--chat-card);
+  flex-shrink: 0;
+}
+.ai-chat-input-area input {
+  flex: 1;
+  border: 1px solid var(--chat-border);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  color: var(--chat-text);
+  background: #fff;
+  transition: border-color 0.15s;
+}
+.ai-chat-input-area input:focus { border-color: var(--chat-accent); }
+.ai-chat-input-area input::placeholder { color: #ccc; }
+.ai-chat-input-area button {
+  background: var(--chat-accent);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.ai-chat-input-area button:hover { opacity: 0.85; }
+.ai-chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ai-chat-offline-notice {
+  font-size: 10px;
+  color: var(--chat-muted);
+  text-align: center;
+  padding: 4px 8px;
+  background: #fff8f0;
+  border-bottom: 1px solid var(--chat-border);
+  display: none;
+  flex-shrink: 0;
+}
+.ai-chat-offline-notice.show { display: block; }
+</style>
+
+<div class="ai-chat-btn" id="aiChatBtn" title="AI 助手">💬</div>
+
+<div class="ai-chat-panel" id="aiChatPanel">
+  <div class="ai-chat-header">
+    <span class="title">AI 助手</span>
+    <span class="status-dot online" id="aiChatStatusDot"></span>
+    <span class="status-text" id="aiChatStatusText">在线</span>
+    <button class="close-btn" id="aiChatClose">✕</button>
+  </div>
+  <div class="ai-chat-offline-notice" id="aiChatOfflineNotice">AI助手离线，使用本地数据回答</div>
+  <div class="ai-chat-messages" id="aiChatMessages"></div>
+  <div class="ai-chat-input-area">
+    <input type="text" id="aiChatInput" placeholder="输入问题…" maxlength="500" />
+    <button id="aiChatSend">发送</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ====== Config ====== */
+  var API_BASE = 'https://api.deepseek.com';
+  var API_URL = API_BASE + '/v1/chat/completions';
+  var API_KEY = 'sk-2e2...52e8';
+  var MODEL = 'deepseek-v4-flash';
+  var HEALTH_TIMEOUT = 5000;
+  var CHAT_TIMEOUT = 30000;
+
+  /* ====== State ====== */
+  var isOnline = false;
+  var isOpen = false;
+  var chatMessages = [];
+  var abortController = null;
+
+  /* ====== DOM refs ====== */
+  var btn     = document.getElementById('aiChatBtn');
+  var panel   = document.getElementById('aiChatPanel');
+  var msgArea = document.getElementById('aiChatMessages');
+  var inputEl = document.getElementById('aiChatInput');
+  var sendBtn = document.getElementById('aiChatSend');
+  var closeBtn = document.getElementById('aiChatClose');
+  var statusDot = document.getElementById('aiChatStatusDot');
+  var statusText = document.getElementById('aiChatStatusText');
+  var offlineNotice = document.getElementById('aiChatOfflineNotice');
+
+  /* ====== Helpers ====== */
+  function escHTML(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function timeLabel() {
+    var d = new Date();
+    return ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+  }
+
+  function scrollToBottom() {
+    msgArea.scrollTop = msgArea.scrollHeight;
+  }
+
+  function setOnline(state) {
+    isOnline = state;
+    if (state) {
+      statusDot.className = 'status-dot online';
+      statusText.textContent = '在线';
+      offlineNotice.classList.remove('show');
+    } else {
+      statusDot.className = 'status-dot offline';
+      statusText.textContent = '离线';
+      offlineNotice.classList.add('show');
+    }
+  }
+
+  /* ====== Render messages ====== */
+  function renderMessages() {
+    var html = '';
+    for (var i = 0; i < chatMessages.length; i++) {
+      var m = chatMessages[i];
+      html += '<div class="ai-chat-msg ' + m.role + '">'
+        + '<div class="bubble">' + escHTML(m.content) + '</div>'
+        + '<span class="time">' + (m.time || '') + '</span>'
+      + '</div>';
+    }
+    msgArea.innerHTML = html;
+    scrollToBottom();
+  }
+
+  function addMessage(role, content) {
+    chatMessages.push({ role: role, content: content, time: timeLabel() });
+    // Keep max 50 messages
+    if (chatMessages.length > 50) chatMessages.shift();
+    renderMessages();
+  }
+
+  function showTyping() {
+    msgArea.innerHTML += '<div class="ai-chat-typing" id="chatTyping"><span></span><span></span><span></span></div>';
+    scrollToBottom();
+  }
+
+  function hideTyping() {
+    var el = document.getElementById('chatTyping');
+    if (el) el.remove();
+  }
+
+  /* ====== System prompt builder ====== */
+  function buildSystemPrompt() {
+    try {
+      var raw = document.getElementById('vpc-data').textContent;
+      var D = JSON.parse(raw);
+      var signals = D.signals || [];
+      var dailies = D.daily || [];
+      var weeklies = D.weekly || [];
+
+      // Current tab
+      var activeTab = (typeof currentTab !== 'undefined') ? currentTab : 'all';
+
+      // Total and strong signal counts
+      var totalCount = signals.length;
+      var strongCount = 0;
+      for (var i = 0; i < signals.length; i++) {
+        if ((signals[i].strength || 0) >= 3) strongCount++;
+      }
+
+      // Latest daily
+      var latestDaily = dailies.length > 0 ? dailies[dailies.length - 1] : null;
+      var latestDate = latestDaily ? latestDaily.date : '未知';
+      var latestNote = latestDaily ? (latestDaily.market_comment || latestDaily.note || '暂无评语') : '暂无评语';
+
+      // Latest weekly judgment
+      var weeklyJudgment = '暂无';
+      if (weeklies.length > 0) {
+        var lw = weeklies[0];
+        weeklyJudgment = lw.trend_judgment || lw.judgment || '暂无';
+      }
+
+      return '你是量价罗盘VPC的智能助手。当前追踪 A股量价信号，数据库有 ' + totalCount + ' 条信号（其中强信号 ' + strongCount + ' 条）。\n'
+        + '最新交易日：' + latestDate + '\n'
+        + '最新市场评语：' + latestNote + '\n'
+        + '本周趋势判断：' + weeklyJudgment + '\n'
+        + '用户当前筛选：' + activeTab + '\n'
+        + '请基于数据给出简洁专业的市场分析（2-4句话为宜），帮助用户理解量价信号的含义和投资参考。\n'
+        + '如果用户问及具体信号、板块或趋势，请基于上述数据回答。回答简洁专业，用中文。';
+    } catch(e) {
+      return '你是量价罗盘VPC的智能助手。当前追踪A股量价信号。请基于数据给出简洁专业的市场分析，用中文。';
+    }
+  }
+
+  /* ====== Mock fallback ====== */
+  function mockReply(userText) {
+    try {
+      var raw = document.getElementById('vpc-data').textContent;
+      var D = JSON.parse(raw);
+      var signals = D.signals || [];
+      var dailies = D.daily || [];
+      var weeklies = D.weekly || [];
+
+      var text = userText.toLowerCase();
+
+      // 问"涨价"
+      if (text.indexOf('涨价') >= 0 || text.indexOf('上涨') >= 0 || text.indexOf('涨幅') >= 0) {
+        var upSigs = [];
+        for (var i = 0; i < signals.length; i++) {
+          if (signals[i].direction === '↑' || signals[i].direction === '涨') {
+            upSigs.push(signals[i]);
+          }
+        }
+        if (upSigs.length > 0) {
+          var latest = upSigs[0];
+          return '最新涨价信号摘要：' + latest.date + ' — ' + latest.title + '。' + (latest.content || '').substring(0, 150)
+            + '\n\n当前共有 ' + upSigs.length + ' 条涨价相关信号。';
+        }
+        return '当前暂无明确的涨价信号数据。';
+      }
+
+      // 问"板块"
+      if (text.indexOf('板块') >= 0 || text.indexOf('资金') >= 0 || text.indexOf('行业') >= 0) {
+        var sectorSigs = [];
+        for (var j = 0; j < signals.length; j++) {
+          if ((signals[j].category || '').indexOf('板块') >= 0 || (signals[j].category || '').indexOf('资金') >= 0) {
+            sectorSigs.push(signals[j]);
+          }
+        }
+        if (sectorSigs.length > 0) {
+          var top = sectorSigs.slice(0, 3);
+          var lines = [];
+          for (var k = 0; k < top.length; k++) {
+            lines.push('• ' + top[k].title + ' (' + top[k].date + ')');
+          }
+          return '板块资金流向信号（最新）：\n' + lines.join('\n');
+        }
+        return '暂无板块资金流向信号。';
+      }
+
+      // 问"趋势"
+      if (text.indexOf('趋势') >= 0 || text.indexOf('判断') >= 0 || text.indexOf('周报') >= 0) {
+        if (weeklies.length > 0) {
+          var lw = weeklies[0];
+          return '最新周报趋势判断（' + lw.week_start + ' ~ ' + lw.week_end + '）：\n' + (lw.trend_judgment || lw.judgment || '暂无判断');
+        }
+        return '暂无周报趋势判断数据。';
+      }
+
+      // 问"信号"
+      if (text.indexOf('信号') >= 0 || text.indexOf('最新') >= 0 || text.indexOf('数据') >= 0) {
+        var quadCount = {};
+        for (var q = 0; q < signals.length; q++) {
+          var qn = (typeof normQuad === 'function') ? normQuad(signals[q].quadrant) : (signals[q].quadrant || '未分类');
+          quadCount[qn] = (quadCount[qn] || 0) + 1;
+        }
+        var latestDate2 = dailies.length > 0 ? dailies[dailies.length - 1].date : '未知';
+        var latestNote2 = dailies.length > 0 ? (dailies[dailies.length - 1].market_comment || '') : '';
+        return 'VPC数据概览：\n• 最新交易日：' + latestDate2 + '\n• 总信号数：' + signals.length + ' 条\n• 量价齐升↑：' + (quadCount['量价齐升↑']||0)
+          + ' | 价涨量跌→：' + (quadCount['价涨量跌→']||0) + ' | 量增价跌↓：' + (quadCount['量增价跌↓']||0) + ' | 量价双杀↓：' + (quadCount['量价双杀↓']||0)
+          + '\n• 市场评语：' + (latestNote2 || '暂无');
+      }
+
+      // 默认
+      return '您好！我是VPC量价罗盘智能助手。当前我处于离线模式，使用本地数据回答。\n\n您可以问我：\n• "最近有什么涨价信号？"\n• "板块资金流向如何？"\n• "本周趋势判断是什么？"\n• "当前信号数据概览"';
+    } catch(e) {
+      return '抱歉，无法读取本地数据。请稍后重试。';
+    }
+  }
+
+  /* ====== API call ====== */
+  function callDeepSeek(userText) {
+    if (abortController) {
+      abortController.abort();
+    }
+    abortController = new AbortController();
+    var timeoutId = setTimeout(function() { abortController.abort(); }, CHAT_TIMEOUT);
+
+    var systemPrompt = buildSystemPrompt();
+    var messages = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userText }
+    ];
+
+    return fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + API_KEY
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        max_tokens: 600,
+        temperature: 0.7,
+        stream: false
+      }),
+      signal: abortController.signal
+    })
+    .then(function(res) {
+      clearTimeout(timeoutId);
+      if (!res.ok) throw new Error('API error ' + res.status);
+      return res.json();
+    })
+    .then(function(data) {
+      if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+        return data.choices[0].message.content;
+      }
+      throw new Error('Unexpected response format');
+    })
+    .catch(function(err) {
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') {
+        return '回复超时，请重试。';
+      }
+      throw err;
+    });
+  }
+
+  /* ====== Health check ====== */
+  function healthCheck() {
+    var ctrl = new AbortController();
+    var timeoutId = setTimeout(function() { ctrl.abort(); }, HEALTH_TIMEOUT);
+
+    return fetch(API_BASE + '/v1/models', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + API_KEY },
+      signal: ctrl.signal
+    })
+    .then(function(res) {
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        setOnline(true);
+      } else {
+        setOnline(false);
+      }
+    })
+    .catch(function() {
+      clearTimeout(timeoutId);
+      setOnline(false);
+    });
+  }
+
+  /* ====== Send message ====== */
+  function sendMessage() {
+    var text = inputEl.value.trim();
+    if (!text) return;
+    inputEl.value = '';
+    sendBtn.disabled = true;
+
+    addMessage('user', text);
+    showTyping();
+
+    if (isOnline) {
+      callDeepSeek(text)
+        .then(function(reply) {
+          hideTyping();
+          addMessage('ai', reply);
+          sendBtn.disabled = false;
+        })
+        .catch(function(err) {
+          hideTyping();
+          // Fallback to mock
+          setOnline(false);
+          var mockR = mockReply(text);
+          addMessage('ai', mockR);
+          sendBtn.disabled = false;
+        });
+    } else {
+      // Mock mode
+      setTimeout(function() {
+        hideTyping();
+        var reply = mockReply(text);
+        addMessage('ai', reply);
+        sendBtn.disabled = false;
+      }, 600);
+    }
+  }
+
+  /* ====== Toggle panel ====== */
+  function openPanel() {
+    isOpen = true;
+    btn.classList.add('hidden');
+    panel.classList.add('open');
+    inputEl.focus();
+    scrollToBottom();
+  }
+
+  function closePanel() {
+    isOpen = false;
+    btn.classList.remove('hidden');
+    panel.classList.remove('open');
+  }
+
+  function togglePanel() {
+    if (isOpen) closePanel(); else openPanel();
+  }
+
+  /* ====== Welcome message ====== */
+  function showWelcome() {
+    var welcomeText = '您好！我是VPC量价罗盘AI助手。\n我可以帮您分析量价信号、板块资金流向和趋势判断。请问有什么可以帮您的？';
+    if (chatMessages.length === 0) {
+      addMessage('ai', welcomeText);
+    }
+  }
+
+  /* ====== Event listeners ====== */
+  btn.addEventListener('click', function() {
+    openPanel();
+    if (chatMessages.length === 0) showWelcome();
+  });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  /* ====== Init ====== */
+  healthCheck().then(function() {
+    // Show welcome if panel opens later
+  });
+
+})();
+</script>
+
 </body>
 </html>
