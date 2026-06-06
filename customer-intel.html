@@ -20,14 +20,23 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
 .btn-primary{background:#2563eb;color:#fff;border-color:#2563eb}
 .btn-primary:hover{background:#1d4ed8}
 
-.news-ticker{display:flex;align-items:center;height:40px;background:#1e293b;overflow:hidden}
-.ticker-label{flex-shrink:0;background:#dc2626;color:#fff;padding:0 14px;height:100%;display:flex;align-items:center;font-size:12px;font-weight:700;gap:4px}
-.ticker-scroll{flex:1;overflow:hidden;position:relative}
-.ticker-track{display:flex;gap:0;white-space:nowrap;animation:ticker-scroll 80s linear infinite}
+.news-ticker{display:flex;align-items:center;height:42px;background:linear-gradient(90deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);overflow:hidden;border-bottom:1px solid #334155}
+.ticker-label{flex-shrink:0;background:#dc2626;color:#fff;padding:0 16px;height:100%;display:flex;align-items:center;font-size:12px;font-weight:700;gap:5px;letter-spacing:.6px}
+.ticker-scroll{flex:1;overflow:hidden;position:relative;mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%)}
+.ticker-track{display:flex;gap:0;white-space:nowrap;animation:ticker-scroll 120s linear infinite}
 .ticker-track:hover{animation-play-state:paused}
-.ticker-item{display:inline-flex;align-items:center;gap:4px;padding:0 20px;color:#e2e8f0;font-size:12px;cursor:pointer;text-decoration:none;flex-shrink:0}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 18px;color:#cbd5e1;font-size:12px;cursor:pointer;flex-shrink:0}
 .ticker-item:hover{color:#fff}
-.ticker-item .sep{color:#475569;margin:0 8px}
+.ticker-sep{color:#475569;margin:0 4px;font-size:8px;opacity:.5}
+.ticker-cat{font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600;flex-shrink:0}
+.ticker-cat-opportunity{background:rgba(34,197,94,.18);color:#4ade80}
+.ticker-cat-risk{background:rgba(239,68,68,.18);color:#f87171}
+.ticker-cat-dynamic{background:rgba(59,130,246,.18);color:#60a5fa}
+.ticker-cat-alert{background:rgba(245,158,11,.2);color:#fbbf24}
+.ticker-cust{color:#94a3b8;font-weight:600;flex-shrink:0}
+.ticker-summary{color:#e2e8f0}
+.ticker-link{color:#64748b;text-decoration:none;font-size:11px;flex-shrink:0;transition:color .15s}
+.ticker-link:hover{color:#fbbf24}
 @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 .kpi-bar{display:flex;gap:16px;padding:16px 24px;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto}
@@ -44,7 +53,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
 .kpi-card.accent-rose{border-color:#fecdd3;background:#fff1f2}
 .kpi-card.accent-rose .value{color:#e11d48}
 
-.layout{display:flex;height:calc(100vh - 56px - 40px - 73px);overflow:hidden}
+.layout{display:flex;height:calc(100vh - 56px - 42px - 73px);overflow:hidden}
 
 .sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;flex-shrink:0}
 .sidebar-header{padding:16px;border-bottom:1px solid #f3f4f6}
@@ -275,8 +284,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
   </aside>
 </div>
 
-<script id="customer-data" type="application/json">
-{
+<script id="customer-data" type="application/json">{
   "customers": [
     {
       "id": 23,
@@ -676,6 +684,193 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
     }
   ],
   "tracking": [
+    {
+      "id": 46,
+      "week_start": "2026-06-02",
+      "customer_name": "南昌同兴达精密光电有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "订单足！生产旺！经开区这个产业按下“快进键”",
+      "source": "https://www.thepaper.cn/newsDetail_forward_14502456",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 47,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳英集芯科技股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "深圳英集芯科技股份有限公司上市申请获上交所受理",
+      "source": "https://new.qq.com/omn/ENT20190/20210615A01TXA00.html",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 48,
+      "week_start": "2026-06-02",
+      "customer_name": "宁波舜宇光电信息有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "舜宇光学6月手机镜头出货量1.09亿",
+      "source": "https://m.jrj.com.cn/madapter/24h/2024/07/09165941456595.shtml",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 49,
+      "week_start": "2026-06-02",
+      "customer_name": "广东九安智能科技股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "智能视觉产品制造商九安智能闯关IPO",
+      "source": "https://stcn.com/article/detail/3559279.html?u_atoken=8c7818ef672c55cb7d663db616760ef5&u_asig=ffbfd",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 50,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳麦格米特电气股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "麦格米特大涨6.54%，成交额4.78亿元，主力资金净流入1347.01万元",
+      "source": "https://finance.sina.cn/2026-01-19/detail-inhhuzix2852864.d.html",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 51,
+      "week_start": "2026-06-02",
+      "customer_name": "广东九安智能科技股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "九安智能创业板IPO获受理- DoNews快讯",
+      "source": "https://www.donews.com/news/detail/8/6417652.html",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 52,
+      "week_start": "2026-06-02",
+      "customer_name": "杭州觅睿科技股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "觅睿科技：深耕海外市场，全场景智能安防产品线优势凸显",
+      "source": "https://www.popcj.com/depth/5508662602629661",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 53,
+      "week_start": "2026-06-02",
+      "customer_name": "杭州觅睿科技股份有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "一年拿下48亿！AI驱动，大卖净利增长46%",
+      "source": "https://www.upkuajing.com/knowledge/zixun/25295",
+      "trend_flag": "↑",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 54,
+      "week_start": "2026-06-02",
+      "customer_name": "宁波舜宇光电信息有限公司",
+      "signal_type": "risk",
+      "signal_summary": "舜宇光学6月手机镜头出货量9,506万 同比下降12.7%",
+      "source": "https://www.cls.cn/detail/2081602",
+      "trend_flag": "↓",
+      "alert": "metaso",
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 55,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳市杉川机器人有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "杉川机器人年产能超600万台，全制造+全技术打造扫地机器人行业新标杆",
+      "source": "https://news.sina.com.cn/sx/2025-01-18/detail-inefhvuw3154088.shtml",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 56,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳市广和通无线股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "广和通亮相ElectroneX 2026，共建AIoT智联新生态 - 网易",
+      "source": "https://www.163.com/tech/article/KUH3B6K300099BK0.html",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 57,
+      "week_start": "2026-06-02",
+      "customer_name": "东莞市奥海科技股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "东莞：2026，为了美好，再前进，再造！",
+      "source": "https://www.thepaper.cn/newsDetail_forward_32298018",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 58,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳市鼎盛光电有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "创维数字2025年营收88.09亿元 智能终端与专业显示业务协同发展",
+      "source": "http://m.pjtime.com/2026/3/m383332544445.shtml",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 59,
+      "week_start": "2026-06-02",
+      "customer_name": "熵基科技(广东)有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "熵基科技涨8.08%，成交额3.86亿元，近5日主力净流入-864.80万",
+      "source": "https://finance.sina.cn/2025-03-06/detail-inentarm3523666.d.html",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 60,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳市广和通无线股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "下周调研透视",
+      "source": "https://cj.sina.cn/articles/view/5953466437/162dab0450670aau5o?froms=ggmp&vt=4",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 61,
+      "week_start": "2026-06-02",
+      "customer_name": "高创(苏州)电子有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "与显共彩！苏州市新型显示产业链对接交流走进高创电子",
+      "source": "https://www.soecc.org.cn/p/web.show/bid-49socx2ob28cc4.html",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
+    {
+      "id": 62,
+      "week_start": "2026-06-02",
+      "customer_name": "深圳麦格米特电气股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "搭上英伟达,华为系创出400亿电源巨头,夫妻身家超100亿",
+      "source": "https://k.sina.cn/article_7857201856_1d45362c001905ead2.html",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-06-06 14:45:00"
+    },
     {
       "id": 1,
       "week_start": "2026-05-18",
@@ -1239,7 +1434,7 @@ function renderNewsTicker() {
   signals.sort(function(a, b) {
     return b._date.localeCompare(a._date) || (b.id - a.id);
   });
-  const top = signals.slice(0, 20);
+  const top = signals.slice(0, 25);
 
   if (top.length === 0) {
     track.innerHTML = '<span class="ticker-item" style="color:#94a3b8">📡 暂无实质情报信号</span>';
@@ -1247,14 +1442,25 @@ function renderNewsTicker() {
   }
 
   const iconMap = {risk: '🔴', alert: '🔴', opportunity: '💡', dynamic: '📊'};
+  const catLabel = {opportunity: '机会', risk: '风险', dynamic: '动态', alert: '紧急'};
   const items = top.map(function(t) {
     const icon = iconMap[t.signal_type] || '📊';
-    const summary = t.signal_summary.length > 40 ? t.signal_summary.substring(0, 40) + '…' : t.signal_summary;
-    return '<a class="ticker-item" onclick="showCustomerDetailByName(\'' + escapeJs(t.customer_name) + '\')" data-customer-name="' + escapeHtml(t.customer_name) + '">' + icon + ' ' + escapeHtml(t.customer_name) + '：' + escapeHtml(summary) + '</a>';
+    const label = catLabel[t.signal_type] || '动态';
+    const summary = t.signal_summary.length > 45 ? t.signal_summary.substring(0, 45) + '…' : t.signal_summary;
+    const hasSource = t.source && t.source.startsWith('http');
+    const sourceHtml = hasSource
+      ? '<a class=\"ticker-link\" href=\"' + escapeHtml(t.source) + '\" target=\"_blank\" onclick=\"event.stopPropagation()\" title=\"查看原文\">🔗</a>'
+      : '';
+    return '<span class=\"ticker-item\" onclick=\"showCustomerDetailByName(\'' + escapeJs(t.customer_name) + '\')\" data-customer-name=\"' + escapeHtml(t.customer_name) + '\">'
+      + '<span class=\"ticker-cat ticker-cat-' + t.signal_type + '\">' + label + '</span>'
+      + '<span class=\"ticker-cust\">' + escapeHtml(t.customer_name) + '</span>'
+      + '<span class=\"ticker-summary\">' + escapeHtml(summary) + '</span>'
+      + sourceHtml
+      + '</span>';
   });
 
   var doubled = items.concat(items);
-  track.innerHTML = doubled.join('<span class="sep">|</span>');
+  track.innerHTML = doubled.join('<span class=\"ticker-sep\">✦</span>');
 }
 
 function renderCustomerList() {
