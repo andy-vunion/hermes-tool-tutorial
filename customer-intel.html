@@ -3,826 +3,1562 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customer Intelligence Dashboard — 半导体客户情报扫描</title>
+<title>客户情报扫描中心</title>
 <style>
-/* ===== Reset & Base ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f5f6f8;color:#111827;line-height:1.6;overflow:hidden;height:100vh}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#f5f6f8;color:#1f2937;font-size:14px;line-height:1.5}
+::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#9ca3af}
+::-webkit-scrollbar-track{background:transparent}
 
-/* ===== Top Navigation Bar ===== */
-.top-bar{background:#ffffff;border-bottom:1px solid #e5e7eb;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;z-index:100;position:relative}
-.top-bar .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#111827}
-.top-bar .logo .icon{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
-.top-bar .actions{display:flex;align-items:center;gap:12px}
-.top-bar .last-updated{font-size:12px;color:#6b7280}
-.top-bar .refresh-btn{background:#f0f1f3;border:1px solid #e5e7eb;padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;color:#374151;transition:all .15s}
-.top-bar .refresh-btn:hover{background:#e5e7eb}
+.topbar{height:56px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:#111827}
+.topbar .brand .dot{width:8px;height:8px;border-radius:50%;background:#2563eb}
+.topbar .actions{display:flex;align-items:center;gap:12px}
+.btn{padding:6px 14px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;color:#374151;font-size:13px;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:#d1d5db;background:#f9fafb}
+.btn-primary{background:#2563eb;color:#fff;border-color:#2563eb}
+.btn-primary:hover{background:#1d4ed8}
 
-/* ===== KPI Bar ===== */
-.kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:20px 24px}
-.kpi-card{background:#ffffff;border-radius:12px;padding:20px 24px;border:1px solid #e5e7eb;transition:box-shadow .2s;cursor:default}
-.kpi-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.kpi-card .kpi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.kpi-card .kpi-label{font-size:13px;color:#6b7280;font-weight:500}
-.kpi-card .kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.kpi-card .kpi-value{font-size:28px;font-weight:700;color:#111827;margin-bottom:4px}
-.kpi-card .kpi-sub{font-size:12px;color:#6b7280}
-.kpi-icon.blue{background:#eff6ff;color:#2563eb}
-.kpi-icon.green{background:#ecfdf5;color:#059669}
-.kpi-icon.orange{background:#fffbeb;color:#d97706}
-.kpi-icon.purple{background:#f5f3ff;color:#7c3aed}
+.kpi-bar{display:flex;gap:16px;padding:16px 24px;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto}
+.kpi-card{flex:1;min-width:140px;padding:14px 18px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;display:flex;flex-direction:column;gap:4px}
+.kpi-card .label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
+.kpi-card .value{font-size:24px;font-weight:700;color:#0f172a}
+.kpi-card .sub{font-size:12px;color:#94a3b8}
+.kpi-card.accent-blue{border-color:#bfdbfe;background:#eff6ff}
+.kpi-card.accent-blue .value{color:#2563eb}
+.kpi-card.accent-green{border-color:#bbf7d0;background:#f0fdf4}
+.kpi-card.accent-green .value{color:#16a34a}
+.kpi-card.accent-amber{border-color:#fde68a;background:#fffbeb}
+.kpi-card.accent-amber .value{color:#d97706}
+.kpi-card.accent-rose{border-color:#fecdd3;background:#fff1f2}
+.kpi-card.accent-rose .value{color:#e11d48}
 
-/* ===== Main Layout ===== */
-.main-container{display:flex;height:calc(100vh - 56px - 124px);padding:0 24px 24px;gap:16px}
-.column-left{width:260px;min-width:260px;background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;display:flex;flex-direction:column;overflow:hidden}
-.column-center{flex:1;background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;overflow-y:auto;overflow-x:hidden}
-.column-right{width:320px;min-width:320px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;overflow-x:hidden}
+.layout{display:flex;height:calc(100vh - 56px - 73px);overflow:hidden}
 
-/* ===== Left Column — Customer List ===== */
-.list-header{padding:16px;border-bottom:1px solid #e5e7eb}
-.list-header .search-box{position:relative}
-.list-header .search-box input{width:100%;padding:9px 12px 9px 34px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;background:#f9fafb;transition:border-color .15s}
-.list-header .search-box input:focus{border-color:#2563eb;background:#fff}
-.list-header .search-box .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:14px}
-.filter-pills{display:flex;gap:6px;padding:10px 16px;flex-wrap:wrap;border-bottom:1px solid #f0f1f3}
-.filter-pill{padding:5px 12px;border-radius:16px;font-size:12px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;color:#6b7280;transition:all .15s;white-space:nowrap}
-.filter-pill:hover{border-color:#2563eb;color:#2563eb}
-.filter-pill.active{background:#2563eb;border-color:#2563eb;color:#fff}
-.customer-list-scroll{flex:1;overflow-y:auto}
-.customer-item{padding:12px 16px;border-bottom:1px solid #f0f1f3;cursor:pointer;transition:background .12s;display:flex;align-items:center;gap:10px}
-.customer-item:hover{background:#f9fafb}
-.customer-item.selected{background:#eff6ff;border-left:3px solid #2563eb;padding-left:13px}
-.customer-item .avatar{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
-.customer-item .cust-info{flex:1;min-width:0}
-.customer-item .cust-name{font-size:13px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.customer-item .cust-industry{font-size:11px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.customer-item .cust-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;flex-shrink:0}
-.badge-opportunity{background:#ecfdf5;color:#059669}
-.badge-risk{background:#fef2f2;color:#dc2626}
-.badge-dynamic{background:#eff6ff;color:#2563eb}
-.badge-none{background:#f3f4f6;color:#6b7280}
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-header{padding:16px;border-bottom:1px solid #f3f4f6}
+.search-box{width:100%;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;transition:border .15s}
+.search-box:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.filter-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pill{padding:4px 10px;border-radius:999px;border:1px solid #e5e7eb;font-size:12px;color:#4b5563;cursor:pointer;transition:all .15s;background:#fff}
+.pill:hover{border-color:#d1d5db}
+.pill.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.pill .count{margin-left:4px;font-size:11px;opacity:.8}
+.customer-list{flex:1;overflow-y:auto;padding:8px}
+.customer-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .12s;margin-bottom:2px}
+.customer-item:hover{background:#f3f4f6}
+.customer-item.active{background:#eff6ff}
+.customer-item .avatar{width:32px;height:32px;border-radius:8px;background:#e0e7ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.customer-item .info{min-width:0}
+.customer-item .name{font-size:13px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.customer-item .meta{font-size:11px;color:#6b7280;margin-top:1px}
+.customer-item .badge{padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600;margin-left:auto;flex-shrink:0}
+.badge-A{background:#fecaca;color:#991b1b}
+.badge-B{background:#fed7aa;color:#9a3412}
+.badge-C{background:#bfdbfe;color:#1e3a8a}
+.badge-D{background:#e5e7eb;color:#374151}
 
-/* ===== Center Column — Customer Detail ===== */
-.detail-empty{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;color:#d1d5db;gap:12px}
-.detail-empty .empty-icon{font-size:48px}
-.detail-empty .empty-text{font-size:14px;color:#9ca3af}
-.detail-content{padding:20px 24px}
-.detail-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f0f1f3}
-.detail-header .cust-title{flex:1}
-.detail-header .cust-name-lg{font-size:20px;font-weight:700;color:#111827;margin-bottom:4px}
-.detail-header .cust-meta{font-size:13px;color:#6b7280}
-.detail-header .strat-score{display:flex;align-items:center;gap:6px;background:#f5f3ff;padding:8px 14px;border-radius:8px}
-.detail-header .score-num{font-size:22px;font-weight:700;color:#7c3aed}
-.detail-header .score-label{font-size:11px;color:#6b7280}
+.main{flex:1;overflow-y:auto;padding:20px 24px;background:#f5f6f8;min-width:0}
+.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.main-header h2{font-size:16px;font-weight:700;color:#111827}
+.back-btn{display:none;align-items:center;gap:6px;color:#2563eb;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px}
+.back-btn:hover{text-decoration:underline}
 
-/* Opportunity Card */
-.opportunity-card{background:linear-gradient(135deg,#fffbeb,#fff7ed);border:2px solid #d97706;border-radius:12px;padding:16px 20px;margin-bottom:20px}
-.opportunity-card .opp-title{font-size:14px;font-weight:700;color:#92400e;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.opportunity-card .opp-body{font-size:13px;color:#78350f;line-height:1.7}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.signal-card{background:#fff;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden;cursor:pointer;transition:box-shadow .15s,transform .15s}
+.signal-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.06);transform:translateY(-1px)}
+.signal-card .bar{height:3px}
+.signal-card .body{padding:14px 16px}
+.signal-card .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.signal-card .customer{font-size:13px;font-weight:700;color:#111827}
+.signal-card .industry{font-size:11px;color:#6b7280;background:#f3f4f6;padding:2px 8px;border-radius:4px}
+.signal-card .summary{font-size:13px;color:#374151;line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.signal-card .foot{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#9ca3af}
+.signal-card .source{display:flex;align-items:center;gap:4px}
+.signal-card .date{font-size:11px}
+.signal-card .trend{font-size:13px;font-weight:700}
 
-/* Info Grid */
-.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
-.info-cell{background:#f9fafb;border:1px solid #f0f1f3;border-radius:8px;padding:12px 14px}
-.info-cell .info-label{font-size:11px;color:#6b7280;text-transform:uppercase;font-weight:600;margin-bottom:4px;letter-spacing:.3px}
-.info-cell .info-value{font-size:13px;color:#111827;line-height:1.5}
+.type-none .bar{background:#9ca3af}
+.type-opportunity .bar{background:#22c55e}
+.type-dynamic .bar{background:#2563eb}
+.type-risk .bar{background:#ef4444}
+.type-alert .bar{background:#f59e0b}
 
-/* Timeline */
-.timeline-section{margin-top:8px}
-.timeline-title{font-size:15px;font-weight:700;color:#111827;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.timeline-title .dot{width:8px;height:8px;background:#2563eb;border-radius:50%}
-.timeline-item{display:flex;gap:14px;padding-bottom:16px;position:relative}
-.timeline-item::before{content:'';position:absolute;left:7px;top:24px;bottom:0;width:2px;background:#e5e7eb}
-.timeline-item:last-child::before{display:none}
-.timeline-item .tl-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:2px;position:relative;z-index:1}
-.timeline-item .tl-dot.opportunity{background:#ecfdf5;border:2px solid #059669}
-.timeline-item .tl-dot.risk{background:#fef2f2;border:2px solid #dc2626}
-.timeline-item .tl-dot.dynamic{background:#eff6ff;border:2px solid #2563eb}
-.timeline-item .tl-dot.none{background:#f3f4f6;border:2px solid #d1d5db}
-.timeline-item .tl-content{flex:1}
-.timeline-item .tl-date{font-size:11px;color:#6b7280;margin-bottom:2px}
-.timeline-item .tl-summary{font-size:13px;color:#111827;line-height:1.5}
-.timeline-item .tl-source{font-size:11px;color:#2563eb;margin-top:2px}
-.timeline-item .tl-badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:8px;margin-left:6px;font-weight:600}
-.tl-badge.opportunity{background:#ecfdf5;color:#059669}
-.tl-badge.risk{background:#fef2f2;color:#dc2626}
-.tl-badge.dynamic{background:#eff6ff;color:#2563eb}
-.tl-badge.none{background:#f3f4f6;color:#6b7280}
+.detail-header{background:#fff;border-radius:12px;border:1px solid #e5e7eb;padding:20px;margin-bottom:16px}
+.detail-header .row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.detail-header .title{font-size:18px;font-weight:700;color:#111827}
+.detail-header .subtitle{font-size:13px;color:#6b7280;margin-top:4px}
+.detail-header .tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.tag{padding:3px 10px;border-radius:6px;font-size:12px;font-weight:500}
+.tag-blue{background:#dbeafe;color:#1e40af}
+.tag-green{background:#d1fae5;color:#065f46}
+.tag-purple{background:#ede9fe;color:#5b21b6}
 
-/* Signal distribution bars */
-.dist-bar{margin-bottom:8px}
-.dist-bar .dist-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
-.dist-bar .dist-label span:first-child{color:#6b7280}
-.dist-bar .dist-label span:last-child{font-weight:600;color:#111827}
-.dist-bar .dist-track{height:6px;background:#f0f1f3;border-radius:3px;overflow:hidden}
-.dist-bar .dist-fill{height:100%;border-radius:3px;transition:width .4s}
-.dist-fill.opportunity{background:#059669}
-.dist-fill.risk{background:#dc2626}
-.dist-fill.dynamic{background:#2563eb}
-.dist-fill.none{background:#d1d5db}
+.opportunity-card{background:linear-gradient(135deg,#eff6ff 0%,#fff 100%);border:1px solid #bfdbfe;border-radius:12px;padding:16px;margin-bottom:16px}
+.opportunity-card h3{font-size:14px;font-weight:700;color:#1e40af;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.opportunity-card p{font-size:13px;color:#334155;line-height:1.6}
 
-/* ===== Right Column Cards ===== */
-.side-card{background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;padding:16px}
-.side-card-title{font-size:14px;font-weight:700;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.top-cust-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f1f3}
-.top-cust-item:last-child{border-bottom:none}
-.top-cust-item .tc-rank{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.tc-rank.gold{background:#d97706}
-.tc-rank.silver{background:#6b7280}
-.tc-rank.bronze{background:#92400e}
-.tc-rank.normal{background:#d1d5db}
-.top-cust-item .tc-name{font-size:12px;font-weight:600;flex:1}
-.top-cust-item .tc-count{font-size:11px;color:#6b7280}
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.info-cell{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px}
+.info-cell .label{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.info-cell .value{font-size:13px;color:#111827;font-weight:500;line-height:1.5}
 
-.recent-signal-item{padding:8px 0;border-bottom:1px solid #f0f1f3}
-.recent-signal-item:last-child{border-bottom:none}
-.recent-signal-item .rs-cust{font-size:12px;font-weight:600;color:#111827}
-.recent-signal-item .rs-summary{font-size:11px;color:#6b7280;margin-top:2px}
-.recent-signal-item .rs-meta{font-size:10px;color:#9ca3af;margin-top:2px}
+.timeline{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}
+.timeline h3{font-size:14px;font-weight:700;color:#111827;margin-bottom:12px}
+.timeline-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6}
+.timeline-item:last-child{border-bottom:none}
+.timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.timeline-content{flex:1}
+.timeline-content .text{font-size:13px;color:#374151;line-height:1.5}
+.timeline-content .time{font-size:11px;color:#9ca3af;margin-top:2px}
 
-/* AI Assistant */
-.ai-assistant{border:2px solid #7c3aed;border-radius:12px;overflow:hidden}
-.ai-header{background:linear-gradient(135deg,#7c3aed,#2563eb);padding:12px 16px;display:flex;align-items:center;gap:8px}
-.ai-header .ai-title{color:#fff;font-size:14px;font-weight:700}
-.ai-header .ai-status{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.ai-status.online{background:rgba(255,255,255,.2);color:#fff}
-.ai-status.offline{background:rgba(255,255,255,.2);color:#fca5a5}
-.ai-body{padding:12px 16px}
-.ai-msg{font-size:12px;color:#6b7280;line-height:1.6;max-height:120px;overflow-y:auto;margin-bottom:10px}
-.ai-input-row{display:flex;gap:8px}
-.ai-input-row input{flex:1;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;outline:none}
-.ai-input-row input:focus{border-color:#7c3aed}
-.ai-input-row button{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;white-space:nowrap}
-.ai-input-row button:hover{opacity:.9}
-.ai-input-row button:disabled{opacity:.5;cursor:not-allowed}
-.ai-mock-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;background:#fef3c7;color:#92400e;margin-left:4px}
+.right{width:320px;background:#fff;border-left:1px solid #e5e7eb;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.right-section{padding:16px;border-bottom:1px solid #f3f4f6}
+.right-section h3{font-size:13px;font-weight:700;color:#111827;margin-bottom:12px;text-transform:uppercase;letter-spacing:.4px}
 
-/* Trend arrows */
-.trend-up{color:#059669;font-weight:700}
-.trend-down{color:#dc2626;font-weight:700}
-.trend-flat{color:#6b7280}
+.chart-flex{display:flex;align-items:center;gap:16px}
+.donut{width:80px;height:80px;border-radius:50%;position:relative;flex-shrink:0}
+.donut-inner{position:absolute;inset:12px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#111827}
+.legend{display:flex;flex-direction:column;gap:6px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563}
+.legend-dot{width:8px;height:8px;border-radius:2px}
 
-/* Responsive scroll prevention */
-.column-center::-webkit-scrollbar{width:6px}
-.column-right::-webkit-scrollbar{width:6px}
+.top5-list{display:flex;flex-direction:column;gap:8px}
+.top5-row{display:flex;align-items:center;gap:10px}
+.top5-rank{width:18px;text-align:center;font-size:11px;font-weight:700;color:#6b7280}
+.top5-name{flex:1;font-size:12px;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top5-bar{flex:1;height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden;max-width:80px}
+.top5-fill{height:100%;background:#2563eb;border-radius:3px}
+.top5-val{font-size:11px;color:#6b7280;width:20px;text-align:right}
+
+.mini-signal{padding:8px;border-radius:8px;background:#f9fafb;margin-bottom:6px}
+.mini-signal .text{font-size:12px;color:#374151;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mini-signal .meta{font-size:11px;color:#9ca3af;margin-top:4px}
+
+.ai-panel{display:flex;flex-direction:column;height:320px}
+.ai-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.ai-msg{max-width:92%;padding:8px 12px;border-radius:10px;font-size:12px;line-height:1.5;word-break:break-word}
+.ai-msg.user{align-self:flex-end;background:#2563eb;color:#fff}
+.ai-msg.bot{align-self:flex-start;background:#f3f4f6;color:#1f2937;border:1px solid #e5e7eb}
+.ai-input{display:flex;gap:8px}
+.ai-input input{flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none}
+.ai-input input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.ai-status{font-size:11px;color:#6b7280;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#9ca3af}
+.status-dot.ok{background:#22c55e}
+.status-dot.fail{background:#ef4444}
+
+.empty-state{text-align:center;padding:60px 20px;color:#9ca3af}
+.empty-state svg{width:48px;height:48px;margin-bottom:12px;opacity:.5}
+.empty-state p{font-size:14px}
+
+@media(max-width:1100px){
+  .right{display:none}
+  .layout{height:auto;flex-direction:column}
+  .sidebar{width:100%;border-right:none;border-bottom:1px solid #e5e7eb;max-height:300px}
+  .main{padding:16px}
+}
 </style>
 </head>
 <body>
 
-<!-- Top Bar -->
-<div class="top-bar">
-  <div class="logo">
-    <div class="icon">⚡</div>
-    <span>Customer Intelligence</span>
-  </div>
+<div class="topbar">
+  <div class="brand"><div class="dot"></div>客户情报扫描中心</div>
   <div class="actions">
-    <span class="last-updated" id="last-updated">数据加载中...</span>
-    <button class="refresh-btn" onclick="refreshData()">⟳ 刷新</button>
+    <button class="btn" onclick="exportData()">导出数据</button>
+    <button class="btn btn-primary" onclick="refreshData()">刷新情报</button>
   </div>
 </div>
 
-<!-- KPI Bar -->
-<div class="kpi-bar">
-  <div class="kpi-card">
-    <div class="kpi-header"><span class="kpi-label">客户总数</span><div class="kpi-icon blue">👥</div></div>
-    <div class="kpi-value" id="kpi-customers">0</div>
-    <div class="kpi-sub">A类 0 · B类 0 · C类 0</div>
+<div class="kpi-bar" id="kpi-bar">
+  <div class="kpi-card accent-blue">
+    <div class="label">客户总数</div>
+    <div class="value" id="kpi-customers">0</div>
+    <div class="sub">覆盖A-D四级</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-header"><span class="kpi-label">追踪信号</span><div class="kpi-icon green">📡</div></div>
-    <div class="kpi-value" id="kpi-signals">0</div>
-    <div class="kpi-sub">近4周数据</div>
+    <div class="label">追踪信号</div>
+    <div class="value" id="kpi-signals">0</div>
+    <div class="sub">近3周动态</div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-header"><span class="kpi-label">商机信号</span><div class="kpi-icon orange">💡</div></div>
-    <div class="kpi-value" id="kpi-opportunities">0</div>
-    <div class="kpi-sub">可跟进机会</div>
+  <div class="kpi-card accent-green">
+    <div class="label">机会信号</div>
+    <div class="value" id="kpi-opportunities">0</div>
+    <div class="sub">可跟进商机</div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-header"><span class="kpi-label">紧急预警</span><div class="kpi-icon purple">🔔</div></div>
-    <div class="kpi-value" id="kpi-alerts">0</div>
-    <div class="kpi-sub">需立即关注</div>
+  <div class="kpi-card accent-rose">
+    <div class="label">紧急/风险</div>
+    <div class="value" id="kpi-alerts">0</div>
+    <div class="sub">需立即关注</div>
   </div>
 </div>
 
-<!-- Main 3-Column Layout -->
-<div class="main-container">
-  <!-- Left: Customer List -->
-  <div class="column-left">
-    <div class="list-header">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="搜索客户 / 行业..." oninput="filterCustomers()">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <input type="text" class="search-box" id="customer-search" placeholder="搜索客户名称..." oninput="searchCustomers(this.value)">
+      <div class="filter-pills" id="filter-pills">
+        <span class="pill active" onclick="filterByType('all')">全部<span class="count" id="count-all">0</span></span>
+        <span class="pill" onclick="filterByType('opportunity')">机会<span class="count" id="count-opp">0</span></span>
+        <span class="pill" onclick="filterByType('dynamic')">动态<span class="count" id="count-dyn">0</span></span>
+        <span class="pill" onclick="filterByType('risk')">风险<span class="count" id="count-risk">0</span></span>
+        <span class="pill" onclick="filterByType('none')">无信号<span class="count" id="count-none">0</span></span>
       </div>
     </div>
-    <div class="filter-pills">
-      <span class="filter-pill active" data-filter="all" onclick="setFilter('all',this)">全部</span>
-      <span class="filter-pill" data-filter="opportunity" onclick="setFilter('opportunity',this)">💡 机会</span>
-      <span class="filter-pill" data-filter="risk" onclick="setFilter('risk',this)">⚠️ 风险</span>
-      <span class="filter-pill" data-filter="dynamic" onclick="setFilter('dynamic',this)">📊 动态</span>
-    </div>
-    <div class="customer-list-scroll" id="customer-list"></div>
-  </div>
+    <div class="customer-list" id="customer-list"></div>
+  </aside>
 
-  <!-- Center: Customer Detail -->
-  <div class="column-center" id="detail-panel">
-    <div class="detail-empty" id="detail-empty">
-      <div class="empty-icon">📋</div>
-      <div class="empty-text">← 选择左侧客户查看情报详情</div>
+  <main class="main" id="main-area">
+    <div class="main-header">
+      <h2 id="main-title">信号动态流</h2>
+      <span style="font-size:12px;color:#9ca3af" id="main-subtitle">按日期倒序排列</span>
     </div>
-    <div class="detail-content" id="detail-content" style="display:none"></div>
-  </div>
-
-  <!-- Right: Panels -->
-  <div class="column-right">
-    <!-- Signal Distribution -->
-    <div class="side-card">
-      <div class="side-card-title">📊 信号分布</div>
-      <div id="signal-distribution"></div>
+    <div id="stream-view"></div>
+    <div id="detail-view" style="display:none">
+      <div class="back-btn" onclick="showStream()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>返回信号流</div>
+      <div id="detail-content"></div>
     </div>
+  </main>
 
-    <!-- Top 5 Active Customers -->
-    <div class="side-card">
-      <div class="side-card-title">🏆 活跃客户 Top 5</div>
-      <div id="top-customers"></div>
-    </div>
-
-    <!-- Recent Signals -->
-    <div class="side-card">
-      <div class="side-card-title">🕐 最新信号</div>
-      <div id="recent-signals"></div>
-    </div>
-
-    <!-- AI Sales Assistant -->
-    <div class="side-card ai-assistant">
-      <div class="ai-header">
-        <span style="font-size:18px">🤖</span>
-        <span class="ai-title">AI 销售助手</span>
-        <span class="ai-status offline" id="ai-status">检测中</span>
+  <aside class="right">
+    <div class="right-section">
+      <h3>信号分布</h3>
+      <div class="chart-flex">
+        <div class="donut" id="donut-chart">
+          <div class="donut-inner" id="donut-text">0</div>
+        </div>
+        <div class="legend" id="signal-legend"></div>
       </div>
-      <div class="ai-body">
-        <div class="ai-msg" id="ai-messages">正在连接 DeepSeek v4-flash...</div>
-        <div class="ai-input-row">
-          <input type="text" id="ai-input" placeholder="询问客户策略建议..." onkeydown="if(event.key==='Enter')askAI()">
-          <button id="ai-send-btn" onclick="askAI()" disabled>发送</button>
+    </div>
+
+    <div class="right-section">
+      <h3>活跃客户 Top 5</h3>
+      <div class="top5-list" id="top5-list"></div>
+    </div>
+
+    <div class="right-section">
+      <h3>最新信号</h3>
+      <div id="latest-signals"></div>
+    </div>
+
+    <div class="right-section" style="flex:1;display:flex;flex-direction:column">
+      <h3>AI 销售助手</h3>
+      <div class="ai-status" id="ai-status"><span class="status-dot" id="ai-dot"></span><span id="ai-status-text">检查中...</span></div>
+      <div class="ai-panel">
+        <div class="ai-messages" id="ai-messages">
+          <div class="ai-msg bot">你好，我是你的AI销售助手。可以帮你分析客户情报、生成跟进策略或回答业务问题。</div>
+        </div>
+        <div class="ai-input">
+          <input type="text" id="ai-input" placeholder="输入问题，按回车发送..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+          <button class="btn btn-primary" onclick="sendAIMessage()">发送</button>
         </div>
       </div>
     </div>
-  </div>
+  </aside>
 </div>
 
-<!-- Data Injection (NO template literals!) -->
 <script id="customer-data" type="application/json">
-{"customers":[{"id":23,"name":"深圳市杉川机器人有限公司","group_tag":"C","industry":"智能硬件/机器人","company_profile":"成立于2016年，深圳南山，国家级专精特新'小巨人'、广东省制造业单项冠军。杨勇博士（孔雀计划）创立，员工1000+人，研发占比60%+。拥有901项专利，60000㎡生产基地，研发中心分布于深圳/硅谷/东京/北京/上海。","main_products":"智能扫地机器人（核心）、洗地机、智能割草机、激光雷达/激光模组（ODM）。全球高端扫地机器人市占率30%，累计交付2000万台，覆盖30+国家。年产能超850万台（2025），扫地机器人解决方案领域第一。","market_position":"全球高端扫地机器人市场每10台有3台来自杉川。合作品牌：小米、海尔、飞利浦、iRobot。2025年居扫地机器人解决方案领域第一。","supply_chain":"合作品牌：小米/海尔/飞利浦/iRobot。芯片需求：DRAM（康盈LPDDR/DDR）、NAND Flash、MCU、传感器。ODM模式为主，芯片采购量大且稳定。","coop_history":"2023: 有合作  [康盈] | 2024: 有合作  [康盈,普冉] | 2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"创始人/CEO：杨勇博士。待内部补充：采购负责人、技术窗口。","competitors":"客户竞对：追觅、石头、科沃斯、云鲸。代理竞对：其他康盈/普冉代理商。","strat_score":5,"monitor_keywords":"杉川机器人 扫地机器人 融资 新品 产能 追觅 石头 科沃斯","notes":"2026年爆发式增长（1-4月=2025全年8.4倍）。高毛利（30%），康盈为主。扫地机器人赛道高速增长，持续放量可期。建议：优先保障康盈供应，探索普冉NOR Flash/传感器交叉销售。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":24,"name":"高创(苏州)电子有限公司","group_tag":"C","industry":"智能终端/显示","company_profile":"成立于1998年，京东方（BOE）全资子公司（2010年3月收购）。注册资本$2.062亿，员工4000+人。隶属京东方显示器件与物联网创新业务事业群。","main_products":"新型显示器（平板显示器）、液晶电视机、液晶显示器、车载显示、AR/VR、电子相框。2021年营收82亿元，2018年85亿元。2018年显示器/液晶电视出货量全球第四。","market_position":"京东方旗下核心显示终端制造子公司，背靠全球显示面板龙头（京东方2023年总营收1745亿元，显示器件1471亿元）。五大应用领域显示屏出货量全球第一。","supply_chain":"母公司京东方自供面板。芯片需求：eMMC/DRAM/存储（康盈）、显示驱动IC、时序控制芯片。采购规模极大（年营收80亿+），存储芯片采购需求可观。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。京东方体系内采购决策链可能在集团层面。","competitors":"客户竞对：TCL、创维、海信。代理竞对：京东方体系内其他指定代理商。","strat_score":4,"monitor_keywords":"高创苏州电子 BOE 京东方 液晶电视 液晶显示器 车载 营收","notes":"2025年仅→2026年1-4月，爆发增长。纯康盈线，高毛利（42%）。需确认：增长是否可持续、是否有排他协议、京东方体系的采购决策机制。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":25,"name":"深圳市韶音科技有限公司","group_tag":"C","industry":"智能硬件/消费电子","company_profile":"成立于2004年，深圳，国家级高新技术企业、专精特新'小巨人'、制造业单项冠军。员工3000+人，全球布局，骨传导/开放式耳机全球领导者。","main_products":"骨传导耳机（核心）、开放式耳机、游泳耳机、运动耳机。全球骨传导耳机市占率超70%，覆盖60+国家，年出货量超1000万台。Shokz品牌全球知名。","market_position":"骨传导耳机全球第一，开放式耳机领先品牌。2023年全球营收超60亿元，2024年预计增长30%+。海外营收占比超70%。","supply_chain":"芯片需求：蓝牙SoC（高通/恒玄）、NOR Flash（普冉/华邦）、电源管理IC、传感器。存储芯片需求：eMMC/DRAM（固件存储、音频缓存）。","coop_history":"2024: 有合作  [普冉] | 2025: 有合作  [普冉,康盈] | 2026: 有合作  [康盈]","org_key_people":"创始人/CEO：陈皞。待内部补充：采购负责人、硬件工程窗口。","competitors":"客户竞对：Bose、Sony、JBL、漫步者。代理竞对：其他普冉/康盈代理商。","strat_score":5,"monitor_keywords":"韶音科技 Shokz 骨传导 新品 融资 IPO 营收 出货量","notes":"高增长消费电子客户，2025→2026持续放量。康盈线2026年新切入，增长潜力大。建议：保障康盈供应，推动普冉→康盈产品线扩展。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":26,"name":"深圳市鼎盛光电有限公司","group_tag":"B","industry":"光电/LCD驱动","company_profile":"成立于2006年，深圳，LCD驱动板/显示方案商。员工500+人，年营收8-10亿元。液晶电视/显示器驱动板出货量全国前三。","main_products":"LCD驱动板（核心）、显示控制板、电源板、TV主板。客户覆盖创维/TCL/康佳/海尔等。年出货驱动板超2000万片。","market_position":"国内LCD驱动板方案商前三，仅次于CVTE（视源股份）和兆驰。大客户稳定，供应链成熟。","supply_chain":"芯片需求：NAND Flash/SPI Flash（存储固件）、MCU、DDR（运行缓存）、时序控制IC。NOR Flash/NAND Flash需求可观。","coop_history":"2024: 有合作  [普冉] | 2025: 有合作  [普冉,康盈] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：CVTE（视源）、兆驰股份。代理竞对：其他普冉/康盈代理商。","strat_score":3,"monitor_keywords":"鼎盛光电 LCD驱动板 显示方案 创维 TCL 出货量","notes":"B类客户，增速稳健。康盈线2025年新切入，2026年放量。LCD驱动板市场稳定，持续需求。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":27,"name":"熵基科技(广东)有限公司","group_tag":"B","industry":"安防/生物识别","company_profile":"熵基科技（301330.SZ）旗下子公司。母公司成立于2007年，深交所创业板上市（2022年），员工4000+人。全球生物识别+安防解决方案提供商。","main_products":"指纹/人脸/虹膜识别终端（核心）、门禁系统、考勤系统、安检设备、车牌识别。2023年总营收22.5亿元，海外占比超50%。","market_position":"全球生物识别门禁领域前列，国内指纹识别市占率前三。覆盖100+国家，海外市场强势（东南亚/拉美/中东）。","supply_chain":"芯片需求：NAND Flash/eMMC（固件+记录存储）、DRAM、MCU/SOC、图像传感器。每台设备至少1颗存储芯片。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"母公司董事长：车全宏。待内部补充：广东子公司采购负责人。","competitors":"客户竞对：海康威视、大华股份、宇视科技。代理竞对：其他康盈代理商。","strat_score":3,"monitor_keywords":"熵基科技 ZKTeco 生物识别 门禁 安防 营收 海外","notes":"B类客户，上市母公司背书，增长稳定。纯康盈线，2025→2026持续。安防行业存储需求刚性，建议保持供应。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":28,"name":"宁波舜宇光电信息有限公司","group_tag":"A","industry":"光学/摄像头模组","company_profile":"舜宇光学科技（2382.HK）核心子公司。母公司成立于1984年，香港上市（2007年），员工2万+人。全球光学镜头/摄像头模组龙头。","main_products":"手机摄像头模组（核心）、车载摄像头、安防镜头、AR/VR光学模组。2023年舜宇光学总营收317亿元，手机摄像头模组出货量全球前三。","market_position":"全球手机摄像头模组TOP3，车载镜头全球第一。客户：苹果、华为、小米、OPPO、vivo、特斯拉。","supply_chain":"芯片需求：NAND/eMMC（固件+校准数据）、DRAM、CIS图像传感器、ISP芯片。采购规模极大（年数百亿规模），存储芯片用量可观。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"母公司董事长：叶辽宁。待内部补充：子公司采购窗口。","competitors":"客户竞对：欧菲光、丘钛科技、LG Innotek。代理竞对：其他康盈/大代理商。","strat_score":4,"monitor_keywords":"舜宇光学 舜宇光电 手机镜头 车载 营收 出货量 苹果 华为","notes":"A类顶级客户，全球光学龙头。纯康盈线，采购体量巨大。需重点维护关系，关注苹果/华为新机周期带来的增量。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":29,"name":"南昌同兴达精密光电有限公司","group_tag":"B","industry":"光学/摄像头模组","company_profile":"同兴达（002845.SZ）旗下子公司。母公司成立于2004年，深交所上市（2017年），员工5000+人。手机摄像头模组+显示模组双主业。","main_products":"手机摄像头模组（核心）、显示模组、指纹识别模组。2023年母公司营收约80亿元，摄像头模组出货量国内前五。","market_position":"国内手机摄像头模组二线龙头，仅次于舜宇/欧菲光/丘钛。客户：华为、小米、OPPO、传音。","supply_chain":"芯片需求：NAND/eMMC、DRAM、CIS传感器、ISP芯片。摄像头模组对存储芯片有刚性需求（校准数据/固件）。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"母公司董事长：万锋。待内部补充：子公司采购窗口。","competitors":"客户竞对：舜宇、欧菲光、丘钛、合力泰。代理竞对：其他康盈代理商。","strat_score":3,"monitor_keywords":"同兴达 摄像头模组 显示模组 手机 营收 出货量","notes":"B类客户，依托上市母公司，增长稳健。纯康盈线，二线龙头地位稳固。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":30,"name":"湖北三赢兴智能光电科技有限公司","group_tag":"C","industry":"光学/摄像头模组","company_profile":"三赢兴科技集团旗下子公司。母公司成立于2011年，湖北咸宁，员工2000+人。手机/车载/安防摄像头模组方案商。","main_products":"手机摄像头模组（核心）、车载摄像头、安防摄像头、笔电摄像头。年出货量超1亿颗模组。","market_position":"国内手机摄像头模组三线厂商，差异化竞争（笔电/车载）。客户：传音、联想、小米（部分机型）。","supply_chain":"芯片需求：NAND Flash/SPI Flash、MCU、CIS传感器。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：盛泰光电、合力泰、信利光电。","strat_score":2,"monitor_keywords":"三赢兴 摄像头模组 车载 传音 联想 出货量","notes":"C类新客户，2026年新切入。规模较小但增长潜力可期，车载方向值得关注。 [","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":31,"name":"广东九安智能科技股份有限公司","group_tag":"C","industry":"安防/IoT","company_profile":"成立于2010年，广东中山，员工1500+人。智能安防/IoT产品方案商，IPO推进中。国家级高新技术企业。","main_products":"智能摄像头（核心）、智能门锁、智能门铃、IoT传感器。年出货量超1000万台，海外市场为主（北美/欧洲/东南亚）。","market_position":"国内消费级智能安防出海品牌前十，亚马逊多品类Best Seller。海外品牌认知度较高。","supply_chain":"芯片需求：NAND Flash/eMMC（视频存储）、DRAM、WiFi/BT SoC、图像传感器。每台设备需存储芯片（Local存储+固件）。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：海康（萤石）、大华（乐橙）、Ring、Arlo。","strat_score":3,"monitor_keywords":"九安智能 摄像头 智能门锁 IoT 安防 海外 营收 IPO","notes":"C类客户，IPO标的，增长潜力大。消费级安防出海赛道景气。存储芯片需求刚性（视频本地存储）。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":32,"name":"深圳技威时代科技有限公司","group_tag":"C","industry":"安防/IoT方案","company_profile":"成立于2013年，深圳，员工500+人。智能安防/IoT云平台+硬件方案商。技威时代APP全球用户超5000万。","main_products":"智能安防云平台（核心）、摄像头方案、智能家居方案、AI视觉算法。赋能中小安防厂商，方案覆盖IPC/NVR/门铃等。","market_position":"国内消费级安防云平台前三（涂鸦/技威/萤石云）。服务全球500+品牌客户，设备连接数超3000万台。","supply_chain":"芯片需求：客户采购其方案需搭配存储芯片（NAND/eMMC）。间接芯片需求规模可观。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：涂鸦智能、萤石。","strat_score":2,"monitor_keywords":"技威时代 安防云平台 IPC 智能家居 IoT 海外","notes":"C类新客户，方案商模式，间接带动芯片需求。平台生态价值较高。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":33,"name":"杭州觅睿科技股份有限公司","group_tag":"C","industry":"安防/IoT","company_profile":"成立于2010年，杭州，员工1000+人。智能安防产品ODM/OEM厂商，2026年3月北交所上市（920036）。","main_products":"智能摄像头（核心）、智能门铃、泛光灯摄像头、太阳能摄像头。ODM为主，客户为欧美品牌商（Ring/Arlo等供应链）。","market_position":"国内消费级安防ODM前列，北交所上市企业。年出货量数百万台，海外收入占比超90%。","supply_chain":"芯片需求：NAND Flash/eMMC（视频存储）、DRAM、WiFi SoC、图像传感器。ODM模式对存储芯片需求稳定。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：安联锐视、睿联技术。","strat_score":3,"monitor_keywords":"觅睿科技 摄像头 安防 ODM 北交所 海外 营收","notes":"C类客户，北交所上市新贵。纯ODM模式，海外市场需求稳定。关注Q1业绩波动（净利润降54.96%）。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":34,"name":"深圳市必联电子有限公司","group_tag":"C","industry":"通信/WiFi模组","company_profile":"成立于2007年，深圳，员工800+人。WiFi/蓝牙模组+无线路由器ODM/OEM厂商。国家级高新技术企业。","main_products":"WiFi模组（核心）、蓝牙模组、无线路由器、IoT网关。年出货模组超3000万片，客户为小米/华为/TCL等。","market_position":"国内WiFi模组出货量前十，IoT模组领域有竞争力。","supply_chain":"芯片需求：SPI Flash/NOR Flash（固件存储）、WiFi SoC、DDR。每片模组需1-2颗存储芯片。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：乐鑫科技、博通集成、瑞昱。","strat_score":2,"monitor_keywords":"必联电子 WiFi模组 蓝牙 路由器 IoT 出货量","notes":"C类客户，WiFi模组赛道稳定增长。存储芯片需求明确（每片模组1-2颗）。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":35,"name":"深圳市广和通无线股份有限公司","group_tag":"A","industry":"通信/蜂窝模组","company_profile":"成立于1999年，深圳，深交所上市（300638），员工2000+人。全球蜂窝通信模组龙头之一。","main_products":"5G/4G/3G蜂窝模组（核心）、车规级模组、LPWA模组、GNSS模组。2023年营收约60亿元，全球蜂窝模组出货量前三。","market_position":"全球蜂窝模组TOP3（移远/广和通/Thales）。车载前装模组市占率领先，海外营收占比超50%。","supply_chain":"芯片需求：eMMC/NAND（固件+数据缓存）、DRAM、基带芯片（高通/联发科）。存储芯片采购量可观（每片模组至少1颗）。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"董事长：张天瑜。待内部补充：采购窗口。","competitors":"客户竞对：移远通信、Thales、Sierra Wireless。","strat_score":4,"monitor_keywords":"广和通 Fibocom 5G模组 蜂窝 车联网 物联网 营收","notes":"A类顶级客户，全球蜂窝模组龙头。增长强劲，车载业务放量。建议：深耕关系，争取更多份额。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":36,"name":"深圳市长丰影像器材有限公司","group_tag":"C","industry":"音频/影像设备","company_profile":"成立于2010年，深圳，员工500+人。专业音频/影像设备品牌商，自主品牌BOYA博雅全球知名。","main_products":"无线麦克风（核心）、录音笔、声卡、直播设备。亚马逊麦克风品类TOP品牌，年出货量超500万台。","market_position":"全球消费级麦克风市场前三（RODE/DJI/BOYA）。跨境电商头部音频品牌，海外营收占比超80%。","supply_chain":"芯片需求：SPI Flash/NOR Flash（固件存储）、蓝牙SoC、DSP音频芯片。每台设备需1-2颗存储芯片。","coop_history":"2025: 有合作  [普冉] | 2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：RODE、DJI、Saramonic。","strat_score":2,"monitor_keywords":"长丰影像 BOYA 博雅 麦克风 音频 亚马逊 海外","notes":"C类客户，消费音频出海品牌。2026年康盈新切入，需持续跟进。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":37,"name":"深圳麦格米特电气股份有限公司","group_tag":"A","industry":"电力电子/新能源","company_profile":"成立于2003年，深圳，深交所上市（002851），员工8000+人。全球电力电子/电源解决方案龙头。","main_products":"电源适配器（核心）、新能源车载电源、工业电源、智能卫浴控制器。2023年营收约80亿元，华为/特斯拉/比亚迪核心供应商。","market_position":"国内电力电子/电源行业前三，新能源车载电源快速放量。全球化布局，海外基地覆盖印度/越南/墨西哥。","supply_chain":"芯片需求：NAND/eMMC（固件+参数存储）、MCU/DSP、功率半导体。采购规模极大（年采购额数十亿），存储芯片需求可观。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"董事长：童永胜。待内部补充：采购窗口。","competitors":"客户竞对：台达电子、汇川技术、英威腾。","strat_score":5,"monitor_keywords":"麦格米特 电源 新能源 车载 华为 特斯拉 营收","notes":"A类顶级客户，新能源赛道高增长。华为/特斯拉核心供应链背书。建议：重点深耕，拓展车规级产品线。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":38,"name":"深圳英集芯科技股份有限公司","group_tag":"B","industry":"芯片/快充","company_profile":"成立于2014年，深圳，科创板上市（688209），员工400+人。数模混合SoC芯片设计公司，快充协议芯片龙头。","main_products":"快充协议芯片（核心）、无线充电芯片、电池管理芯片、电机驱动芯片。年出货芯片超5亿颗，客户：小米/OPPO/安克。","market_position":"国内快充协议芯片市占率第一（超40%），全球前三。Fabless模式，晶圆代工依赖台积电/中芯国际。","supply_chain":"自身为芯片设计公司，但终端产品需外挂存储（SPI Flash等）。间接需求：客户方案中搭配存储芯片。","coop_history":"2026: 有合作  [康盈]","org_key_people":"董事长：黄洪伟。待内部补充。","competitors":"客户竞对：南芯科技、智融科技、钰泰半导体。","strat_score":3,"monitor_keywords":"英集芯 快充协议 充电芯片 小米 OPPO 出货量","notes":"B类客户，芯片设计公司，Fabless模式。快充赛道高增长，产品线持续扩展。关注其终端方案对存储芯片的间接需求。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":39,"name":"东莞市奥海科技股份有限公司","group_tag":"B","industry":"电源/充电器","company_profile":"成立于2003年，东莞，深交所上市（002993），员工10000+人。全球手机充电器ODM龙头。","main_products":"手机充电器（核心）、PC电源适配器、新能源车载充电机、储能电源。年出货充电器超2亿台，客户：华为/小米/OPPO/vivo/传音。","market_position":"全球手机充电器ODM市占率第一（约25%）。手机充电器年出货超2亿台，新能源业务快速增长。","supply_chain":"芯片需求：NAND Flash/SPI Flash（快充协议固件）、MCU、GaN功率芯片。每台快充充电器需1颗存储芯片。","coop_history":"2025: 有合作  [康盈] | 2026: 有合作  [康盈]","org_key_people":"董事长：刘昊。待内部补充：采购窗口。","competitors":"客户竞对：赛尔康（Salcomp）、航嘉、比亚迪电子。","strat_score":4,"monitor_keywords":"奥海科技 充电器 快充 新能源 华为 小米 出货量","notes":"B类客户，全球充电器ODM龙头。快充升级（GaN/PD）带动存储芯片需求增长。新能源第二曲线清晰。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":40,"name":"深圳市华思旭科技有限公司","group_tag":"C","industry":"汽车电子/应急电源","company_profile":"成立于2006年，深圳，员工1000+人。汽车应急启动电源/储能ODM龙头，自主品牌CARKU卡儿酷。","main_products":"汽车应急启动电源（核心）、便携储能、汽车充电器、锂电工具。年出货量超1000万台，覆盖50+国家。","market_position":"全球汽车应急启动电源ODM第一，市占率超30%。","supply_chain":"芯片需求：SPI Flash/NOR Flash（固件+BMS数据）、MCU、锂电保护IC。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：纽曼、70迈、倍思。","strat_score":2,"monitor_keywords":"华思旭 应急电源 汽车电子 储能 卡儿酷 海外","notes":"C类新客户，汽车应急电源细分龙头。2026年新切入，关注合作深度。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":41,"name":"深圳保时捷电子有限公司","group_tag":"C","industry":"汽车电子/车联网","company_profile":"成立于2008年，深圳，员工300+人。汽车电子方案商，专注车联网/车载娱乐系统。","main_products":"车载中控系统（核心）、行车记录仪、车联网T-Box、车载显示屏方案。","market_position":"国内车载娱乐方案中小厂商，差异化定位。","supply_chain":"芯片需求：eMMC/NAND（系统+地图存储）、DRAM、车载SoC。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：德赛西威、华阳集团、均胜电子。","strat_score":2,"monitor_keywords":"保时捷电子 车载 车联网 中控 记录仪","notes":"C类新客户，车载电子方向。体量较小，关注成长性。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":42,"name":"深圳市夏瑞科技股份有限公司","group_tag":"C","industry":"PCBA/EMS","company_profile":"成立于2005年，深圳，员工1000+人。PCBA/电子制造服务商，IPO推进中。","main_products":"PCBA代工（核心）、整机组装、电子制造服务（EMS）。客户覆盖消费电子/汽车/工控等领域。","market_position":"国内中型EMS厂商，具备SMT+DIP+组装全制程能力。","supply_chain":"芯片需求：各类存储芯片（客户指定采购），NAND/DRAM/SPI Flash。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：环旭电子、光弘科技、卓翼科技。","strat_score":2,"monitor_keywords":"夏瑞科技 PCBA EMS 代工 制造 电子","notes":"C类新客户，EMS模式。按客户需求采购芯片，间接需求为主。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":43,"name":"昱科环球存储科技(深圳)有限公司","group_tag":"C","industry":"存储/硬盘","company_profile":"全球知名存储品牌，HDD/SSD产品线完整。深圳子公司。","main_products":"HDD硬盘、SSD固态硬盘、外置存储。","market_position":"全球硬盘市场主要参与者。","supply_chain":"自身为存储厂商（潜在客户也是潜在竞品关系）。芯片需求：NAND Flash（SSD核心）。","coop_history":"2026: 有合作  [康盈]","org_key_people":"待内部补充。","competitors":"客户竞对：Seagate、WD、三星。","strat_score":2,"monitor_keywords":"昱科 存储 硬盘 SSD 深圳","notes":"特殊客户：自身为存储厂商，合作模式待明确。可能是双向供应链关系。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"},{"id":44,"name":"深圳市硅谷动力产业园运营有限公司","group_tag":"D","industry":"产业园区/运营","company_profile":"产业园运营商，非直接芯片客户。通过园区企业间接产生需求。","main_products":"产业园区运营、企业孵化、招商服务。","market_position":"深圳地区知名产业园运营商。","supply_chain":"园区入驻企业（电子/芯片相关）间接产生芯片采购需求。","coop_history":"-","org_key_people":"待内部补充。","competitors":"客户竞对：天安数码城、招商蛇口产业园。","strat_score":1,"monitor_keywords":"硅谷动力 产业园 招商 深圳","notes":"D类非直接客户，间接渠道价值。关注园区企业资源转化。","created_at":"2026-05-20 00:51:17","updated_at":"2026-05-20 00:51:17"}],"tracking":[{"id":1,"week_start":"2026-05-18","customer_name":"深圳市杉川机器人有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":2,"week_start":"2026-05-18","customer_name":"高创(苏州)电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":3,"week_start":"2026-05-18","customer_name":"深圳市韶音科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":4,"week_start":"2026-05-18","customer_name":"深圳市鼎盛光电有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":5,"week_start":"2026-05-18","customer_name":"熵基科技(广东)有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":6,"week_start":"2026-05-18","customer_name":"宁波舜宇光电信息有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":7,"week_start":"2026-05-18","customer_name":"南昌同兴达精密光电有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":8,"week_start":"2026-05-18","customer_name":"湖北三赢兴智能光电科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":9,"week_start":"2026-05-18","customer_name":"广东九安智能科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":10,"week_start":"2026-05-18","customer_name":"深圳技威时代科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":11,"week_start":"2026-05-18","customer_name":"杭州觅睿科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":12,"week_start":"2026-05-18","customer_name":"深圳市必联电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":13,"week_start":"2026-05-18","customer_name":"深圳市广和通无线股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":14,"week_start":"2026-05-18","customer_name":"深圳市长丰影像器材有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":15,"week_start":"2026-05-18","customer_name":"深圳麦格米特电气股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":16,"week_start":"2026-05-18","customer_name":"深圳英集芯科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":17,"week_start":"2026-05-18","customer_name":"东莞市奥海科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":18,"week_start":"2026-05-18","customer_name":"深圳市华思旭科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":19,"week_start":"2026-05-18","customer_name":"深圳保时捷电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":20,"week_start":"2026-05-18","customer_name":"深圳市夏瑞科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":21,"week_start":"2026-05-18","customer_name":"昱科环球存储科技(深圳)有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":22,"week_start":"2026-05-18","customer_name":"深圳市硅谷动力产业园运营有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":23,"week_start":"2026-05-11","customer_name":"深圳市杉川机器人有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":24,"week_start":"2026-05-11","customer_name":"高创(苏州)电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":25,"week_start":"2026-05-11","customer_name":"深圳市韶音科技有限公司","signal_type":"opportunity","signal_summary":"5月15日Shokz Day发布三款新品：OpenDots 2、OpenSwim Pro 2、OpenDots Air，其中OpenDots 2首创骨传导双单元分频技术；2025Q4全球可穿戴设备出货6100万台，同比+7.3%","source":"metaso","trend_flag":"↑","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":26,"week_start":"2026-05-11","customer_name":"深圳市鼎盛光电有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":27,"week_start":"2026-05-11","customer_name":"熵基科技(广东)有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":28,"week_start":"2026-05-11","customer_name":"宁波舜宇光电信息有限公司","signal_type":"dynamic","signal_summary":"舜宇智行分拆赴港IPO遭质疑：突击分红24亿、采购依赖母公司，市值跌至706亿港元(截至5/11)；5月手机镜头出货约1.08亿件，同比+4.1%","source":"metaso","trend_flag":"↓","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":29,"week_start":"2026-05-11","customer_name":"南昌同兴达精密光电有限公司","signal_type":"risk","signal_summary":"Q1 2026净亏损4258万元，经营现金流同比大降438%，应收账款28.91亿高位运行，股价一度逼近跌停","source":"metaso","trend_flag":"↓","alert":"⚠️","created_at":"2026-05-24 09:06:22"},{"id":30,"week_start":"2026-05-11","customer_name":"湖北三赢兴智能光电科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":31,"week_start":"2026-05-11","customer_name":"广东九安智能科技股份有限公司","signal_type":"dynamic","signal_summary":"IPO审核推进中(1月被抽中现场检查)，2月APP因违规收集个人信息被通报，CES2026参展","source":"metaso","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":32,"week_start":"2026-05-11","customer_name":"深圳技威时代科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":33,"week_start":"2026-05-11","customer_name":"杭州觅睿科技股份有限公司","signal_type":"risk","signal_summary":"Q1 2026净利润同比降54.96%，财务费用暴增1767%，增收不增利；3月9日刚登陆北交所(920036)","source":"metaso","trend_flag":"↓","alert":"⚠️","created_at":"2026-05-24 09:06:22"},{"id":34,"week_start":"2026-05-11","customer_name":"深圳市必联电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":35,"week_start":"2026-05-11","customer_name":"深圳市广和通无线股份有限公司","signal_type":"dynamic","signal_summary":"3月公告拟全现金收购航盛电子(车载电子，成立超32年)；全年业绩稳健增长，端侧AI+机器人布局","source":"metaso","trend_flag":"↑","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":36,"week_start":"2026-05-11","customer_name":"深圳市长丰影像器材有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":37,"week_start":"2026-05-11","customer_name":"深圳麦格米特电气股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":38,"week_start":"2026-05-11","customer_name":"深圳英集芯科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":39,"week_start":"2026-05-11","customer_name":"东莞市奥海科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":40,"week_start":"2026-05-11","customer_name":"深圳市华思旭科技有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":41,"week_start":"2026-05-11","customer_name":"深圳保时捷电子有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":42,"week_start":"2026-05-11","customer_name":"深圳市夏瑞科技股份有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":43,"week_start":"2026-05-11","customer_name":"昱科环球存储科技(深圳)有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":44,"week_start":"2026-05-11","customer_name":"深圳市硅谷动力产业园运营有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"},{"id":45,"week_start":"2026-05-04","customer_name":"深圳市杉川机器人有限公司","signal_type":"none","signal_summary":"本周无异常外部信号","source":"","trend_flag":"→","alert":null,"created_at":"2026-05-24 09:06:22"}]}
-</script>
+{
+  "customers": [
+    {
+      "id": 23,
+      "name": "深圳市杉川机器人有限公司",
+      "group_tag": "C",
+      "industry": "智能硬件/机器人",
+      "company_profile": "成立于2016年，深圳南山，国家级专精特新'小巨人'、广东省制造业单项冠军。杨勇博士（孔雀计划）创立，员工1000+人，研发占比60%+。拥有901项专利，60000㎡生产基地，研发中心分布于深圳/硅谷/东京/北京/上海。",
+      "main_products": "智能扫地机器人（核心）、洗地机、智能割草机、激光雷达/激光模组（ODM）。全球高端扫地机器人市占率30%，累计交付2000万台，覆盖30+国家。年产能超850万台（2025），扫地机器人解决方案领域第一。",
+      "market_position": "全球高端扫地机器人市场每10台有3台来自杉川。合作品牌：小米、海尔、飞利浦、iRobot。2025年居扫地机器人解决方案领域第一。",
+      "supply_chain": "合作品牌：小米/海尔/飞利浦/iRobot。芯片需求：DRAM（康盈LPDDR/DDR）、NAND Flash、MCU、传感器。ODM模式为主，芯片采购量大且稳定。",
+      "coop_history": "2023: 有合作  [康盈] | 2024: 有合作  [康盈,普冉] | 2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "创始人/CEO：杨勇博士。待内部补充：采购负责人、技术窗口。",
+      "competitors": "客户竞对：追觅、石头、科沃斯、云鲸。代理竞对：其他康盈/普冉代理商。",
+      "strat_score": 5,
+      "monitor_keywords": "杉川机器人 扫地机器人 融资 新品 产能 追觅 石头 科沃斯",
+      "notes": "2026年爆发式增长（1-4月=2025全年8.4倍）。高毛利（30%），康盈为主。扫地机器人赛道高速增长，持续放量可期。建议：优先保障康盈供应，探索普冉NOR Flash/传感器交叉销售。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 24,
+      "name": "高创(苏州)电子有限公司",
+      "group_tag": "C",
+      "industry": "智能终端/显示",
+      "company_profile": "成立于1998年，京东方（BOE）全资子公司（2010年3月收购）。注册资本$2.062亿，员工4000+人。隶属京东方显示器件与物联网创新业务事业群。",
+      "main_products": "新型显示器（平板显示器）、液晶电视机、液晶显示器、车载显示、AR/VR、电子相框。2021年营收82亿元，2018年85亿元。2018年显示器/液晶电视出货量全球第四。",
+      "market_position": "京东方旗下核心显示终端制造子公司，背靠全球显示面板龙头（京东方2023年总营收1745亿元，显示器件1471亿元）。五大应用领域显示屏出货量全球第一。",
+      "supply_chain": "母公司京东方自供面板。芯片需求：eMMC/DRAM/存储（康盈）、显示驱动IC、时序控制芯片。采购规模极大（年营收80亿+），存储芯片采购需求可观。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。京东方体系内采购决策链可能在集团层面。",
+      "competitors": "客户竞对：TCL、创维、海信。代理竞对：京东方体系内其他指定代理商。",
+      "strat_score": 4,
+      "monitor_keywords": "高创苏州电子 BOE 京东方 液晶电视 液晶显示器 车载 营收",
+      "notes": "2025年仅→2026年1-4月，爆发增长。纯康盈线，高毛利（42%）。需确认：增长是否可持续、是否有排他协议、京东方体系的采购决策机制。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 25,
+      "name": "深圳市韶音科技有限公司",
+      "group_tag": "C",
+      "industry": "智能硬件/消费电子",
+      "company_profile": "成立于2004年，深圳，国家级高新技术企业、专精特新'小巨人'、制造业单项冠军。员工3000+人，全球布局，骨传导/开放式耳机全球领导者。",
+      "main_products": "骨传导耳机（核心）、开放式耳机、游泳耳机、运动耳机。全球骨传导耳机市占率超70%，覆盖60+国家，年出货量超1000万台。Shokz品牌全球知名。",
+      "market_position": "骨传导耳机全球第一，开放式耳机领先品牌。2023年全球营收超60亿元，2024年预计增长30%+。海外营收占比超70%。",
+      "supply_chain": "芯片需求：蓝牙SoC（高通/恒玄）、NOR Flash（普冉/华邦）、电源管理IC、传感器。存储芯片需求：eMMC/DRAM（固件存储、音频缓存）。",
+      "coop_history": "2024: 有合作  [普冉] | 2025: 有合作  [普冉,康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "创始人/CEO：陈皞。待内部补充：采购负责人、硬件工程窗口。",
+      "competitors": "客户竞对：Bose、Sony、JBL、漫步者。代理竞对：其他普冉/康盈代理商。",
+      "strat_score": 5,
+      "monitor_keywords": "韶音科技 Shokz 骨传导 新品 融资 IPO 营收 出货量",
+      "notes": "高增长消费电子客户，2025→2026持续放量。康盈线2026年新切入，增长潜力大。建议：保障康盈供应，推动普冉→康盈产品线扩展。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 26,
+      "name": "深圳市鼎盛光电有限公司",
+      "group_tag": "B",
+      "industry": "光电/LCD驱动",
+      "company_profile": "成立于2006年，深圳，LCD驱动板/显示方案商。员工500+人，年营收8-10亿元。液晶电视/显示器驱动板出货量全国前三。",
+      "main_products": "LCD驱动板（核心）、显示控制板、电源板、TV主板。客户覆盖创维/TCL/康佳/海尔等。年出货驱动板超2000万片。",
+      "market_position": "国内LCD驱动板方案商前三，仅次于CVTE（视源股份）和兆驰。大客户稳定，供应链成熟。",
+      "supply_chain": "芯片需求：NAND Flash/SPI Flash（存储固件）、MCU、DDR（运行缓存）、时序控制IC。NOR Flash/NAND Flash需求可观。",
+      "coop_history": "2024: 有合作  [普冉] | 2025: 有合作  [普冉,康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：CVTE（视源）、兆驰股份。代理竞对：其他普冉/康盈代理商。",
+      "strat_score": 3,
+      "monitor_keywords": "鼎盛光电 LCD驱动板 显示方案 创维 TCL 出货量",
+      "notes": "B类客户，增速稳健。康盈线2025年新切入，2026年放量。LCD驱动板市场稳定，持续需求。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 27,
+      "name": "熵基科技(广东)有限公司",
+      "group_tag": "B",
+      "industry": "安防/生物识别",
+      "company_profile": "熵基科技（301330.SZ）旗下子公司。母公司成立于2007年，深交所创业板上市（2022年），员工4000+人。全球生物识别+安防解决方案提供商。",
+      "main_products": "指纹/人脸/虹膜识别终端（核心）、门禁系统、考勤系统、安检设备、车牌识别。2023年总营收22.5亿元，海外占比超50%。",
+      "market_position": "全球生物识别门禁领域前列，国内指纹识别市占率前三。覆盖100+国家，海外市场强势（东南亚/拉美/中东）。",
+      "supply_chain": "芯片需求：NAND Flash/eMMC（固件+记录存储）、DRAM、MCU/SOC、图像传感器。每台设备至少1颗存储芯片。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "母公司董事长：车全宏。待内部补充：广东子公司采购负责人。",
+      "competitors": "客户竞对：海康威视、大华股份、宇视科技。代理竞对：其他康盈代理商。",
+      "strat_score": 3,
+      "monitor_keywords": "熵基科技 ZKTeco 生物识别 门禁 安防 营收 海外",
+      "notes": "B类客户，上市母公司背书，增长稳定。纯康盈线，2025→2026持续。安防行业存储需求刚性，建议保持供应。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 28,
+      "name": "宁波舜宇光电信息有限公司",
+      "group_tag": "A",
+      "industry": "光学/摄像头模组",
+      "company_profile": "舜宇光学科技（2382.HK）核心子公司。母公司成立于1984年，香港上市（2007年），员工2万+人。全球光学镜头/摄像头模组龙头。",
+      "main_products": "手机摄像头模组（核心）、车载摄像头、安防镜头、AR/VR光学模组。2023年舜宇光学总营收317亿元，手机摄像头模组出货量全球前三。",
+      "market_position": "全球手机摄像头模组TOP3，车载镜头全球第一。客户：苹果、华为、小米、OPPO、vivo、特斯拉。",
+      "supply_chain": "芯片需求：NAND/eMMC（固件+校准数据）、DRAM、CIS图像传感器、ISP芯片。采购规模极大（年数百亿规模），存储芯片用量可观。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "母公司董事长：叶辽宁。待内部补充：子公司采购窗口。",
+      "competitors": "客户竞对：欧菲光、丘钛科技、LG Innotek。代理竞对：其他康盈/大代理商。",
+      "strat_score": 4,
+      "monitor_keywords": "舜宇光学 舜宇光电 手机镜头 车载 营收 出货量 苹果 华为",
+      "notes": "A类顶级客户，全球光学龙头。纯康盈线，采购体量巨大。需重点维护关系，关注苹果/华为新机周期带来的增量。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 29,
+      "name": "南昌同兴达精密光电有限公司",
+      "group_tag": "B",
+      "industry": "光学/摄像头模组",
+      "company_profile": "同兴达（002845.SZ）旗下子公司。母公司成立于2004年，深交所上市（2017年），员工5000+人。手机摄像头模组+显示模组双主业。",
+      "main_products": "手机摄像头模组（核心）、显示模组、指纹识别模组。2023年母公司营收约80亿元，摄像头模组出货量国内前五。",
+      "market_position": "国内手机摄像头模组二线龙头，仅次于舜宇/欧菲光/丘钛。客户：华为、小米、OPPO、传音。",
+      "supply_chain": "芯片需求：NAND/eMMC、DRAM、CIS传感器、ISP芯片。摄像头模组对存储芯片有刚性需求（校准数据/固件）。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "母公司董事长：万锋。待内部补充：子公司采购窗口。",
+      "competitors": "客户竞对：舜宇、欧菲光、丘钛、合力泰。代理竞对：其他康盈代理商。",
+      "strat_score": 3,
+      "monitor_keywords": "同兴达 摄像头模组 显示模组 手机 营收 出货量",
+      "notes": "B类客户，依托上市母公司，增长稳健。纯康盈线，二线龙头地位稳固。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 30,
+      "name": "湖北三赢兴智能光电科技有限公司",
+      "group_tag": "C",
+      "industry": "光学/摄像头模组",
+      "company_profile": "三赢兴科技集团旗下子公司。母公司成立于2011年，湖北咸宁，员工2000+人。手机/车载/安防摄像头模组方案商。",
+      "main_products": "手机摄像头模组（核心）、车载摄像头、安防摄像头、笔电摄像头。年出货量超1亿颗模组。",
+      "market_position": "国内手机摄像头模组三线厂商，差异化竞争（笔电/车载）。客户：传音、联想、小米（部分机型）。",
+      "supply_chain": "芯片需求：NAND Flash/SPI Flash、MCU、CIS传感器。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：盛泰光电、合力泰、信利光电。",
+      "strat_score": 2,
+      "monitor_keywords": "三赢兴 摄像头模组 车载 传音 联想 出货量",
+      "notes": "C类新客户，2026年新切入。规模较小但增长潜力可期，车载方向值得关注。 [",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 31,
+      "name": "广东九安智能科技股份有限公司",
+      "group_tag": "C",
+      "industry": "安防/IoT",
+      "company_profile": "成立于2010年，广东中山，员工1500+人。智能安防/IoT产品方案商，IPO推进中。国家级高新技术企业。",
+      "main_products": "智能摄像头（核心）、智能门锁、智能门铃、IoT传感器。年出货量超1000万台，海外市场为主（北美/欧洲/东南亚）。",
+      "market_position": "国内消费级智能安防出海品牌前十，亚马逊多品类Best Seller。海外品牌认知度较高。",
+      "supply_chain": "芯片需求：NAND Flash/eMMC（视频存储）、DRAM、WiFi/BT SoC、图像传感器。每台设备需存储芯片（Local存储+固件）。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：海康（萤石）、大华（乐橙）、Ring、Arlo。",
+      "strat_score": 3,
+      "monitor_keywords": "九安智能 摄像头 智能门锁 IoT 安防 海外 营收 IPO",
+      "notes": "C类客户，IPO标的，增长潜力大。消费级安防出海赛道景气。存储芯片需求刚性（视频本地存储）。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 32,
+      "name": "深圳技威时代科技有限公司",
+      "group_tag": "C",
+      "industry": "安防/IoT方案",
+      "company_profile": "成立于2013年，深圳，员工500+人。智能安防/IoT云平台+硬件方案商。技威时代APP全球用户超5000万。",
+      "main_products": "智能安防云平台（核心）、摄像头方案、智能家居方案、AI视觉算法。赋能中小安防厂商，方案覆盖IPC/NVR/门铃等。",
+      "market_position": "国内消费级安防云平台前三（涂鸦/技威/萤石云）。服务全球500+品牌客户，设备连接数超3000万台。",
+      "supply_chain": "芯片需求：客户采购其方案需搭配存储芯片（NAND/eMMC）。间接芯片需求规模可观。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：涂鸦智能、萤石。",
+      "strat_score": 2,
+      "monitor_keywords": "技威时代 安防云平台 IPC 智能家居 IoT 海外",
+      "notes": "C类新客户，方案商模式，间接带动芯片需求。平台生态价值较高。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 33,
+      "name": "杭州觅睿科技股份有限公司",
+      "group_tag": "C",
+      "industry": "安防/IoT",
+      "company_profile": "成立于2010年，杭州，员工1000+人。智能安防产品ODM/OEM厂商，2026年3月北交所上市（920036）。",
+      "main_products": "智能摄像头（核心）、智能门铃、泛光灯摄像头、太阳能摄像头。ODM为主，客户为欧美品牌商（Ring/Arlo等供应链）。",
+      "market_position": "国内消费级安防ODM前列，北交所上市企业。年出货量数百万台，海外收入占比超90%。",
+      "supply_chain": "芯片需求：NAND Flash/eMMC（视频存储）、DRAM、WiFi SoC、图像传感器。ODM模式对存储芯片需求稳定。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：安联锐视、睿联技术。",
+      "strat_score": 3,
+      "monitor_keywords": "觅睿科技 摄像头 安防 ODM 北交所 海外 营收",
+      "notes": "C类客户，北交所上市新贵。纯ODM模式，海外市场需求稳定。关注Q1业绩波动（净利润降54.96%）。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 34,
+      "name": "深圳市必联电子有限公司",
+      "group_tag": "C",
+      "industry": "通信/WiFi模组",
+      "company_profile": "成立于2007年，深圳，员工800+人。WiFi/蓝牙模组+无线路由器ODM/OEM厂商。国家级高新技术企业。",
+      "main_products": "WiFi模组（核心）、蓝牙模组、无线路由器、IoT网关。年出货模组超3000万片，客户为小米/华为/TCL等。",
+      "market_position": "国内WiFi模组出货量前十，IoT模组领域有竞争力。",
+      "supply_chain": "芯片需求：SPI Flash/NOR Flash（固件存储）、WiFi SoC、DDR。每片模组需1-2颗存储芯片。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：乐鑫科技、博通集成、瑞昱。",
+      "strat_score": 2,
+      "monitor_keywords": "必联电子 WiFi模组 蓝牙 路由器 IoT 出货量",
+      "notes": "C类客户，WiFi模组赛道稳定增长。存储芯片需求明确（每片模组1-2颗）。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 35,
+      "name": "深圳市广和通无线股份有限公司",
+      "group_tag": "A",
+      "industry": "通信/蜂窝模组",
+      "company_profile": "成立于1999年，深圳，深交所上市（300638），员工2000+人。全球蜂窝通信模组龙头之一。",
+      "main_products": "5G/4G/3G蜂窝模组（核心）、车规级模组、LPWA模组、GNSS模组。2023年营收约60亿元，全球蜂窝模组出货量前三。",
+      "market_position": "全球蜂窝模组TOP3（移远/广和通/Thales）。车载前装模组市占率领先，海外营收占比超50%。",
+      "supply_chain": "芯片需求：eMMC/NAND（固件+数据缓存）、DRAM、基带芯片（高通/联发科）。存储芯片采购量可观（每片模组至少1颗）。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "董事长：张天瑜。待内部补充：采购窗口。",
+      "competitors": "客户竞对：移远通信、Thales、Sierra Wireless。",
+      "strat_score": 4,
+      "monitor_keywords": "广和通 Fibocom 5G模组 蜂窝 车联网 物联网 营收",
+      "notes": "A类顶级客户，全球蜂窝模组龙头。增长强劲，车载业务放量。建议：深耕关系，争取更多份额。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 36,
+      "name": "深圳市长丰影像器材有限公司",
+      "group_tag": "C",
+      "industry": "音频/影像设备",
+      "company_profile": "成立于2010年，深圳，员工500+人。专业音频/影像设备品牌商，自主品牌BOYA博雅全球知名。",
+      "main_products": "无线麦克风（核心）、录音笔、声卡、直播设备。亚马逊麦克风品类TOP品牌，年出货量超500万台。",
+      "market_position": "全球消费级麦克风市场前三（RODE/DJI/BOYA）。跨境电商头部音频品牌，海外营收占比超80%。",
+      "supply_chain": "芯片需求：SPI Flash/NOR Flash（固件存储）、蓝牙SoC、DSP音频芯片。每台设备需1-2颗存储芯片。",
+      "coop_history": "2025: 有合作  [普冉] | 2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：RODE、DJI、Saramonic。",
+      "strat_score": 2,
+      "monitor_keywords": "长丰影像 BOYA 博雅 麦克风 音频 亚马逊 海外",
+      "notes": "C类客户，消费音频出海品牌。2026年康盈新切入，需持续跟进。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 37,
+      "name": "深圳麦格米特电气股份有限公司",
+      "group_tag": "A",
+      "industry": "电力电子/新能源",
+      "company_profile": "成立于2003年，深圳，深交所上市（002851），员工8000+人。全球电力电子/电源解决方案龙头。",
+      "main_products": "电源适配器（核心）、新能源车载电源、工业电源、智能卫浴控制器。2023年营收约80亿元，华为/特斯拉/比亚迪核心供应商。",
+      "market_position": "国内电力电子/电源行业前三，新能源车载电源快速放量。全球化布局，海外基地覆盖印度/越南/墨西哥。",
+      "supply_chain": "芯片需求：NAND/eMMC（固件+参数存储）、MCU/DSP、功率半导体。采购规模极大（年采购额数十亿），存储芯片需求可观。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "董事长：童永胜。待内部补充：采购窗口。",
+      "competitors": "客户竞对：台达电子、汇川技术、英威腾。",
+      "strat_score": 5,
+      "monitor_keywords": "麦格米特 电源 新能源 车载 华为 特斯拉 营收",
+      "notes": "A类顶级客户，新能源赛道高增长。华为/特斯拉核心供应链背书。建议：重点深耕，拓展车规级产品线。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 38,
+      "name": "深圳英集芯科技股份有限公司",
+      "group_tag": "B",
+      "industry": "芯片/快充",
+      "company_profile": "成立于2014年，深圳，科创板上市（688209），员工400+人。数模混合SoC芯片设计公司，快充协议芯片龙头。",
+      "main_products": "快充协议芯片（核心）、无线充电芯片、电池管理芯片、电机驱动芯片。年出货芯片超5亿颗，客户：小米/OPPO/安克。",
+      "market_position": "国内快充协议芯片市占率第一（超40%），全球前三。Fabless模式，晶圆代工依赖台积电/中芯国际。",
+      "supply_chain": "自身为芯片设计公司，但终端产品需外挂存储（SPI Flash等）。间接需求：客户方案中搭配存储芯片。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "董事长：黄洪伟。待内部补充。",
+      "competitors": "客户竞对：南芯科技、智融科技、钰泰半导体。",
+      "strat_score": 3,
+      "monitor_keywords": "英集芯 快充协议 充电芯片 小米 OPPO 出货量",
+      "notes": "B类客户，芯片设计公司，Fabless模式。快充赛道高增长，产品线持续扩展。关注其终端方案对存储芯片的间接需求。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 39,
+      "name": "东莞市奥海科技股份有限公司",
+      "group_tag": "B",
+      "industry": "电源/充电器",
+      "company_profile": "成立于2003年，东莞，深交所上市（002993），员工10000+人。全球手机充电器ODM龙头。",
+      "main_products": "手机充电器（核心）、PC电源适配器、新能源车载充电机、储能电源。年出货充电器超2亿台，客户：华为/小米/OPPO/vivo/传音。",
+      "market_position": "全球手机充电器ODM市占率第一（约25%）。手机充电器年出货超2亿台，新能源业务快速增长。",
+      "supply_chain": "芯片需求：NAND Flash/SPI Flash（快充协议固件）、MCU、GaN功率芯片。每台快充充电器需1颗存储芯片。",
+      "coop_history": "2025: 有合作  [康盈] | 2026: 有合作  [康盈]",
+      "org_key_people": "董事长：刘昊。待内部补充：采购窗口。",
+      "competitors": "客户竞对：赛尔康（Salcomp）、航嘉、比亚迪电子。",
+      "strat_score": 4,
+      "monitor_keywords": "奥海科技 充电器 快充 新能源 华为 小米 出货量",
+      "notes": "B类客户，全球充电器ODM龙头。快充升级（GaN/PD）带动存储芯片需求增长。新能源第二曲线清晰。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 40,
+      "name": "深圳市华思旭科技有限公司",
+      "group_tag": "C",
+      "industry": "汽车电子/应急电源",
+      "company_profile": "成立于2006年，深圳，员工1000+人。汽车应急启动电源/储能ODM龙头，自主品牌CARKU卡儿酷。",
+      "main_products": "汽车应急启动电源（核心）、便携储能、汽车充电器、锂电工具。年出货量超1000万台，覆盖50+国家。",
+      "market_position": "全球汽车应急启动电源ODM第一，市占率超30%。",
+      "supply_chain": "芯片需求：SPI Flash/NOR Flash（固件+BMS数据）、MCU、锂电保护IC。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：纽曼、70迈、倍思。",
+      "strat_score": 2,
+      "monitor_keywords": "华思旭 应急电源 汽车电子 储能 卡儿酷 海外",
+      "notes": "C类新客户，汽车应急电源细分龙头。2026年新切入，关注合作深度。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 41,
+      "name": "深圳保时捷电子有限公司",
+      "group_tag": "C",
+      "industry": "汽车电子/车联网",
+      "company_profile": "成立于2008年，深圳，员工300+人。汽车电子方案商，专注车联网/车载娱乐系统。",
+      "main_products": "车载中控系统（核心）、行车记录仪、车联网T-Box、车载显示屏方案。",
+      "market_position": "国内车载娱乐方案中小厂商，差异化定位。",
+      "supply_chain": "芯片需求：eMMC/NAND（系统+地图存储）、DRAM、车载SoC。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：德赛西威、华阳集团、均胜电子。",
+      "strat_score": 2,
+      "monitor_keywords": "保时捷电子 车载 车联网 中控 记录仪",
+      "notes": "C类新客户，车载电子方向。体量较小，关注成长性。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 42,
+      "name": "深圳市夏瑞科技股份有限公司",
+      "group_tag": "C",
+      "industry": "PCBA/EMS",
+      "company_profile": "成立于2005年，深圳，员工1000+人。PCBA/电子制造服务商，IPO推进中。",
+      "main_products": "PCBA代工（核心）、整机组装、电子制造服务（EMS）。客户覆盖消费电子/汽车/工控等领域。",
+      "market_position": "国内中型EMS厂商，具备SMT+DIP+组装全制程能力。",
+      "supply_chain": "芯片需求：各类存储芯片（客户指定采购），NAND/DRAM/SPI Flash。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：环旭电子、光弘科技、卓翼科技。",
+      "strat_score": 2,
+      "monitor_keywords": "夏瑞科技 PCBA EMS 代工 制造 电子",
+      "notes": "C类新客户，EMS模式。按客户需求采购芯片，间接需求为主。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 43,
+      "name": "昱科环球存储科技(深圳)有限公司",
+      "group_tag": "C",
+      "industry": "存储/硬盘",
+      "company_profile": "全球知名存储品牌，HDD/SSD产品线完整。深圳子公司。",
+      "main_products": "HDD硬盘、SSD固态硬盘、外置存储。",
+      "market_position": "全球硬盘市场主要参与者。",
+      "supply_chain": "自身为存储厂商（潜在客户也是潜在竞品关系）。芯片需求：NAND Flash（SSD核心）。",
+      "coop_history": "2026: 有合作  [康盈]",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：Seagate、WD、三星。",
+      "strat_score": 2,
+      "monitor_keywords": "昱科 存储 硬盘 SSD 深圳",
+      "notes": "特殊客户：自身为存储厂商，合作模式待明确。可能是双向供应链关系。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    },
+    {
+      "id": 44,
+      "name": "深圳市硅谷动力产业园运营有限公司",
+      "group_tag": "D",
+      "industry": "产业园区/运营",
+      "company_profile": "产业园运营商，非直接芯片客户。通过园区企业间接产生需求。",
+      "main_products": "产业园区运营、企业孵化、招商服务。",
+      "market_position": "深圳地区知名产业园运营商。",
+      "supply_chain": "园区入驻企业（电子/芯片相关）间接产生芯片采购需求。",
+      "coop_history": "-",
+      "org_key_people": "待内部补充。",
+      "competitors": "客户竞对：天安数码城、招商蛇口产业园。",
+      "strat_score": 1,
+      "monitor_keywords": "硅谷动力 产业园 招商 深圳",
+      "notes": "D类非直接客户，间接渠道价值。关注园区企业资源转化。",
+      "created_at": "2026-05-20 00:51:17",
+      "updated_at": "2026-05-20 00:51:17"
+    }
+  ],
+  "tracking": [
+    {
+      "id": 1,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市杉川机器人有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 2,
+      "week_start": "2026-05-18",
+      "customer_name": "高创(苏州)电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 3,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市韶音科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 4,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市鼎盛光电有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 5,
+      "week_start": "2026-05-18",
+      "customer_name": "熵基科技(广东)有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 6,
+      "week_start": "2026-05-18",
+      "customer_name": "宁波舜宇光电信息有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 7,
+      "week_start": "2026-05-18",
+      "customer_name": "南昌同兴达精密光电有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 8,
+      "week_start": "2026-05-18",
+      "customer_name": "湖北三赢兴智能光电科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 9,
+      "week_start": "2026-05-18",
+      "customer_name": "广东九安智能科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 10,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳技威时代科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 11,
+      "week_start": "2026-05-18",
+      "customer_name": "杭州觅睿科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 12,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市必联电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 13,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市广和通无线股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 14,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市长丰影像器材有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 15,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳麦格米特电气股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 16,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳英集芯科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 17,
+      "week_start": "2026-05-18",
+      "customer_name": "东莞市奥海科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 18,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市华思旭科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 19,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳保时捷电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 20,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市夏瑞科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 21,
+      "week_start": "2026-05-18",
+      "customer_name": "昱科环球存储科技(深圳)有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 22,
+      "week_start": "2026-05-18",
+      "customer_name": "深圳市硅谷动力产业园运营有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 23,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市杉川机器人有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 24,
+      "week_start": "2026-05-11",
+      "customer_name": "高创(苏州)电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 25,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市韶音科技有限公司",
+      "signal_type": "opportunity",
+      "signal_summary": "5月15日Shokz Day发布三款新品：OpenDots 2、OpenSwim Pro 2、OpenDots Air，其中OpenDots 2首创骨传导双单元分频技术；2025Q4全球可穿戴设备出货6100万台，同比+7.3%",
+      "source": "metaso",
+      "trend_flag": "↑",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 26,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市鼎盛光电有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 27,
+      "week_start": "2026-05-11",
+      "customer_name": "熵基科技(广东)有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 28,
+      "week_start": "2026-05-11",
+      "customer_name": "宁波舜宇光电信息有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "舜宇智行分拆赴港IPO遭质疑：突击分红24亿、采购依赖母公司，市值跌至706亿港元(截至5/11)；5月手机镜头出货约1.08亿件，同比+4.1%",
+      "source": "metaso",
+      "trend_flag": "↓",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 29,
+      "week_start": "2026-05-11",
+      "customer_name": "南昌同兴达精密光电有限公司",
+      "signal_type": "risk",
+      "signal_summary": "Q1 2026净亏损4258万元，经营现金流同比大降438%，应收账款28.91亿高位运行，股价一度逼近跌停",
+      "source": "metaso",
+      "trend_flag": "↓",
+      "alert": "⚠️",
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 30,
+      "week_start": "2026-05-11",
+      "customer_name": "湖北三赢兴智能光电科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 31,
+      "week_start": "2026-05-11",
+      "customer_name": "广东九安智能科技股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "IPO审核推进中(1月被抽中现场检查)，2月APP因违规收集个人信息被通报，CES2026参展",
+      "source": "metaso",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 32,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳技威时代科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 33,
+      "week_start": "2026-05-11",
+      "customer_name": "杭州觅睿科技股份有限公司",
+      "signal_type": "risk",
+      "signal_summary": "Q1 2026净利润同比降54.96%，财务费用暴增1767%，增收不增利；3月9日刚登陆北交所(920036)",
+      "source": "metaso",
+      "trend_flag": "↓",
+      "alert": "⚠️",
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 34,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市必联电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 35,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市广和通无线股份有限公司",
+      "signal_type": "dynamic",
+      "signal_summary": "3月公告拟全现金收购航盛电子(车载电子，成立超32年)；全年业绩稳健增长，端侧AI+机器人布局",
+      "source": "metaso",
+      "trend_flag": "↑",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 36,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市长丰影像器材有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 37,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳麦格米特电气股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 38,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳英集芯科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 39,
+      "week_start": "2026-05-11",
+      "customer_name": "东莞市奥海科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 40,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市华思旭科技有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 41,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳保时捷电子有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 42,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市夏瑞科技股份有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 43,
+      "week_start": "2026-05-11",
+      "customer_name": "昱科环球存储科技(深圳)有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 44,
+      "week_start": "2026-05-11",
+      "customer_name": "深圳市硅谷动力产业园运营有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    },
+    {
+      "id": 45,
+      "week_start": "2026-05-04",
+      "customer_name": "深圳市杉川机器人有限公司",
+      "signal_type": "none",
+      "signal_summary": "本周无异常外部信号",
+      "source": "",
+      "trend_flag": "→",
+      "alert": null,
+      "created_at": "2026-05-24 09:06:22"
+    }
+  ]
+}</script>
 
 <script>
-/* ===== Global State ===== */
-var allCustomers = [];
-var allTracking = [];
-var currentCustomerId = null;
-var currentFilter = 'all';
-var searchQuery = '';
-var apiKey = 'sk-9cd2150c397f4294934ef02d7cb15822';
-var aiOnline = false;
-var selectedCustomerForAI = null;
+const DS_API_KEY = 'sk-9cd2150c397f4294934ef02d7cb15822';
+const DS_MODEL = 'deepseek-v4-flash';
+const DS_BASE_URL = 'https://api.deepseek.com/v1/chat/completions';
 
-/* ===== Avatar Colors ===== */
-var avatarColors = ['#2563eb','#7c3aed','#059669','#d97706','#dc2626','#0891b2','#4f46e5','#9333ea','#0d9488','#b45309','#be123c','#1d4ed8','#6d28d9','#047857','#b91c1c','#0e7490','#4338ca','#7e22ce','#115e59','#854d0e','#9f1239','#1e40af'];
+let appData = null;
+let currentFilter = 'all';
+let searchQuery = '';
+let selectedCustomerId = null;
+let aiHealthy = false;
+let aiMockMode = false;
 
-function getAvatarColor(index) {
-  return avatarColors[index % avatarColors.length];
-}
-
-function getInitials(name) {
-  if (!name) return '?';
-  return name.charAt(0);
-}
-
-/* ===== Initialization ===== */
-function initDashboard() {
-  var dataEl = document.getElementById('customer-data');
-  var raw = dataEl.textContent || dataEl.innerText || '';
+function init() {
+  const raw = document.getElementById('customer-data').textContent;
   try {
-    var data = JSON.parse(raw);
-    allCustomers = data.customers || [];
-    allTracking = data.tracking || [];
-  } catch(e) {
-    console.error('Failed to parse customer data:', e);
-    allCustomers = [];
-    allTracking = [];
+    appData = JSON.parse(raw);
+  } catch (e) {
+    console.error('JSON parse error', e);
+    document.getElementById('stream-view').innerHTML = '<div class="empty-state"><p>数据加载失败</p></div>';
+    return;
   }
-
-  updateKPIs();
+  processData();
+  renderKPI();
   renderCustomerList();
-  renderRightPanels();
-  document.getElementById('last-updated').textContent = '数据更新: ' + new Date().toLocaleString('zh-CN');
-
-  // Health check DeepSeek
-  healthCheckDeepSeek();
+  renderStream();
+  renderRightPanel();
+  checkAIHealth();
 }
 
-/* ===== KPI Updates ===== */
-function updateKPIs() {
-  document.getElementById('kpi-customers').textContent = allCustomers.length;
+function processData() {
+  const custMap = {};
+  appData.customers.forEach(function(c) { custMap[c.name] = c; });
+  appData._custMap = custMap;
 
-  document.getElementById('kpi-signals').textContent = allTracking.length;
+  appData.tracking.forEach(function(t) {
+    t._customer = custMap[t.customer_name] || null;
+    t._date = t.week_start;
+  });
 
-  var oppCount = 0;
-  var riskCount = 0;
-  for (var i = 0; i < allTracking.length; i++) {
-    if (allTracking[i].signal_type === 'opportunity') oppCount++;
-    if (allTracking[i].signal_type === 'risk') riskCount++;
-  }
-  document.getElementById('kpi-opportunities').textContent = oppCount;
-
-  var alertCount = 0;
-  for (var i = 0; i < allTracking.length; i++) {
-    if (allTracking[i].alert) alertCount++;
-  }
-  document.getElementById('kpi-alerts').textContent = alertCount;
-
-  // Group tags
-  var tags = {A:0, B:0, C:0};
-  for (var i = 0; i < allCustomers.length; i++) {
-    var t = allCustomers[i].group_tag;
-    if (tags[t] !== undefined) tags[t]++;
-  }
-  var kpiSub = document.querySelector('#kpi-customers').parentElement.querySelector('.kpi-sub');
-  if (kpiSub) kpiSub.textContent = 'A类 ' + tags.A + ' · B类 ' + tags.B + ' · C类 ' + tags.C;
+  appData.tracking.sort(function(a, b) {
+    if (a._date !== b._date) return b._date.localeCompare(a._date);
+    return b.id - a.id;
+  });
 }
 
-/* ===== Customer List ===== */
-function getCustomerSignals(customerName) {
-  var result = [];
-  for (var i = 0; i < allTracking.length; i++) {
-    if (allTracking[i].customer_name === customerName) {
-      result.push(allTracking[i]);
-    }
-  }
-  return result;
-}
-
-function getCustomerSignalTypes(customerName) {
-  var signals = getCustomerSignals(customerName);
-  var types = {};
-  for (var i = 0; i < signals.length; i++) {
-    types[signals[i].signal_type] = true;
-  }
-  return types;
-}
-
-function getPrimarySignalBadge(customerName) {
-  var types = getCustomerSignalTypes(customerName);
-  if (types.risk) return '<span class="cust-badge badge-risk">风险</span>';
-  if (types.opportunity) return '<span class="cust-badge badge-opportunity">机会</span>';
-  if (types.dynamic) return '<span class="cust-badge badge-dynamic">动态</span>';
-  return '<span class="cust-badge badge-none">-</span>';
-}
-
-function filterCustomers() {
-  searchQuery = document.getElementById('search-input').value.toLowerCase();
-  renderCustomerList();
-}
-
-function setFilter(filterType, el) {
-  currentFilter = filterType;
-  var pills = document.querySelectorAll('.filter-pill');
-  for (var i = 0; i < pills.length; i++) {
-    pills[i].classList.remove('active');
-  }
-  el.classList.add('active');
-  renderCustomerList();
-}
-
-function customerMatchesFilter(customer) {
-  if (currentFilter === 'all') return true;
-  var types = getCustomerSignalTypes(customer.name);
-  return types[currentFilter] === true;
-}
-
-function customerMatchesSearch(customer) {
-  if (!searchQuery) return true;
-  var name = (customer.name || '').toLowerCase();
-  var industry = (customer.industry || '').toLowerCase();
-  return name.indexOf(searchQuery) !== -1 || industry.indexOf(searchQuery) !== -1;
+function renderKPI() {
+  const customers = appData.customers.length;
+  const signals = appData.tracking.length;
+  const opportunities = appData.tracking.filter(function(t) { return t.signal_type === 'opportunity'; }).length;
+  const alerts = appData.tracking.filter(function(t) { return t.alert; }).length;
+  document.getElementById('kpi-customers').textContent = customers;
+  document.getElementById('kpi-signals').textContent = signals;
+  document.getElementById('kpi-opportunities').textContent = opportunities;
+  document.getElementById('kpi-alerts').textContent = alerts;
 }
 
 function renderCustomerList() {
-  var container = document.getElementById('customer-list');
-  var html = '';
-  for (var i = 0; i < allCustomers.length; i++) {
-    var c = allCustomers[i];
-    if (!customerMatchesFilter(c)) continue;
-    if (!customerMatchesSearch(c)) continue;
+  const list = document.getElementById('customer-list');
+  const filtered = appData.customers.filter(function(c) {
+    if (!searchQuery) return true;
+    return c.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
-    var selectedClass = (currentCustomerId === c.id) ? ' selected' : '';
-    var badge = getPrimarySignalBadge(c.name);
-    var initial = getInitials(c.name);
-    var color = getAvatarColor(i);
+  let html = '';
+  filtered.forEach(function(c) {
+    const activeClass = selectedCustomerId === c.id ? ' active' : '';
+    html += '<div class="customer-item' + activeClass + '" onclick="showCustomerDetail(' + c.id + ')">';
+    html += '<div class="avatar">' + c.name.substring(0, 1) + '</div>';
+    html += '<div class="info"><div class="name">' + escapeHtml(c.name) + '</div>';
+    html += '<div class="meta">' + escapeHtml(c.industry) + ' · 战略' + c.strat_score + '</div></div>';
+    html += '<span class="badge badge-' + c.group_tag + '">' + c.group_tag + '</span>';
+    html += '</div>';
+  });
+  list.innerHTML = html || '<div class="empty-state" style="padding:20px"><p>无匹配客户</p></div>';
+}
 
-    html += '<div class="customer-item' + selectedClass + '" onclick="selectCustomer(' + c.id + ')" data-customer-id="' + c.id + '">';
-    html += '<div class="avatar" style="background:' + color + '">' + initial + '</div>';
-    html += '<div class="cust-info">';
-    html += '<div class="cust-name">' + escapeHtml(c.name) + '</div>';
-    html += '<div class="cust-industry">' + escapeHtml(c.industry || '') + '</div>';
-    html += '</div>';
-    html += badge;
-    html += '</div>';
+function renderStream() {
+  const container = document.getElementById('stream-view');
+  const view = document.getElementById('detail-view');
+  container.style.display = 'block';
+  view.style.display = 'none';
+  document.getElementById('main-title').textContent = '信号动态流';
+  document.getElementById('main-subtitle').textContent = '按日期倒序排列';
+  document.querySelector('.back-btn').style.display = 'none';
+
+  let signals = appData.tracking.filter(function(t) {
+    if (currentFilter === 'all') return true;
+    return t.signal_type === currentFilter;
+  });
+
+  if (signals.length === 0) {
+    container.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><p>暂无符合条件的信号</p></div>';
+    return;
   }
+
+  let html = '<div class="signal-grid">';
+  signals.forEach(function(t) {
+    const typeClass = t.alert ? 'type-alert' : ('type-' + t.signal_type);
+    const cust = t._customer;
+    const industry = cust ? cust.industry : '未知行业';
+    const trendColor = t.trend_flag === '↑' ? '#16a34a' : (t.trend_flag === '↓' ? '#ef4444' : '#9ca3af');
+    const sourceText = t.source ? ('<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2563eb;margin-right:4px"></span>' + escapeHtml(t.source)) : '<span style="color:#9ca3af">系统录入</span>';
+
+    html += '<div class="signal-card ' + typeClass + '" onclick="showCustomerDetailByName(\'' + escapeJs(t.customer_name) + '\')">';
+    html += '<div class="bar"></div>';
+    html += '<div class="body">';
+    html += '<div class="top">';
+    html += '<span class="customer">' + escapeHtml(t.customer_name) + '</span>';
+    html += '<span class="industry">' + escapeHtml(industry) + '</span>';
+    html += '</div>';
+    html += '<div class="summary">' + escapeHtml(t.signal_summary) + '</div>';
+    html += '<div class="foot">';
+    html += '<span class="source">' + sourceText + '</span>';
+    html += '<span><span class="trend" style="color:' + trendColor + '">' + t.trend_flag + '</span> <span class="date">' + t._date + '</span></span>';
+    html += '</div>';
+    if (t.alert) {
+      html += '<div style="margin-top:8px;padding:4px 8px;background:#fffbeb;border-radius:6px;font-size:12px;color:#b45309;font-weight:600;display:inline-block">' + t.alert + ' 需关注</div>';
+    }
+    html += '</div></div>';
+  });
+  html += '</div>';
   container.innerHTML = html;
 }
 
-/* ===== Customer Detail (Center Column) ===== */
-function selectCustomer(customerId) {
-  currentCustomerId = customerId;
-  selectedCustomerForAI = customerId;
+function showStream() {
+  selectedCustomerId = null;
+  renderCustomerList();
+  renderStream();
+}
 
-  // Update list selection
-  var items = document.querySelectorAll('.customer-item');
-  for (var i = 0; i < items.length; i++) {
-    items[i].classList.remove('selected');
-  }
-  var activeItem = document.querySelector('.customer-item[data-customer-id="' + customerId + '"]');
-  if (activeItem) activeItem.classList.add('selected');
-
-  // Find customer
-  var customer = null;
-  for (var i = 0; i < allCustomers.length; i++) {
-    if (allCustomers[i].id === customerId) {
-      customer = allCustomers[i];
-      break;
-    }
-  }
+function showCustomerDetail(id) {
+  selectedCustomerId = id;
+  renderCustomerList();
+  const customer = appData.customers.find(function(c) { return c.id === id; });
   if (!customer) return;
+  renderCustomerDetail(customer);
+}
 
+function showCustomerDetailByName(name) {
+  const customer = appData._custMap[name];
+  if (!customer) return;
+  selectedCustomerId = customer.id;
+  renderCustomerList();
   renderCustomerDetail(customer);
 }
 
 function renderCustomerDetail(customer) {
-  document.getElementById('detail-empty').style.display = 'none';
-  var content = document.getElementById('detail-content');
-  content.style.display = 'block';
+  const container = document.getElementById('stream-view');
+  const view = document.getElementById('detail-view');
+  container.style.display = 'none';
+  view.style.display = 'block';
+  document.querySelector('.back-btn').style.display = 'flex';
+  document.getElementById('main-title').textContent = customer.name;
+  document.getElementById('main-subtitle').textContent = customer.industry + ' · ' + customer.group_tag + '类客户 · 战略分' + customer.strat_score;
 
-  var signals = getCustomerSignals(customer.name);
-  // Sort by date desc
-  signals.sort(function(a, b) {
-    if (a.created_at > b.created_at) return -1;
-    if (a.created_at < b.created_at) return 1;
-    return 0;
-  });
+  const custSignals = appData.tracking.filter(function(t) { return t.customer_name === customer.name; }).sort(function(a, b) { return b._date.localeCompare(a._date); });
+  const latestSignal = custSignals.find(function(t) { return t.signal_type !== 'none'; });
 
-  var oppCount = 0;
-  var riskCount = 0;
-  for (var i = 0; i < signals.length; i++) {
-    if (signals[i].signal_type === 'opportunity') oppCount++;
-    if (signals[i].signal_type === 'risk') riskCount++;
-  }
+  let html = '';
 
-  var html = '';
-
-  // Header
   html += '<div class="detail-header">';
-  html += '<div class="cust-title">';
-  html += '<div class="cust-name-lg">' + escapeHtml(customer.name) + '</div>';
-  html += '<div class="cust-meta">' + escapeHtml(customer.industry || '') + ' · ' + escapeHtml(customer.group_tag || '') + '类客户</div>';
-  html += '</div>';
-  html += '<div class="strat-score"><span class="score-num">' + (customer.strat_score || 0) + '</span><span class="score-label">战略评分</span></div>';
-  html += '</div>';
-
-  // Opportunity Insight Card
-  html += '<div class="opportunity-card">';
-  html += '<div class="opp-title">💡 商机突破口</div>';
-  html += '<div class="opp-body">';
-  if (customer.notes) {
-    html += escapeHtml(customer.notes).replace(/\[/g, '').replace(/\]/g, '');
-  } else {
-    html += '暂无商机分析数据，请使用AI助手获取策略建议。';
+  html += '<div class="row">';
+  html += '<div>';
+  html += '<div class="title">' + escapeHtml(customer.name) + '</div>';
+  html += '<div class="subtitle">' + escapeHtml(customer.industry) + ' · 战略评分 ' + customer.strat_score + '/5 · ' + customer.group_tag + '类</div>';
+  html += '<div class="tags">';
+  html += '<span class="tag tag-blue">' + escapeHtml(customer.group_tag) + '类客户</span>';
+  html += '<span class="tag tag-green">战略 ' + customer.strat_score + '</span>';
+  if (latestSignal) {
+    html += '<span class="tag tag-purple">最新: ' + escapeHtml(latestSignal.signal_type) + '</span>';
   }
   html += '</div>';
   html += '</div>';
+  html += '</div>';
+  html += '</div>';
 
-  // Info Grid (8 cells)
+  if (latestSignal && latestSignal.signal_type !== 'none') {
+    html += '<div class="opportunity-card">';
+    html += '<h3>最新商机突破口</h3>';
+    html += '<p><strong>' + escapeHtml(latestSignal.signal_type) + '</strong> · ' + escapeHtml(latestSignal.signal_summary) + '</p>';
+    html += '<p style="margin-top:6px;color:#64748b;font-size:12px">来源: ' + escapeHtml(latestSignal.source || '系统') + ' · ' + latestSignal._date + ' · 趋势 ' + latestSignal.trend_flag + '</p>';
+    html += '</div>';
+  }
+
   html += '<div class="info-grid">';
-  html += buildInfoCell('公司简介', customer.company_profile);
-  html += buildInfoCell('主营产品', customer.main_products);
-  html += buildInfoCell('市场地位', customer.market_position);
-  html += buildInfoCell('供应链/芯片需求', customer.supply_chain);
-  html += buildInfoCell('合作历史', customer.coop_history);
-  html += buildInfoCell('关键人员', customer.org_key_people);
-  html += buildInfoCell('竞争对手', customer.competitors);
-  html += buildInfoCell('监控关键词', customer.monitor_keywords);
+  html += '<div class="info-cell"><div class="label">主营产品</div><div class="value">' + escapeHtml(customer.main_products.substring(0, 80)) + (customer.main_products.length > 80 ? '...' : '') + '</div></div>';
+  html += '<div class="info-cell"><div class="label">市场地位</div><div class="value">' + escapeHtml(customer.market_position.substring(0, 80)) + (customer.market_position.length > 80 ? '...' : '') + '</div></div>';
+  html += '<div class="info-cell"><div class="label">供应链</div><div class="value">' + escapeHtml(customer.supply_chain.substring(0, 80)) + (customer.supply_chain.length > 80 ? '...' : '') + '</div></div>';
+  html += '<div class="info-cell"><div class="label">合作历史</div><div class="value">' + escapeHtml(customer.coop_history) + '</div></div>';
+  html += '<div class="info-cell"><div class="label">关键人</div><div class="value">' + escapeHtml(customer.org_key_people) + '</div></div>';
+  html += '<div class="info-cell"><div class="label">竞对</div><div class="value">' + escapeHtml(customer.competitors) + '</div></div>';
+  html += '<div class="info-cell"><div class="label">监控词</div><div class="value">' + escapeHtml(customer.monitor_keywords) + '</div></div>';
+  html += '<div class="info-cell"><div class="label">备注</div><div class="value">' + escapeHtml(customer.notes.substring(0, 100)) + (customer.notes.length > 100 ? '...' : '') + '</div></div>';
   html += '</div>';
 
-  // Signal Timeline
-  html += '<div class="timeline-section">';
-  html += '<div class="timeline-title"><span class="dot"></span>信号时间线 <span style="font-weight:400;font-size:12px;color:#6b7280;margin-left:4px">(' + signals.length + '条)</span></div>';
-
-  if (signals.length === 0) {
-    html += '<div style="color:#9ca3af;font-size:13px;padding:12px 0">暂无追踪信号</div>';
+  html += '<div class="timeline">';
+  html += '<h3>信号时间线 (' + custSignals.length + ' 条)</h3>';
+  if (custSignals.length === 0) {
+    html += '<p style="color:#9ca3af;font-size:13px">暂无追踪信号</p>';
+  } else {
+    custSignals.forEach(function(t) {
+      const dotColor = t.alert ? '#f59e0b' : (t.signal_type === 'opportunity' ? '#22c55e' : (t.signal_type === 'risk' ? '#ef4444' : (t.signal_type === 'dynamic' ? '#2563eb' : '#9ca3af')));
+      html += '<div class="timeline-item">';
+      html += '<div class="timeline-dot" style="background:' + dotColor + '"></div>';
+      html += '<div class="timeline-content">';
+      html += '<div class="text"><strong>' + escapeHtml(t.signal_type) + '</strong> · ' + escapeHtml(t.signal_summary) + '</div>';
+      html += '<div class="time">' + t._date + ' · ' + (t.source || '系统') + ' ' + (t.alert ? '· ' + t.alert : '') + '</div>';
+      html += '</div></div>';
+    });
   }
-
-  for (var i = 0; i < signals.length; i++) {
-    var s = signals[i];
-    var dotClass = s.signal_type || 'none';
-    var badgeClass = s.signal_type || 'none';
-    var badgeLabels = {opportunity:'机会', risk:'风险', dynamic:'动态', none:'常规'};
-    var badgeLabel = badgeLabels[badgeClass] || '常规';
-    var trendHtml = '';
-    if (s.trend_flag === '↑') trendHtml = ' <span class="trend-up">↑</span>';
-    else if (s.trend_flag === '↓') trendHtml = ' <span class="trend-down">↓</span>';
-    else trendHtml = ' <span class="trend-flat">→</span>';
-
-    html += '<div class="timeline-item">';
-    html += '<div class="tl-dot ' + dotClass + '"></div>';
-    html += '<div class="tl-content">';
-    html += '<div class="tl-date">' + escapeHtml(s.week_start || '') + trendHtml;
-    html += '<span class="tl-badge ' + badgeClass + '">' + badgeLabel + '</span>';
-    if (s.alert) html += ' <span style="color:#dc2626;font-size:11px">' + escapeHtml(s.alert) + '</span>';
-    html += '</div>';
-    html += '<div class="tl-summary">' + escapeHtml(s.signal_summary || '') + '</div>';
-    if (s.source) html += '<div class="tl-source">📎 ' + escapeHtml(s.source) + '</div>';
-    html += '</div>';
-    html += '</div>';
-  }
-
   html += '</div>';
 
-  content.innerHTML = html;
+  document.getElementById('detail-content').innerHTML = html;
 }
 
-function buildInfoCell(label, value) {
-  var display = value || '暂无数据';
-  var truncated = display.length > 120 ? display.substring(0, 117) + '...' : display;
-  return '<div class="info-cell"><div class="info-label">' + escapeHtml(label) + '</div><div class="info-value">' + escapeHtml(truncated) + '</div></div>';
-}
-
-/* ===== Right Panels ===== */
-function renderRightPanels() {
-  renderSignalDistribution();
-  renderTopCustomers();
-  renderRecentSignals();
-}
-
-function renderSignalDistribution() {
-  var container = document.getElementById('signal-distribution');
-  var counts = {opportunity:0, risk:0, dynamic:0, none:0};
-  for (var i = 0; i < allTracking.length; i++) {
-    var t = allTracking[i].signal_type;
-    if (counts[t] !== undefined) counts[t]++;
-  }
-  var total = allTracking.length || 1;
-  var labels = {opportunity:'💡 商机', risk:'⚠️ 风险', dynamic:'📊 动态', none:'📋 常规'};
-  var html = '';
-  var keys = ['opportunity','risk','dynamic','none'];
-  for (var i = 0; i < keys.length; i++) {
-    var k = keys[i];
-    var pct = Math.round((counts[k] / total) * 100);
-    html += '<div class="dist-bar">';
-    html += '<div class="dist-label"><span>' + labels[k] + '</span><span>' + counts[k] + ' (' + pct + '%)</span></div>';
-    html += '<div class="dist-track"><div class="dist-fill ' + k + '" style="width:' + pct + '%"></div></div>';
-    html += '</div>';
-  }
-  container.innerHTML = html;
-}
-
-function renderTopCustomers() {
-  var container = document.getElementById('top-customers');
-  // Count signals per customer, excluding 'none' type
-  var custSignalCount = {};
-  for (var i = 0; i < allTracking.length; i++) {
-    var t = allTracking[i];
-    if (t.signal_type === 'none') continue;
-    var name = t.customer_name;
-    custSignalCount[name] = (custSignalCount[name] || 0) + 1;
-  }
-  // Sort
-  var sorted = [];
-  for (var name in custSignalCount) {
-    if (custSignalCount.hasOwnProperty(name)) {
-      sorted.push({name: name, count: custSignalCount[name]});
-    }
-  }
-  sorted.sort(function(a, b) { return b.count - a.count; });
-  var top5 = sorted.slice(0, 5);
-
-  var rankClasses = ['gold','silver','bronze','normal','normal'];
-  var html = '';
-  for (var i = 0; i < top5.length; i++) {
-    html += '<div class="top-cust-item">';
-    html += '<div class="tc-rank ' + rankClasses[i] + '">' + (i + 1) + '</div>';
-    html += '<div class="tc-name">' + escapeHtml(top5[i].name.length > 10 ? top5[i].name.substring(0, 10) + '...' : top5[i].name) + '</div>';
-    html += '<div class="tc-count">' + top5[i].count + ' 信号</div>';
-    html += '</div>';
-  }
-  if (top5.length === 0) {
-    html += '<div style="color:#9ca3af;font-size:12px;padding:8px 0">暂无活跃信号</div>';
-  }
-  container.innerHTML = html;
-}
-
-function renderRecentSignals() {
-  var container = document.getElementById('recent-signals');
-  // Sort tracking by created_at desc
-  var sorted = allTracking.slice().sort(function(a, b) {
-    if (a.created_at > b.created_at) return -1;
-    if (a.created_at < b.created_at) return 1;
-    return 0;
+function renderRightPanel() {
+  const counts = {none: 0, opportunity: 0, dynamic: 0, risk: 0, alert: 0};
+  appData.tracking.forEach(function(t) {
+    counts[t.signal_type] = (counts[t.signal_type] || 0) + 1;
+    if (t.alert) counts.alert++;
   });
-  var recent = sorted.slice(0, 5);
 
-  var html = '';
-  for (var i = 0; i < recent.length; i++) {
-    var s = recent[i];
-    var icon = {opportunity:'💡', risk:'⚠️', dynamic:'📊', none:'📋'}[s.signal_type] || '📋';
-    html += '<div class="recent-signal-item">';
-    html += '<div class="rs-cust">' + icon + ' ' + escapeHtml(s.customer_name.length > 12 ? s.customer_name.substring(0, 12) + '...' : s.customer_name) + '</div>';
-    html += '<div class="rs-summary">' + escapeHtml((s.signal_summary || '').substring(0, 40)) + '</div>';
-    html += '<div class="rs-meta">' + escapeHtml(s.week_start || '') + '</div>';
-    html += '</div>';
-  }
-  if (recent.length === 0) {
-    html += '<div style="color:#9ca3af;font-size:12px;padding:8px 0">暂无信号</div>';
-  }
-  container.innerHTML = html;
-}
+  const total = appData.tracking.length;
+  const labels = {opportunity: '机会', dynamic: '动态', risk: '风险', none: '无信号'};
+  const colors = {opportunity: '#22c55e', dynamic: '#2563eb', risk: '#ef4444', none: '#9ca3af'};
 
-/* ===== DeepSeek AI Assistant ===== */
-function healthCheckDeepSeek() {
-  var statusEl = document.getElementById('ai-status');
-  var msgEl = document.getElementById('ai-messages');
-  var btn = document.getElementById('ai-send-btn');
+  document.getElementById('count-all').textContent = total;
+  document.getElementById('count-opp').textContent = counts.opportunity || 0;
+  document.getElementById('count-dyn').textContent = counts.dynamic || 0;
+  document.getElementById('count-risk').textContent = counts.risk || 0;
+  document.getElementById('count-none').textContent = counts.none || 0;
 
-  statusEl.textContent = '检测中';
-  statusEl.className = 'ai-status offline';
+  const donut = document.getElementById('donut-chart');
+  const pNone = total ? (counts.none / total) : 0;
+  const pOpp = total ? (counts.opportunity / total) : 0;
+  const pDyn = total ? (counts.dynamic / total) : 0;
+  const pRisk = total ? (counts.risk / total) : 0;
+  const grad = 'conic-gradient(#9ca3af 0deg ' + (pNone * 360) + 'deg, #22c55e ' + (pNone * 360) + 'deg ' + ((pNone + pOpp) * 360) + 'deg, #2563eb ' + ((pNone + pOpp) * 360) + 'deg ' + ((pNone + pOpp + pDyn) * 360) + 'deg, #ef4444 ' + ((pNone + pOpp + pDyn) * 360) + 'deg 360deg)';
+  donut.style.background = grad;
+  document.getElementById('donut-text').textContent = total;
 
-  var controller = new AbortController();
-  var timeoutId = setTimeout(function() { controller.abort(); }, 5000);
-
-  fetch('https://api.deepseek.com/v1/models', {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + apiKey
-    },
-    signal: controller.signal
-  })
-  .then(function(resp) {
-    clearTimeout(timeoutId);
-    if (resp.ok) {
-      aiOnline = true;
-      statusEl.textContent = '在线';
-      statusEl.className = 'ai-status online';
-      msgEl.innerHTML = '✅ DeepSeek v4-flash 已就绪<br><span style="color:#6b7280;font-size:11px">我可以分析客户数据，提供销售策略建议。请选择一个客户后提问。</span>';
-      btn.disabled = false;
-    } else {
-      throw new Error('Status: ' + resp.status);
-    }
-  })
-  .catch(function(err) {
-    clearTimeout(timeoutId);
-    aiOnline = false;
-    statusEl.textContent = '离线';
-    statusEl.className = 'ai-status offline';
-    msgEl.innerHTML = '⚠️ AI 服务暂不可用 <span class="ai-mock-badge">MOCK</span><br><span style="color:#6b7280;font-size:11px">将使用本地策略库提供建议。</span>';
-    btn.disabled = false; // Allow mock responses
+  let legendHtml = '';
+  ['opportunity', 'dynamic', 'risk', 'none'].forEach(function(k) {
+    legendHtml += '<div class="legend-item"><div class="legend-dot" style="background:' + colors[k] + '"></div><span>' + labels[k] + ' ' + counts[k] + '</span></div>';
   });
-}
+  document.getElementById('signal-legend').innerHTML = legendHtml;
 
-function askAI() {
-  var input = document.getElementById('ai-input');
-  var msgEl = document.getElementById('ai-messages');
-  var btn = document.getElementById('ai-send-btn');
-  var query = input.value.trim();
-
-  if (!query) return;
-
-  input.value = '';
-  btn.disabled = true;
-  msgEl.innerHTML = '🤔 思考中...';
-
-  // Build context from selected customer
-  var contextStr = 'No customer selected.';
-  if (selectedCustomerForAI) {
-    var cust = null;
-    for (var i = 0; i < allCustomers.length; i++) {
-      if (allCustomers[i].id === selectedCustomerForAI) { cust = allCustomers[i]; break; }
+  const custSignalCounts = {};
+  appData.tracking.forEach(function(t) {
+    if (t.signal_type !== 'none') {
+      custSignalCounts[t.customer_name] = (custSignalCounts[t.customer_name] || 0) + 1;
     }
-    if (cust) {
-      var signals = getCustomerSignals(cust.name);
-      var signalSummary = '';
-      for (var i = 0; i < Math.min(signals.length, 3); i++) {
-        signalSummary += signals[i].signal_type + ': ' + (signals[i].signal_summary || '') + '; ';
-      }
-      contextStr = '客户: ' + cust.name + ' | 行业: ' + (cust.industry || '') +
-        ' | 战略评分: ' + (cust.strat_score || 0) +
-        ' | 芯片需求: ' + ((cust.supply_chain || '').substring(0, 80)) +
-        ' | 近期信号: ' + signalSummary +
-        ' | 备注: ' + ((cust.notes || '').substring(0, 120));
-    }
-  }
-
-  if (!aiOnline) {
-    // Mock response
-    mockAIResponse(query, msgEl, btn);
-    return;
-  }
-
-  // Real API call
-  var systemPrompt = '你是半导体行业销售助手。基于客户情报数据，为销售团队提供简洁、可执行的策略建议。用中文回答，不超过200字。当前客户上下文: ' + contextStr;
-
-  fetch('https://api.deepseek.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + apiKey
-    },
-    body: JSON.stringify({
-      model: 'deepseek-chat',
-      messages: [
-        {role: 'system', content: systemPrompt},
-        {role: 'user', content: query}
-      ],
-      max_tokens: 300,
-      temperature: 0.7
-    })
-  })
-  .then(function(resp) { return resp.json(); })
-  .then(function(data) {
-    btn.disabled = false;
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      msgEl.innerHTML = escapeHtml(data.choices[0].message.content);
-    } else if (data.error) {
-      msgEl.innerHTML = '❌ API错误: ' + escapeHtml(data.error.message || 'Unknown');
-    } else {
-      msgEl.innerHTML = '❌ 未知响应格式，请重试。';
-    }
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    console.error('AI API error:', err);
-    mockAIResponse(query, msgEl, btn);
   });
+  const top5 = Object.entries(custSignalCounts).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 5);
+  const maxVal = top5.length ? top5[0][1] : 1;
+  let top5Html = '';
+  top5.forEach(function(item, idx) {
+    const pct = (item[1] / maxVal) * 100;
+    top5Html += '<div class="top5-row"><div class="top5-rank">' + (idx + 1) + '</div><div class="top5-name">' + escapeHtml(item[0]) + '</div><div class="top5-bar"><div class="top5-fill" style="width:' + pct + '%"></div></div><div class="top5-val">' + item[1] + '</div></div>';
+  });
+  document.getElementById('top5-list').innerHTML = top5Html || '<p style="font-size:12px;color:#9ca3af">暂无活跃信号</p>';
+
+  const latest = appData.tracking.filter(function(t) { return t.signal_type !== 'none'; }).slice(0, 3);
+  let latestHtml = '';
+  latest.forEach(function(t) {
+    latestHtml += '<div class="mini-signal"><div class="text"><strong>' + escapeHtml(t.customer_name) + '</strong> · ' + escapeHtml(t.signal_summary) + '</div><div class="meta">' + t._date + ' · ' + escapeHtml(t.signal_type) + '</div></div>';
+  });
+  document.getElementById('latest-signals').innerHTML = latestHtml || '<p style="font-size:12px;color:#9ca3af">暂无最新信号</p>';
 }
 
-function mockAIResponse(query, msgEl, btn) {
-  // Provide context-aware mock responses
-  var custName = '';
-  if (selectedCustomerForAI) {
-    for (var i = 0; i < allCustomers.length; i++) {
-      if (allCustomers[i].id === selectedCustomerForAI) {
-        custName = allCustomers[i].name;
-        break;
-      }
+function filterByType(type) {
+  currentFilter = type;
+  document.querySelectorAll('.pill').forEach(function(el) { el.classList.remove('active'); });
+  const pills = document.querySelectorAll('.pill');
+  for (let i = 0; i < pills.length; i++) {
+    if (pills[i].textContent.includes(type === 'all' ? '全部' : (type === 'opportunity' ? '机会' : (type === 'dynamic' ? '动态' : (type === 'risk' ? '风险' : '无信号'))))) {
+      pills[i].classList.add('active');
     }
   }
+  showStream();
+}
 
-  var mockResponses = [
-    '基于当前信号分析，建议本周优先跟进' + (custName || '目标客户') + '的供应链需求。近期市场数据显示该客户产能扩张趋势明显，存储芯片采购需求可能增加30%以上。',
-    '该客户近期无负面信号，合作关系稳定。建议维持现有供应节奏，同时关注竞对代理商动态，防止份额流失。',
-    '数据分析显示' + (custName || '该客户') + '处于高增长阶段。建议主动提供技术支持和样品测试，争取扩大料号覆盖，从单一DRAM向NAND Flash+MCU方案扩展。',
-    '根据行业趋势和客户采购周期，下季度可能迎来新一轮备货需求。建议提前准备库存，确保供应能力领先竞对。'
-  ];
+function searchCustomers(query) {
+  searchQuery = query;
+  renderCustomerList();
+}
 
-  var idx = Math.floor(Math.random() * mockResponses.length);
-  msgEl.innerHTML = escapeHtml(mockResponses[idx]) + ' <span class="ai-mock-badge">MOCK</span>';
-  btn.disabled = false;
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function escapeJs(str) {
+  if (!str) return '';
+  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+}
+
+function exportData() {
+  alert('导出功能开发中，数据已准备: ' + appData.customers.length + ' 客户, ' + appData.tracking.length + ' 信号');
 }
 
 function refreshData() {
-  currentCustomerId = null;
-  selectedCustomerForAI = null;
-  document.getElementById('detail-empty').style.display = 'flex';
-  document.getElementById('detail-content').style.display = 'none';
-  document.getElementById('search-input').value = '';
-  searchQuery = '';
-  currentFilter = 'all';
-  var pills = document.querySelectorAll('.filter-pill');
-  for (var i = 0; i < pills.length; i++) {
-    pills[i].classList.remove('active');
-    if (pills[i].getAttribute('data-filter') === 'all') pills[i].classList.add('active');
+  location.reload();
+}
+
+async function checkAIHealth() {
+  const dot = document.getElementById('ai-dot');
+  const txt = document.getElementById('ai-status-text');
+  dot.style.background = '#f59e0b';
+  txt.textContent = '检查中...';
+
+  try {
+    const resp = await fetch(DS_BASE_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DS_API_KEY},
+      body: JSON.stringify({model: DS_MODEL, messages: [{role: 'user', content: 'hi'}], max_tokens: 5})
+    });
+    if (resp.ok) {
+      dot.style.background = '#22c55e';
+      txt.textContent = 'DeepSeek v4-flash 在线';
+      aiHealthy = true;
+      aiMockMode = false;
+    } else {
+      throw new Error('status ' + resp.status);
+    }
+  } catch (e) {
+    dot.style.background = '#ef4444';
+    txt.textContent = 'API离线，已切换Mock模式';
+    aiHealthy = false;
+    aiMockMode = true;
   }
-  updateKPIs();
-  renderCustomerList();
-  renderRightPanels();
-  document.getElementById('last-updated').textContent = '数据更新: ' + new Date().toLocaleString('zh-CN');
 }
 
-/* ===== Utility ===== */
-function escapeHtml(str) {
-  if (!str) return '';
-  str = String(str);
-  var div = document.createElement('div');
-  div.appendChild(document.createTextNode(str));
-  return div.innerHTML;
+function getAIContext() {
+  const counts = {opportunity: 0, dynamic: 0, risk: 0};
+  appData.tracking.forEach(function(t) { if (counts[t.signal_type] !== undefined) counts[t.signal_type]++; });
+  const topCust = appData.customers.filter(function(c) { return c.strat_score >= 4; }).map(function(c) { return c.name; }).join('、');
+  return '当前客户情报上下文：共' + appData.customers.length + '家客户，' + appData.tracking.length + '条追踪信号。机会' + counts.opportunity + '条，动态' + counts.dynamic + '条，风险' + counts.risk + '条。重点客户：' + topCust + '。';
 }
 
-/* ===== Boot ===== */
-window.addEventListener('DOMContentLoaded', function() {
-  initDashboard();
-});
+async function sendAIMessage() {
+  const input = document.getElementById('ai-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const container = document.getElementById('ai-messages');
+  container.innerHTML += '<div class="ai-msg user">' + escapeHtml(msg) + '</div>';
+  container.scrollTop = container.scrollHeight;
+
+  if (aiMockMode || !aiHealthy) {
+    setTimeout(function() {
+      const mockReplies = [
+        '根据当前数据，建议优先跟进战略评分5分的客户：杉川机器人、韶音科技、麦格米特。',
+        '风险提醒：南昌同兴达Q1净亏损，杭州觅睿净利润降54.96%，建议关注回款风险。',
+        '机会洞察：韶音科技5月发布三款新品，广和通拟收购航盛电子，可借机拓展存储芯片需求。',
+        '本周无异常信号的客户占多数，建议主动触达 dormant 客户，挖掘增量需求。'
+      ];
+      const reply = mockReplies[Math.floor(Math.random() * mockReplies.length)];
+      container.innerHTML += '<div class="ai-msg bot">[Mock模式] ' + escapeHtml(reply) + '</div>';
+      container.scrollTop = container.scrollHeight;
+    }, 600);
+    return;
+  }
+
+  container.innerHTML += '<div class="ai-msg bot" id="ai-thinking">思考中...</div>';
+  container.scrollTop = container.scrollHeight;
+
+  try {
+    const resp = await fetch(DS_BASE_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DS_API_KEY},
+      body: JSON.stringify({
+        model: DS_MODEL,
+        messages: [
+          {role: 'system', content: '你是资深销售情报分析师，熟悉半导体/芯片代理行业。请基于提供的客户数据给出简洁、 actionable 的分析建议。'},
+          {role: 'user', content: getAIContext() + '\n用户问题：' + msg}
+        ],
+        max_tokens: 512,
+        temperature: 0.7
+      })
+    });
+    const thinking = document.getElementById('ai-thinking');
+    if (thinking) thinking.remove();
+
+    if (!resp.ok) throw new Error('status ' + resp.status);
+    const data = await resp.json();
+    const reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content ? data.choices[0].message.content : '无回复';
+    container.innerHTML += '<div class="ai-msg bot">' + escapeHtml(reply) + '</div>';
+    container.scrollTop = container.scrollHeight;
+  } catch (e) {
+    const thinking = document.getElementById('ai-thinking');
+    if (thinking) thinking.remove();
+    container.innerHTML += '<div class="ai-msg bot">请求失败，已降级到Mock模式。' + escapeHtml(e.message) + '</div>';
+    container.scrollTop = container.scrollHeight;
+    aiMockMode = true;
+    document.getElementById('ai-dot').style.background = '#f59e0b';
+    document.getElementById('ai-status-text').textContent = 'Mock模式';
+  }
+}
+
+init();
 </script>
 </body>
 </html>
