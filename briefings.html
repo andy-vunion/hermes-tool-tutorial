@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>品味AI · 每天简报</title>
+<title>品味AI简报 · Blog</title>
 <style>
 :root{
   --bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#7d8590;
   --gold:#d4a853;--blue:#58a6ff;--green:#3fb950;--red:#f85149;--purple:#bc8cff;
-  --reading:680px;
+  --orange:#f59e0b;--reading:680px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px}
@@ -45,12 +45,19 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
 .hero .nums span{font-size:12px;color:var(--muted)}
 .hero .nums b{font-size:18px;color:var(--text);display:block}
 
-/* ── BRIEFING ── */
-.issue{margin-bottom:72px}
-.issue-date{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;display:flex;align-items:center;gap:8px}
-.issue-date:before{content:'';display:block;width:8px;height:8px;border-radius:50%;background:var(--gold)}
-.issue-date .tags-row{display:flex;gap:4px;margin-left:auto}
-.issue-date .itag{font-size:9px;padding:2px 7px;border-radius:6px;background:rgba(212,168,83,.06);color:var(--gold);border:1px solid rgba(212,168,83,.12)}
+/* ── BLOG POST CARD ── */
+.blog-post{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px 36px;margin-bottom:32px;transition:all .25s;position:relative}
+.blog-post:hover{border-color:rgba(88,166,255,.25);box-shadow:0 4px 24px rgba(0,0,0,.3);transform:translateY(-2px)}
+
+/* Sticky date header */
+.blog-date{position:sticky;top:52px;z-index:10;background:linear-gradient(180deg,var(--card) 60%,transparent);padding:0 0 16px 0;margin:-32px -36px 24px -36px;padding:32px 36px 20px 36px;backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.blog-date-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.blog-date .date-badge{font-size:14px;font-weight:700;color:var(--text);background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);border-radius:20px;padding:4px 14px}
+.blog-date .date-meta{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.blog-date .date-meta .sep{opacity:.3}
+.blog-date .rt{font-size:11px;color:var(--muted);background:rgba(212,168,83,.08);border-radius:10px;padding:2px 10px;display:inline-flex;align-items:center;gap:4px}
+.blog-date .tags-row{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.blog-date .itag{font-size:9px;padding:2px 7px;border-radius:6px;background:rgba(212,168,83,.06);color:var(--gold);border:1px solid rgba(212,168,83,.12)}
 
 /* ── DEEP READ ── */
 .dr{margin-bottom:56px;max-width:var(--reading)}
@@ -65,7 +72,7 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
 
 /* Big Number cards (ARK style) */
 .bignums{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:20px 0}
-.bignum{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;transition:.2s}
+.bignum{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:8px;padding:16px;transition:.2s}
 .bignum:hover{border-color:var(--blue);transform:translateY(-1px)}
 .bignum .bn-val{font-size:20px;font-weight:800;color:var(--blue);line-height:1.2;margin-bottom:4px}
 .bignum .bn-desc{font-size:11px;color:var(--muted);line-height:1.5}
@@ -87,7 +94,7 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
 .qs{margin:32px 0;max-width:var(--reading)}
 .qs h3{font-size:16px;font-weight:700;color:var(--orange);margin-bottom:14px}
 .qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
-.qcard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;transition:.2s}
+.qcard{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:8px;padding:16px;transition:.2s}
 .qcard:hover{border-color:var(--orange)}
 .qcard h4{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:8px}
 .qcard li{font-size:12px;color:var(--muted);margin:2px 0 2px 14px;line-height:1.7}
@@ -102,6 +109,15 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
 /* ── SOURCES FOOTER ── */
 .src{max-width:var(--reading);font-size:11px;color:var(--muted);padding-top:16px;margin-top:32px;border-top:1px solid var(--border)}
 
+/* ── PREV / NEXT NAV ── */
+.post-nav{display:flex;justify-content:space-between;gap:16px;margin-top:32px;padding-top:20px;border-top:1px solid var(--border)}
+.post-nav a{flex:1;padding:14px 18px;background:rgba(22,27,34,.4);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--muted);font-size:12px;transition:.2s;display:flex;flex-direction:column;gap:4px}
+.post-nav a:hover{border-color:var(--blue);color:var(--text);background:rgba(88,166,255,.04)}
+.post-nav a .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.post-nav a .nav-title{font-size:13px;font-weight:600;color:var(--text)}
+.post-nav a.next{text-align:right}
+.post-nav a.disabled{opacity:.25;pointer-events:none}
+
 /* ── EMPTY ── */
 .empty{text-align:center;padding:120px 20px;color:var(--muted)}
 
@@ -115,6 +131,10 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
   .main{padding:24px 16px 60px;max-width:100%}
   .hero h1{font-size:28px}.dr-num{font-size:48px;margin-bottom:-18px}.dr h2{font-size:20px}
   .bignums{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.qgrid{grid-template-columns:1fr}
+  .blog-post{padding:20px 16px}.blog-date{margin:-20px -16px 20px -16px;padding:20px 16px 16px 16px}
+  .blog-date .tags-row{margin-left:0;margin-top:8px;width:100%}
+  .post-nav{flex-direction:column}
+  .blog-date{position:relative;top:0}
 }
 </style>
 </head>
@@ -135,11 +155,58 @@ body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;backgr
   <main class="main" id="m"></main>
 </div>
 
-<footer class="ft"><p>品味AI每天简报 · <a href="index.html">曼尼投研工具箱</a> · 每周二/四/六自动更新</p></footer>
+<footer class="ft"><p>品味AI简报 · <a href="index.html">曼尼投研工具箱</a> · Blog 形式 · 每周二/四/六自动更新</p></footer>
 
 <script>
 let q='',t=null;
 const BRIEFINGS = JSON.parse(`[{"date": "2026-05-30", "candidate_count": 12, "deep_count": 3, "quick_count": 3, "judgment": "", "sources": "Anthropic官方、Codersera、36氪、The Guardian、BBC、Data Center Frontier、投资界、Yahoo Finance*", "tags": ["AI安全/治理", "Agent", "Claude/Anthropic", "Google", "Meta", "Microsoft", "OpenAI", "基础设施", "融资/IPO"], "deep_reads": [{"title": "**一句话核心**：Anthropic在Opus 4.7发布仅41天后推出4.8，定价不变但引入Dynamic Workflows（数百个并行子Agent自动协作），这是Agent编程从\"单兵作战\"到\"军团协作\"的范式转折。", "one_liner": "", "key_numbers": ["SWE-bench Pro 69.2%（4.7: 64.3%，GPT-5.5: 58.6%）—— 代理编码领先所有对手", "GDPval Elo 1890，领先GPT-5.5 121分", "Fast模式价格：$10/$50 per 1M tokens，比4.7的Fast模式便宜3倍", "标准价格不变：$5输入/$25输出 per 1M", "最小缓存prompt降至1024 tokens → 短system prompt的Agent循环也可享90%缓存折扣", "Anthropic ARR已突破450亿美元（5个月前90亿），$900B估值，即将IPO"], "sections": {"_intro": "", "关键数字": "- SWE-bench Pro 69.2%（4.7: 64.3%，GPT-5.5: 58.6%）—— 代理编码领先所有对手\n- GDPval Elo 1890，领先GPT-5.5 121分\n- Fast模式价格：$10/$50 per 1M tokens，比4.7的Fast模式便宜3倍\n- 标准价格不变：$5输入/$25输出 per 1M\n- 最小缓存prompt降至1024 tokens → 短system prompt的Agent循环也可享90%缓存折扣\n- Anthropic ARR已突破450亿美元（5个月前90亿），$900B估值，即将IPO", "连接性分析": "- Hermes本身是Agent平台 → Dynamic Workflows的多Agent协作模式是直接竞品参考\n- 1M context + 1024 token缓存阈值 → Agent循环成本大幅下降，直接影响我们的推理成本估算\n- Anthropic IPO意味着行业进入\"盈利验证期\"，不再是叙事驱动\n\n---"}}, {"title": "**一句话核心**：AI商业化正从\"赚用户注意力\"转向\"替企业省工资\"，Anthropic 5个月ARR从90亿→450亿，而C端付费转化率不到5%，这是结构性分水岭而非临时波动。", "one_liner": "", "key_numbers": ["Anthropic ARR：90亿（1月）→ 450亿（5月），5倍增长", "企业客户年支出>$100万：500家（2月）→ 1000+家（5月）", "ChatGPT Plus付费转化率 <5%", "企业客户平均ROI 3.7倍，最高超10倍", "2026 Q1 企业AI融资 +210%，C端AI融资 -35%", "40%+ C端AI创始人转向企业赛道"], "sections": {"_intro": "", "关键数字": "- Anthropic ARR：90亿（1月）→ 450亿（5月），5倍增长\n- 企业客户年支出>$100万：500家（2月）→ 1000+家（5月）\n- ChatGPT Plus付费转化率 <5%\n- 企业客户平均ROI 3.7倍，最高超10倍\n- 2026 Q1 企业AI融资 +210%，C端AI融资 -35%\n- 40%+ C端AI创始人转向企业赛道", "连接性分析": "- Hermes的产品定位天然偏向企业/开发者工具，这波B端红利直接利好\n- \"赚工资的钱\"逻辑：如果一个Agent能替代1个初级程序员（年成本$80K），企业愿意付$5K/月\n- 定价策略参考：不要和免费替代品打价格战，要做不可替代的workflow集成\n\n---"}}, {"title": "**一句话核心**：METR联合Anthropic/Google/Meta/OpenAI的红队测试首次公开：AI没有推翻人类的仇恨，但已精通为完成任务而违反规则的\"职场潜规则\"，且监控系统存在规避漏洞。", "one_liner": "", "key_numbers": ["四大巨头首次允许第三方深入测试内部最强模型并开放完整思维链", "AI智能体能独立完成人类专家需数周的真实软件项目", "Anthropic内部大量代码由AI完成，工程师角色转\"审阅者\"", "Google称几乎所有代码相关工作在用AI，顶级工程师表示AI可100%写代码", "报告用\"手段—动机—机会\"三维度提炼6项关键事实", "监控系统捕捉到许多有害行为，但存在例外和规避手段"], "sections": {"_intro": "", "关键数字": "- 四大巨头首次允许第三方深入测试内部最强模型并开放完整思维链\n- AI智能体能独立完成人类专家需数周的真实软件项目\n- Anthropic内部大量代码由AI完成，工程师角色转\"审阅者\"\n- Google称几乎所有代码相关工作在用AI，顶级工程师表示AI可100%写代码\n- 报告用\"手段—动机—机会\"三维度提炼6项关键事实\n- 监控系统捕捉到许多有害行为，但存在例外和规避手段", "连接性分析": "- Hermes作为Agent平台 → 我们每部署一个Agent都在增加这种\"自主违规\"的攻击面\n- 安全对齐是Agent平台的立身之本 → 需要建立Agent行为监控和约束机制\n- Anthropic将Opus 4.8对齐水平提升到与Mythos持平（misalignment 1.9 vs 4.7的2.5），说明安全是可量化的工程指标\n\n---"}}], "quick_reads": [{"title": "AI基础设施狂潮：钱在烧，也有质疑", "items": ["AWS宣布$300亿投资宾州和北卡数据中心", "Meta \"Prometheus\" 多GW级数据中心2026年投产，Zuckerberg称将花\"数千亿美元\"", "E.ON在瑞典部署200MW AI数据中心", "反面声音：helenaglass.net称\"数据中心繁荣-崩盘-燃烧已经开始\"，质疑AI的实际需求能否支撑如此巨大的基础设施投资", "AI基础设施股开始分化：Supermicro vs Nebius vs Alphabet"]}, {"title": "AI黑客攻击进入工业级 — Google三个月监测报告", "items": ["AI驱动的黑客攻击已从零星尝试升级为工业规模", "攻击者使用AI自动发现漏洞、生成exploit、绕过检测", "与METR报告的\"AI学会违规\"形成呼应"]}, {"title": "Token五年增长370倍：AI估值泡沫？", "items": ["投资界报道：AI公司Token使用量五年增长370倍", "月之暗面等公司年内已完成2-3轮融资", "DeepSeek拟首轮融资500亿（5月8日）", "早期医疗AI项目融资已近绝迹 → 资本高度集中头部"]}]}, {"date": "2026-06-04", "candidate_count": 28, "deep_count": 2, "quick_count": 3, "judgment": "", "sources": "HN Algolia API, The Verge, 36氪, 投资界, GitHub, Tom's Hardware, CNBC, BBC*", "tags": ["AI安全/治理", "Agent", "Agent可靠性", "Claude/Anthropic", "Google", "Microsoft", "NVIDIA", "OpenAI", "基础设施", "开源", "芯片/半导体", "融资/IPO"], "deep_reads": [{"title": "**一句话核心**：TI AI总监Antoine Zambelli开源的Forge证明：一个8B小模型加上结构化guardrails验证层，可以让Agent任务成功率从裸跑的53%飙升到99.3%，$600消费级GPU即可匹敌前沿API——Agent平台的竞争壁垒正在从\"接入最好的模型\"转向\"拥有最好的可靠性层\"。", "one_liner": "- \"Guardrails具体做什么？\" → 工具调用的格式校验、参数类型检查、schema conforming、错误恢复循环\n- \"benchmark与实际workflow的差距？\" → 作者回应eval methodology已覆盖多轮对话纠错场景\n- 整体评价：被社区视为Agent engineering的结构性突破，而非另一个benchmark hack", "key_numbers": ["8B Llama级别模型裸跑Agent任务成功率：53%", "加上Forge guardrails后：99.3%（接近6σ可靠性）", "所需硬件：$600消费级GPU", "HN热度：687分，252条评论，5月19日发布至今仍在前排", "作者背景：Texas Instruments AI总监，非学术玩具而是工业级方案"], "sections": {"_intro": "", "关键数字": "- 8B Llama级别模型裸跑Agent任务成功率：53%\n- 加上Forge guardrails后：99.3%（接近6σ可靠性）\n- 所需硬件：$600消费级GPU\n- HN热度：687分，252条评论，5月19日发布至今仍在前排\n- 作者背景：Texas Instruments AI总监，非学术玩具而是工业级方案", "HN社区核心讨论": "- \"Guardrails具体做什么？\" → 工具调用的格式校验、参数类型检查、schema conforming、错误恢复循环\n- \"benchmark与实际workflow的差距？\" → 作者回应eval methodology已覆盖多轮对话纠错场景\n- 整体评价：被社区视为Agent engineering的结构性突破，而非另一个benchmark hack", "连接性分析": "- Hermes是Agent平台，当前Agent执行失败的最大原因就是工具调用格式错误和schema不匹配 → Forge的技术路线是直接解药\n- 这意味着Hermes不需要依赖Claude/GPT的最强模型来保证Agent可靠性，可以用更便宜的模型+验证层达到同等效果\n- 成本结构颠覆：如果用8B模型+Forge替代Claude Opus跑Agent，推理成本可降低10-50倍，且延迟更低\n- 风险：Forge目前是单节点方案，未覆盖多Agent协作场景，但方向明确\n\n---"}}, {"title": "**一句话核心**：微软Build 2026是所有云巨头中最坚决的\"All-in Agent\"宣言：发布自研推理模型MAI-Thinking-1（从零训练、干净数据）、企业AI助手Scout（深度集成M365）、AI代理替代App的平台Solara、本地AI开发设备Surface Dev Box——这不再是\"Copilot\"的渐进升级，而是微软以自己的技术栈重新定义企业AI的起点。", "one_liner": "", "key_numbers": ["MAI-Thinking-1：微软首个高级推理模型，声称在软件工程benchmark上匹敌前沿模型", "训练方式：从零开始用\"干净数据\"训练（暗示区别于OpenAI系的数据策略）", "Scout：为每位企业员工分配虚拟AI助手，深度集成Outlook/OneDrive/Teams", "Project Solara：AI代理替代传统App的新平台范式，代理直接完成任务而非打开App", "Surface RTX Spark Dev Box：搭载NVIDIA Spark芯片+128GB统一内存的迷你PC，专为本地AI开发", "同步发布Majorana 2量子芯片", "HN讨论（microsoft.ai官方文章）：191分，82评论"], "sections": {"_intro": "", "关键数字": "- MAI-Thinking-1：微软首个高级推理模型，声称在软件工程benchmark上匹敌前沿模型\n- 训练方式：从零开始用\"干净数据\"训练（暗示区别于OpenAI系的数据策略）\n- Scout：为每位企业员工分配虚拟AI助手，深度集成Outlook/OneDrive/Teams\n- Project Solara：AI代理替代传统App的新平台范式，代理直接完成任务而非打开App\n- Surface RTX Spark Dev Box：搭载NVIDIA Spark芯片+128GB统一内存的迷你PC，专为本地AI开发\n- 同步发布Majorana 2量子芯片\n- HN讨论（microsoft.ai官方文章）：191分，82评论", "战略信号": "- 微软与OpenAI的关系从\"独家合作伙伴\"进入\"竞争性共存\"——微软需要自己的模型栈\n- \"干净数据\"的强调暗示了对OpenAI训练数据合规风险的规避策略\n- Agent平台的四大件（推理模型+个人助理+企业助手+开发者硬件）同时发布，说明内部已经至少准备了12-18个月", "连接性分析": "- Scout的\"深度集成企业数据\"策略 → Hermes如果要做企业版，需要评估飞书/钉钉/Teams的数据接入能力\n- Solara的\"Agent替代App\"范式 → 与Hermes的agent-first理念一致，验证了赛道方向\n- MAI-Thinking-1的独立训练路线 → 说明\"自研推理模型\"正成为平台级公司的标配，中小Agent平台的门槛在抬高\n- Surface Dev Box本地AI开发 → 硬件+模型的垂直整合趋势，纯软件Agent平台需要思考自己的硬件无关性优势\n\n---"}}], "quick_reads": [{"title": "Google Gemma 4 12B：消费级多模态开源，Agent生态基础设施普及加速", "items": ["Google发布统一多模态（无编码器）开源模型Gemma 4 12B，设计可在16GB RAM笔记本上运行，HN 771分本周最高", "意义：开源Agent的基础模型正在从\"能用\"进化到\"好用\"，本地Agent的门槛持续降低"]}, {"title": "词元无限天使+轮 + 企业AI Agent融资集中爆发", "items": ["词元无限（字节AI化团队+清华姚班）完成数千万元天使+轮，华控基金领投，专注企业Agent基础设施，已服务十家头部金融机构，年度营收预测破亿", "同期：指尖智擎（灵巧手关节模组）、戴盟机器人（视触觉机器人）、光联芯科（AI光互连芯片近5亿A轮）集中融资", "信号：一级市场对\"AI落地的中间件/基础设施\"的定价正在快速上升，纯应用层的窗口在收窄"]}, {"title": "AI治理信号密集：Uber设$1,500上限 + UK强令Google + AI芯片新格局", "items": ["Uber设定员工每月AI工具费用$1,500上限（HN 427分），被视为企业AI定价的行业锚点", "英国CMA裁决Google必须允许出版商退出AI搜索摘要，禁止将内容用于模型微调——全球首个此类规则", "Computex 2026：NVIDIA RTX Spark芯片发布、字节/甲骨文采用Arm AGI CPU——AI芯片从NVIDIA一家独大进入\"Arm+ASIC+GPU\"三方混战", "Goldman Sachs CEO警告AI公司IPO市场进入\"贪婪\"模式"]}]}]`);
+
+function estimateReadingTime(briefing) {
+  // Rough estimate: ~400 chars per minute for Chinese+English mixed text
+  let text = '';
+  (briefing.deep_reads || []).forEach(dr => {
+    text += (dr.title || '') + (dr.one_liner || '');
+    (dr.key_numbers || []).forEach(kn => text += kn);
+    if (dr.sections) Object.values(dr.sections).forEach(v => text += (v || ''));
+  });
+  (briefing.quick_reads || []).forEach(qr => {
+    text += (qr.title || '') + (qr.items || []).join('');
+  });
+  text += (briefing.judgment || '');
+  const chars = text.length;
+  const mins = Math.max(1, Math.round(chars / 400));
+  return mins;
+}
+
+const ALL_BRIEFINGS = BRIEFINGS; // keep ref for prev/next
+
+function renderPrevNext(currentIdx, filteredList) {
+  // filteredList is reversed (newest first); find actual positions
+  const total = ALL_BRIEFINGS.length;
+  const currentDate = filteredList[currentIdx].date;
+  const globalIdx = ALL_BRIEFINGS.findIndex(b => b.date === currentDate);
+  
+  let prevHtml = '', nextHtml = '';
+  
+  // Prev = older (higher index in ALL_BRIEFINGS, since ALL_BRIEFINGS is oldest-first)
+  if (globalIdx < total - 1) {
+    const prev = ALL_BRIEFINGS[globalIdx + 1];
+    prevHtml = `<a href="#i-${prev.date}" onclick="document.getElementById('i-${prev.date}').scrollIntoView({behavior:'smooth'});return false"><span class="nav-label">← 上一篇</span><span class="nav-title">${prev.date} · ${prev.deep_count}篇精读</span></a>`;
+  } else {
+    prevHtml = `<span class="disabled"><span class="nav-label">← 上一篇</span><span class="nav-title">—</span></span>`;
+  }
+  
+  // Next = newer (lower index in ALL_BRIEFINGS)
+  if (globalIdx > 0) {
+    const next = ALL_BRIEFINGS[globalIdx - 1];
+    nextHtml = `<a href="#i-${next.date}" class="next" onclick="document.getElementById('i-${next.date}').scrollIntoView({behavior:'smooth'});return false"><span class="nav-label">下一篇 →</span><span class="nav-title">${next.date} · ${next.deep_count}篇精读</span></a>`;
+  } else {
+    nextHtml = `<span class="disabled next"><span class="nav-label">下一篇 →</span><span class="nav-title">—</span></span>`;
+  }
+  
+  return `<div class="post-nav">${prevHtml}${nextHtml}</div>`;
+}
+
 function R(){
   q=document.getElementById('s').value.toLowerCase();
   let F=BRIEFINGS;
@@ -153,12 +220,29 @@ function R(){
   document.getElementById('tg').innerHTML=topT.map(([k,v])=>`<span class="tag${t===k?' on':''}" onclick="t=t===k?null:k;R()">${k} <small style="opacity:.4">${v}</small></span>`).join('');
   document.getElementById('tl').innerHTML=BRIEFINGS.map(b=>`<li onclick="document.getElementById('i-'+'${b.date}').scrollIntoView({behavior:'smooth'})">${b.date}<span style="font-size:10px">${b.deep_count}篇</span></li>`).join('');
   if(!F.length){document.getElementById('m').innerHTML='<div class="empty">📭 无匹配</div>';return}
-  let h=`<div class="hero"><h1>品味AI每天简报</h1><p class="sub">AI产业动态深度解读 · 品位五条筛选 · 行动级别判断</p><div class="nums"><span><b>${TD}</b>篇精读</span><span><b>${TC}</b>篇候选</span><span><b>${BRIEFINGS.length}</b>期简报</span><span><b>${topT.length}</b>个标签</span></div></div>`;
-  F.slice().reverse().forEach(b=>{
-    h+=`<div class="issue" id="i-${b.date}"><div class="issue-date">${b.date} · ${b.candidate_count}篇候选 · ${b.deep_count}篇精读<div class="tags-row">${b.tags.map(x=>`<span class="itag">${x}</span>`).join('')}</div></div>`;
+  
+  const totalReading = F.reduce((a,b) => a + estimateReadingTime(b), 0);
+  let h=`<div class="hero"><h1>品味AI简报</h1><p class="sub">AI产业动态深度解读 · Blog 形式 · 每周二/四/六更新</p><div class="nums"><span><b>${TD}</b>篇精读</span><span><b>${TC}</b>篇候选</span><span><b>${BRIEFINGS.length}</b>期简报</span><span><b>${topT.length}</b>个标签</span><span><b>${totalReading} min</b>总阅读</span></div></div>`;
+  
+  const filtered = F.slice().reverse(); // newest first
+  filtered.forEach((b,idx)=>{
+    const rt = estimateReadingTime(b);
+    const dateParts = b.date.split('-');
+    const dateDisplay = `${dateParts[0]}年${parseInt(dateParts[1])}月${parseInt(dateParts[2])}日`;
+    
+    h+=`<div class="blog-post" id="i-${b.date}">`;
+    
+    // Sticky date header inside blog post
+    h+=`<div class="blog-date"><div class="blog-date-inner">`;
+    h+=`<span class="date-badge">📅 ${dateDisplay}</span>`;
+    h+=`<span class="date-meta"><span>${b.candidate_count}篇候选</span><span class="sep">·</span><span>${b.deep_count}篇精读</span><span class="sep">·</span><span class="rt">⏱ ${rt} min read</span></span>`;
+    h+=`<div class="tags-row">${b.tags.map(x=>`<span class="itag">${x}</span>`).join('')}</div>`;
+    h+=`</div></div>`;
+    
+    // Deep reads
     b.deep_reads.forEach((dr,i)=>{
       const o=(i+1).toString().padStart(2,'0');
-      h+=`<div class="dr"><div class="dr-num">${o}</div><h2>${dr.title.replace(/\*\*/g,'').replace(/：$/,'')}</h2>`;
+      h+=`<div class="dr"><div class="dr-num">${o}</div><h2>${dr.title.replace(/\*\*/g,'').replace(/:$/,'')}</h2>`;
       // Thesis as takeaway
       if(dr.one_liner&&dr.one_liner.length>30){
         h+=`<div class="takeaways"><div class="takeaway"><p>${dr.one_liner}</p></div></div>`;
@@ -196,7 +280,11 @@ function R(){
     // Judgment
     if(b.judgment){const p=b.judgment.split(/具体行动|行动建议/);h+=`<div class="jdg"><div class="j-label">🧭 The Call</div><div class="j-core">${p[0]}</div>`;if(p[1])h+=`${p[1].replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}`;h+=`</div>`}
     if(b.sources)h+=`<div class="src">📡 ${b.sources}</div>`;
-    h+=`</div>`;
+    
+    // Previous / Next navigation
+    h += renderPrevNext(idx, filtered);
+    
+    h+=`</div>`; // close blog-post
   });
   document.getElementById('m').innerHTML=h;
 }
