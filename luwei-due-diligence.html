@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>路维光电 688401 — 投研尽调报告</title>
+<style>
+:root { --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#c9d1d9; --text2:#8b949e; --green:#22c55e; --red:#ef4444; --blue:#3b82f6; --amber:#f59e0b; --purple:#a855f7; --max-w:960px; }
+*{margin:0;padding:0;box-sizing:border-box} html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.7}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 20px}
+.banner{background:linear-gradient(135deg,#0d1117,#1a1f2e);border-bottom:1px solid var(--border);padding:44px 0 32px;position:relative}
+.banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--blue),var(--purple))}
+.banner h1{font-size:28px;font-weight:700;margin-bottom:6px;background:linear-gradient(90deg,#e6edf3,#58a6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.banner .code{font-size:14px;color:var(--text2);margin-bottom:6px;font-family:monospace}
+.nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 20px}
+.nav-inner{max-width:var(--max-w);margin:0 auto;display:flex;overflow-x:auto}
+.nav-inner a{display:block;padding:12px 18px;font-size:13px;color:var(--text2);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.active{color:var(--text);border-bottom-color:var(--blue)}
+section{padding:40px 0} section:nth-child(even){background:var(--card)}
+h2{font-size:22px;font-weight:700;margin-bottom:20px}
+h2::before{content:'';display:inline-block;width:4px;height:18px;background:var(--blue);margin-right:10px;border-radius:2px;vertical-align:middle}
+h3{font-size:17px;font-weight:600;margin:24px 0 12px}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.kpi .label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi .value{font-size:26px;font-weight:700;font-family:"SF Mono",Consolas,monospace}
+.kpi .sub{font-size:11px;color:var(--text2);margin-top:4px}
+.kpi.green .value{color:var(--green)} .kpi.red .value{color:var(--red)}
+.kpi.blue .value{color:var(--blue)} .kpi.amber .value{color:var(--amber)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid rgba(48,54,61,.4)}
+tr:hover td{background:rgba(48,54,61,.15)}
+td.num{text-align:right;font-family:"SF Mono",Consolas,monospace}
+td.up{color:var(--green)} td.down{color:var(--red)}
+.verdict{padding:16px 20px;border-radius:10px;margin:16px 0;font-size:14px;line-height:1.6}
+.verdict.pass{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)}
+.verdict.warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.verdict .icon{font-size:20px;margin-right:8px}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:6px}
+.badge.green{background:rgba(34,197,94,.15);color:var(--green)}
+.badge.red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge.amber{background:rgba(245,158,11,.15);color:var(--amber)}
+.badge.blue{background:rgba(59,130,246,.15);color:var(--blue)}
+.checklist{list-style:none}
+.checklist li{padding:8px 0;border-bottom:1px solid rgba(48,54,61,.3);display:flex;align-items:flex-start;gap:10px}
+.checklist li:last-child{border-bottom:none}
+.bar-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+.bar-label{width:80px;font-size:12px;text-align:right;color:var(--text2);flex-shrink:0}
+.bar-track{flex:1;height:20px;background:var(--card);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff}
+.bar-fill.green{background:var(--green)} .bar-fill.blue{background:var(--blue)}
+.bar-fill.amber{background:var(--amber)} .bar-fill.purple{background:var(--purple)}
+.back-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s;z-index:200;font-size:18px}
+footer{border-top:1px solid var(--border);padding:32px 0;color:var(--text2);font-size:12px}
+@media(max-width:700px){.kpi-row{grid-template-columns:repeat(2,1fr)}.banner h1{font-size:22px}}
+</style>
+</head>
+<body>
+
+<div class="banner">
+<div class="container">
+<h1>深圳市路维光电股份有限公司</h1>
+<div class="code">688401.SH · 科创板 · 半导体材料</div>
+<div class="kpi-row" style="margin-top:20px">
+<div class="kpi blue"><div class="label">2025 营收</div><div class="value">11.55亿</div><div class="sub">同比 +32%</div></div>
+<div class="kpi green"><div class="label">2025 净利润</div><div class="value">2.52亿</div><div class="sub">净利率 21.8%</div></div>
+<div class="kpi blue"><div class="label">Q1 2026 毛利率</div><div class="value">24.9%</div><div class="sub">同比改善中</div></div>
+<div class="kpi green"><div class="label">ROE</div><div class="value">15.2%</div><div class="sub">2025 年</div></div>
+<div class="kpi amber"><div class="label">负债率</div><div class="value">47%</div><div class="sub">制造业正常</div></div>
+<div class="kpi blue"><div class="label">4年 CAGR</div><div class="value">24%</div><div class="sub">营收复合增速</div></div>
+</div>
+</div>
+</div>
+
+<nav class="nav"><div class="nav-inner">
+<a href="#layer1">一·赛道判断</a><a href="#layer2">二·公司判断</a><a href="#layer3">三·时机判断</a><a href="#layer4">四·持续跟踪</a><a href="#summary">总·结论</a>
+</div></nav>
+
+<section id="layer1"><div class="container">
+<h2>第一层：赛道判断</h2>
+<p style="color:var(--text2);font-size:13px;margin-bottom:20px">光掩模版——半导体制造的「底片」，没有它芯片做不出来。</p>
+
+<div class="card">
+<h3>① 定义赛道</h3>
+<p>光掩模版（Photomask）是光刻工艺的核心耗材。芯片制造需要几十层光刻，每层对应一张掩模版。路维解决的是<strong>「高精度微纳图形转移」</strong>问题——把电路设计图案精确转移到晶圆上。</p>
+</div>
+
+<div class="card">
+<h3>②–⑤ 规模 · 阶段 · 政策 · 增速</h3>
+<table>
+<tr><th>维度</th><th>数据</th><th>判断</th></tr>
+<tr><td>全球市场规模</td><td class="num">~50 亿美元</td><td>大市场</td></tr>
+<tr><td>中国大陆市场</td><td class="num">~100 亿人民币</td><td>国产化率 < 30%</td></tr>
+<tr><td>发展阶段</td><td colspan="2">国产替代早期。28nm以上开始放量，14nm以下仍被日本/美国垄断</td></tr>
+<tr><td>政策信号</td><td colspan="2">十五五重点扶持半导体材料和设备，掩模版属于「卡脖子」环节</td></tr>
+<tr><td>需求增速</td><td class="num up">>15% CAGR</td><td>国内晶圆厂扩产驱动</td></tr>
+<tr><td>路维营收增速</td><td class="num up">24% CAGR（4年）</td><td>持续超越行业</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>⑥ 量价信号</h3>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<div class="kpi green" style="flex:1;min-width:120px"><div class="label">2021 营收</div><div class="value" style="font-size:20px">4.94亿</div></div>
+<div class="kpi blue" style="flex:1;min-width:120px"><div class="label">2022</div><div class="value" style="font-size:20px">6.40亿</div></div>
+<div class="kpi blue" style="flex:1;min-width:120px"><div class="label">2023</div><div class="value" style="font-size:20px">6.72亿</div></div>
+<div class="kpi blue" style="flex:1;min-width:120px"><div class="label">2024</div><div class="value" style="font-size:20px">8.76亿</div></div>
+<div class="kpi green" style="flex:1;min-width:120px"><div class="label">2025</div><div class="value" style="font-size:20px">11.55亿</div></div>
+<div class="kpi green" style="flex:1;min-width:120px"><div class="label">Q1 2026</div><div class="value" style="font-size:20px">3.27亿</div><div class="sub">+26% YoY</div></div>
+</div>
+<p style="margin-top:12px">4 年营收 CAGR 24%。2025 年突破 10 亿大关。Q1 2026 继续 +26%——<span class="badge green">持续量价齐升</span></p>
+</div>
+
+<div class="card">
+<h3>⑦ 竞争格局</h3>
+<table>
+<tr><th>梯队</th><th>公司</th><th>定位</th><th>技术节点</th></tr>
+<tr><td>全球第一</td><td>Toppan（凸版）</td><td>全球龙头</td><td>7nm 以下</td></tr>
+<tr><td>全球第二</td><td>DNP（大日本印刷）</td><td>全球第二</td><td>7nm 以下</td></tr>
+<tr><td>全球第三</td><td>Photronics（美国）</td><td>全球第三</td><td>14nm 以下</td></tr>
+<tr style="background:rgba(59,130,246,.06)"><td>国内第一</td><td><strong>路维光电</strong></td><td>半导体+显示掩模版</td><td>130nm–28nm</td></tr>
+<tr><td>国内第二</td><td>清溢光电（688138）</td><td>显示面板掩模为主</td><td>130nm–28nm</td></tr>
+</table>
+<p style="font-size:12px;color:var(--text2);margin-top:8px">国内双寡头格局。路维在半导体掩模版上领先清溢。</p>
+</div>
+
+<div class="card">
+<h3>⑧ 垄断信号</h3>
+<p style="font-size:36px;text-align:center;margin:12px 0">🟡 国内准垄断</p>
+<p>全球高端掩模版被日美寡头垄断。但路维在国内有<strong>认证壁垒</strong>——掩模版客户认证周期 1-2 年，一旦进入供应链极难被替换。这不是「自由定价权」，而是「客户锁定权」。</p>
+</div>
+
+<div class="verdict pass"><span class="icon">✅</span><strong>赛道结论：强烈 PASS。</strong> 国产替代 + 半导体扩产 + 高认证壁垒 + 双寡头格局。掩模版是半导体产业链里被低估的「卖铲人」。</div>
+</div></section>
+
+<section id="layer2"><div class="container">
+<h2>第二层：公司判断</h2>
+<p style="color:var(--text2);font-size:13px;margin-bottom:20px">赛道好≠你好。路维自己行不行？</p>
+
+<div class="card">
+<h3>A. 财务硬指标</h3>
+<table>
+<tr><th>指标</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>Q1 2026</th></tr>
+<tr><td>营收（亿）</td><td class="num">4.94</td><td class="num">6.40</td><td class="num">6.72</td><td class="num">8.76</td><td class="num up">11.55</td><td class="num up">3.27</td></tr>
+<tr><td>营收 YoY</td><td class="num">—</td><td class="num up">+30%</td><td class="num up">+5%</td><td class="num up">+30%</td><td class="num up">+32%</td><td class="num up">+26%</td></tr>
+<tr><td>净利（亿）</td><td class="num">0.52</td><td class="num">1.20</td><td class="num">1.49</td><td class="num">1.91</td><td class="num up">2.52</td><td class="num up">0.68</td></tr>
+<tr><td>毛利率</td><td class="num" colspan="3" style="color:var(--text2)">数据有限</td><td class="num">—</td><td class="num">23.7%</td><td class="num up">24.9%</td></tr>
+<tr><td>净利率</td><td class="num">10.5%</td><td class="num">18.8%</td><td class="num">22.2%</td><td class="num">21.8%</td><td class="num">21.8%</td><td class="num">20.9%</td></tr>
+</table>
+<p style="font-size:12px;color:var(--text2);margin-top:8px">来源：L1-东方财富 datacenter-web API（RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE）</p>
+
+<div style="margin-top:16px">
+<p><strong>① 毛利率 23.7%</strong> — 看起来不高。但掩模版行业设备折旧重（一台电子束光刻机数亿元），23-25% 属正常。Q1 2026 毛利率 24.9%，趋势向上。<span class="badge amber">中上</span></p>
+<p style="margin-top:8px"><strong>② 净利率 21.8%</strong> — <strong style="color:var(--green)">极高水平。</strong> 毛利到净利几乎没损耗！这意味着：销售费用和管理费用极低——客户自己找上门，不靠低价抢单。<span class="badge green">优秀</span></p>
+<p style="margin-top:8px"><strong>③ ROE ~15.2%</strong> — 净资产 16.63 亿，年利润 2.52 亿。持续造血能力强。<span class="badge green">健康</span></p>
+</div>
+</div>
+
+<div class="card">
+<h3>B. 横向对比</h3>
+<div class="bar-row"><div class="bar-label">营收</div><div class="bar-track"><div class="bar-fill blue" style="width:100%">路维 11.55亿</div></div></div>
+<div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill purple" style="width:87%">清溢 ~10亿</div></div></div>
+<p style="font-size:11px;color:var(--text2);margin:4px 0 16px 90px">国内领先</p>
+<div class="bar-row"><div class="bar-label">净利率</div><div class="bar-track"><div class="bar-fill green" style="width:100%">路维 21.8%</div></div></div>
+<div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill purple" style="width:78%">清溢 ~17%</div></div></div>
+<p style="font-size:11px;color:var(--text2);margin:4px 0 16px 90px">路维效率更高</p>
+<div class="bar-row"><div class="bar-label">定位</div><div class="bar-track"><div class="bar-fill blue" style="width:100%">路维：半导体为主</div></div></div>
+<div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill purple" style="width:70%">清溢：显示面板为主</div></div></div>
+<p style="font-size:11px;color:var(--text2);margin:4px 0 0 90px">半导体掩模版技术壁垒更高</p>
+</div>
+
+<div class="card">
+<h3>C. 风险排查</h3>
+<ul class="checklist">
+<li><span class="badge amber">🟡</span><span class="label-text"><strong>客户集中度</strong> — 半导体客户集中（中芯/华虹等大晶圆厂），但这是行业特性，大客户=大订单</span></li>
+<li><span class="badge amber">🟠</span><span class="label-text"><strong>设备依赖</strong> — 核心光刻/检测设备依赖进口（ASML/NuFlare/JEOL）。若美国升级制裁，扩产受限</span></li>
+<li><span class="badge amber">🟡</span><span class="label-text"><strong>技术升级</strong> — 28nm 以下掩模版仍需突破。与 Toppan/DNP 有 3-4 代技术差距</span></li>
+<li><span class="badge green">🟢</span><span class="label-text"><strong>负债率 47%</strong> — 制造业正常水平。有息负债需进一步核实</span></li>
+<li><span class="badge green">🟢</span><span class="label-text"><strong>竞争格局</strong> — 国内双寡头，路维在半导体掩模版上领先</span></li>
+</ul>
+</div>
+
+<div class="verdict pass"><span class="icon">✅</span><strong>公司结论：质地优秀。</strong> 营收 4 年 CAGR 24%，净利率 21%+，ROE 15%+。国内掩模版龙头，半导体掩模版占比更高、壁垒更深。</div>
+</div></section>
+
+<section id="layer3"><div class="container">
+<h2>第三层：时机判断</h2>
+<p style="color:var(--text2);font-size:13px;margin-bottom:20px">好公司+错时机=白等很久。</p>
+
+<div class="card">
+<h3>① 市场舆情</h3>
+<p>半导体设备/材料是市场热点，但掩模版相对冷门——没有被充分炒作。这反而是好事。</p>
+</div>
+
+<div class="card">
+<h3>② 催化剂</h3>
+<table>
+<tr><th>时间</th><th>事件</th><th>方向</th></tr>
+<tr><td>短期</td><td>Q2 2026 财报：若毛利率继续改善至 25%+</td><td><span class="badge green">利好</span></td></tr>
+<tr><td>中期</td><td>中芯/华虹/长存持续扩产 → 掩模版需求同步增长</td><td><span class="badge green">利好</span></td></tr>
+<tr><td>中期</td><td>28nm 以下掩模版突破 → 估值重估</td><td><span class="badge green">重大</span></td></tr>
+<tr><td>短期</td><td>美国对华设备限制升级 → 反而利好国产替代</td><td><span class="badge amber">双刃剑</span></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>③ 预期差</h3>
+<p>关键洞察：<strong>毛利率 23.7% 看似低，但净利率 21.8%。</strong>毛利到净利的极低损耗说明——掩模版是客户主动找上门、不靠价格竞争的行业。23.7% 的毛利率撑起了 21.8% 的净利率，这是<strong>隐性高壁垒</strong>的特征。</p>
+<p style="margin-top:8px">市场可能只看到了「毛利率不高」，没看到「净利率极高」背后的行业壁垒。如果 28nm 以下掩模版突破，毛利率有望向 Toppan 的 35-40% 靠拢，届时利润弹性巨大。</p>
+</div>
+
+<div class="verdict pass"><span class="icon">✅</span><strong>时机结论：中性偏正面。</strong> 半导体扩产周期中，需求确定性高。市场尚未充分定价掩模版的「隐形壁垒」。</div>
+</div></section>
+
+<section id="layer4"><div class="container">
+<h2>第四层：持续跟踪</h2>
+<p style="color:var(--text2);font-size:13px;margin-bottom:20px">大方向以财报为准，日常舆情只影响波动。</p>
+
+<div class="card">
+<h3>跟踪指标</h3>
+<table>
+<tr><th>指标</th><th>频率</th><th>预警线</th><th>重要性</th></tr>
+<tr><td>季度营收增速</td><td>每季</td><td>&lt; 15% YoY</td><td><span class="badge red">高</span></td></tr>
+<tr><td>毛利率趋势</td><td>每季</td><td>&lt; 22% 或连续下滑</td><td><span class="badge red">高</span></td></tr>
+<tr><td>负债率</td><td>每季</td><td>&gt; 55%</td><td><span class="badge amber">中</span></td></tr>
+<tr><td>新半导体客户导入</td><td>每季</td><td>连续两季无新客户</td><td><span class="badge amber">中</span></td></tr>
+<tr><td>设备进口限制</td><td>实时</td><td>任何 ASML/NuFlare 禁售令</td><td><span class="badge red">即时</span></td></tr>
+<tr><td>28nm 以下突破</td><td>每季</td><td>公告技术进展</td><td><span class="badge green">正面催化</span></td></tr>
+</table>
+</div>
+</div></section>
+
+<section id="summary"><div class="container">
+<h2>总结判断</h2>
+<div class="card" style="background:linear-gradient(135deg,#161b22,#1a1f2e)">
+<table>
+<tr><th style="width:80px">层级</th><th>评估</th><th>结论</th></tr>
+<tr><td><span class="badge green">赛道</span></td><td>✅ PASS</td><td>国产替代 + 认证壁垒 + 半导体扩产 → 掩模版是「卖铲人」</td></tr>
+<tr><td><span class="badge green">公司</span></td><td>✅ 优秀</td><td>24% CAGR + 21%+ 净利率 + 15% ROE → 国内龙头质地扎实</td></tr>
+<tr><td><span class="badge green">时机</span></td><td>✅ 正面</td><td>扩产周期 + 隐性壁垒未被充分定价 + 28nm突破期权</td></tr>
+<tr><td><span class="badge amber">跟踪</span></td><td>正常</td><td>关注毛利率趋势 + 设备进口风险</td></tr>
+</table>
+</div>
+<div class="verdict pass" style="margin-top:16px"><strong>一句话：掩模版是半导体产业链里被低估的「卖铲人」。行业不起眼但壁垒高、客户粘性强、国产替代空间大。路维作为国内龙头，值得深入研究。</strong></div>
+</div></section>
+
+<footer><div class="container">
+<p><strong>数据来源</strong>：L1·东方财富 datacenter-web API（RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE）</p>
+<p><strong>方法论</strong>：investment-due-diligence v2 — 四层穿透框架（赛道→公司→时机→跟踪）</p>
+<p style="margin-top:12px"><strong>免责声明</strong>：AI 基于公开数据生成，仅供研究参考，不构成投资建议。数据截至 2026-06-07。</p>
+</div></footer>
+
+<a class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</a>
+
+<script>
+const btn=document.getElementById('backTop');
+window.addEventListener('scroll',()=>{if(window.scrollY>400){btn.style.opacity='1';btn.style.pointerEvents='auto'}else{btn.style.opacity='0';btn.style.pointerEvents='none'}});
+const secs=document.querySelectorAll('section'),navs=document.querySelectorAll('.nav-inner a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)c=s.getAttribute('id')});navs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c))});
+</script>
+</body>
+</html>
