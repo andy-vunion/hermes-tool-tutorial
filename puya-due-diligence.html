@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>普冉股份 688766 — 投研尽调报告</title>
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --card-hover: #1c2129;
+  --border: #30363d; --text: #c9d1d9; --text2: #8b949e;
+  --green: #22c55e; --red: #ef4444; --blue: #3b82f6;
+  --amber: #f59e0b; --purple: #a855f7; --max-w: 960px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; font-size: 15px; line-height: 1.7; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+
+.banner {
+  background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 100%);
+  border-bottom: 1px solid var(--border); padding: 44px 0 32px; position: relative;
+}
+.banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--blue), var(--purple)); }
+.banner h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; background: linear-gradient(90deg, #e6edf3, #58a6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.banner .code { font-size: 14px; color: var(--text2); margin-bottom: 6px; font-family: monospace; }
+.banner .tagline { font-size: 13px; color: var(--text2); }
+
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(13,17,23,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 20px; }
+.nav-inner { max-width: var(--max-w); margin: 0 auto; display: flex; gap: 0; overflow-x: auto; }
+.nav-inner a { display: block; padding: 12px 18px; font-size: 13px; color: var(--text2); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all .2s; }
+.nav-inner a:hover, .nav-inner a.active { color: var(--text); border-bottom-color: var(--blue); }
+
+section { padding: 40px 0; }
+section:nth-child(even) { background: var(--card); }
+h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--text); }
+h2::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--blue); margin-right: 10px; border-radius: 2px; vertical-align: middle; }
+h3 { font-size: 17px; font-weight: 600; margin: 24px 0 12px; color: var(--text); }
+
+.card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+
+/* KPI cards */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+.kpi .label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.kpi .value { font-size: 26px; font-weight: 700; font-family: "SF Mono", Consolas, monospace; }
+.kpi .sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
+.kpi.green .value { color: var(--green); }
+.kpi.red .value { color: var(--red); }
+.kpi.blue .value { color: var(--blue); }
+.kpi.amber .value { color: var(--amber); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 12px; color: var(--text2); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .3px; border-bottom: 1px solid var(--border); }
+td { padding: 8px 12px; border-bottom: 1px solid rgba(48,54,61,0.4); }
+tr:hover td { background: rgba(48,54,61,0.15); }
+td.num { text-align: right; font-family: "SF Mono", Consolas, monospace; }
+td.up { color: var(--green); }
+td.down { color: var(--red); }
+
+/* Verdict boxes */
+.verdict { padding: 16px 20px; border-radius: 10px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+.verdict.pass { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
+.verdict.warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+.verdict.fail { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+.verdict .icon { font-size: 20px; margin-right: 8px; }
+
+/* Checklist */
+.checklist { list-style: none; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.3); display: flex; align-items: flex-start; gap: 10px; }
+.checklist li:last-child { border-bottom: none; }
+.checklist .dim { font-size: 14px; }
+.checklist .label-text { flex: 1; }
+
+/* Bar chart */
+.bar-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.bar-label { width: 80px; font-size: 12px; text-align: right; color: var(--text2); flex-shrink: 0; }
+.bar-track { flex: 1; height: 20px; background: var(--card); border-radius: 4px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: #fff; }
+.bar-fill.green { background: var(--green); }
+.bar-fill.blue { background: var(--blue); }
+.bar-fill.amber { background: var(--amber); }
+.bar-fill.red { background: var(--red); }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; border-left: 2px solid var(--border); }
+.timeline-item { position: relative; margin-bottom: 16px; }
+.timeline-item::before { content: ''; position: absolute; left: -29px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+.timeline-date { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+.timeline-text { font-size: 14px; }
+
+/* Signal badge */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+.badge.green { background: rgba(34,197,94,.15); color: var(--green); }
+.badge.red { background: rgba(239,68,68,.15); color: var(--red); }
+.badge.amber { background: rgba(245,158,11,.15); color: var(--amber); }
+.badge.blue { background: rgba(59,130,246,.15); color: var(--blue); }
+
+/* Source ref */
+.src-ref { font-size: 10px; color: var(--text2); cursor: help; vertical-align: super; margin-left: 1px; }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); padding: 32px 0; color: var(--text2); font-size: 12px; }
+footer p { margin-bottom: 6px; }
+
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 200; font-size: 18px; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .banner h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="banner">
+  <div class="container">
+    <h1>普冉半导体（上海）股份有限公司</h1>
+    <div class="code">688766.SH · 科创板 · 半导体设计</div>
+    <div class="tagline">NOR Flash / EEPROM / MCU — 非易失性存储器芯片设计公司</div>
+    <div class="kpi-row" style="margin-top:20px;">
+      <div class="kpi blue"><div class="label">2024 营收</div><div class="value">18.04亿</div><div class="sub">同比 +60.0%</div></div>
+      <div class="kpi green"><div class="label">2024 净利润</div><div class="value">2.92亿</div><div class="sub">扭亏为盈</div></div>
+      <div class="kpi amber"><div class="label">毛利率</div><div class="value">33.6%</div><div class="sub">2024年 / 2025年↓28.4%</div></div>
+      <div class="kpi red"><div class="label">PE(LYR)</div><div class="value">282x</div><div class="sub">显著高于行业</div></div>
+      <div class="kpi blue"><div class="label">ROE</div><div class="value">14.1%</div><div class="sub">2024 加权</div></div>
+      <div class="kpi amber"><div class="label">MCU 占比</div><div class="value">21.4%</div><div class="sub">+11.2pp YoY</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#layer1">一·赛道判断</a>
+    <a href="#layer2">二·公司判断</a>
+    <a href="#layer3">三·时机判断</a>
+    <a href="#layer4">四·持续跟踪</a>
+    <a href="#summary">总·结论</a>
+  </div>
+</nav>
+
+<!-- Layer 1: Industry -->
+<section id="layer1">
+  <div class="container">
+    <h2>第一层：赛道判断</h2>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">核心问题：赛道有没有前途？是老天爷赏饭吃还是自己真有本事？</p>
+
+    <div class="card">
+      <h3>① 定义赛道</h3>
+      <p>不是「做 NOR Flash 的」，而是解决 <strong>「数据非易失存储 + 嵌入式控制」</strong> 的问题。产品矩阵 = NOR Flash + EEPROM + MCU。</p>
+    </div>
+
+    <div class="card">
+      <h3>②–⑤ 规模 · 阶段 · 政策 · 增速</h3>
+      <table>
+        <tr><th>细分</th><th>2024 规模</th><th>CAGR</th><th>阶段</th><th>政策</th></tr>
+        <tr><td>NOR Flash</td><td class="num">28–35 亿美元</td><td class="num">5–7%</td><td>成熟期</td><td>国产替代支持</td></tr>
+        <tr><td>EEPROM</td><td colspan="2" style="color:var(--text2)">利基市场，随多摄/车规/DDR5稳定增长</td><td>成熟期</td><td>车规芯片扶持</td></tr>
+        <tr><td>中国 MCU</td><td class="num">633 亿元</td><td class="num up">12.0%</td><td>成长期</td><td>集成电路重点</td></tr>
+        <tr><td>专用存储整体</td><td class="num">135.9 亿美元</td><td class="num">7.1%</td><td>—</td><td>—</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;">来源：L4-Yole/IC Insights · L3-电子发烧友行业研究 2025.06 · L4-灼识咨询 MCU 数据</p>
+    </div>
+
+    <div class="card">
+      <h3>⑥ 量价信号</h3>
+      <p>2024 年量价齐升：营收 +60%，毛利率 24.3%→33.5%。<span class="badge green">积极</span></p>
+      <p style="margin-top:8px;">⚠️ 但 2025 全年毛利率已回落至 <strong style="color:var(--red)">28.37%</strong>，显示景气持续性存疑。<span class="badge amber">关注</span></p>
+    </div>
+
+    <div class="card">
+      <h3>⑦ 竞争格局</h3>
+      <table>
+        <tr><th>排名</th><th>公司</th><th>全球市占率</th><th>优势</th></tr>
+        <tr><td>1</td><td>华邦电子</td><td class="num">~20–25%</td><td>产品线齐全，45nm 研发中</td></tr>
+        <tr><td>2</td><td>兆易创新（603986）</td><td class="num">~18.5%</td><td>国内第一，45nm 量产</td></tr>
+        <tr><td>3</td><td>旺宏电子</td><td class="num">—</td><td>高容量 NOR，汽车电子优势</td></tr>
+        <tr><td>—</td><td style="color:var(--amber)">普冉股份</td><td style="color:var(--amber)" class="num">不在前三</td><td>40nm SONOS 差异化</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;">前三大合计占 63.2%。普冉靠 SONOS 低功耗差异化竞争，但市场份额有限。</p>
+    </div>
+
+    <div class="card">
+      <h3>⑧ 垄断信号</h3>
+      <p style="font-size:48px;text-align:center;">❌</p>
+      <p style="text-align:center;color:var(--text2);">NOR Flash 高度竞争市场。普冉不具备自由定价权。毛利率波动（24%↔34%）即是证据。</p>
+    </div>
+
+    <div class="verdict pass">
+      <span class="icon">✅</span> <strong>赛道结论：PASS，但谨慎。</strong><br>
+      MCU 方向有成长（633亿×12%CAGR），但 NOR Flash 主业面临周期性波动 + 前三巨头挤压。<br>
+      毛利率 2025 年的回落是一个警示信号——2024 年的景气可能是周期性的，不是结构性的。
+    </div>
+  </div>
+</section>
+
+<!-- Layer 2: Company -->
+<section id="layer2">
+  <div class="container">
+    <h2>第二层：公司判断</h2>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">核心问题：赛道好≠你好。公司自己行不行？</p>
+
+    <div class="card">
+      <h3>A. 财务硬指标</h3>
+      <table>
+        <tr><th>指标</th><th>2022</th><th>2023</th><th>2024</th><th>2025全年</th><th>趋势</th></tr>
+        <tr><td>营收（亿）</td><td class="num">9.25</td><td class="num">11.27</td><td class="num up">18.04</td><td class="num">23.20</td><td>↗</td></tr>
+        <tr><td>净利润（亿）</td><td class="num">0.83</td><td class="num down">-0.48</td><td class="num up">2.92</td><td class="num down">2.08</td><td>↘2025</td></tr>
+        <tr><td>毛利率</td><td class="num">29.9%</td><td class="num down">24.3%</td><td class="num up">33.6%</td><td class="num down">28.4%</td><td>⚠️回落</td></tr>
+        <tr><td>净利率</td><td class="num">9.0%</td><td class="num down">-4.3%</td><td class="num up">16.2%</td><td class="num">~9%</td><td>⚠️回落</td></tr>
+        <tr><td>ROE</td><td class="num">4.2%</td><td class="num down">-2.5%</td><td class="num up">14.1%</td><td class="num">9.0%</td><td>↘</td></tr>
+        <tr><td>研发费用率</td><td class="num">16.1%</td><td class="num">17.0%</td><td class="num">13.4%</td><td class="num">—</td><td>Fabless 正常</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;">来源：L1-同花顺 financial_statements + financial_index</p>
+
+      <div style="margin-top:16px;">
+        <p><strong>① 毛利率</strong> — 在价值链上位置偏下游。2024 年回升是行业β，2025 年回落说明没有独立定价权。<span class="badge amber">中</span></p>
+        <p style="margin-top:8px;"><strong>② 费用率</strong> — 研发 13-17%，Fabless 正常。销售+管理费用可控。<span class="badge green">正常</span></p>
+        <p style="margin-top:8px;"><strong>③ 净利率</strong> — 2023 亏损 → 2024 修复 → 2025 再降。盈利波动极大，周期性特征明显。<span class="badge red">弱</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>B. 横向对比（2024 年）</h3>
+      <div class="bar-row"><div class="bar-label">兆易创新</div><div class="bar-track"><div class="bar-fill blue" style="width:100%">73.56亿</div></div></div>
+      <div class="bar-row"><div class="bar-label">普冉股份</div><div class="bar-track"><div class="bar-fill amber" style="width:24.5%">18.04亿</div></div></div>
+      <div class="bar-row"><div class="bar-label">聚辰股份</div><div class="bar-track"><div class="bar-fill green" style="width:14.0%">10.28亿</div></div></div>
+      <p style="font-size:11px;color:var(--text2);margin:4px 0 16px 90px;">营收规模 — 普冉居中，约为兆易的 1/4</p>
+
+      <div class="bar-row"><div class="bar-label">毛利率</div><div class="bar-track"><div class="bar-fill green" style="width:90%">聚辰 ~45%</div></div></div>
+      <div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill blue" style="width:78%">兆易 ~39%</div></div></div>
+      <div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill amber" style="width:67%">普冉 33.6%</div></div></div>
+      <p style="font-size:11px;color:var(--text2);margin:4px 0 16px 90px;">毛利率 — 普冉最低，在价值链上位置偏下游</p>
+
+      <div class="bar-row"><div class="bar-label">ROE</div><div class="bar-track"><div class="bar-fill amber" style="width:100%">普冉 14.1%</div></div></div>
+      <div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill green" style="width:85%">聚辰 ~12%</div></div></div>
+      <div class="bar-row"><div class="bar-label"></div><div class="bar-track"><div class="bar-fill blue" style="width:57%">兆易 ~8%</div></div></div>
+      <p style="font-size:11px;color:var(--text2);margin:4px 0 0 90px;">ROE — 普冉最高（低基数 + 轻资产），但 2025 已回落至 9%</p>
+      <p style="font-size:12px;color:var(--text2);margin-top:12px;">来源：L1-同花顺 + L3-券商研报</p>
+    </div>
+
+    <div class="card">
+      <h3>C. 风险排查</h3>
+      <ul class="checklist">
+        <li><span class="badge amber">🟡</span><span class="label-text"><strong>客户集中度</strong> — 前五大约 60%，偏高但消费电子行业常见</span></li>
+        <li><span class="badge amber">🟡</span><span class="label-text"><strong>供应商依赖</strong> — 晶圆代工高度依赖华虹/中芯。Fabless 通病，但上游涨价时成本承压</span></li>
+        <li><span class="badge amber">🟠</span><span class="label-text"><strong>专利授权</strong> — SONOS 工艺源于赛普拉斯（英飞凌），2028-12-31 到期。若不能续签，核心产品线受冲击</span></li>
+        <li><span class="badge green">🟢</span><span class="label-text"><strong>股权质押</strong> — 实控人王楠/李兆桂直接持股，质押比例低</span></li>
+        <li><span class="badge green">🟢</span><span class="label-text"><strong>司法风险</strong> — 天眼查未发现重大诉讼/失信记录</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>D. 团队参考 <span class="badge blue">二手信息</span></h3>
+      <p><strong>王楠</strong> — NOR Flash 研发出身。2016 年创立普冉，2021 年科创板上市。从零到 IPO 仅用 5 年。<strong>执行力已被市场验证。</strong></p>
+      <p style="margin-top:8px;">员工持股平台志颀企业持股 18.39%，核心团队激励到位。</p>
+      <p style="margin-top:8px;font-size:12px;color:var(--text2);">⚠️ 日久见人心，路遥知马力。团队判断需长期跟踪，以上为二手信息，仅供参考。</p>
+    </div>
+
+    <div class="verdict pass">
+      <span class="icon">✅</span> <strong>公司结论：中上，但不卓越。</strong><br>
+      执行力可，MCU 第二曲线正在起来，团队持股稳定。<br>
+      但毛利率低于龙头（无定价权），盈利波动极大（2023 亏损 → 2024 修复 → 2025 再降），周期性特征过强。
+    </div>
+  </div>
+</section>
+
+<!-- Layer 3: Timing -->
+<section id="layer3">
+  <div class="container">
+    <h2>第三层：时机判断</h2>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">核心问题：好公司+错时机=白等很久。</p>
+
+    <div class="card">
+      <h3>① 市场舆情</h3>
+      <p>2024 年「存储周期复苏」叙事已被充分定价。2025 年实际数据 miss 后，市场可能从乐观转向谨慎。</p>
+    </div>
+
+    <div class="card">
+      <h3>② 催化剂</h3>
+      <table>
+        <tr><th>时间</th><th>事件</th><th>方向</th></tr>
+        <tr><td>短期</td><td>MCU 继续放量、收购 SHM 整合</td><td><span class="badge green">利好</span></td></tr>
+        <tr><td>中期</td><td>车规 EEPROM 批量交付、40nm NOR 渗透率提升</td><td><span class="badge green">利好</span></td></tr>
+        <tr><td>短期</td><td>NOR Flash 现货价持续回落、存货累积</td><td><span class="badge red">利空</span></td></tr>
+        <tr><td>中期</td><td>SONOS 专利 2028 到期</td><td><span class="badge amber">风险</span></td></tr>
+      </table>
+    </div>
+
+    <div class="card" style="border-color: rgba(239,68,68,0.3);">
+      <h3>③ 预期差 <span class="badge red">核心发现</span></h3>
+      <div style="background:rgba(239,68,68,0.06);padding:16px;border-radius:8px;margin:12px 0;">
+        <p style="font-size:16px;font-weight:700;color:var(--red);">🔴 券商一致预期 2025E 净利润 <span style="font-size:22px;">7.15 亿</span></p>
+        <p style="font-size:16px;font-weight:700;color:var(--green);margin-top:4px;">实际 2025 全年净利润仅 <span style="font-size:22px;">2.08 亿</span></p>
+        <p style="font-size:20px;font-weight:900;color:var(--red);margin-top:4px;">miss 幅度：−71%</p>
+      </div>
+      <p>这不是小 miss，这是 <strong>系统性高估</strong>。市场按 2024 年行业景气线性外推了增长，但毛利率在 2025 年就已经撑不住了。</p>
+      <p style="margin-top:8px;">当前 PE(LYR) = <strong style="color:var(--red);">282 倍</strong>。按实际利润算更高。即便 2026E 的 9.98 亿能实现（大概率也要下修），forward PE 也不便宜。</p>
+    </div>
+
+    <div class="verdict fail">
+      <span class="icon">⚠️</span> <strong>时机结论：不匹配。</strong><br>
+      好赛道（MCU成长）+ 中上公司（执行力可）≠ 好价格（282x PE + 券商系统性高估 + 毛利率已回落）。<br>
+      2024 年的行业β被市场过度定价了。需要等一个更合理的价格，或者等毛利率企稳的信号。
+    </div>
+  </div>
+</section>
+
+<!-- Layer 4: Tracking -->
+<section id="layer4">
+  <div class="container">
+    <h2>第四层：持续跟踪</h2>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">核心原则：大方向以财报为准，日常舆情只影响波动。</p>
+
+    <div class="card">
+      <h3>跟踪指标</h3>
+      <table>
+        <tr><th>指标</th><th>频率</th><th>预警线</th><th>重要性</th></tr>
+        <tr><td>季度毛利率</td><td>每季</td><td>连续两季 &lt; 28%</td><td><span class="badge red">高</span></td></tr>
+        <tr><td>MCU 收入占比</td><td>每季</td><td>占比下降或毛利率 &lt; 25%</td><td><span class="badge amber">中</span></td></tr>
+        <tr><td>存货 / 营收比</td><td>每季</td><td>存货增速 &gt; 营收增速</td><td><span class="badge amber">中</span></td></tr>
+        <tr><td>NOR Flash 现货价</td><td>每月</td><td>连续两月跌超 5%</td><td><span class="badge red">高</span></td></tr>
+        <tr><td>实控人减持</td><td>实时</td><td>任何减持公告</td><td><span class="badge amber">即时</span></td></tr>
+        <tr><td>SONOS 专利续签</td><td>年度</td><td>2027 年前未续签</td><td><span class="badge red">高</span></td></tr>
+        <tr><td>券商盈利预测修正</td><td>每季</td><td>连续两次下修</td><td><span class="badge amber">中</span></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>重新评估触发条件</h3>
+      <ul class="checklist">
+        <li><span class="dim">🔴</span><span class="label-text">毛利率连续两个季度趋势性下滑</span></li>
+        <li><span class="dim">🔴</span><span class="label-text">核心客户流失或重大合同终止</span></li>
+        <li><span class="dim">🔴</span><span class="label-text">SONOS 专利授权出现不确定性</span></li>
+        <li><span class="dim">🟠</span><span class="label-text">行业政策方向逆转</span></li>
+        <li><span class="dim">🟠</span><span class="label-text">实控人或核心技术人物变动</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Summary -->
+<section id="summary">
+  <div class="container">
+    <h2>总结判断</h2>
+
+    <div class="card" style="background:linear-gradient(135deg,#161b22,#1a1f2e);border-color:var(--border);">
+      <table>
+        <tr><th style="width:80px;">层级</th><th>评估</th><th>结论</th></tr>
+        <tr><td><span class="badge green">赛道</span></td><td>PASS</td><td>MCU 成长+政策支持，但 NOR Flash 周期性强</td></tr>
+        <tr><td><span class="badge blue">公司</span></td><td>中上</td><td>执行力可，但毛利率低于龙头，盈利波动大</td></tr>
+        <tr><td><span class="badge red">时机</span></td><td>不匹配</td><td>282x PE + 券商系统性高估 + 毛利率已回落</td></tr>
+        <tr><td><span class="badge amber">跟踪</span></td><td>建立</td><td>等毛利率企稳 + PE 回归合理区间再评估</td></tr>
+      </table>
+    </div>
+
+    <div class="verdict warn" style="margin-top:16px;">
+      <strong>一句话：公司质地不差，但因为 2024 年的行业β被市场过度定价。等一个更好的价格。</strong>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p><strong>数据来源</strong></p>
+    <p>L1 · 同花顺 stock_finance_data（financial_statements / financial_index / holder_info / forecast / business_segmentation / announcement）</p>
+    <p>L2 · 天眼查（工商信息 / 十大股东）</p>
+    <p>L3 · 券商研报（电子发烧友网 / 国海电子 / 集微网）</p>
+    <p>L4 · IC Insights / Yole / 灼识咨询</p>
+    <p style="margin-top:12px;"><strong>方法论</strong>：investment-due-diligence v2 — 四层穿透框架（赛道→公司→时机→跟踪）</p>
+    <p style="margin-top:12px;"><strong>免责声明</strong>：本报告由 AI 基于公开数据整理生成，仅供研究参考，不构成投资建议。数据截至 2026-06-07。所有判断均有数据支撑，但最终决策权在用户。</p>
+  </div>
+</footer>
+
+<a class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</a>
+
+<script>
+// Back to top visibility
+const btn = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+  else { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
+});
+
+// Active nav highlight
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-inner a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.getAttribute('id'); });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
