@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>普冉股份（688766.SH）深度分析研报</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --card-hover: #1c2128;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-secondary: #8b949e;
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --yellow: #f59e0b;
+  --purple: #a855f7;
+  --cyan: #06b6d4;
+  --max-width: 960px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+/* Header Banner */
+.banner {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 0 30px;
+  position: relative;
+}
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+}
+.banner h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, var(--text), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.banner .subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+.banner .tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--blue);
+  font-size: 12px;
+  margin-right: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Data Cards */
+.data-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+.data-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+.data-card:hover {
+  transform: scale(1.02);
+  border-color: var(--blue);
+  background: var(--card-hover);
+}
+.data-card .label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.data-card .value {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 22px;
+  font-weight: 600;
+}
+.data-card .value.green { color: var(--green); }
+.data-card .value.red { color: var(--red); }
+.data-card .value.blue { color: var(--blue); }
+
+/* Navigation */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav a:hover {
+  color: var(--text);
+  background: var(--card);
+}
+
+/* Sections */
+.section {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-of-type { border-bottom: none; }
+.section h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 22px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.section h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 28px 0 14px;
+  color: var(--text);
+}
+.section p {
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: rgba(48, 54, 61, 0.5);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+tr:hover td {
+  background: rgba(48, 54, 61, 0.2);
+}
+td.num {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  text-align: right;
+}
+
+/* Source refs */
+.src-ref {
+  font-size: 10px;
+  color: var(--text-secondary);
+  cursor: help;
+  margin-left: 2px;
+  vertical-align: super;
+}
+
+/* Mini bars */
+.mini-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mini-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--blue);
+  min-width: 2px;
+}
+.mini-bar.green { background: var(--green); }
+.mini-bar.red { background: var(--red); }
+
+/* Radar chart */
+.radar-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.radar-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 280px;
+  text-align: center;
+}
+.radar-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.radar {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  position: relative;
+}
+.radar-bg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(59, 130, 246, 0.15) 0deg 60deg,
+    rgba(34, 197, 94, 0.15) 60deg 120deg,
+    rgba(168, 85, 247, 0.15) 120deg 180deg,
+    rgba(245, 158, 11, 0.15) 180deg 240deg,
+    rgba(6, 182, 212, 0.15) 240deg 300deg,
+    rgba(239, 68, 68, 0.15) 300deg 360deg
+  );
+  position: relative;
+}
+.radar-axis {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 50%;
+  background: var(--border);
+  transform-origin: bottom center;
+}
+.radar-label {
+  position: absolute;
+  font-size: 10px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.radar-poly {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+.radar-poly svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Horizontal bar chart */
+.hbar-chart {
+  margin: 16px 0;
+}
+.hbar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+.hbar-label {
+  width: 100px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: right;
+  flex-shrink: 0;
+}
+.hbar-track {
+  flex: 1;
+  height: 20px;
+  background: rgba(48, 54, 61, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.hbar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+}
+.hbar-fill.blue { background: linear-gradient(90deg, #1d4ed8, var(--blue)); }
+.hbar-fill.green { background: linear-gradient(90deg, #15803d, var(--green)); }
+.hbar-fill.purple { background: linear-gradient(90deg, #7e22ce, var(--purple)); }
+.hbar-fill.cyan { background: linear-gradient(90deg, #0e7490, var(--cyan)); }
+.hbar-value {
+  font-family: monospace;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Warning cards */
+.warning-card {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.warning-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.warning-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid var(--bg);
+}
+.timeline-date {
+  font-size: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.timeline-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+  z-index: 99;
+  text-decoration: none;
+}
+.back-to-top:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 30px 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.footer a { color: var(--blue); text-decoration: none; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .data-cards { grid-template-columns: repeat(2, 1fr); }
+  .banner h1 { font-size: 22px; }
+  .section h2 { font-size: 18px; }
+  .nav-inner { gap: 4px; }
+  .nav a { font-size: 12px; padding: 5px 10px; }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section { animation: fadeIn 0.5s ease forwards; }
+</style>
+</head>
+<body>
+
+<a href="#" class="back-to-top" title="回到顶部">↑</a>
+
+<!-- Banner -->
+<div class="banner" id="top">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h1>普冉股份 <span style="font-size:18px;font-weight:400;color:var(--text-secondary);">688766.SH</span></h1>
+        <div class="subtitle">NOR Flash / EEPROM / MCU 芯片设计 · 上交所科创板</div>
+        <div>
+          <span class="tag">科创板</span>
+          <span class="tag">半导体</span>
+          <span class="tag">存储芯片</span>
+          <span class="tag">NOR Flash</span>
+          <span class="tag">EEPROM</span>
+          <span class="tag">MCU</span>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:monospace;font-size:32px;font-weight:700;color:var(--red);">396.00</div>
+        <div style="font-size:13px;color:var(--text-secondary);"><span style="color: var(--red)">-7.34%</span> <span style="margin-left:8px;">-31.35</span></div>
+      </div>
+    </div>
+
+    <div class="data-cards">
+      <div class="data-card">
+        <div class="label">总市值</div>
+        <div class="value blue">586.27亿</div>
+      </div>
+      <div class="data-card">
+        <div class="label">2024营收</div>
+        <div class="value">18.04亿</div>
+      </div>
+      <div class="data-card">
+        <div class="label">毛利率</div>
+        <div class="value green">33.55%</div>
+      </div>
+      <div class="data-card">
+        <div class="label">净利率</div>
+        <div class="value green">16.21%</div>
+      </div>
+      <div class="data-card">
+        <div class="label">PE(TTM)</div>
+        <div class="value">133.19</div>
+      </div>
+      <div class="data-card">
+        <div class="label">ROE</div>
+        <div class="value green">14.06%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#industry">行业概览</a>
+      <a href="#company">公司全景</a>
+      <a href="#products">产品矩阵</a>
+      <a href="#finance">财务透视</a>
+      <a href="#future">未来规划</a>
+      <a href="#risks">风险提示</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Section 1: Industry -->
+<div class="section" id="industry">
+  <h2>行业概览</h2>
+
+  <h3>1.1 细分赛道市场规模与增速</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>细分赛道</th>
+        <th>2024市场规模</th>
+        <th>增速</th>
+        <th>主要驱动因素</th>
+        <th>数据来源</th>
+      </tr>
+      <tr>
+        <td><strong>NOR Flash</strong></td>
+        <td class="num">约35亿美元</td>
+        <td class="num">+6.8%</td>
+        <td>AIoT设备普及、汽车电子升级、消费电子存量替换</td>
+        <td><sup class="src-ref" title="券商行业研究报告">[4]</sup></td>
+      </tr>
+      <tr>
+        <td><strong>EEPROM</strong></td>
+        <td class="num">约12亿美元</td>
+        <td class="num">+4-5%</td>
+        <td>手机摄像头模组、车载电子、工业控制需求稳定</td>
+        <td><sup class="src-ref" title="行业公开数据整理">[5]</sup></td>
+      </tr>
+      <tr>
+        <td><strong>MCU</strong></td>
+        <td class="num">约280亿美元</td>
+        <td class="num">+8-10%</td>
+        <td>汽车智能化、工业自动化、家电变频化、AIoT</td>
+        <td><sup class="src-ref" title="IC Insights / Yole">[6]</sup></td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>1.2 竞争格局对比</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>公司</th>
+        <th>代码</th>
+        <th>2024营收</th>
+        <th>2024净利</th>
+        <th>毛利率</th>
+        <th>净利率</th>
+        <th>ROE</th>
+        <th>市场地位</th>
+      </tr>
+      <tr>
+        <td><strong>兆易创新</strong></td>
+        <td>603986.SH</td>
+        <td class="num">73.56亿</td>
+        <td class="num">11.03亿</td>
+        <td class="num">38.00%</td>
+        <td class="num">14.99%</td>
+        <td class="num">6.92%</td>
+        <td>国内存储+MCU双龙头，NOR Flash市占率国内第一</td>
+      </tr>
+      <tr>
+        <td><strong>聚辰股份</strong></td>
+        <td>688123.SH</td>
+        <td class="num">10.28亿</td>
+        <td class="num">2.90亿</td>
+        <td class="num">54.81%</td>
+        <td class="num">28.23%</td>
+        <td class="num">14.14%</td>
+        <td>EEPROM全球领先，手机摄像头模组EEPROM龙头</td>
+      </tr>
+      <tr>
+        <td><strong>恒烁股份</strong></td>
+        <td>688416.SH</td>
+        <td class="num">3.72亿</td>
+        <td class="num" style="color:var(--red)">-1.61亿</td>
+        <td class="num">13.20%</td>
+        <td class="num" style="color:var(--red)">-43.25%</td>
+        <td class="num" style="color:var(--red)">-11.13%</td>
+        <td>NOR Flash+MCU设计，规模较小，持续亏损</td>
+      </tr>
+      <tr style="background:rgba(59,130,246,0.08);">
+        <td><strong>普冉股份</strong></td>
+        <td>688766.SH</td>
+        <td class="num">18.04亿</td>
+        <td class="num">2.92亿</td>
+        <td class="num">33.55%</td>
+        <td class="num">16.21%</td>
+        <td class="num">14.06%</td>
+        <td>国内NOR Flash/EEPROM主要供应商，快速成长</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="东方财富 datacenter-web API">[1]</sup> 
+      财务数据截至各公司2024年年度报告
+    </p>
+  </div>
+
+  <h3>1.3 产业链位置</h3>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0;">
+      <div style="flex:1;text-align:center;padding:16px;background:rgba(59,130,246,0.1);border-radius:8px;border:1px solid rgba(59,130,246,0.3);">
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">上游</div>
+        <div style="font-weight:600;">晶圆代工</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">华虹、中芯国际<br>台积电、联电</div>
+      </div>
+      <div style="color:var(--text-secondary);font-size:18px;">→</div>
+      <div style="flex:1;text-align:center;padding:16px;background:rgba(34,197,94,0.1);border-radius:8px;border:1px solid rgba(34,197,94,0.3);">
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">中游</div>
+        <div style="font-weight:600;color:var(--green);">芯片设计</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;"><strong>普冉股份</strong><br>兆易创新、聚辰股份</div>
+      </div>
+      <div style="color:var(--text-secondary);font-size:18px;">→</div>
+      <div style="flex:1;text-align:center;padding:16px;background:rgba(168,85,247,0.1);border-radius:8px;border:1px solid rgba(168,85,247,0.3);">
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">下游</div>
+        <div style="font-weight:600;color:var(--purple);">模组/终端</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">消费电子、汽车电子<br>工业控制、物联网</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Company -->
+<div class="section" id="company">
+  <h2>公司全景</h2>
+
+  <h3>2.1 基本信息</h3>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">公司全称</div>
+        <div style="font-weight:500;">普冉半导体（上海）股份有限公司</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">英文名称</div>
+        <div style="font-weight:500;">Puya Semiconductor (Shanghai) Co., Ltd.</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">成立时间</div>
+        <div style="font-weight:500;">2016-01-04</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">上市日期</div>
+        <div style="font-weight:500;">2021-08-23</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">总部地址</div>
+        <div style="font-weight:500;">上海市浦东新区</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">实际控制人</div>
+        <div style="font-weight:500;">王楠、李兆桂（一致行动人）</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">员工规模</div>
+        <div style="font-weight:500;">约400人</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">所属行业</div>
+        <div style="font-weight:500;">集成电路设计</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">晶圆代工伙伴</div>
+        <div style="font-weight:500;">华虹半导体, 中芯国际</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px;">封装测试伙伴</div>
+        <div style="font-weight:500;">通富微电, 长电科技, 华天科技</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>2.2 IPO 时间轴</h3>
+  <div class="card">
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2020年3月</div>
+        <div class="timeline-text">科创板IPO申报获受理</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021年1月</div>
+        <div class="timeline-text">通过科创板上市委审核（过会）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021年7月</div>
+        <div class="timeline-text">证监会同意注册</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021年8月12日</div>
+        <div class="timeline-text">新股发行，发行价148.90元/股</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021年8月23日</div>
+        <div class="timeline-text">正式挂牌上市（688766.SH）</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>2.3 股权结构（2024年报十大股东）</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>股东名称</th>
+        <th>持股比例</th>
+        <th>变动方向</th>
+        <th>备注</th>
+      </tr>
+      <tr>
+        <td>王楠</td>
+        <td class="num">17.83%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">董事长、总经理</td>
+      </tr>
+      <tr>
+        <td>李兆桂</td>
+        <td class="num">10.53%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">董事、副总经理</td>
+      </tr>
+      <tr>
+        <td>上海志颀企业管理咨询合伙企业(有限合伙)</td>
+        <td class="num">9.18%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">员工持股平台</td>
+      </tr>
+      <tr>
+        <td>深圳南海成长同赢股权投资基金(有限合伙)</td>
+        <td class="num">5.67%</td>
+        <td class="num" style="color:var(--red)">减持</td>
+        <td style="font-size:12px;color:var(--text-secondary);">PE机构</td>
+      </tr>
+      <tr>
+        <td>杭州早月投资合伙企业(有限合伙)</td>
+        <td class="num">4.21%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">PE机构</td>
+      </tr>
+      <tr>
+        <td>杭州晓月投资合伙企业(有限合伙)</td>
+        <td class="num">3.89%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">PE机构</td>
+      </tr>
+      <tr>
+        <td>上海赌泽企业管理咨询合伙企业(有限合伙)</td>
+        <td class="num">3.12%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">员工持股平台</td>
+      </tr>
+      <tr>
+        <td>中国银行股份有限公司-嘉实前沿科技沪港深股票型证券投资基金</td>
+        <td class="num">2.35%</td>
+        <td class="num" style="color:var(--green)">增持</td>
+        <td style="font-size:12px;color:var(--text-secondary);">公募基金</td>
+      </tr>
+      <tr>
+        <td>中国工商银行股份有限公司-诺安成长混合型证券投资基金</td>
+        <td class="num">1.87%</td>
+        <td class="num" style="color:var(--green)">新进</td>
+        <td style="font-size:12px;color:var(--text-secondary);">公募基金</td>
+      </tr>
+      <tr>
+        <td>上海軟玉企业管理咨询合伙企业(有限合伙)</td>
+        <td class="num">1.65%</td>
+        <td class="num" style="color:var(--text-secondary)">不变</td>
+        <td style="font-size:12px;color:var(--text-secondary);">员工持股平台</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="普冉股份2024年年度报告">[2]</sup>
+    </p>
+  </div>
+
+  <h3>2.4 关键人物</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">王</div>
+        <div>
+          <div style="font-weight:600;">王楠</div>
+          <div style="font-size:12px;color:var(--text-secondary);">董事长、总经理</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0;">创始人，半导体行业资深专家，曾任职于国内领先半导体企业，拥有丰富的存储芯片设计与管理经验</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">李</div>
+        <div>
+          <div style="font-weight:600;">李兆桂</div>
+          <div style="font-size:12px;color:var(--text-secondary);">董事、副总经理</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0;">联合创始人，技术核心人物，深耕非易失性存储器领域多年</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">钱</div>
+        <div>
+          <div style="font-weight:600;">钱佳美</div>
+          <div style="font-size:12px;color:var(--text-secondary);">财务总监</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0;">主管会计工作负责人</p>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Products -->
+<div class="section" id="products">
+  <h2>产品矩阵</h2>
+
+  <h3>3.1 业务分部数据（2024年）</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>产品线</th>
+        <th>营业收入</th>
+        <th>收入占比</th>
+        <th>毛利率</th>
+        <th>出货量</th>
+        <th>收入同比</th>
+      </tr>
+      <tr>
+        <td><strong>存储芯片</strong></td>
+        <td class="num">14.17亿</td>
+        <td class="num">78.60%</td>
+        <td class="num">34.61%</td>
+        <td class="num">67.72亿颗</td>
+        <td class="num">+40.10%</td>
+      </tr>
+      <tr>
+        <td><strong>微控制器及其他</strong></td>
+        <td class="num">3.86亿</td>
+        <td class="num">21.40%</td>
+        <td class="num">29.63%</td>
+        <td class="num">8.70亿颗</td>
+        <td class="num">+234.58%</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="普冉股份2024年年度报告">[2]</sup>
+    </p>
+  </div>
+
+  <h3>3.2 三条产品线详细拆解</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+    <div class="card">
+      <div class="card-title" style="color:var(--blue);">NOR Flash</div>
+      <p style="font-size:13px;margin-bottom:8px;">采用SONOS（40nm）及ETOX（50nm/55nm）双工艺平台，容量覆盖512Kbit-1Gbit，电压覆盖1.1V-3.6V</p>
+      <ul style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin:0;">
+        <li>40nm SONOS工艺处于行业领先水平</li>
+        <li>ETOX产品获AEC-Q100车规认证</li>
+        <li>应用领域：蓝牙、IoT、BLE、AMOLED、工控</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--green);">EEPROM</div>
+      <p style="font-size:13px;margin-bottom:8px;">高可靠性EEPROM覆盖手机摄像头模组、可穿戴、工业和车载领域</p>
+      <ul style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin:0;">
+        <li>SPI EEPROM全系列通过AEC-Q100 Grade1认证</li>
+        <li>超大容量系列支持最大4Mbit</li>
+        <li>1.2V超低电压系列已量产出货</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--purple);">MCU + 模拟</div>
+      <p style="font-size:13px;margin-bottom:8px;">"存储+"战略核心产品线，包括通用MCU及音圈马达驱动芯片</p>
+      <ul style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin:0;">
+        <li>已成功量产5大MCU产品系列、百余款产品</li>
+        <li>M0+/M4产品覆盖电机控制、BMS、IoT等</li>
+        <li>OIS VCM Driver在国内终端实现量产</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3.3 技术路线与制程演进</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>产品</th>
+        <th>当前工艺节点</th>
+        <th>下一代工艺</th>
+        <th>技术特点</th>
+      </tr>
+      <tr>
+        <td>NOR Flash (SONOS)</td>
+        <td class="num">40nm</td>
+        <td class="num">更先进节点</td>
+        <td>低功耗、高性价比，覆盖智能可穿戴</td>
+      </tr>
+      <tr>
+        <td>NOR Flash (ETOX)</td>
+        <td class="num">50nm/55nm</td>
+        <td class="num">行业领先下一代</td>
+        <td>中大容量完整布局，车规认证</td>
+      </tr>
+      <tr>
+        <td>EEPROM</td>
+        <td class="num">成熟工艺</td>
+        <td class="num">持续优化</td>
+        <td>高可靠性、超低电压1.2V系列</td>
+      </tr>
+      <tr>
+        <td>MCU</td>
+        <td class="num">先进逻辑工艺</td>
+        <td class="num">持续迭代</td>
+        <td>嵌入式存储器协同优化</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>3.4 产能保障</h3>
+  <div class="card">
+    <p style="margin-bottom:12px;">公司采用Fabless（无晶圆厂）轻资产模式，晶圆代工主要依托<strong>华虹半导体</strong>和<strong>中芯国际</strong>等国内领先晶圆厂，封装测试由<strong>通富微电、长电科技、华天科技</strong>等厂商承担。</p>
+    <p style="margin:0;font-size:13px;color:var(--text-secondary);">2024年报显示，公司持续推进海外业务布局，在日本、韩国、美国等多家知名大客户实现导入。</p>
+  </div>
+</div>
+
+<!-- Section 4: Finance -->
+<div class="section" id="finance">
+  <h2>财务透视</h2>
+
+  <h3>4.1 完整趋势表</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>2022年</th>
+        <th>2023年</th>
+        <th>2024年</th>
+        <th>2025全年</th>
+        <th>2025Q1</th>
+      </tr>
+      <tr>
+        <td>营业收入</td>
+        <td class="num">9.25亿</td>
+        <td class="num">11.27亿</td>
+        <td class="num">18.04亿</td>
+        <td class="num">23.20亿</td>
+        <td class="num">4.06亿</td>
+      </tr>
+      <tr>
+        <td>营收同比</td>
+        <td class="num" style="color:var(--red)">-16.15%</td>
+        <td class="num" style="color:var(--green)">+21.87%</td>
+        <td class="num" style="color:var(--green)">+60.03%</td>
+        <td class="num" style="color:var(--green)">+28.62%</td>
+        <td class="num">—</td>
+      </tr>
+      <tr>
+        <td>归母净利润</td>
+        <td class="num">8314.63万</td>
+        <td class="num" style="color:var(--red)">-4827.43万</td>
+        <td class="num">2.92亿</td>
+        <td class="num">2.08亿</td>
+        <td class="num">1846.58万</td>
+      </tr>
+      <tr>
+        <td>扣非净利润</td>
+        <td class="num">暂无数据</td>
+        <td class="num">暂无数据</td>
+        <td class="num">2.69亿</td>
+        <td class="num">1.65亿</td>
+        <td class="num">1896.34万</td>
+      </tr>
+      <tr>
+        <td>毛利率</td>
+        <td class="num">29.85%</td>
+        <td class="num">24.29%</td>
+        <td class="num">33.55%</td>
+        <td class="num">28.37%</td>
+        <td class="num">31.45%</td>
+      </tr>
+      <tr>
+        <td>净利率</td>
+        <td class="num">8.99%</td>
+        <td class="num" style="color:var(--red)">-4.28%</td>
+        <td class="num">16.21%</td>
+        <td class="num">8.95%</td>
+        <td class="num">4.54%</td>
+      </tr>
+      <tr>
+        <td>ROE(加权)</td>
+        <td class="num">4.24%</td>
+        <td class="num" style="color:var(--red)">-2.47%</td>
+        <td class="num">14.06%</td>
+        <td class="num">9.00%</td>
+        <td class="num">N/A</td>
+      </tr>
+      <tr>
+        <td>基本EPS</td>
+        <td class="num">1.10元</td>
+        <td class="num" style="color:var(--red)">-0.46元</td>
+        <td class="num">1.98元</td>
+        <td class="num">1.41元</td>
+        <td class="num">N/A</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="东方财富 datacenter-web API">[1]</sup>；2025全年数据为已披露年报数据
+    </p>
+  </div>
+
+  <h3>4.2 资本结构与流动性</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>2022年</th>
+        <th>2023年</th>
+        <th>2024年</th>
+        <th>2025Q1</th>
+      </tr>
+      <tr>
+        <td>总资产</td>
+        <td class="num">24.07亿</td>
+        <td class="num">21.15亿</td>
+        <td class="num">25.79亿</td>
+        <td class="num">24.49亿</td>
+      </tr>
+      <tr>
+        <td>总负债</td>
+        <td class="num">4.22亿</td>
+        <td class="num">1.86亿</td>
+        <td class="num">3.61亿</td>
+        <td class="num">2.02亿</td>
+      </tr>
+      <tr>
+        <td>股东权益</td>
+        <td class="num">19.84亿</td>
+        <td class="num">19.29亿</td>
+        <td class="num">22.17亿</td>
+        <td class="num">22.47亿</td>
+      </tr>
+      <tr>
+        <td>资产负债率</td>
+        <td class="num">17.55%</td>
+        <td class="num">8.79%</td>
+        <td class="num">14.00%</td>
+        <td class="num">8.25%</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>4.3 现金流覆盖</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>2022年</th>
+        <th>2023年</th>
+        <th>2024年</th>
+      </tr>
+      <tr>
+        <td>经营活动现金流</td>
+        <td class="num" style="color:var(--red)">-8055.28万</td>
+        <td class="num">1.07亿</td>
+        <td class="num">1.07亿</td>
+      </tr>
+      <tr>
+        <td>投资活动现金流</td>
+        <td class="num">-4114.93万</td>
+        <td class="num">-1.96亿</td>
+        <td class="num">-1.96亿</td>
+      </tr>
+      <tr>
+        <td>筹资活动现金流</td>
+        <td class="num">暂无数据</td>
+        <td class="num">-2592.60万</td>
+        <td class="num">-2592.60万</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>4.4 六维度雷达评分卡（2024年）</h3>
+  <div class="card">
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">
+      基于2024年财务数据，对普冉股份在六个关键维度进行评分（满分10分）。评分依据：盈利能力、成长性、运营效率、资本结构、流动性、现金流覆盖。
+    </p>
+    <div class="radar-wrap">
+      <div class="radar-card">
+        <div class="radar-title">普冉股份 2024</div>
+        <div class="radar">
+          <svg viewBox="0 0 200 200">
+            <!-- Background hexagon -->
+            <polygon points="100,20 170,55 170,125 100,160 30,125 30,55" fill="none" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <polygon points="100,40 150,65 150,115 100,140 50,115 50,65" fill="none" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <polygon points="100,60 130,75 130,105 100,120 70,105 70,75" fill="none" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <!-- Axes -->
+            <line x1="100" y1="100" x2="100" y2="20" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="170" y2="55" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="170" y2="125" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="100" y2="160" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="30" y2="125" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="30" y2="55" stroke="rgba(48,54,61,0.5)" stroke-width="1"/>
+            <!-- Data polygon (scores: profitability 7.5, growth 9, efficiency 6, capital structure 7, liquidity 7.5, cashflow 5) -->
+            <polygon points="100,40 163,67 163,118 100,145 37,118 37,62" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="2"/>
+            <!-- Labels -->
+            <text x="100" y="14" text-anchor="middle" fill="#8b949e" font-size="10">盈利能力</text>
+            <text x="180" y="50" text-anchor="start" fill="#8b949e" font-size="10">成长性</text>
+            <text x="180" y="135" text-anchor="start" fill="#8b949e" font-size="10">运营效率</text>
+            <text x="100" y="175" text-anchor="middle" fill="#8b949e" font-size="10">现金流</text>
+            <text x="20" y="135" text-anchor="end" fill="#8b949e" font-size="10">资本结构</text>
+            <text x="20" y="50" text-anchor="end" fill="#8b949e" font-size="10">流动性</text>
+          </svg>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;font-size:12px;">
+          <div>盈利能力 <strong style="color:var(--blue)">7.5</strong></div>
+          <div>成长性 <strong style="color:var(--green)">9.0</strong></div>
+          <div>运营效率 <strong style="color:var(--purple)">6.0</strong></div>
+          <div>资本结构 <strong style="color:var(--cyan)">7.0</strong></div>
+          <div>流动性 <strong style="color:var(--yellow)">7.5</strong></div>
+          <div>现金流 <strong style="color:var(--red)">5.0</strong></div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      注：雷达评分为基于财务指标的主观评估，仅供参考。成长性得分较高主要基于2024年营收同比增长60.03%的强劲表现。
+    </p>
+  </div>
+
+  <h3>4.5 竞品横向对比（2024年）</h3>
+  <div class="card">
+    <div style="margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">营业收入（亿元）</div>
+      <div class="hbar-chart">
+        <div class="hbar-row"><div class="hbar-label">兆易创新</div><div class="hbar-track"><div class="hbar-fill blue" style="width:100%"><span class="hbar-value">73.56</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">聚辰股份</div><div class="hbar-track"><div class="hbar-fill green" style="width:14.0%"><span class="hbar-value">10.28</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">普冉股份</div><div class="hbar-track"><div class="hbar-fill purple" style="width:24.5%"><span class="hbar-value">18.04</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">恒烁股份</div><div class="hbar-track"><div class="hbar-fill cyan" style="width:5.1%"><span class="hbar-value">3.72</span></div></div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">毛利率（%）</div>
+      <div class="hbar-chart">
+        <div class="hbar-row"><div class="hbar-label">聚辰股份</div><div class="hbar-track"><div class="hbar-fill green" style="width:100%"><span class="hbar-value">54.81</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">兆易创新</div><div class="hbar-track"><div class="hbar-fill blue" style="width:69.3%"><span class="hbar-value">38.00</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">普冉股份</div><div class="hbar-track"><div class="hbar-fill purple" style="width:61.2%"><span class="hbar-value">33.55</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">恒烁股份</div><div class="hbar-track"><div class="hbar-fill cyan" style="width:24.1%"><span class="hbar-value">13.20</span></div></div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">ROE（%）</div>
+      <div class="hbar-chart">
+        <div class="hbar-row"><div class="hbar-label">聚辰股份</div><div class="hbar-track"><div class="hbar-fill green" style="width:100%"><span class="hbar-value">14.14</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">普冉股份</div><div class="hbar-track"><div class="hbar-fill purple" style="width:99.4%"><span class="hbar-value">14.06</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">兆易创新</div><div class="hbar-track"><div class="hbar-fill blue" style="width:48.9%"><span class="hbar-value">6.92</span></div></div></div>
+        <div class="hbar-row"><div class="hbar-label">恒烁股份</div><div class="hbar-track"><div class="hbar-fill red" style="width:78.7%"><span class="hbar-value" style="color:#fff">-11.13</span></div></div></div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:12px;">
+      数据来源：<sup class="src-ref" title="东方财富 datacenter-web API">[1]</sup>
+    </p>
+  </div>
+
+  <h3>4.6 研发投入趋势</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>年度</th>
+        <th>研发费用</th>
+        <th>研发费用率</th>
+        <th>同比增减</th>
+      </tr>
+      <tr>
+        <td>2022年</td>
+        <td class="num">暂无数据</td>
+        <td class="num">N/A</td>
+        <td class="num">N/A</td>
+      </tr>
+      <tr>
+        <td>2023年</td>
+        <td class="num">1.91亿</td>
+        <td class="num">16.97%</td>
+        <td class="num">N/A</td>
+      </tr>
+      <tr>
+        <td>2024年</td>
+        <td class="num">2.42亿</td>
+        <td class="num">13.42%</td>
+        <td class="num" style="color:var(--green)">+26.49%</td>
+      </tr>
+    </table>
+    <p style="font-size:13px;color:var(--text-secondary);margin-top:10px;">
+      2024年公司投入研发费用2.42亿元，占营业收入比例达13.42%，较上年同期增长26.49%。截至报告期末，研发及技术人员较上年同期增加15.53%。<sup class="src-ref" title="普冉股份2024年年度报告">[2]</sup>
+    </p>
+  </div>
+</div>
+
+<!-- Section 5: Future -->
+<div class="section" id="future">
+  <h2>未来规划</h2>
+
+  <h3>5.1 2025全年业绩前瞻（已披露）</h3>
+  <div class="card">
+    <p style="margin-bottom:12px;">根据已披露的2025年年度报告，公司全年实现营业收入<strong>23.20亿元</strong>，同比增长28.62%；归母净利润<strong>2.08亿元</strong>，同比下降28.79%（主要因2024年存在大额公允价值变动收益等高基数因素）；扣非净利润1.65亿元；毛利率28.37%；加权ROE 9.00%；基本EPS 1.41元。</p>
+    <p style="margin:0;font-size:13px;color:var(--text-secondary);">注：2025年毛利率较2024年的33.55%有所回落，主要受存储行业价格波动及MCU业务快速上量但毛利率相对较低的影响。公司总资产在2025年末增至36.56亿元，主要因经营规模扩大及资金储备增加。<sup class="src-ref" title="东方财富 datacenter-web API">[1]</sup></p>
+  </div>
+
+  <h3>5.2 管理层战略方向</h3>
+  <div class="card">
+    <p style="margin-bottom:12px;"><strong>"存储+"战略：</strong>公司在立足于存储芯片领域的基础上，实施基于先进工艺和存储器优势的"存储+"战略，积极拓展通用微控制器和存储结合模拟的全新产品线。</p>
+    <p style="margin-bottom:12px;"><strong>技术路线：</strong>持续推进SONOS 40nm低功耗Flash和ETOX中大容量Flash的产品迭代，向更先进制程演进；EEPROM覆盖工业和车载高可靠性需求；MCU产品线从M0+向M4扩展。</p>
+    <p style="margin:0;"><strong>市场拓展：</strong>持续推进海外业务布局，在日本、韩国、美国等多家知名大客户实现导入，产品应用领域涵盖消费、工控、光伏及车载。</p>
+  </div>
+
+  <h3>5.2 募投项目进展</h3>
+  <div class="card">
+    <table>
+      <tr>
+        <th>项目名称</th>
+        <th>计划投资</th>
+        <th>已投入</th>
+        <th>进度</th>
+        <th>目标</th>
+      </tr>
+      <tr>
+        <td>Flash芯片升级研发及产业化项目</td>
+        <td class="num">26000万元</td>
+        <td class="num">19902.45万元</td>
+        <td class="num">
+          <div class="mini-bar-wrap">
+            <div class="mini-bar blue" style="width:76.5%"></div>
+            <span style="font-size:11px;color:var(--text-secondary);">76.5%</span>
+          </div>
+        </td>
+        <td style="font-size:12px;color:var(--text-secondary);">先进制程、大容量Flash产业化</td>
+      </tr>
+      <tr>
+        <td>新一代EEPROM芯片研发及产业化项目</td>
+        <td class="num">5000万元</td>
+        <td class="num">2476.78万元</td>
+        <td class="num">
+          <div class="mini-bar-wrap">
+            <div class="mini-bar blue" style="width:49.5%"></div>
+            <span style="font-size:11px;color:var(--text-secondary);">49.5%</span>
+          </div>
+        </td>
+        <td style="font-size:12px;color:var(--text-secondary);">工业/消费/车载级EEPROM</td>
+      </tr>
+      <tr>
+        <td>总部基地及前沿技术研发项目</td>
+        <td class="num">28592万元</td>
+        <td class="num">2190.82万元</td>
+        <td class="num">
+          <div class="mini-bar-wrap">
+            <div class="mini-bar blue" style="width:7.7%"></div>
+            <span style="font-size:11px;color:var(--text-secondary);">7.7%</span>
+          </div>
+        </td>
+        <td style="font-size:12px;color:var(--text-secondary);">总部基地+前沿存储技术研发</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="普冉股份2024年年度报告">[2]</sup>
+    </p>
+  </div>
+
+  <h3>5.3 行业催化剂</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+    <div class="card">
+      <div class="card-title" style="color:var(--green);">AIoT / 物联网</div>
+      <p style="font-size:13px;margin:0;">智能家居、工业传感器、智能穿戴等设备对小容量高可靠性NOR Flash和EEPROM的需求持续增长，推动市场规模扩大。</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--blue);">汽车电子</div>
+      <p style="font-size:13px;margin:0;">汽车智能化程度提高，车载娱乐系统、ADAS、座舱系统对NOR Flash容量和性能要求提升，车规级产品通过AEC-Q100认证打开增量空间。</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--purple);">消费电子复苏</div>
+      <p style="font-size:13px;margin:0;">国补政策提振消费需求，手机、PC、可穿戴设备出货量回升，TWS耳机、AMOLED屏幕等带动存储芯片需求。</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--cyan);">端侧AI / MCU</div>
+      <p style="font-size:13px;margin:0;">AI手机、AIPC等端侧算力需求兴起，MCU在电机控制、BMS、IoT等应用领域持续扩展，单车MCU价值量有10倍增长空间。</p>
+    </div>
+  </div>
+
+  <h3>5.4 券商一致预期参考</h3>
+  <div class="card">
+    <p style="font-size:13px;color:var(--text-secondary);margin:0;">
+      截至2025年6月，部分券商对兆易创新（行业龙头）给出2025-2027年盈利预测框架：预计2025年EPS 2.34元，对应PE约50倍。普冉股份作为快速成长的细分赛道选手，市场关注其MCU业务放量及存储业务毛利率修复带来的业绩弹性。由于公司规模较小、数据覆盖有限，此处暂不提供具体的一致预期数值，建议关注后续研报更新。
+    </p>
+  </div>
+</div>
+
+<!-- Section 6: Risks -->
+<div class="section" id="risks">
+  <h2>风险提示</h2>
+
+  <h3>6.1 主要风险因素</h3>
+  <div class="card">
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">1. 存储器芯片市场规模相对较小，公司竞争实力有待提高的风险</div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">2. 各产品线业务存在市场竞争加剧的风险</div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">3. 下游需求波动导致经营业绩不稳定的风险</div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">4. 晶圆代工产能保障及价格波动风险</div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">5. 新产品研发及技术迭代风险</div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">6. 存货跌价风险</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
+      数据来源：<sup class="src-ref" title="普冉股份2024年年度报告">[2]</sup>
+    </p>
+  </div>
+
+  <h3>6.2 近期需关注的风险信号</h3>
+  <div class="card">
+    <div class="warning-card">
+      <div class="warning-icon">📉</div>
+      <div class="warning-text">
+        <strong>股价波动风险：</strong>截至2025年6月5日，公司股价为396.00元，较前一交易日下跌7.34%，PE(TTM)高达133.19倍，估值处于历史较高水平，需关注高估值下的波动风险。
+      </div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">🏭</div>
+      <div class="warning-text">
+        <strong>市场竞争风险：</strong>兆易创新、华邦、旺宏等竞争对手在收入规模、专利技术和研发投入方面具备先发优势，公司作为市场新进入者面临一定的外部竞争压力。
+      </div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">📦</div>
+      <div class="warning-text">
+        <strong>存货跌价风险：</strong>半导体行业具有周期性，存储芯片价格波动较大，若下游需求不及预期，公司可能面临存货跌价风险。2023年曾因行业下行导致亏损。
+      </div>
+    </div>
+    <div class="warning-card">
+      <div class="warning-icon">🌍</div>
+      <div class="warning-text">
+        <strong>国际贸易摩擦风险：</strong>公司海外业务收入占比持续提升，若国际贸易环境恶化或出口管制收紧，可能影响公司海外业务拓展。
+      </div>
+    </div>
+  </div>
+
+  <h3>6.3 天眼查司法风险排查</h3>
+  <div class="card">
+    <p style="font-size:13px;color:var(--text-secondary);margin:0;">
+      经公开信息检索，普冉半导体（上海）股份有限公司目前未发现重大司法诉讼、失信被执行人、股权冻结等异常风险信息。公司运营正常，无重大行政处罚记录。建议持续关注后续工商变更及司法动态。
+    </p>
+  </div>
+</div>
+
+</div><!-- container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="container">
+    <div style="margin-bottom:16px;">
+      <strong>数据来源汇总</strong><br>
+      [1] 东方财富 datacenter-web API（财务数据、实时行情）<br>
+      [2] 普冉股份 2024 年年度报告及公开披露文件<br>
+      [3] 腾讯财经实时行情接口<br>
+      [4] 券商行业研究报告（NOR Flash市场规模及竞争格局）<br>
+      [5] 公开行业数据整理（EEPROM/MCU市场规模）<br>
+      [6] IC Insights / Yole 行业数据参考
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:16px;">
+      <p style="margin-bottom:8px;"><strong>免责声明</strong></p>
+      <p>本报告由 AI 自动生成，所有数据均来源于公开信息，仅供研究参考，不构成任何投资建议。证券市场有风险，投资需谨慎。报告中涉及的观点、预测和分析仅代表作者（AI）基于公开信息的理解，不保证其准确性和完整性。投资者应独立做出投资决策，并自行承担投资风险。</p>
+      <p style="margin-top:12px;color:var(--text-secondary);">生成时间：2026-06-07 11:46:17</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Smooth scroll for navigation
+document.querySelectorAll('.nav a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Back to top visibility
+const backToTop = document.querySelector('.back-to-top');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backToTop.style.opacity = '1';
+    backToTop.style.pointerEvents = 'auto';
+  } else {
+    backToTop.style.opacity = '0';
+    backToTop.style.pointerEvents = 'none';
+  }
+});
+backToTop.style.opacity = '0';
+backToTop.style.pointerEvents = 'none';
+backToTop.style.transition = 'opacity 0.3s';
+</script>
+
+</body>
+</html>
