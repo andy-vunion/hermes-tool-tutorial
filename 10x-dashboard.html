@@ -406,74 +406,39 @@ body.guide-open{overflow:auto}
       <span>💰 核心财务指标</span>
       <span style="font-size:10px;color:var(--text-muted)">Q1 2026 · 估算</span>
     </div>
-    <div class="card-body p0">
-      <table class="finance-compact">
-        <thead>
-          <tr><th>标的</th><th>市值(亿)</th><th>PE</th><th>净利率</th><th>净利增速</th><th>PEG</th><th>毛利率</th><th>营收增速</th><th>负债率</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="name-col" style="color:var(--accent-cyan)">源杰科技</td>
-            <td>1743</td>
-            <td style="color:var(--accent-red)">167.6</td>
-            <td style="color:var(--accent-green)">59.5%</td>
-            <td style="color:var(--accent-yellow)">28.4%</td>
-            <td style="color:var(--accent-red)">5.89</td>
-            <td style="color:var(--accent-green)">77.8%</td>
-            <td style="color:var(--accent-green)">+320.9%</td>
-            <td style="color:var(--accent-green)">10.7%</td>
-          </tr>
-          <tr>
-            <td class="name-col" style="color:var(--accent-blue)">光启技术</td>
-            <td>834</td>
-            <td style="color:var(--accent-red)">118.2</td>
-            <td style="color:var(--accent-yellow)">38.5%</td>
-            <td style="color:var(--accent-red)">7.2%</td>
-            <td style="color:var(--accent-red)">16.4</td>
-            <td style="color:var(--accent-yellow)">49.9%</td>
-            <td>+40.3%</td>
-            <td style="color:var(--accent-green)">18.6%</td>
-          </tr>
-          <tr>
-            <td class="name-col" style="color:var(--accent-yellow)">安集科技</td>
-            <td>512</td>
-            <td style="color:var(--accent-green)">47.4</td>
-            <td style="color:var(--accent-yellow)">30.8%</td>
-            <td style="color:var(--accent-yellow)">18.1%</td>
-            <td style="color:var(--accent-yellow)">2.62</td>
-            <td style="color:var(--accent-green)">55.5%</td>
-            <td>+32.8%</td>
-            <td style="color:var(--accent-green)">15.7%</td>
-          </tr>
-          <tr>
-            <td class="name-col" style="color:var(--accent-purple)">睿创微纳</td>
-            <td>610</td>
-            <td style="color:var(--accent-green)">32.7</td>
-            <td style="color:var(--accent-yellow)">27.2%</td>
-            <td style="color:var(--accent-yellow)">26.2%</td>
-            <td style="color:var(--accent-green)">1.25</td>
-            <td style="color:var(--accent-green)">53.4%</td>
-            <td style="color:var(--accent-green)">+71.1%</td>
-            <td style="color:var(--accent-yellow)">36.1%</td>
-          </tr>
-          <tr>
-            <td class="name-col" style="color:var(--accent-red)">天孚通信</td>
-            <td>3065</td>
-            <td style="color:var(--accent-red)">110.9</td>
-            <td style="color:var(--accent-green)">43.4%</td>
-            <td style="color:var(--accent-green)">32.9%</td>
-            <td style="color:var(--accent-red)">3.37</td>
-            <td style="color:var(--accent-green)">56.6%</td>
-            <td>+40.8%</td>
-            <td style="color:var(--accent-green)">14.3%</td>
-          </tr>
-          <tr class="avg-row">
-            <td>池均</td><td>1353</td><td>95.4</td><td>39.9%</td><td>22.6%</td><td>5.91</td><td>58.6%</td><td>+101.2%</td><td>19.1%</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="padding:4px 10px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border)">
-        市值·PE·PEG 基于不复权价格×总股本 + Q1 EPS×4年化估算 · 净利率≈营业利润率 · 净利增速≈ROE年化 · 数据源: Sina+EastMoney
+    <div class="card-body" style="padding:12px 14px">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <!-- 估值面 -->
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:11px;color:var(--accent-blue);margin-bottom:6px;font-weight:600">📊 估值指标</div>
+          <table class="finance-compact">
+            <thead><tr><th>标的</th><th>市值(亿)</th><th>PE</th><th>PEG</th></tr></thead>
+            <tbody>
+              <tr><td class="name-col" style="color:var(--accent-cyan)">源杰科技</td><td>1743</td><td style="color:var(--accent-red)">167.6</td><td style="color:var(--accent-red)">5.89</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-blue)">光启技术</td><td>834</td><td style="color:var(--accent-red)">118.2</td><td style="color:var(--accent-red)">16.4</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-yellow)">安集科技</td><td>512</td><td style="color:var(--accent-green)">47.4</td><td style="color:var(--accent-yellow)">2.62</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-purple)">睿创微纳</td><td>610</td><td style="color:var(--accent-green)">32.7</td><td style="color:var(--accent-green)">1.25</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-red)">天孚通信</td><td>3065</td><td style="color:var(--accent-red)">110.9</td><td style="color:var(--accent-red)">3.37</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 盈利面 -->
+        <div style="flex:1;min-width:220px">
+          <div style="font-size:11px;color:var(--accent-green);margin-bottom:6px;font-weight:600">📈 盈利指标</div>
+          <table class="finance-compact">
+            <thead><tr><th>标的</th><th>净利率</th><th>净利增速</th><th>毛利率</th><th>营收增速</th><th>负债率</th></tr></thead>
+            <tbody>
+              <tr><td class="name-col" style="color:var(--accent-cyan)">源杰</td><td style="color:var(--accent-green)">59.5%</td><td style="color:var(--accent-yellow)">28.4%</td><td style="color:var(--accent-green)">77.8%</td><td style="color:var(--accent-green)">+320.9%</td><td style="color:var(--accent-green)">10.7%</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-blue)">光启</td><td style="color:var(--accent-yellow)">38.5%</td><td style="color:var(--accent-red)">7.2%</td><td style="color:var(--accent-yellow)">49.9%</td><td>+40.3%</td><td style="color:var(--accent-green)">18.6%</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-yellow)">安集</td><td style="color:var(--accent-yellow)">30.8%</td><td style="color:var(--accent-yellow)">18.1%</td><td style="color:var(--accent-green)">55.5%</td><td>+32.8%</td><td style="color:var(--accent-green)">15.7%</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-purple)">睿创</td><td style="color:var(--accent-yellow)">27.2%</td><td style="color:var(--accent-yellow)">26.2%</td><td style="color:var(--accent-green)">53.4%</td><td style="color:var(--accent-green)">+71.1%</td><td style="color:var(--accent-yellow)">36.1%</td></tr>
+              <tr><td class="name-col" style="color:var(--accent-red)">天孚</td><td style="color:var(--accent-green)">43.4%</td><td style="color:var(--accent-green)">32.9%</td><td style="color:var(--accent-green)">56.6%</td><td>+40.8%</td><td style="color:var(--accent-green)">14.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="padding-top:8px;margin-top:8px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border)">
+        市值=不复权价×总股本 · PE=市价÷EPS年化(Q1×4) · 净利率≈营业利润率 · 净利增速≈ROE年化 · 数据源: Sina
       </div>
     </div>
   </div>
