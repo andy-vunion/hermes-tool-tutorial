@@ -2043,7 +2043,7 @@ US Benchmark Check (美股对标):
 </div></div>
 <script>
 function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var el=document.getElementById(slug)||document.querySelector('.chapter h2[id="'+slug+'"],.chapter h3[id="'+slug+'"]');if(el){var ch=el.closest('.chapter');if(ch)ch.classList.add('active');else el.classList.add('active');}document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+slug+'"]');if(l)l.classList.add('active');}
-(function(){var first=document.querySelector('.chapter');if(first)first.classList.add('active');})();
+(function(){var hash=location.hash.replace('#','');if(hash){setTimeout(function(){navigate(hash);},0);}else{var first=document.querySelector('.chapter');if(first)first.classList.add('active');}})();window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(h)navigate(h);});
 function doSearch(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('search-hidden',q&&!a.textContent.toLowerCase().includes(q)));document.querySelectorAll('.chapter').forEach(c=>{if(!q){c.style.display=c.classList.contains('active')?'block':'none'}else{c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none'}});}
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('search').focus();}});
 </script>
