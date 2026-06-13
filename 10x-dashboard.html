@@ -272,6 +272,7 @@ body.guide-open{overflow:auto}
   <div style="grid-row:2">
     <div class="card" style="flex:1;min-height:0">
       <div class="tab-bar">
+        <div class="tab-btn" onclick="switchTab('chain')">🔗 产业链</div>
         <div class="tab-btn active" onclick="switchTab('finance')">💰 财务指标</div>
         <div class="tab-btn" onclick="switchTab('backtest')">📊 回测仓位</div>
         <div class="tab-btn" onclick="switchTab('risk')">🚨 风险监控</div>
@@ -353,6 +354,115 @@ body.guide-open{overflow:auto}
           <span class="risk-level safe">正常</span>
         </div>
       </div>
+      <!-- ═══════════ CHAIN TAB ═══════════ -->
+      <div class="tab-panel" id="tab-chain" style="display:flex;flex-direction:column;gap:16px;padding:16px 20px 20px;overflow-y:auto;max-height:calc(100vh - 160px);">
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:260px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));color:#fff;font-weight:700;font-size:15px;padding:3px 10px;border-radius:4px;">S</span>
+        <span style="color:var(--text-primary);font-size:17px;font-weight:700;">AI算力</span>
+        <span style="background:var(--accent-green);color:#0d1117;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;">HOTSPOT</span>
+      </div>
+      <div style="color:var(--text-secondary);font-size:12px;line-height:1.6;">
+        <div>📍 成长期 · 渗透率 15% · 置信度 High</div>
+        <div>📈 营收加速增长 · 利润率扩张中</div>
+        <div>🏛️ 2026政府工作报告"人工智能+"行动</div>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:6px;border-radius:3px;background:var(--bg-primary);overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent-green),var(--accent-yellow),var(--accent-red));box-shadow:0 0 8px rgba(63,185,80,0.4);"></div></div>
+        <span style="font-weight:800;font-size:22px;color:var(--accent-green);">85</span><span style="font-size:11px;color:var(--text-secondary);">/100</span>
+      </div>
+    </div>
+    <div style="flex:1.8;min-width:400px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">🔥 六维热度明细</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">资金</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:88%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">88</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">基本</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:82%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">82</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">政策</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:90%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">90</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">产业</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:85%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">85</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">情绪</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-yellow);min-width:24px;">78</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">价格</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-yellow);min-width:24px;">78</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-green);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">政府/产业基金</div><div style="font-size:17px;font-weight:700;color:var(--accent-green);">¥820亿</div><div style="font-size:10px;color:var(--text-secondary);">YoY +150% · 领先12月</div></div>
+    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-blue);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">VC/PE一级市场</div><div style="font-size:17px;font-weight:700;color:var(--accent-blue);">¥25亿/月</div><div style="font-size:10px;color:var(--text-secondary);">领先24-36月</div></div>
+    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-purple);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">机构持仓变化</div><div style="font-size:17px;font-weight:700;color:var(--accent-purple);">+8家/季</div><div style="font-size:10px;color:var(--text-secondary);">同步指标</div></div>
+    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-cyan);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">北美CSP CapEx</div><div style="font-size:17px;font-weight:700;color:var(--accent-cyan);">$2500亿+</div><div style="font-size:10px;color:var(--text-secondary);">领先6-12月 · 核心指标</div></div>
+  </div>
+
+  <div style="background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:18px;">
+    <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:14px;">🌳 产业链节点树 · 15个可独立分析节点</div>
+    <div style="padding:10px 16px;background:var(--bg-secondary);border:1px solid var(--accent-blue);border-radius:8px;margin-bottom:10px;font-weight:700;font-size:14px;color:var(--accent-blue);">🔷 AI算力 · 总TAM ~¥7,270亿 · S级赛道 · 5只池内标的</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-left:16px;border-left:2px solid rgba(88,166,255,.2);padding-left:12px;">
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">光模块</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥600亿 · 龙中际旭创(30%) · CR3=60%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化70%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">光芯片</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥200亿 · 龙源杰科技(20%) · CR3=50%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化10%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-70%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">高速铜连接</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥150亿 · 龙立讯精密(35%) · CR3=65%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化80%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利20-30%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">高端PCB</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥400亿 · 龙沪电股份(18%) · CR3=40%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">液冷散热</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥250亿 · 龙英维克(22%) · CR3=45%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化75%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-40%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">服务器</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥1500亿 · 龙工业富联(30%) · CR3=55%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化85%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">毛利8-15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">交换机</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥350亿 · 龙紫光股份(28%) · CR3=50%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化55%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利35-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(210,153,34,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-yellow);">电源/PSU</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥120亿 · 龙麦格米特(15%) · CR3=35%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利20-30%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注(分散)</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(210,153,34,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-yellow);">半导体设备</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥600亿 · 龙北方华创(20%) · CR3=45%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利40-50%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">GPU/AI训练芯片</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥800亿 · 龙海光信息(45%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化5%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-65%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">HBM先进封装</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥500亿 · 龙长电科技(25%) · CR3=55%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">存储(HBM/SSD)</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥300亿 · 龙兆易创新(12%) · CR3=30%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化8%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-40%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">EDA/IP</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥100亿 · 龙华大九天(40%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化10%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利85-95%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
+
+<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">云服务/智算中心</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥2000亿 · 龙阿里云(35%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化90%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:300px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:10px;">🎯 候选池标的 → 产业链映射</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <tr style="color:var(--text-secondary);font-size:10px;"><th style="text-align:left;padding:4px 6px;">标的</th><th style="text-align:left;padding:4px 6px;">链节点</th><th style="text-align:right;padding:4px 6px;">Gate</th></tr>
+        <tr style="color:var(--accent-cyan);"><td style="padding:5px 6px;font-weight:600;">源杰科技</td><td style="padding:5px 6px;">光芯片</td><td style="text-align:right;padding:5px 6px;font-weight:700;">82.4</td></tr>
+        <tr style="color:var(--accent-blue);"><td style="padding:5px 6px;font-weight:600;">光启技术</td><td style="padding:5px 6px;">超材料</td><td style="text-align:right;padding:5px 6px;font-weight:700;">79.8</td></tr>
+        <tr style="color:var(--accent-yellow);"><td style="padding:5px 6px;font-weight:600;">安集科技</td><td style="padding:5px 6px;">半导体设备</td><td style="text-align:right;padding:5px 6px;font-weight:700;">67.1</td></tr>
+        <tr style="color:var(--accent-purple);"><td style="padding:5px 6px;font-weight:600;">睿创微纳</td><td style="padding:5px 6px;">传感器</td><td style="text-align:right;padding:5px 6px;font-weight:700;">61.2</td></tr>
+        <tr style="color:var(--accent-red);"><td style="padding:5px 6px;font-weight:600;">天孚通信</td><td style="padding:5px 6px;">光模块/光器件</td><td style="text-align:right;padding:5px 6px;font-weight:700;">60.2</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">光模块产业链已覆盖2只 · 光芯片1只 · 半导体设备1只</div>
+    </div>
+    <div style="flex:1;min-width:300px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:10px;">🇺🇸 美股对标 · 天花板参照</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <tr style="color:var(--text-secondary);font-size:10px;"><th style="text-align:left;padding:4px 6px;">链节点</th><th style="text-align:left;padding:4px 6px;">美股对标</th><th style="text-align:right;padding:4px 6px;">市值</th><th style="text-align:center;padding:4px 6px;">代差</th></tr>
+        <tr><td style="padding:5px 6px;">GPU</td><td style="padding:5px 6px;color:var(--accent-green);">NVDA</td><td style="text-align:right;padding:5px 6px;">$3500B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">2代</td></tr>
+        <tr><td style="padding:5px 6px;">光模块</td><td style="padding:5px 6px;color:var(--accent-blue);">LITE</td><td style="text-align:right;padding:5px 6px;">$40B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-yellow);">2年↓</td></tr>
+        <tr><td style="padding:5px 6px;">HBM</td><td style="padding:5px 6px;color:var(--accent-purple);">MU</td><td style="text-align:right;padding:5px 6px;">$1200B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">2-3年</td></tr>
+        <tr><td style="padding:5px 6px;">液冷</td><td style="padding:5px 6px;color:var(--accent-green);">VRT</td><td style="text-align:right;padding:5px 6px;">$450B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-green);">持平</td></tr>
+        <tr><td style="padding:5px 6px;">EDA</td><td style="padding:5px 6px;color:var(--accent-red);">SNPS</td><td style="text-align:right;padding:5px 6px;">$850B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">10年+</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">↓ = 代差缩小中 · 光模块/光芯片国产替代加速</div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap;gap:8px;">
+    <span>15 节点 · <span style="color:var(--accent-green);">7 可投</span> · <span style="color:var(--accent-yellow);">3 关注</span> · <span style="color:var(--accent-red);">5 瓶颈</span></span>
+    <span>5 只池内标的覆盖 5 个节点</span>
+    <span>总TAM <span style="color:var(--accent-blue);font-weight:700;">~¥7,270亿</span></span>
+    <span>数据截止 2026-06 · <span style="color:var(--accent-yellow);">Sina+Kimi+Metaso</span></span>
+  </div>
+</div>
     </div>
   </div>
 
