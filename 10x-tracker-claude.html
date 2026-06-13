@@ -1,726 +1,578 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>十倍股跟踪系统 · 深研看板</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>十倍股全生命周期跟踪系统 — Claude fable-5 设计报告</title>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg-primary:#0d1117;
-  --bg-secondary:#161b22;
-  --bg-tertiary:#30363d;
-  --border:#30363d;
-  --text-primary:#e6edf3;
-  --text-secondary:#8b949e;
-  --text-muted:#6e7681;
-  --accent-green:#3fb950;
-  --accent-red:#f85149;
-  --accent-yellow:#d29922;
-  --accent-blue:#58a6ff;
-  --accent-purple:#a371f7;
-  --accent-cyan:#39d2c0;
-  --card-radius:10px;
-  --transition:0.2s ease;
-}
-body{
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  padding: 16px;
-  line-height: 1.5;
-}
-
-/* ── Header ── */
-.header{
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 16px 24px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.header-left{display:flex;align-items:center;gap:14px}
-.logo-icon{
-  width: 38px; height: 38px;
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 900; color: #0d1117;
-}
-.header h1{font-size:20px;font-weight:700;letter-spacing:0.5px}
-.header h1 span{color:var(--accent-green)}
-.header-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.sys-badge{
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 20px;
-  font-size: 12px; font-weight: 600;
-  border: 1px solid;
-}
-.sys-badge.live{background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.3);color:var(--accent-green)}
-.sys-badge.info{background:rgba(88,166,255,.1);border-color:rgba(88,166,255,.25);color:var(--accent-blue)}
-.sys-badge.warn{background:rgba(210,153,34,.1);border-color:rgba(210,153,34,.25);color:var(--accent-yellow)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.cutoff{font-size:12px;color:var(--text-muted)}
-
-/* ── 3-Column Grid ── */
-.grid{
-  display: grid;
-  grid-template-columns: 1fr 1.35fr 1fr;
-  gap: 14px;
-  align-items: start;
-}
-@media(max-width:1200px){.grid{grid-template-columns:1fr 1fr}}
-@media(max-width:800px){.grid{grid-template-columns:1fr}}
-
-/* ── Card ── */
-.card{
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  overflow: hidden;
-}
-.card-header{
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 14px; font-weight: 600;
-}
-.card-header .icon{font-size:16px;margin-right:6px}
-.card-body{padding:14px 16px}
-.card-body.p0{padding:0}
-
-/* ── Left: Candidate Pool ── */
-.pool-table{width:100%;border-collapse:collapse;font-size:13px}
-.pool-table th{
-  text-align:left;padding:8px 12px;font-size:11px;font-weight:600;
-  color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;
-  border-bottom:1px solid var(--border);background:rgba(22,27,34,.6);
-  position:sticky;top:0;z-index:1;
-}
-.pool-table td{padding:10px 12px;border-bottom:1px solid rgba(48,54,61,.4);vertical-align:middle}
-.pool-table tr{cursor:pointer;transition:background var(--transition)}
-.pool-table tr:hover{background:rgba(88,166,255,.04)}
-.pool-table tr.active{background:rgba(88,166,255,.08);border-left:3px solid var(--accent-blue)}
-.pool-table tr.active td:first-child{padding-left:9px}
-
-.stock-code{font-weight:700;font-size:13px;color:var(--accent-blue)}
-.stock-name{font-size:12px;color:var(--text-secondary)}
-.gate-score{font-weight:700;font-size:15px}
-.gate-high{color:var(--accent-green)}
-.gate-mid{color:var(--accent-yellow)}
-.gate-low{color:var(--accent-red)}
-
-.grade-badge{
-  display:inline-block;padding:2px 7px;border-radius:4px;
-  font-size:11px;font-weight:700;line-height:1.4;
-}
-.grade-A{background:rgba(63,185,80,.15);color:var(--accent-green)}
-.grade-B{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
-
-.trend-up{color:var(--accent-green);font-size:15px}
-.trend-flat{color:var(--accent-yellow);font-size:15px}
-.tag-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:2px}
-.tag{
-  font-size:9.5px;padding:2px 6px;border-radius:3px;
-  background:rgba(163,113,247,.12);color:var(--accent-purple);
-  font-weight:600;
-}
-.tag.risk{
-  background:rgba(248,81,73,.12);color:var(--accent-red);
-}
-
-/* ── Middle: Radar + Finance ── */
-.radar-container{
-  display:flex;align-items:center;justify-content:center;
-  padding:10px 0;
-}
-.radar-container svg{max-width:100%;height:auto}
-.radar-legend{
-  display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
-  padding:8px 16px 12px;font-size:11px;
-}
-.radar-legend span{display:flex;align-items:center;gap:5px}
-.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-
-.finance-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:8px;padding:0 0 8px;
-}
-.finance-item{
-  background:rgba(13,17,23,.5);border:1px solid var(--border);
-  border-radius:6px;padding:10px 12px;text-align:center;
-}
-.finance-item .label{font-size:10.5px;color:var(--text-muted);margin-bottom:2px}
-.finance-item .value{font-size:17px;font-weight:700}
-.finance-item .sub{font-size:10.5px;color:var(--text-secondary);margin-top:1px}
-
-.selected-stock-info{
-  padding:10px 16px;border-top:1px solid var(--border);
-  background:rgba(13,17,23,.4);
-  font-size:12px;color:var(--text-secondary);
-  display:flex;align-items:center;gap:8px;
-}
-.selected-stock-info strong{color:var(--text-primary)}
-
-/* ── Right: Risk + Cron ── */
-.risk-item{
-  padding:12px;border-bottom:1px solid rgba(48,54,61,.4);
-  display:flex;gap:10px;align-items:flex-start;
-}
-.risk-item:last-child{border-bottom:none}
-.risk-icon{
-  font-size:16px;width:30px;height:30px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.risk-icon.high{background:rgba(248,81,73,.12);color:var(--accent-red)}
-.risk-icon.mid{background:rgba(210,153,34,.12);color:var(--accent-yellow)}
-.risk-icon.none{background:rgba(63,185,80,.12);color:var(--accent-green)}
-.risk-info{flex:1;min-width:0}
-.risk-info .stock{font-weight:600;font-size:13px}
-.risk-info .desc{font-size:11.5px;color:var(--text-secondary);margin-top:1px}
-.risk-level{
-  font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;
-  flex-shrink:0;align-self:center;
-}
-.risk-level.high{background:rgba(248,81,73,.15);color:var(--accent-red)}
-.risk-level.mid{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
-.risk-level.safe{background:rgba(63,185,80,.15);color:var(--accent-green)}
-
-.cron-item{
-  padding:10px 14px;border-bottom:1px solid rgba(48,54,61,.3);
-  display:flex;align-items:center;gap:10px;font-size:12px;
-}
-.cron-item:last-child{border-bottom:none}
-.cron-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.cron-dot.green{background:var(--accent-green)}
-.cron-dot.blue{background:var(--accent-blue)}
-.cron-id{font-family:'SF Mono',monospace;font-size:10px;color:var(--text-muted)}
-.cron-meta{flex:1}
-.cron-meta .name{font-weight:600}
-.cron-meta .detail{font-size:11px;color:var(--text-secondary)}
-
-.params-row{display:flex;flex-wrap:wrap;gap:4px;padding:10px 14px}
-.param-tag{
-  font-size:10px;font-family:'SF Mono',monospace;
-  padding:3px 8px;border-radius:4px;
-  background:rgba(88,166,255,.08);color:var(--accent-blue);
-  border:1px solid rgba(88,166,255,.15);
-}
-
-/* ── Mini bar chart in pool table ── */
-.mini-bar-bg{
-  width:56px;height:5px;border-radius:3px;background:rgba(48,54,61,.6);
-  overflow:hidden;display:inline-block;vertical-align:middle;margin-right:4px;
-}
-.mini-bar-fill{height:100%;border-radius:3px}
-.mini-bar-fill.high{background:var(--accent-green)}
-.mini-bar-fill.mid{background:var(--accent-yellow)}
-.mini-bar-fill.low{background:var(--accent-red)}
-
-/* Footer */
-.footer{
-  margin-top:14px;text-align:center;
-  font-size:10.5px;color:var(--text-muted);
-  padding:10px;
-}
-
-/* Tooltip for radar hover */
-.stock-selector{cursor:pointer}
+* { margin:0; padding:0; box-sizing:border-box; }
+:root { --bg:#0d1117; --bg2:#161b22; --bg3:#21262d; --border:#30363d; --text:#c9d1d9; --text2:#8b949e; --accent:#58a6ff; --warn:#d29922; --green:#3fb950; --red:#f85149; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
+#sidebar { width:280px; min-width:280px; background:var(--bg2); border-right:1px solid var(--border); padding:24px 16px; position:sticky; top:0; height:100vh; overflow-y:auto; }
+#sidebar h1 { font-size:15px; color:var(--accent); margin-bottom:8px; line-height:1.4; }
+#sidebar .meta { font-size:11px; color:var(--text2); margin-bottom:16px; }
+#sidebar input { width:100%; background:var(--bg3); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; font-size:12px; margin-bottom:16px; outline:none; }
+#sidebar input:focus { border-color:var(--accent); }
+#sidebar nav a { display:block; padding:6px 10px; border-radius:4px; font-size:12px; color:var(--text2); text-decoration:none; margin-bottom:1px; transition:all .15s; }
+#sidebar nav a:hover,#sidebar nav a.active { background:var(--bg3); color:var(--text); }
+#main { flex:1; padding:40px 48px; max-width:960px; }
+#main h2 { font-size:22px; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:24px; }
+#main h2:first-child { margin-top:0; }
+#main h3 { font-size:17px; color:var(--text); margin:20px 0 10px; }
+#main p { font-size:14px; line-height:1.8; margin-bottom:10px; }
+#main ul,#main ol { margin:6px 0 14px 24px; font-size:14px; line-height:1.8; }
+#main li { margin-bottom:2px; }
+#main code { background:var(--bg3); padding:2px 6px; border-radius:3px; font-size:13px; color:var(--warn); }
+#main pre { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:16px 20px; overflow-x:auto; margin:14px 0; font-size:12px; line-height:1.5; }
+#main pre code { background:none; padding:0; color:var(--text); }
+#main table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13px; }
+#main th,td { border:1px solid var(--border); padding:7px 10px; text-align:left; vertical-align:top; }
+#main th { background:var(--bg3); font-weight:600; }
+#main td { color:var(--text2); }
+#main blockquote { border-left:3px solid var(--accent); margin:14px 0; padding:6px 16px; background:rgba(88,166,255,0.05); border-radius:0 6px 6px 0; font-size:14px; }
+#main strong { color:#e6edf3; }
+.chapter { display:none; }
+.chapter.active { display:block; }
+.search-hidden { display:none !important; }
+@media(max-width:768px){ body{flex-direction:column} #sidebar{width:100%;min-width:0;height:auto;position:relative;padding:16px} #main{padding:20px} }
 </style>
 </head>
 <body>
-
-<!-- ═══════════════ HEADER ═══════════════ -->
-<header class="header">
-  <div class="header-left">
-    <div class="logo-icon">10X</div>
-    <div>
-      <h1>十倍股<span>跟踪系统</span></h1>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:1px">Gate-Moat Framework · 深研看板 v2.4</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <span class="sys-badge live"><span class="dot"></span> 系统存活 · C1=90</span>
-    <span class="sys-badge info">候选池 5 只</span>
-    <span class="sys-badge info">参数 P01-P08 激活</span>
-    <span class="cutoff">📅 数据截止 2026-06-06</span>
-  </div>
-</header>
-
-<!-- ═══════════════ 3-COLUMN GRID ═══════════════ -->
-<div class="grid">
-
-  <!-- ━━━━ LEFT: 候选池列表 ━━━━ -->
-  <div class="card" style="grid-row:span 2">
-    <div class="card-header">
-      <span>📋 候选池 · Gate 排序</span>
-      <span style="font-size:11px;color:var(--text-muted)">门槛 ≥ 60</span>
-    </div>
-    <div class="card-body p0" style="max-height:620px;overflow-y:auto">
-      <table class="pool-table" id="poolTable">
-        <thead>
-          <tr>
-            <th>标的</th>
-            <th>Gate</th>
-            <th>不可替代</th>
-            <th>锁定</th>
-            <th>斜率</th>
-            <th>客户</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- 688498 源杰科技 -->
-          <tr class="active stock-selector" data-idx="0"
-              data-name="源杰科技" data-code="688498.SH"
-              data-gate="82.4" data-irreplace="85" data-lockin="75"
-              data-slope="82" data-customer="78"
-              data-gross="77.8" data-rev="320.9" data-trend="↑"
-              data-grade="A" data-risk="⚠ 副总刑拘" data-risk-level="high">
-            <td>
-              <div class="stock-code">688498</div>
-              <div class="stock-name">源杰科技</div>
-            </td>
-            <td><span class="gate-score gate-high">82.4</span></td>
-            <td><span class="grade-badge grade-A">A 85</span></td>
-            <td>75</td>
-            <td>82</td>
-            <td>78</td>
-          </tr>
-          <!-- 002625 光启技术 -->
-          <tr class="stock-selector" data-idx="1"
-              data-name="光启技术" data-code="002625.SZ"
-              data-gate="79.8" data-irreplace="88" data-lockin="72"
-              data-slope="72" data-customer="58"
-              data-gross="49.9" data-rev="40.3" data-trend="→"
-              data-grade="A" data-risk="⚠ 客户集中度90.35%" data-risk-level="high">
-            <td>
-              <div class="stock-code">002625</div>
-              <div class="stock-name">光启技术</div>
-            </td>
-            <td><span class="gate-score gate-high">79.8</span></td>
-            <td><span class="grade-badge grade-A">A 88</span></td>
-            <td>72</td>
-            <td>72</td>
-            <td><span style="color:var(--accent-yellow)">58</span></td>
-          </tr>
-          <!-- 688019 安集科技 -->
-          <tr class="stock-selector" data-idx="2"
-              data-name="安集科技" data-code="688019.SH"
-              data-gate="67.1" data-irreplace="75" data-lockin="65"
-              data-slope="68" data-customer="62"
-              data-gross="55.5" data-rev="32.8" data-trend="—"
-              data-grade="B" data-risk="" data-risk-level="safe">
-            <td>
-              <div class="stock-code">688019</div>
-              <div class="stock-name">安集科技</div>
-            </td>
-            <td><span class="gate-score gate-mid">67.1</span></td>
-            <td><span class="grade-badge grade-B">B 75</span></td>
-            <td>65</td>
-            <td>68</td>
-            <td>62</td>
-          </tr>
-          <!-- 688002 睿创微纳 -->
-          <tr class="stock-selector" data-idx="3"
-              data-name="睿创微纳" data-code="688002.SH"
-              data-gate="61.2" data-irreplace="62" data-lockin="62"
-              data-slope="64" data-customer="60"
-              data-gross="53.4" data-rev="71.1" data-trend="—"
-              data-grade="B" data-risk="" data-risk-level="safe">
-            <td>
-              <div class="stock-code">688002</div>
-              <div class="stock-name">睿创微纳</div>
-            </td>
-            <td><span class="gate-score gate-low">61.2</span></td>
-            <td><span class="grade-badge grade-B">B 62</span></td>
-            <td>62</td>
-            <td>64</td>
-            <td>60</td>
-          </tr>
-          <!-- 300394 天孚通信 -->
-          <tr class="stock-selector" data-idx="4"
-              data-name="天孚通信" data-code="300394.SZ"
-              data-gate="60.2" data-irreplace="52" data-lockin="62"
-              data-slope="68" data-customer="60"
-              data-gross="56.6" data-rev="40.8" data-trend="↑"
-              data-grade="B" data-risk="⚠ 边缘标的" data-risk-level="mid">
-            <td>
-              <div class="stock-code">300394</div>
-              <div class="stock-name">天孚通信</div>
-              <div class="tag-row"><span class="tag">边缘</span></div>
-            </td>
-            <td><span class="gate-score gate-low">60.2</span></td>
-            <td><span class="grade-badge grade-B">B 52</span></td>
-            <td>62</td>
-            <td><span style="color:var(--accent-green)">68</span></td>
-            <td>60</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="padding:8px 14px;font-size:10.5px;color:var(--text-muted);border-top:1px solid var(--border)">
-      点击行切换雷达图标的 · 共 5 只候选 · 日频扫描中
-    </div>
-  </div>
-
-  <!-- ━━━━ MIDDLE: Gate 雷达图 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>🎯 Gate-Moat 五维雷达</span>
-      <span style="font-size:11px;color:var(--text-muted)" id="radarStockLabel">源杰科技 688498.SH</span>
-    </div>
-    <div class="card-body">
-      <div class="radar-container">
-        <svg id="radarSvg" viewBox="0 0 320 320" width="320" height="320"></svg>
-      </div>
-      <div class="radar-legend">
-        <span><span class="legend-dot" style="background:var(--accent-cyan)"></span> 源杰科技 82.4</span>
-        <span><span class="legend-dot" style="background:var(--accent-blue)"></span> 光启技术 79.8</span>
-        <span><span class="legend-dot" style="background:var(--accent-yellow)"></span> 安集科技 67.1</span>
-        <span><span class="legend-dot" style="background:var(--accent-purple)"></span> 睿创微纳 61.2</span>
-        <span><span class="legend-dot" style="background:var(--accent-red)"></span> 天孚通信 60.2</span>
-      </div>
-    </div>
-    <div class="selected-stock-info" id="stockDetail">
-      <strong>源杰科技</strong> 688498.SH · Gate <span style="color:var(--accent-green);font-weight:700">82.4</span>
-      · 毛利率 <span style="color:var(--accent-green)">77.8%</span>
-      · 营收增速 <span style="color:var(--accent-green)">320.9%</span>
-      · 负债率 <span style="color:var(--accent-green)">10.7%</span>
-      · 趋势 <span style="color:var(--accent-green)">↑ 上升</span>
-    </div>
-  </div>
-
-  <!-- ━━━━ MIDDLE BOTTOM: 财务指标 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>💰 核心财务指标（最新季度）</span>
-    </div>
-    <div class="card-body">
-      <div class="finance-grid">
-        <div class="finance-item">
-          <div class="label">源杰科技 · 毛利率</div>
-          <div class="value" style="color:var(--accent-green)">77.8%</div>
-          <div class="sub">营收增速 +320.9% · 负债率 10.7%</div>
-        </div>
-        <div class="finance-item">
-          <div class="label">光启技术 · 毛利率</div>
-          <div class="value" style="color:var(--accent-yellow)">49.9%</div>
-          <div class="sub">营收增速 +40.3% · 负债率 18.6%</div>
-        </div>
-        <div class="finance-item">
-          <div class="label">安集科技 · 毛利率</div>
-          <div class="value" style="color:var(--accent-green)">55.5%</div>
-          <div class="sub">营收增速 +32.8% · 负债率 15.7%</div>
-        </div>
-        <div class="finance-item">
-          <div class="label">睿创微纳 · 毛利率</div>
-          <div class="value" style="color:var(--accent-green)">53.4%</div>
-          <div class="sub">营收增速 +71.1% · 负债率 <span style="color:var(--accent-yellow)">36.1%</span></div>
-        </div>
-        <div class="finance-item">
-          <div class="label">天孚通信 · 毛利率</div>
-          <div class="value" style="color:var(--accent-green)">56.6%</div>
-          <div class="sub">营收增速 +40.8% · 负债率 14.3%</div>
-        </div>
-        <div class="finance-item">
-          <div class="label">池均 · 毛利率</div>
-          <div class="value" style="color:var(--accent-blue)">58.6%</div>
-          <div class="sub">营收增速 +101.2% · 负债率 19.1%</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ━━━━ RIGHT: 回测 & 仓位 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>📊 M2 回测 & 仓位校准</span>
-      <span style="font-size:11px;color:var(--accent-cyan)">Kimi同花顺 + Sina</span>
-    </div>
-    <div class="card-body p0" style="padding:12px 14px">
-      <table style="width:100%;font-size:11px;border-collapse:collapse">
-        <thead>
-          <tr style="color:var(--text-muted);font-size:10px">
-            <th style="text-align:left;padding:2px 6px">标的</th>
-            <th style="padding:2px 4px">T1突破</th>
-            <th style="padding:2px 4px">T2金叉</th>
-            <th style="padding:2px 4px">T3背离</th>
-            <th style="text-align:right;padding:2px 6px">仓位</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:2px 6px"><span style="color:var(--accent-cyan)">源杰</span></td>
-            <td style="text-align:center;padding:2px 4px">9.3%</td>
-            <td style="text-align:center;padding:2px 4px">2.8%</td>
-            <td style="text-align:center;padding:2px 4px">2.8%</td>
-            <td style="text-align:right;padding:2px 6px"><b style="color:var(--accent-cyan)">30%</b></td>
-          </tr>
-          <tr>
-            <td style="padding:2px 6px"><span style="color:var(--accent-blue)">光启</span></td>
-            <td style="text-align:center;padding:2px 4px">10.5%</td>
-            <td style="text-align:center;padding:2px 4px">3.7%</td>
-            <td style="text-align:center;padding:2px 4px"><span style="color:var(--accent-yellow)">4.6%</span></td>
-            <td style="text-align:right;padding:2px 6px"><b style="color:var(--accent-blue)">30%</b></td>
-          </tr>
-          <tr>
-            <td style="padding:2px 6px"><span style="color:var(--accent-yellow)">安集</span></td>
-            <td style="text-align:center;padding:2px 4px">10.4%</td>
-            <td style="text-align:center;padding:2px 4px">3.3%</td>
-            <td style="text-align:center;padding:2px 4px">3.6%</td>
-            <td style="text-align:right;padding:2px 6px"><span style="color:var(--accent-yellow)">20%</span></td>
-          </tr>
-          <tr>
-            <td style="padding:2px 6px"><span style="color:var(--accent-purple)">睿创</span></td>
-            <td style="text-align:center;padding:2px 4px">10.7%</td>
-            <td style="text-align:center;padding:2px 4px">2.8%</td>
-            <td style="text-align:center;padding:2px 4px">3.7%</td>
-            <td style="text-align:right;padding:2px 6px"><span style="color:var(--text-secondary)">10%</span></td>
-          </tr>
-          <tr>
-            <td style="padding:2px 6px"><span style="color:var(--accent-red)">天孚</span></td>
-            <td style="text-align:center;padding:2px 4px"><span style="color:var(--accent-yellow)">12.5%</span></td>
-            <td style="text-align:center;padding:2px 4px">3.0%</td>
-            <td style="text-align:center;padding:2px 4px">3.7%</td>
-            <td style="text-align:right;padding:2px 6px"><span style="color:var(--text-secondary)">10%</span></td>
-          </tr>
-          <tr style="border-top:1px solid var(--border)">
-            <td style="padding:2px 6px;color:var(--text-muted);font-size:10px">池均</td>
-            <td style="text-align:center;padding:2px 4px;font-size:10px">10.7%</td>
-            <td style="text-align:center;padding:2px 4px;font-size:10px">3.1%</td>
-            <td style="text-align:center;padding:2px 4px;font-size:10px">3.7%</td>
-            <td style="text-align:right;padding:2px 6px;font-size:10px">100%</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:6px">
-        凯利半仓 · 30%单票上限 · 数据源 Kimi+ Sina
-      </div>
-    </div>
-  </div>
-
-  <!-- ━━━━ RIGHT: 风险告警 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>🚨 风险告警面板</span>
-      <span style="font-size:11px;color:var(--accent-red)">2 条活跃</span>
-    </div>
-    <div class="card-body p0">
-      <div class="risk-item">
-        <div class="risk-icon high">⚠</div>
-        <div class="risk-info">
-          <div class="stock">源杰科技 688498</div>
-          <div class="desc">公司副总被刑事拘留，治理风险显著上升</div>
-        </div>
-        <span class="risk-level high">严重</span>
-      </div>
-      <div class="risk-item">
-        <div class="risk-icon high">⚠</div>
-        <div class="risk-info">
-          <div class="stock">光启技术 002625</div>
-          <div class="desc">前五大客户集中度 90.35%，单一客户依赖度过高</div>
-        </div>
-        <span class="risk-level high">严重</span>
-      </div>
-      <div class="risk-item">
-        <div class="risk-icon mid">⚡</div>
-        <div class="risk-info">
-          <div class="stock">天孚通信 300394</div>
-          <div class="desc">Gate 评分逼近门槛（60.2），边际标的，关注剔除风险</div>
-        </div>
-        <span class="risk-level mid">关注</span>
-      </div>
-      <div class="risk-item">
-        <div class="risk-icon none">✓</div>
-        <div class="risk-info">
-          <div class="stock">安集科技 · 睿创微纳</div>
-          <div class="desc">当前无重大风险告警，财务指标正常区间</div>
-        </div>
-        <span class="risk-level safe">正常</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ━━━━ RIGHT BOTTOM: Cron 状态 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>⚙ 系统 Cron 任务</span>
-      <span style="font-size:11px;color:var(--accent-green)">全部运行中</span>
-    </div>
-    <div class="card-body p0">
-      <div class="cron-item">
-        <span class="cron-dot green"></span>
-        <div class="cron-meta">
-          <div class="name">日频扫描</div>
-          <div class="detail">每个交易日收盘后自动扫描全A股</div>
-        </div>
-        <span class="cron-id">93cc4087e3ff</span>
-      </div>
-      <div class="cron-item">
-        <span class="cron-dot blue"></span>
-        <div class="cron-meta">
-          <div class="name">周度复检</div>
-          <div class="detail">每周六对候选池进行深度复检</div>
-        </div>
-        <span class="cron-id">41d1aa883c52</span>
-      </div>
-      <div style="padding:10px 14px;border-top:1px solid var(--border)">
-        <div style="font-size:10.5px;color:var(--text-muted);margin-bottom:4px">活跃参数组</div>
-        <div class="params-row">
-          <span class="param-tag">P01</span><span class="param-tag">P02</span>
-          <span class="param-tag">P03</span><span class="param-tag">P04</span>
-          <span class="param-tag">P05</span><span class="param-tag">P06</span>
-          <span class="param-tag">P07</span><span class="param-tag">P08</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<div id="sidebar">
+<h1>🔬 十倍股全生命周期<br>跟踪系统 v1.0</h1>
+<div class="meta">设计模型：Claude fable-5 · 2026-06-13 · 620行</div>
+<input type="text" id="search" placeholder="搜索 (Ctrl+K)..." oninput="doSearch()">
+<nav id="nav"><a href="#十倍股全生命周期跟踪系统-设计文档" onclick="navigate('十倍股全生命周期跟踪系统-设计文档')">十倍股全生命周期跟踪系统 —— 设计文档</a></nav>
 </div>
+<div id="main"><div id="十倍股全生命周期跟踪系统-设计文档" class="chapter"><h2>十倍股全生命周期跟踪系统 —— 设计文档</h2><section id="十倍股全生命周期跟踪系统-设计文档" class="subsection"><h3>十倍股全生命周期跟踪系统 —— 设计文档</h3><p><strong>版本</strong> v1.0（从零设计，替代 v0.1） | <strong>日期</strong> 2026-06-13 | <strong>作者</strong> Claude（系统架构师角色）</p>
+<hr></section><section id="0-系统定位与设计哲学" class="subsection"><h3>0. 系统定位与设计哲学</h3><h3>0.1 这个系统是什么、不是什么</h3>
+<p><strong>是</strong>：一台"批量带反对派的尽调覆盖器"。它把人工只能覆盖 5-10 家公司的深度尽调流程（卡点穿透 + 证据溯源 + 魔鬼代言人 + 仓位纪律），机械化到能持续覆盖 200-800 家初筛池、20-50 家深度池，并用无幸存者偏差的全样本数据持续校准自己。</p>
+<p><strong>不是</strong>：十倍股预测器。十倍股在任何周期都是个位数样本，任何声称"预测十倍"的系统在统计上不可证伪、在工程上必然过拟合。</p>
+<p><strong>诚实的主 KPI</strong>：入场组（C4）的"5 年内最大涨幅 >= 200%（3 倍）"比例，显著高于硬门槛基线组（C1）。十倍是这个分布的右尾彩票——系统的工作是把彩票池的密度做高，并在中奖时<strong>拿得住</strong>，不是预言哪张中奖。</p>
+<h3>0.2 四个核心决策（解锁上轮全部致命缺陷的钥匙）</h3>
+<table>
+<tr><th>#</th><th>问题</th><th>决策</th></tr>
+<tr><th>1</th><th>卡点与量价的入场时点矛盾（同时满足 -> 系统性买在底部走完之后）</th><th>**先资格、后时机**。卡点不参与择时，只管池子准入/逐出（季频慢腿）；量价只对池内标的开火（日频快腿）。两腿永不在同一时刻打架。</th></tr>
+<tr><th>2</th><th>途中 3-5 次 40-60% 回撤拿不住（任何移动止损必然洗出十倍股）</th><th>**仓位状态机 E1->E2->E3，止损规则随状态切换**。侦察仓硬止损；核心仓 E3 **撤销一切百分比/均线止损**，只受 kill criteria、灾难闸门、时间止损三者管辖。</th></tr>
+<tr><th>3</th><th>幸存者偏差</th><th>每季度全 A 快照落库做分母；C0-C6 七个 cohort（含 swarm 否决组、单腿对照组）全部跟踪前向收益；卖出后继续跟踪 12 个月测卖飞成本。</th></tr>
+<tr><th>4</th><th>自由度爆炸 -> 过拟合</th><th>全系统参数清单化编号（param_registry），**活参数 <= 8 个**，每季度最多调 2 个，调参前必须影子运行 2 个季度。其余参数冻结。</th></tr>
+</table>
+<h3>0.3 上轮 8 条约束的处置对照</h3>
+<table>
+<tr><th>约束</th><th>处置</th></tr>
+<tr><th>1 无幸存者偏差</th><th>L5 校准层 + universe_snapshot 分母（见 5 章）</th></tr>
+<tr><th>2 持有/退出/仓位不能缺</th><th>L4 状态机 + kill criteria + 组合层（见 4 章）</th></tr>
+<tr><th>3 两腿时点矛盾</th><th>先资格后时机仲裁（见 3 章）</th></tr>
+<tr><th>4 北向数据已停</th><th>**全系统所有阈值规则不含北向资金**。龙虎榜/资金流向仅作 swarm 参考材料，不进任何触发条件。</th></tr>
+<tr><th>5 BOM 卡点数据不可靠</th><th>evidence_ledger 证据账本：关键事实强制 >=B 级证据（双独立信源）+ 人工复核 + 证据过期机制（见 2.1.3）</th></tr>
+<tr><th>6 自由度爆炸</th><th>参数治理（见 5.4）</th></tr>
+<tr><th>7 宏观对个股十倍约等于噪声</th><th>宏观在 gate 评分权重 0%、量价权重 0%，仅保留"灾难闸门"一个二元开关（见 4.5），整体影响 <= 10%</th></tr>
+<tr><th>8 定位诚实</th><th>见 0.1</th></tr>
+</table>
+<hr></section><section id="1-系统架构图" class="subsection"><h3>1. 系统架构图</h3><pre><code>
++-----------------------------------------------------------------------------+
+| L0 数据采集层（只进不出，全部落 research.db）                                   |
+|   东财 datacenter API(财务/行情)   Kimi datasource(财报批读)                   |
+|   Metaso(产业事实+溯源链接)        vibe-trading get_market_data(OHLCV)         |
+|   人工录入(BOM 复核 / 证据定级)                                                 |
++------+---------------------------------------------------+------------------+
+       | 季频                                               | 日频(仅池内)
++------v--------------------------+         +--------------v-----------------+
+| L1 资格层 GATE（慢腿）            |         | L2 择时层 TRIGGER（快腿）        |
+| 1) 硬门槛 HG1-HG7(财务可验证)     |  池子    | Stage-2 突破: T1 & T2 & T3     |
+| 2) 卡点四维评分(证据&gt;=B级强制)    | 成员名单  |  T1 趋势模板(MA50&gt;150&gt;200 up)  |
+| 产出: candidate_pool 准入/逐出   |---------&gt;|  T2 量价突破(1.5x量,距高&lt;=5%)  |
+| 资格不择时——只回答"谁有资格"      |          |  T3 基底&gt;=6周                  |
++---------------------------------+          | 产出: trigger_signal           |
+                                             +--------------+-----------------+
+                                                           | 触发后 48h 内
+                                             +--------------v-----------------+
+                                             | L3 仲裁投决 ARBITER             |
+                                             | run_swarm: bull/bear/risk/PM   |
+                                             | 结构化否决清单 V1-V4            |
+                                             | 产出: GO / NO-GO / WAIT        |
+                                             +--------------+-----------------+
+                                                            | GO
++-----------------------------------------------------------v-----------------+
+| L4 执行与仓位层（状态机）                                                       |
+|   E1 侦察仓 1.5%（硬止损-15% 与基底下沿取更紧）                                  |
+|    --首次财报确认--&gt; E2 确认仓 4%（周线 MA150 减半 / MA200 清仓）                |
+|        --二次财报确认 且 浮盈&gt;=30%--&gt; E3 核心仓 8%（撤销价格止损，               |
+|              仅受 kill criteria / 灾难闸门 / 24月时间止损管辖）                 |
+|   组合约束: 持仓&lt;=8只 | 单链&lt;=40% | E1总敞口&lt;=6% | 组合回撤35%熔断新开仓          |
+|   减仓再平衡: 单票&gt;15% -&gt; 减回10%（不是看空，是风控）                            |
++-----------------------------------------+-----------------------------------+
+                                          | 全部状态变迁/交易落库
++-----------------------------------------v-----------------------------------+
+| L5 复盘校准层（反馈回路，无幸存者偏差）                                          |
+|   universe_snapshot(全A分母,季度) -&gt; cohort C0-C6 前向收益(月度更新)            |
+|   sold_tracking(卖后跟12月,测卖飞成本) | param_registry(活参数&lt;=8,季调&lt;=2)      |
+|   产出: 精确率/分桶收益报表 --治理流程--&gt; 反馈调整 L1/L2/L3 阈值                 |
++------------------------------------------------------------------------------+
+</code></pre>
+<p>数据流向纪律：<strong>L1->L2->L3->L4 单向</strong>；L5 对 L1-L4 的修改只能通过参数治理流程（影子运行 2 季 -> 季度复盘会 -> 改 param_registry），禁止任何"看了上周结果手动改阈值"的短路操作。</p>
+<hr></section><section id="2-分层详细设计" class="subsection"><h3>2. 分层详细设计</h3><h3>2.0 L0 数据采集层</h3>
+<table>
+<tr><th>数据</th><th>来源</th><th>接口</th><th>频率</th><th>落表</th></tr>
+<tr><th>全 A 股票列表+市值+ST状态</th><th>东财 datacenter</th><th>行情快照 + 列表接口</th><th>季度</th><th>universe_snapshot</th></tr>
+<tr><th>利润表/资产负债表/现金流</th><th>东财 datacenter / Kimi datasource</th><th>RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE / kimi CLI</th><th>季度（财报季加密）</th><th>hard_gate_result, gate_score</th></tr>
+<tr><th>OHLCV 日线</th><th>vibe-trading</th><th>get_market_data(symbol, period="daily")</th><th>日频（仅池内+持仓）</th><th>trigger_signal（仅存信号，不存全量行情）</th></tr>
+<tr><th>产业链事实/竞争格局</th><th>Metaso</th><th>metaso_web_search -> metaso_web_reader</th><th>按需 + 季度复查</th><th>evidence_ledger</th></tr>
+<tr><th>BOM 价值拆解</th><th>research.db 既有 bom_analysis</th><th>SQL</th><th>既有</th><th>复核结果写 evidence_ledger</th></tr>
+<tr><th>公告/财报原文</th><th>Kimi datasource / read_document</th><th>kimi CLI / read_document</th><th>财报季</th><th>evidence_ledger（A 级证据）</th></tr>
+</table>
+<p>已知坑的工程化处置：</p>
+<ul>
+<li><strong>Kimi 429</strong>：所有 Kimi 批量任务走重试队列——失败任务写入 alert_log(kind='kimi_retry')，次日 cron 重试，连续 3 天失败升级人工。</li>
+<li><strong>Kimi 超时 300s 无输出</strong>：单任务粒度切到"一家公司一次调用"，永不批量拼 prompt；HTML 生成场景禁用 Python f-string 模板。</li>
+<li><strong>东财非结构化数据缺失</strong>（供应商集中度/替代窗口期/BOM 拆解）：这类字段一律不从 API 取，只能由 evidence_ledger 人工复核流程产生。</li>
+<li><strong>vibe web_search（DuckDuckGo）被墙</strong>：产业事实搜索全部走 Metaso，vibe 的 web_search 在本系统中禁用。</li>
+</ul>
+<h3>2.1 L1 资格层（GATE，季频慢腿）</h3>
+<p><strong>职责</strong>：回答"谁有资格被量价腿扫描"。不回答"现在买不买"。</p>
+<h4>2.1.1 硬门槛 HG1-HG7（全部可从 API 机械验证，零人工判断）</h4>
+<table>
+<tr><th>#</th><th>规则</th><th>阈值</th><th>数据源</th></tr>
+<tr><th>HG1</th><th>总市值</th><th>30 亿 <= mktcap <= 500 亿</th><th>东财行情</th></tr>
+<tr><th>HG2</th><th>成长性</th><th>TTM 营收同比 >= 20%（P03），**或** 最近两季营收增速逐季加速</th><th>RPT_DMSK_FN_INCOME</th></tr>
+<tr><th>HG3</th><th>定价权痕迹</th><th>毛利率 >= 25% 且 TTM 毛利率同比降幅 < 5pct</th><th>同上</th></tr>
+<tr><th>HG4</th><th>现金流真实性</th><th>近 4 季经营现金流净额之和 > 0</th><th>现金流量表</th></tr>
+<tr><th>HG5</th><th>杠杆</th><th>资产负债率 <= 60%</th><th>RPT_DMSK_FN_BALANCE</th></tr>
+<tr><th>HG6</th><th>可信度</th><th>上市 >= 365 天；非 ST/*ST；近 12 月无证监会立案</th><th>universe_snapshot</th></tr>
+<tr><th>HG7</th><th>商誉雷</th><th>商誉/净资产 <= 30%</th><th>资产负债表</th></tr>
+</table>
+<p>通过 = 7 条全过。每条的逐条布尔结果写 hard_gate_result（便于复盘"哪条门槛筛掉了后来的十倍股"——这是校准层的关键诊断数据）。预期通过数量 200-800 只；连续两季超出此区间则视为门槛失准，自动生成参数复盘提案。</p>
+<h4>2.1.2 卡点评分 gate_score（0-100，季频，需人工复核）</h4>
+<p>复用既有 stock_analysis 四维框架（irreplaceability / tech_lockin 字段），但<strong>每一分都必须挂证据</strong>：</p>
+<table>
+<tr><th>维度</th><th>分值</th><th>计分规则</th></tr>
+<tr><th>不可替代性</th><th>0-40</th><th>合格供应商数 <=2 -> 40；3-4 -> 25；>=5 -> 10。**该维度证据等级必须 >=B，否则按 >=5 家保守计 10 分**</th></tr>
+<tr><th>技术锁定</th><th>0-25</th><th>客户认证周期 >=2 年 -> +15；存在可证的切换成本（公告/调研纪要）-> +10</th></tr>
+<tr><th>价值量斜率</th><th>0-20</th><th>bom_analysis.value_add_pct 三年趋势：上升 -> 20；持平 -> 10；下降 -> 0</th></tr>
+<tr><th>客户结构</th><th>0-15</th><th>绑定行业前三大客户 -> +10；第一大客户收入占比 < 50% -> +5</th></tr>
+</table>
+<p><strong>准入</strong>：硬门槛全过 且 gate_score >= 60（P01）且 不可替代性维度证据 >=B</p>
+<p><strong>逐出</strong>：gate_score < 45（P02，与准入留 15 分防抖带）或 硬门槛连续两季破 或 关键证据被证伪（evidence status='refuted'）。逐出时若该标的有持仓，自动生成 kill 复核任务（见 4.3），但<strong>逐出本身不自动卖出</strong>——卖出永远走 L4 的规则。</p>
+<h4>2.1.3 evidence_ledger 证据账本（对付约束 5：LLM 在专有事实上幻觉率最高）</h4>
+<p>每条关键主张（claim）一行，强制溯源：</p>
+<ul>
+<li><strong>证据等级</strong>：A = 公司公告/招股书/年报原文（含页码）；B = 两个<strong>独立</strong>信源交叉验证（Metaso 溯源链接，同源转载不算独立）；C = 单一媒体报道；D = LLM 推断。</li>
+<li><strong>强制规则</strong>：支撑 gate_score >= 20 分的 claim（实际上就是"供应商 <=2 家""替代窗口 >3 年"这类专有工业事实）必须 >=B 级且 verified_by='human'。D 级证据在任何计分中按不存在处理。</li>
+<li><strong>证据过期</strong>：每条证据带 expire_date（默认 365 天）。过期自动降为 stale，对应维度分数回退保守值，并生成季度复查任务。竞争格局是流动的——去年"全球唯二"今年可能量产出第三家。</li>
+<li><strong>复核工作流</strong>：Metaso 搜索（保留溯源链接）-> 人工打开 source_url -> 摘录原文进 source_quote -> 人工定级。LLM 可以做初筛和摘要，<strong>定级权只在人</strong>。</li>
+</ul>
+<h3>2.2 L2 择时层（TRIGGER，日频快腿，只扫池内）</h3>
+<p><strong>职责</strong>：回答"池内谁现在出现了右侧确认"。不回答"这家公司好不好"（那是 L1 的事，已经答过了）。</p>
+<p>Stage-2 突破三条件（参考 Weinstein 阶段分析，参数刻意少）：</p>
+<table>
+<tr><th>#</th><th>条件</th><th>精确定义</th></tr>
+<tr><th>T1 趋势模板</th><th>多头排列</th><th>close > MA50 > MA150 > MA200，且 MA200 今值 > 21 个交易日前值（斜率向上）</th></tr>
+<tr><th>T2 量价突破</th><th>创高放量</th><th>close >= 52 周最高收盘价 x 95%（P05：距高 <=5%），且当日成交量 >= MA50(vol) x 1.5（P04）</th></tr>
+<tr><th>T3 基底存在</th><th>蓄势充分</th><th>突破前存在 >= 30 个交易日（P06：6 周）的整理区，区间振幅 (max-min)/min < 25%</th></tr>
+</table>
+<p><strong>触发 = T1 且 T2 且 T3</strong>，写入 trigger_signal，48 小时内必须召开 L3 投决（防拖延腐化信号）。</p>
+<p>反过滤与边界处理：</p>
+<ul>
+<li>突破当日涨幅 > 9%（接近涨停，实际无法成交）-> 信号标记 wait_pullback，此后 10 个交易日内回踩不破基底上沿视为有效入场窗。</li>
+<li>上市不足 250 日 -> 用上市以来最高价替代 52 周高，标记 short_history=1（cohort 分析时单独分桶，禁止混入主样本）。</li>
+<li>T3 基底识别用 pattern_recognition 辅助，但<strong>判定以上述数值规则为准</strong>，形态识别只作 swarm 参考材料——形态学不进硬规则，防自由度泄漏。</li>
+<li>同日多标的触发 -> 按 gate_score 降序排队，受组合约束截断。</li>
+<li>北向资金、龙虎榜、资金流向：<strong>不出现在 T1/T2/T3 任何条件中</strong>（约束 4）。</li>
+</ul>
+<h3>2.3 L3 仲裁投决层（ARBITER，事件驱动）</h3>
+<p><strong>触发</strong>：trigger_signal 新增且 48h 内。工具：vibe-trading run_swarm（bull analyst / bear analyst / risk officer / PM）。</p>
+<p>输入材料包（自动组装，写入 swarm 的 context）：</p>
+<ol>
+<li>gate_score 明细 + evidence_ledger 关键证据原文摘录（含等级）</li>
+<li>trigger_signal 明细（T1/T2/T3 数值）</li>
+<li>最近 4 季财务摘要（Kimi datasource 拉取）</li>
+<li>macro_screening 最新快照（仅作背景，不计分）</li>
+<li>龙虎榜/资金流向（仅作背景，不计分）</li>
+</ol>
+<p><strong>结构化否决清单</strong>（bear/risk officer 不许说"风险较大"这种废话，只能引用 V1-V4）：</p>
+<table>
+<tr><th>#</th><th>否决情形</th><th>可检验定义</th></tr>
+<tr><th>V1</th><th>证据空心化</th><th>任一支撑 >=20 分的 claim 证据等级 <B 或已 stale</th></tr>
+<tr><th>V2</th><th>kill 前兆</th><th>最近 30 天内出现该标的任一 kill criteria（见 4.3）的前兆事件（如大客户公告自研、竞品中标）</th></tr>
+<tr><th>V3</th><th>组合约束满</th><th>持仓已 8 只 / 该产业链已 40% / E1 总敞口已 6%</th></tr>
+<tr><th>V4</th><th>流动性不足</th><th>20 日均成交额 < 1.5 亿元（E3 目标仓位按 8% x 组合规模估算，进出冲击成本 > 2% 即否决）</th></tr>
+</table>
+<p><strong>PM 输出</strong>（写 swarm_verdict）：</p>
+<ul>
+<li><strong>GO</strong>：进入 L4，开 E1 侦察仓。</li>
+<li><strong>NO-GO</strong>：引用 V1-V4 编号 + 一段论据。该标的 60 天内不再重复投决（除非触发新信号且否决原因已消除）。</li>
+<li><strong>WAIT</strong>：附复核日期（<=14 天）与复核条件。最多连续 WAIT 两次，第三次强制 GO/NO-GO。</li>
+</ul>
+<p><strong>全部 NO-GO 的标的进 C5 cohort 继续跟踪前向收益</strong>——swarm 否决组的表现是检验"反对派有没有用"的唯一标准。如果 C5 长期跑赢 C4，说明 swarm 在做反向指标，必须重构提示词。</p>
+<hr></section><section id="3-入场仲裁机制两条腿的时点矛盾如何解开" class="subsection"><h3>3. 入场仲裁机制——两条腿的时点矛盾如何解开</h3><h3>3.1 矛盾的本质（上轮审阅指出的）</h3>
+<p>卡点识别是<strong>左侧逻辑</strong>（产业地位在股价底部就成立），量价突破是<strong>右侧逻辑</strong>（确认要等趋势走出来）。如果要求"同时满足"，等价于要求"在产业逻辑被市场充分认知之后才进场"——系统性买在主升浪中后段。</p>
+<h3>3.2 解法：先资格、后时机（Eligibility, then Timing）</h3>
+<pre><code>
+时间轴 -----------------------------------------------------------------&gt;
+ [卡点成立]          [入池]              [量价触发]      [swarm GO]  [E1]
+  产业事实层         季度评审              任意时点         48h内      开仓
+     |&lt;--- 可以等很久，池子不催促 ---&gt;|       |&lt;-- 48h --&gt;|
+  卡点回答: 这家公司值得被盯着          量价回答: 市场开始认知了，现在上车
+</code></pre>
+<ul>
+<li><strong>卡点永不催促入场</strong>。一家公司可以在池子里躺 2 年没有任何动作——这是 feature 不是 bug（产业逻辑领先市场认知 1-3 年是常态）。</li>
+<li><strong>量价永不背着资格开火</strong>。池外标的出现再漂亮的突破也不会产生信号——系统不做"纯技术面投机"。</li>
+<li>两腿的耦合点只有一个：<strong>池子成员名单</strong>。L1 每季度更新名单，L2 每天只扫名单内。</li>
+<li>时序上永远是"资格在前、时机在后"，且资格的有效性独立于价格位置——<strong>底部、半山腰、新高都可以入池</strong>，但只有出现 Stage-2 右侧确认才开火。买的是"右侧的早段"，放弃抄底（接受这个代价，换取胜率与可执行性）。</li>
+</ul>
+<h3>3.3 冲突场景手册</h3>
+<table>
+<tr><th>场景</th><th>处置</th></tr>
+<tr><th>量价触发但当季 gate 复审还没做（财报刚出）</th><th>用上季 gate 结果 + swarm 投决时人工核对最新财报（材料包第 3 项已含）</th></tr>
+<tr><th>入池当天就触发量价</th><th>正常流程，无需冷却期——资格审查与价格无关，不存在"刚入池不能买"</th></tr>
+<tr><th>持仓中标的被池子逐出</th><th>不自动卖。生成 kill 复核任务，按 4.3 流程判定；E3 仓位只认 kill/灾难/时间止损</th></tr>
+<tr><th>突破后 swarm WAIT，期间涨 20%</th><th>WAIT 复核时若仍满足 T1-T3（距高 <=5% 已不满足则信号失效）-> 按失效处理，等下一个基底。**不追高**，宁可错过</th></tr>
+<tr><th>多链共振（同链 3 只同时触发）</th><th>按 gate_score 取最高 1 只 + 单链 40% 约束；其余进 C3 cohort 跟踪（错过的也要量化）</th></tr>
+</table>
+<hr></section><section id="4-持有-退出-仓位层L4状态机全集" class="subsection"><h3>4. 持有 / 退出 / 仓位层（L4，状态机全集）</h3><h3>4.1 仓位状态机</h3>
+<pre><code>
+            +--财报确认1∧price&gt;entry--+        +--财报确认2∧浮盈&gt;=30%--+
+            |                        |        |                      |
+ [GO] --&gt; [E1 侦察仓 1.5%] ----------&gt; [E2 确认仓 4%] ---------------&gt; [E3 核心仓 8%]
+            |                                 |                          |
+            | 硬止损-15% 或 基底下沿            | 周MA150减半-&gt;2%           | 仅受三类管辖:
+            | 90天未达E2且浮盈&lt;5% -&gt; 退出       | 周MA200清仓               |  kill criteria
+            v                                 v                          |  灾难闸门
+          [OUT]                             [OUT]                        |  24月时间止损
+                                                                         v
+                                                          [减仓再平衡: &gt;15% -&gt; 10%]
+</code></pre>
+<p><strong>状态转换精确定义</strong>（全部写入 position_state，状态变迁记 trade_log）：</p>
+<table>
+<tr><th>转换</th><th>条件（全部满足）</th><th>动作</th></tr>
+<tr><th>GO -> E1</th><th>swarm GO</th><th>买入至组合 1.5%。记录 entry_price、基底下沿 base_low</th></tr>
+<tr><th>E1 -> E2</th><th>入场后第一份季报：营收同比 >= 20% 且 毛利率同比降幅 < 5pct 且 swarm 入场时写下的"E2 确认问题"答案为是 且 close > entry_price</th><th>加仓至 4%</th></tr>
+<tr><th>E1 -> OUT</th><th>close <= entry_price x 0.85（P07）或 close < base_low（取更紧）；或入场 90 天未达 E2 条件且浮盈 < 5%</th><th>清仓。写 sold_tracking</th></tr>
+<tr><th>E2 -> E3</th><th>第二份季报继续确认（同 E2 标准）且 浮盈 >= 30%（P08）</th><th>加仓至 8%</th></tr>
+<tr><th>E2 -> 减半</th><th>周线收盘 < MA150(周)</th><th>减至 2%，保留观察</th></tr>
+<tr><th>E2 -> OUT</th><th>周线收盘 < MA200(周)</th><th>清仓。写 sold_tracking</th></tr>
+<tr><th>E3 -> OUT</th><th>仅三类：kill criteria 确认（5 个交易日内分批清仓）/ 灾难闸门（按 4.5）/ 时间止损（4.4）</th><th>写 sold_tracking</th></tr>
+<tr><th>E3 减仓</th><th>单票市值 > 组合 15%</th><th>减回 10%（再平衡卖出，标记 rebalance=1，不进卖飞统计的"决策卖出"组</th></tr>
+</table>
+<p><strong>为什么 E2 保留价格止损而 E3 撤销</strong>：E1/E2 阶段论点只被 0-1 份财报验证，突破仍可能是假突破；E3 已有两份财报 + 30% 浮盈双重确认，此后的 40-60% 回撤大概率是 beta 与情绪，价格止损在这里只会把十倍股在第二次回撤时洗掉。<strong>拿住的代价是放弃 E3 阶段的回撤保护——这是设计出来的取舍，不是疏忽</strong>（单票 E3 上限 8%、组合层约束兜底）。</p>
+<h3>4.2 卖出的完整枚举（系统只有这五种卖出，不存在第六种）</h3>
+<ol>
+<li><strong>侦察失败</strong>：E1 硬止损 / 90 天未确认。</li>
+<li><strong>降级清仓</strong>：E2 周线 MA200 破位。</li>
+<li><strong>kill criteria</strong>：论点失效（4.3）。任何状态下都生效，E3 唯一的基本面卖出通道。</li>
+<li><strong>灾难闸门</strong>：组合级别动作（4.5）。</li>
+<li><strong>时间止损</strong>：24 个月总回报 < +20% 且最近两季营收增速均 < 15%（4.4）。</li>
+<li>（再平衡减仓不是"卖出决策"，是仓位维护。）</li>
+</ol>
+<p><strong>没有"止盈"</strong>。十倍系统设利润目标位止盈是自我否定——涨 3 倍卖掉的系统永远拿不到 10 倍。利润保护由再平衡（15%->10%）+ kill criteria 承担。</p>
+<h3>4.3 Kill Criteria（论点失效清单）</h3>
+<p><strong>通用五条</strong>（K1-K5，所有持仓自动适用）：</p>
+<table>
+<tr><th>#</th><th>条款</th><th>可检验定义</th><th>检查方式</th></tr>
+<tr><th>K1</th><th>核心客户流失</th><th>第一大客户收入占比环比降 > 15pct 且有公告/调研证实丢单</th><th>财报季 Kimi + Metaso 周扫</th></tr>
+<tr><th>K2</th><th>替代技术落地</th><th>竞品公告量产 且 获得原客户订单（两条都要，防"PPT 替代"误杀）</th><th>Metaso 周扫 + evidence_ledger</th></tr>
+<tr><th>K3</th><th>定价权丧失</th><th>毛利率连续两季下滑合计 > 8pct</th><th>财报季自动计算</th></tr>
+<tr><th>K4</th><th>治理恶化</th><th>实控人/核心技术团队变动 且 重要股东减持 > 5%</th><th>公告监控</th></tr>
+<tr><th>K5</th><th>财务造假</th><th>立案调查 / 审计非标意见</th><th>公告监控。**K5 不等 5 日，次日开盘即清**</th></tr>
+</table>
+<p><strong>标的特化 2-3 条</strong>：swarm GO 时由 bear analyst 强制产出（写 kill_criteria 表，type='specific'），必须是可检验事件，例如"英伟达下一代平台改用 XX 方案则本标的 HBM 逻辑失效"。<strong>入场即立遗嘱</strong>——买入那天就写好什么情况下承认错误。</p>
+<p><strong>执行流程</strong>：cron 周检扫描 -> 疑似触发 -> 24h 内人工核实证据（写 evidence_ledger）-> 确认则 5 个交易日内分批清仓（K5 除外）-> review_log 记录全过程。</p>
+<h3>4.4 时间止损</h3>
+<p>入场满 24 个月时检查：总回报 < +20% <strong>且</strong> 最近两季营收增速均 < 15% -> 清仓。</p>
+<p>逻辑：十倍论点的燃料是高速成长。两年不涨可以忍（市场迟钝），但两年不涨 + 成长熄火 = 论点本身错了。只要营收还在跑，时间止损不触发——给"逻辑兑现慢"留足空间。</p>
+<h3>4.5 灾难闸门（宏观的唯一入口，约束 7 的落地）</h3>
+<p>宏观不选股（gate 权重 0）、不择时（trigger 权重 0），只保留一个组合级二元开关：</p>
+<table>
+<tr><th>#</th><th>触发</th><th>动作</th></tr>
+<tr><th>G1</th><th>沪深300 单日 -7% 或 5 日累计 -12%</th><th>组合目标仓位 x0.5：E1 全清，E2/E3 各减半。30 天后复评，复评通过则按状态机规则逐步回补</th></tr>
+<tr><th>G2</th><th>国家级针对持仓产业链的禁运/制裁/牌照管制公告</th><th>该链持仓全部降至 E1 水平（1.5%），并对该链全部池内标的发起 kill 复核</th></tr>
+</table>
+<p>灾难闸门动作记 trade_log(reason='gate_G1/G2')，卖出部分同样进 sold_tracking——<strong>闸门本身的成本也要被审计</strong>（如果历史数据显示 G1 每次都卖在底部，复盘会要砍掉它）。</p>
+<h3>4.6 40-60% 回撤持有手册（"什么信号让你继续持有"的正面回答）</h3>
+<p><strong>触发</strong>：position_state.high_watermark 回撤 >= 30% 的持仓（cron 周检发现）-> 强制生成 H1-H4 checklist 任务，3 个交易日内完成，结论写 review_log。</p>
+<table>
+<tr><th>#</th><th>检查项</th><th>通过标准</th><th>工具</th></tr>
+<tr><th>H1</th><th>卡点逻辑完好</th><th>供应商格局/替代窗口无恶化：evidence_ledger 无新增 refuted，Metaso 复查无 K2 前兆</th><th>metaso_web_search + 人工</th></tr>
+<tr><th>H2</th><th>成长未熄火</th><th>最近季报营收增速 >= 15% 且毛利率降幅 < 5pct</th><th>Kimi datasource</th></tr>
+<tr><th>H3</th><th>回撤是 beta 不是 alpha</th><th>相对同链基准（链内池子等权指数）超额回撤 < 15pct</th><th>get_market_data 计算</th></tr>
+<tr><th>H4</th><th>无 kill 触发</th><th>kill_criteria 表全部 status='armed'（无 triggered）</th><th>SQL</th></tr>
+</table>
+<p><strong>裁决</strong>：</p>
+<ul>
+<li>四条全过 -> <strong>持有不动</strong>（E3 一股不卖）。把结论写进 review_log，下次回撤直接参考。</li>
+<li>H1 或 H4 破 -> 进 kill 流程（4.3）。</li>
+<li>仅 H2 破 -> E3 降级至 E2 仓位（4%），观察一个财报季，下季恢复则补回。</li>
+<li>仅 H3 破（个股独跌但基本面查无实据）-> 持有，但标记 alpha_drawdown=1，连续两次独跌触发深度复查（市场可能知道我们不知道的事）。</li>
+</ul>
+<p>这个手册就是"拿住"的工程化：<strong>回撤期间唯一允许的操作是核查论点，唯一禁止的操作是看着价格做决定</strong>。</p>
+<h3>4.7 组合层约束（全部硬编码，不属于活参数）</h3>
+<table>
+<tr><th>约束</th><th>值</th></tr>
+<tr><th>同时持仓</th><th><= 8 只</th></tr>
+<tr><th>单一产业链敞口</th><th><= 40%</th></tr>
+<tr><th>E1 总敞口</th><th><= 6%（即同时最多 4 只侦察仓）</th></tr>
+<tr><th>单票上限</th><th>E3 满仓 8%，涨到 15% 触发再平衡减回 10%</th></tr>
+<tr><th>组合最大回撤容忍</th><th>距组合 high_watermark -35%：暂停一切新开 E1（**不强平 E3**——熔断的是进攻，不是防守变恐慌）</th></tr>
+<tr><th>现金下限</th><th>无强制（满仓 8x8%=64% + 再平衡浮动，天然留有现金）</th></tr>
+</table>
+<hr></section><section id="5-回测与校准层L5无幸存者偏差" class="subsection"><h3>5. 回测与校准层（L5，无幸存者偏差）</h3><h3>5.1 分母构建</h3>
+<p>每季度末（cron）拉取<strong>全部 A 股</strong>（含当季已退市/ST 的——退市股保留在快照里，前向收益按退市价计 -100% 或最后成交价，<strong>绝不删除</strong>）写入 universe_snapshot。这是一切统计的分母。</p>
+<h3>5.2 七个 cohort（同一只股票可同时属于多个 cohort）</h3>
+<table>
+<tr><th>Cohort</th><th>定义</th><th>回答的问题</th></tr>
+<tr><th>C0</th><th>全 A</th><th>基准分布</th></tr>
+<tr><th>C1</th><th>仅硬门槛通过</th><th>财务筛子本身值多少</th></tr>
+<tr><th>C2</th><th>C1 + gate_score >= 60（入池）</th><th>卡点评分增量价值</th></tr>
+<tr><th>C3</th><th>C2 + 量价触发（无论 swarm 结论）</th><th>量价腿增量价值</th></tr>
+<tr><th>C4</th><th>C3 + swarm GO（实际入场组）</th><th>系统全链路精确率</th></tr>
+<tr><th>C5</th><th>C3 - C4（swarm 否决组）</th><th>反对派是增益还是反指</th></tr>
+<tr><th>C6</th><th>入池但 5 年内量价从未触发</th><th>卡点单腿对照（"好公司但市场永远没认"组）</th></tr>
+</table>
+<p>每季 cohort 成员写 cohort_membership（记 entry_date、entry_price），月度 cron 更新 fwd_6m/12m/24m/36m/60m 前向收益与期间最大涨幅 max_runup。</p>
+<h3>5.3 核心报表（季度复盘会固定输出）</h3>
+<ol>
+<li><strong>精确率表</strong>：P(60 个月内 max_runup >= 200% | cohort)，C4 vs C1 vs C0。系统存在的意义 = C4 显著 > C1。十倍命中（>=900%）单列但只作观察项（样本太小，不做决策依据）。</li>
+<li><strong>分桶收益分布</strong>：各 cohort 前向收益的 P10/P25/中位数/P75/P90——看分布形态不看均值（均值被右尾绑架）。</li>
+<li><strong>漏斗诊断</strong>：hard_gate_result 逐条统计"每条门槛各筛掉了多少后来的 3 倍股"（HG 条款的代价审计）。</li>
+<li><strong>swarm 审计</strong>：C5 vs C4 前向收益对比 + 否决理由 V1-V4 分布。</li>
+<li><strong>卖飞成本表</strong>：sold_tracking 中各卖出原因（侦察失败/降级/kill/灾难/时间止损）卖出后 12 个月收益——哪类卖出规则在系统性卖飞，哪类在真救命。</li>
+<li><strong>持有手册审计</strong>：H1-H4 checklist 历史裁决 vs 此后 12 个月走势。</li>
+</ol>
+<h3>5.4 参数治理（约束 6 的落地）</h3>
+<ul>
+<li><strong>活参数恰好 8 个</strong>（P01-P08，见附录 A），其余全部冻结（写死在代码里，修改 = 系统大版本）。</li>
+<li>季度复盘会最多调整 <strong>2 个</strong>活参数；任何调整必须先在<strong>影子组合</strong>（不实盘，规则并行跑）运行 2 个完整季度且影子结果优于现行。</li>
+<li>param_registry 记录每次变更：旧值/新值/理由/影子运行证据/生效日期。<strong>回测时按 as-of 参数重放</strong>，防"用今天的参数美化昨天的成绩"。</li>
+<li>历史回测纪律：用 backtest + factor_analysis 验证量价腿时，训练窗 2015-2021、验证窗 2022-2024、2025 起 walk-forward；财务数据按公告日对齐（防前视偏差）。</li>
+</ul>
+<hr></section><section id="6-数据库扩展researchdb全部-CREATE-TABLE-IF-NOT-EXISTS对旧表零侵入" class="subsection"><h3>6. 数据库扩展（research.db，全部 CREATE TABLE IF NOT EXISTS，对旧表零侵入）</h3><pre><code>
+-- 6.1 全A季度快照（分母，永不删行）
+CREATE TABLE IF NOT EXISTS universe_snapshot (
+  snap_date     TEXT NOT NULL,            -- 季度末 YYYY-MM-DD
+  ts_code       TEXT NOT NULL,            -- 600519.SH
+  name          TEXT,
+  list_date     TEXT,
+  list_status   TEXT DEFAULT 'L',         -- L上市 D退市 P暂停
+  is_st         INTEGER DEFAULT 0,
+  mktcap        REAL,                     -- 总市值(亿)
+  rev_ttm_yoy   REAL,                     -- TTM营收同比%
+  gm_ttm        REAL,                     -- TTM毛利率%
+  gm_ttm_yoy    REAL,                     -- 毛利率同比变化pct
+  ocf_4q        REAL,                     -- 近4季经营现金流合计(亿)
+  debt_ratio    REAL,
+  goodwill_pct  REAL,                     -- 商誉/净资产%
+  PRIMARY KEY (snap_date, ts_code)
+);
 
-<div class="footer">
-  十倍股跟踪系统 · Gate-Moat Framework · 数据截止 2026-06-12 · M2.2回测+M2.3仓位完成 · 仅供研究参考，不构成投资建议
+-- 6.2 硬门槛逐条结果（漏斗诊断用）
+CREATE TABLE IF NOT EXISTS hard_gate_result (
+  snap_date TEXT NOT NULL, ts_code TEXT NOT NULL,
+  hg1 INTEGER, hg2 INTEGER, hg3 INTEGER, hg4 INTEGER,
+  hg5 INTEGER, hg6 INTEGER, hg7 INTEGER,
+  passed INTEGER,
+  PRIMARY KEY (snap_date, ts_code)
+);
+
+-- 6.3 卡点评分
+CREATE TABLE IF NOT EXISTS gate_score (
+  snap_date TEXT NOT NULL, ts_code TEXT NOT NULL,
+  irreplace_score REAL, irreplace_evidence_grade TEXT,  -- A/B/C/D
+  lockin_score REAL, value_slope_score REAL, customer_score REAL,
+  total REAL,
+  scored_by TEXT,                          -- human / llm+human
+  note TEXT,
+  PRIMARY KEY (snap_date, ts_code)
+);
+
+-- 6.4 证据账本（卡点事实的唯一可信来源）
+CREATE TABLE IF NOT EXISTS evidence_ledger (
+  evidence_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts_code TEXT, claim_text TEXT NOT NULL,  -- 例: 全球合格供应商仅2家
+  dimension TEXT,                          -- irreplace/lockin/value_slope/customer/kill
+  grade TEXT CHECK(grade IN ('A','B','C','D')),
+  source_url TEXT, source_quote TEXT,      -- 原文摘录
+  source2_url TEXT, source2_quote TEXT,    -- B级需第二独立信源
+  verified_by TEXT DEFAULT 'llm',          -- llm / human
+  verify_date TEXT, expire_date TEXT,      -- 默认+365天
+  status TEXT DEFAULT 'active'             -- active/stale/refuted
+);
+
+-- 6.5 候选池
+CREATE TABLE IF NOT EXISTS candidate_pool (
+  ts_code TEXT PRIMARY KEY,
+  chain_id TEXT,                           -- 关联 industry_chain
+  enter_date TEXT, exit_date TEXT,
+  enter_gate_score REAL,
+  status TEXT DEFAULT 'active',            -- active/exited
+  exit_reason TEXT
+);
+
+-- 6.6 量价信号
+CREATE TABLE IF NOT EXISTS trigger_signal (
+  signal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts_code TEXT, signal_date TEXT,
+  t1_pass INTEGER, t2_pass INTEGER, t3_pass INTEGER,
+  close REAL, vol_ratio REAL,              -- 当日量/50日均量
+  dist_52w_high REAL,                      -- 距52周高%
+  base_weeks REAL, base_low REAL,          -- 基底周数/下沿价
+  wait_pullback INTEGER DEFAULT 0,
+  short_history INTEGER DEFAULT 0,
+  verdict_id INTEGER                       -- 关联 swarm_verdict
+);
+
+-- 6.7 投决记录
+CREATE TABLE IF NOT EXISTS swarm_verdict (
+  verdict_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  signal_id INTEGER, ts_code TEXT, verdict_date TEXT,
+  decision TEXT CHECK(decision IN ('GO','NO-GO','WAIT')),
+  veto_codes TEXT,                         -- 例: V1,V4
+  bull_brief TEXT, bear_brief TEXT, risk_brief TEXT, pm_brief TEXT,
+  recheck_date TEXT, wait_count INTEGER DEFAULT 0
+);
+
+-- 6.8 Kill 条款（入场即立遗嘱）
+CREATE TABLE IF NOT EXISTS kill_criteria (
+  kill_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts_code TEXT, type TEXT,                 -- generic(K1-K5)/specific
+  clause_code TEXT,                        -- K1..K5 / S1..S3
+  clause_text TEXT NOT NULL,               -- 可检验事件描述
+  armed_date TEXT,
+  status TEXT DEFAULT 'armed',             -- armed/suspect/triggered/retired
+  trigger_date TEXT, evidence_id INTEGER   -- 触发证据
+);
+
+-- 6.9 仓位状态机
+CREATE TABLE IF NOT EXISTS position_state (
+  ts_code TEXT PRIMARY KEY,
+  state TEXT CHECK(state IN ('E1','E2','E3','OUT')),
+  entry_date TEXT, entry_price REAL, base_low REAL,
+  target_weight REAL,                      -- 1.5/4/8
+  high_watermark REAL,                     -- 持仓期最高收盘
+  confirm_count INTEGER DEFAULT 0,         -- 财报确认次数
+  e2_question TEXT,                        -- swarm入场时写的E2确认问题
+  alpha_drawdown INTEGER DEFAULT 0,
+  last_transition TEXT
+);
+
+-- 6.10 交易流水（状态变迁全记录）
+CREATE TABLE IF NOT EXISTS trade_log (
+  trade_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts_code TEXT, trade_date TEXT,
+  action TEXT,                             -- open/add/trim/close
+  from_state TEXT, to_state TEXT,
+  price REAL, weight_before REAL, weight_after REAL,
+  reason TEXT,                             -- stop_e1/confirm/kill_K2/gate_G1/time_stop/rebalance
+  rebalance INTEGER DEFAULT 0
+);
+
+-- 6.11 Cohort 成员与前向收益
+CREATE TABLE IF NOT EXISTS cohort_membership (
+  snap_date TEXT, ts_code TEXT, cohort TEXT,   -- C0..C6
+  entry_price REAL,
+  fwd_6m REAL, fwd_12m REAL, fwd_24m REAL, fwd_36m REAL, fwd_60m REAL,
+  max_runup_60m REAL,                      -- 期间最大涨幅%（十倍判定用）
+  delisted INTEGER DEFAULT 0,
+  PRIMARY KEY (snap_date, ts_code, cohort)
+);
+
+-- 6.12 卖出后跟踪（卖飞成本）
+CREATE TABLE IF NOT EXISTS sold_tracking (
+  ts_code TEXT, sell_date TEXT, sell_price REAL,
+  sell_reason TEXT,
+  px_3m REAL, px_6m REAL, px_12m REAL,     -- 卖后价格
+  regret_12m REAL,                         -- px_12m/sell_price-1，正=卖飞
+  PRIMARY KEY (ts_code, sell_date)
+);
+
+-- 6.13 参数注册表
+CREATE TABLE IF NOT EXISTS param_registry (
+  param_id TEXT PRIMARY KEY,               -- P01..P08
+  name TEXT, live INTEGER DEFAULT 1,
+  current_value REAL, prev_value REAL,
+  changed_date TEXT, change_reason TEXT,
+  shadow_evidence TEXT                     -- 影子运行2季的结论摘要
+);
+
+-- 6.14 复盘与告警
+CREATE TABLE IF NOT EXISTS review_log (
+  review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  review_date TEXT, kind TEXT,             -- drawdown_check/kill_verify/quarterly
+  ts_code TEXT, h1 INTEGER, h2 INTEGER, h3 INTEGER, h4 INTEGER,
+  conclusion TEXT, detail TEXT
+);
+CREATE TABLE IF NOT EXISTS alert_log (
+  alert_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  alert_date TEXT, kind TEXT,              -- kimi_retry/cron_fail/kill_suspect/gate_trigger
+  payload TEXT, resolved INTEGER DEFAULT 0
+);
+</code></pre>
+<p><strong>迁移说明</strong>：兼容既有表的已知数据类型混用（如 substitute_available 既有 int 又有 string）——新表读取旧表时一律 <code>CAST(substitute_available AS TEXT) IN ('1','true','yes')</code> 防御式解析；迁移脚本只做新增，绝不 ALTER 旧表。</p>
+<hr></section><section id="7-工具调用链每个环节用什么怎么调写哪张表" class="subsection"><h3>7. 工具调用链（每个环节用什么、怎么调、写哪张表）</h3><table>
+<tr><th>环节</th><th>工具与调用</th><th>写入</th></tr>
+<tr><th>季度全A快照</th><th>python 脚本调东财 datacenter（行情列表 + RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE 分页拉取）</th><th>universe_snapshot</th></tr>
+<tr><th>硬门槛筛选</th><th>纯 SQL（对 universe_snapshot 跑 HG1-HG7）</th><th>hard_gate_result</th></tr>
+<tr><th>财报深读</th><th>`kimi -m kimi-k2.6 -p "读取<ts_code>最新季报，输出JSON{rev_yoy,gm,top_customer_pct,capex}"`（一司一调用；429 进重试队列）</th><th>gate_score 辅助字段</th></tr>
+<tr><th>卡点事实搜证</th><th>MCP: `metaso_web_search(query="<公司> <部件> 供应商 唯一 认证周期")` -> `metaso_web_reader(url)` 取原文摘录</th><th>evidence_ledger</th></tr>
+<tr><th>卡点评分</th><th>LLM 初评（读 evidence_ledger + bom_analysis 四维打分）+ 人工定级复核</th><th>gate_score, candidate_pool</th></tr>
+<tr><th>日频量价扫描</th><th>MCP: `get_market_data(symbol, period="daily", count=300)` 对池内逐只算 T1/T2/T3（python 向量化）</th><th>trigger_signal</th></tr>
+<tr><th>基底形态辅助</th><th>MCP: `pattern_recognition(symbol)`（只作 swarm 材料，不进硬规则）</th><th>swarm 材料包</th></tr>
+<tr><th>投决会</th><th>MCP: `run_swarm(target=ts_code, context=材料包)`，bear 强制产出标的特化 kill 条款</th><th>swarm_verdict, kill_criteria</th></tr>
+<tr><th>历史回测</th><th>MCP: `backtest`（config.json + signal_engine.py 复刻 T1-T3，as-of 参数）+ `factor_analysis`（gate_score 当因子做 IC/分位数回测）</th><th>复盘报告</th></tr>
+<tr><th>持仓周检</th><th>SQL（回撤>=30% 检出）+ `metaso_web_search`（K2/H1 复查）+ kimi（H2 财务核查）</th><th>review_log, kill_criteria</th></tr>
+<tr><th>月度对账</th><th>MCP: `analyze_trade_journal(交割单文件)` 与 trade_log 比对执行漂移</th><th>trade_log 校正</th></tr>
+<tr><th>执行漂移审计</th><th>MCP: `extract_shadow_strategy` + `run_shadow_backtest`（从真实交割单反推实际规则 vs 设计规则的差值归因）</th><th>季度复盘材料</th></tr>
+<tr><th>季度看板</th><th>`claude --model opus --effort max -p "$(cat spec.md 路径)"`（spec 落盘传路径，规避反引号/特殊字符；300KB+ 看板 600s 超时属正常，禁用 background+pty）</th><th>看板 HTML</th></tr>
+</table></section><section id="8-Cron-排期" class="subsection"><h3>8. Cron 排期</h3><p>前提纪律：cron session 无对话上下文——<strong>每个任务 prompt 必须自包含</strong>（从 research.db 读状态、写回 db、异常写 alert_log），禁止依赖会话记忆。</p>
+<table>
+<tr><th>任务</th><th>crontab</th><th>内容</th></tr>
+<tr><th>日频量价扫描</th><th>`35 17 * * 1-5`</th><th>拉池内+持仓日线 -> 算 T1/T2/T3 -> 写 trigger_signal（有触发写 alert_log 提醒 48h 投决）；更新 high_watermark；检查 E1/E2 止损线与灾难闸门 G1</th></tr>
+<tr><th>持仓周检</th><th>`10 9 * * 6`</th><th>kill_criteria 全表扫（Metaso 搜 K2/K4 前兆）；回撤>=30% 检出 -> 生成 H1-H4 任务；evidence expire 检查 -> 过期降 stale</th></tr>
+<tr><th>月度 cohort 更新</th><th>`20 8 3 * *`</th><th>cohort_membership 前向收益、max_runup、sold_tracking 卖后价格</th></tr>
+<tr><th>季度全A快照+复审</th><th>`50 8 5 1,4,7,10 *`</th><th>universe_snapshot -> hard_gate_result -> 池子准入/逐出**提案**（人工确认后生效）-> cohort 新成员登记</th></tr>
+<tr><th>财报季批量深读</th><th>`40 9 2 5,9,11 *`（年报季 4 月底另加一轮）</th><th>Kimi 一司一调用拉关键字段</th></tr>
+<tr><th>Kimi 重试队列</th><th>`25 10 * * *`</th><th>alert_log(kind='kimi_retry', resolved=0) 逐条重试，3 次失败升级人工</th></tr>
+<tr><th>季度复盘材料</th><th>`15 9 12 1,4,7,10 *`</th><th>生成 5.3 六张报表 + claude 看板；参数提案汇总</th></tr>
+</table></section><section id="9-第一个落地里程碑不追求一步到位" class="subsection"><h3>9. 第一个落地里程碑（不追求一步到位）</h3><p><strong>M0（第 1-2 周）：地基</strong></p>
+<p>建 14 张表（迁移脚本，全部 IF NOT EXISTS）；东财 API 拉一次全 A 快照；HG1-HG7 SQL 跑通。</p>
+<p><strong>验收</strong>：C1 名单产出且数量落在 200-800；漏斗报表能算出每条 HG 的筛除量。</p>
+<p><strong>M1（第 3-6 周）：第一条链的资格层</strong></p>
+<p>对既有 AI 算力链 19 家公司跑 gate 评分；evidence_ledger 人工复核流程走通（每家 >=3 条关键 claim，不可替代性维度强制 >=B）。</p>
+<p><strong>验收</strong>：预期入池 3-8 家；每个入池标的的证据可被第三方点开 source_url 复核；bom_analysis 的 AI 估算数据全部标 grade='D'（不参与计分，倒逼真证据补齐）。</p>
+<p><strong>M2（第 7-10 周）：择时腿 + 历史体检</strong></p>
+<p>日频扫描 cron 上线；用 backtest 对 2019-2024 模拟池跑 T1-T3 触发分布（验证触发频率合理性：预期每只 5 年 2-6 次）；run_swarm 在 1-2 个真实触发上演练并产出第一批标的特化 kill 条款。</p>
+<p><strong>验收</strong>：影子信号连跑 2 周无漏扫；回测报告含 as-of 参数与公告日对齐说明。</p>
+<p><strong>M3（第 11-22 周）：影子组合一个完整季度</strong></p>
+<p>不实盘。E1->E2 状态机全流程在影子组合走通；至少一次 H1-H4 回撤演练（取历史回撤标的模拟）；第一次季度复盘会产出 5.3 全部六张报表。</p>
+<p><strong>实盘 Gate（四条全过才允许动钱）</strong>：影子组合 >=1 季 + 精确率基线报表产出 + >=1 次完整 kill 演练 + 全部 cron 稳定运行 30 天。实盘前两个季度单票 E1 减半（0.75%）。</p>
+<hr></section><section id="附录-A活参数清单全系统仅此-8-个可调" class="subsection"><h3>附录 A：活参数清单（全系统仅此 8 个可调）</h3><table>
+<tr><th>ID</th><th>参数</th><th>当前值</th><th>所属层</th></tr>
+<tr><th>P01</th><th>池子准入分</th><th>60</th><th>L1</th></tr>
+<tr><th>P02</th><th>池子逐出分</th><th>45</th><th>L1</th></tr>
+<tr><th>P03</th><th>硬门槛营收增速</th><th>20%</th><th>L1</th></tr>
+<tr><th>P04</th><th>突破量比</th><th>1.5x</th><th>L2</th></tr>
+<tr><th>P05</th><th>距 52 周高带</th><th>5%</th><th>L2</th></tr>
+<tr><th>P06</th><th>基底最短周数</th><th>6 周</th><th>L2</th></tr>
+<tr><th>P07</th><th>E1 硬止损</th><th>-15%</th><th>L4</th></tr>
+<tr><th>P08</th><th>E3 晋级浮盈</th><th>30%</th><th>L4</th></tr>
+</table>
+<p>冻结参数（修改=大版本，需重跑全量回测）：市值带 30-500 亿、毛利率 25%、负债率 60%、商誉 30%、仓位档 1.5/4/8%、持仓 8 只、单链 40%、E1 总敞口 6%、回撤熔断 35%、再平衡 15%->10%、时间止损 24 月/+20%/15%、灾难闸门 G1（-7%/-12%）、kill K1-K5 各阈值、证据有效期 365 天、WAIT 上限 2 次、投决时限 48h、回撤手册触发线 30%、H3 超额回撤 15pct。</p></section><section id="附录-B诚实声明系统边界" class="subsection"><h3>附录 B：诚实声明（系统边界）</h3><ol>
+<li>本系统<strong>不预测十倍股</strong>。它提高的是"3 倍/5 年"密度与持有完整度；十倍是右尾运气，系统的贡献是让你在运气来临时还在车上。</li>
+<li>BOM/供应商数据天然不可靠，gate_score 的上限由 evidence_ledger 的人工复核质量决定——<strong>研究员的搜证勤奋度是本系统最大的单点依赖</strong>。</li>
+<li>E3 撤销价格止损意味着接受单票 -50% 以上的账面回撤；靠 8% 单票上限和组合分散兜底。心理上拿不住的人不应运行本系统。</li>
+<li>已知未解决：A 股借壳/重组导致 ts_code 语义漂移（快照层 list_status 部分缓解）；E3 流动性冲击成本未精确建模（V4 粗筛缓解）；swarm 的 LLM 判断质量未经长期验证（C5 cohort 持续审计）。</li>
+<li>任何"系统最近表现不好"都不构成绕过参数治理的理由。改参数只有一条路：提案 -> 影子 2 季 -> 季度复盘会。</li>
+</ol>
+<p>（全文完）</p></section>
+<div style="text-align:center;padding:32px 0;margin-top:24px;border-top:1px solid var(--border)">
+<a href="10x-dashboard.html" style="display:inline-block;background:linear-gradient(135deg,#3fb950,#39d2c0);color:#0d1117;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:16px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(63,185,80,.25)">🟢 查看实时看板 →</a>
+<p style="color:var(--text2);font-size:12px;margin-top:10px">5只候选池实时监控 · 雷达图交互 · 凯利仓位 · Kill退出</p>
 </div>
-
-<!-- ═══════════════ RADAR CHART SCRIPT ═══════════════ -->
+</div></div>
 <script>
-(function(){
-  // ── Stock data ──
-  const stocks = [
-    {name:'源杰科技',code:'688498.SH',gate:82.4,irreplace:85,lockin:75,slope:82,customer:78,
-     gross:'77.8',rev:'320.9',trend:'↑',grade:'A',debt:'10.7',risk:'⚠ 副总刑拘',riskLevel:'high'},
-    {name:'光启技术',code:'002625.SZ',gate:79.8,irreplace:88,lockin:72,slope:72,customer:58,
-     gross:'49.9',rev:'40.3',trend:'→',grade:'A',debt:'18.6',risk:'⚠ 客户集中度90.35%',riskLevel:'high'},
-    {name:'安集科技',code:'688019.SH',gate:67.1,irreplace:75,lockin:65,slope:68,customer:62,
-     gross:'55.5',rev:'32.8',trend:'—',grade:'B',debt:'15.7',risk:'',riskLevel:'safe'},
-    {name:'睿创微纳',code:'688002.SH',gate:61.2,irreplace:62,lockin:62,slope:64,customer:60,
-     gross:'53.4',rev:'71.1',trend:'—',grade:'B',debt:'36.1',risk:'',riskLevel:'safe'},
-    {name:'天孚通信',code:'300394.SZ',gate:60.2,irreplace:52,lockin:62,slope:68,customer:60,
-     gross:'56.6',rev:'40.8',trend:'↑',grade:'B',debt:'14.3',risk:'⚠ 边缘标的',riskLevel:'mid'}
-  ];
-
-  const dims = ['Gate','不可替代','锁定效应','价值斜率','客户粘性'];
-  const dimKeys = ['gate','irreplace','lockin','slope','customer'];
-  const colors = ['#39d2c0','#58a6ff','#d29922','#a371f7','#f85149'];
-
-  // ── Radar SVG geometry ──
-  const svg = document.getElementById('radarSvg');
-  const cx = 160, cy = 160, R = 115;
-  const N = 5;
-
-  function polar(i, val, maxVal) {
-    const angle = -Math.PI/2 + (2*Math.PI*i)/N; // start from top
-    const r = R * (val / maxVal);
-    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
-  }
-
-  function drawRadar(highlightIdx) {
-    let html = '';
-
-    // ── Background grid (concentric pentagons) ──
-    const levels = [20, 40, 60, 80, 100];
-    levels.forEach(lv => {
-      let pts = [];
-      for (let i = 0; i < N; i++) {
-        const p = polar(i, lv, 100);
-        pts.push(p.x.toFixed(1)+','+p.y.toFixed(1));
-      }
-      html += '<polygon points="'+pts.join(' ')+'" fill="none" '+
-        'stroke="rgba(48,54,61,0.5)" stroke-width="0.8"/>';
-    });
-
-    // ── Axis lines ──
-    for (let i = 0; i < N; i++) {
-      const p = polar(i, 100, 100);
-      html += '<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'" '+
-        'stroke="rgba(48,54,61,0.7)" stroke-width="0.8"/>';
-    }
-
-    // ── Labels ──
-    for (let i = 0; i < N; i++) {
-      const p = polar(i, 115, 100);
-      const labelAngle = -90 + (360/N)*i;
-      let anchor = 'middle';
-      if (labelAngle > 0 && labelAngle < 180) anchor = 'start';
-      if (labelAngle > 180) anchor = 'end';
-      html += '<text x="'+(p.x).toFixed(1)+'" y="'+(p.y-4).toFixed(1)+'" '+
-        'text-anchor="'+anchor+'" fill="#8b949e" font-size="10" font-weight="600">'+dims[i]+'</text>';
-    }
-
-    // ── Data polygons ──
-    stocks.forEach((s, si) => {
-      let pts = [];
-      for (let i = 0; i < N; i++) {
-        const p = polar(i, s[dimKeys[i]], 100);
-        pts.push(p.x.toFixed(1)+','+p.y.toFixed(1));
-      }
-      const opacity = (si === highlightIdx) ? 0.55 : 0.18;
-      const strokeW = (si === highlightIdx) ? 2.5 : 1;
-      html += '<polygon points="'+pts.join(' ')+'" fill="'+colors[si]+'" '+
-        'fill-opacity="'+opacity+'" stroke="'+colors[si]+'" '+
-        'stroke-width="'+strokeW+'" stroke-linejoin="round"/>';
-    });
-
-    // ── Highlight dots ──
-    stocks.forEach((s, si) => {
-      if (si !== highlightIdx) return;
-      for (let i = 0; i < N; i++) {
-        const p = polar(i, s[dimKeys[i]], 100);
-        html += '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="3.5" '+
-          'fill="'+colors[si]+'" stroke="#fff" stroke-width="1.2"/>';
-      }
-    });
-
-    // ── Center Gate score ──
-    const hs = stocks[highlightIdx];
-    html += '<text x="'+cx+'" y="'+(cy-6)+'" text-anchor="middle" '+
-      'fill="'+colors[highlightIdx]+'" font-size="22" font-weight="800">'+hs.gate+'</text>';
-    html += '<text x="'+cx+'" y="'+(cy+14)+'" text-anchor="middle" '+
-      'fill="#8b949e" font-size="10">Gate 综合</text>';
-
-    svg.innerHTML = html;
-  }
-
-  // ── Initial draw ──
-  let activeIdx = 0;
-  drawRadar(activeIdx);
-
-  // ── Row click handler ──
-  const rows = document.querySelectorAll('.stock-selector');
-  rows.forEach(row => {
-    row.addEventListener('click', function(){
-      rows.forEach(r => r.classList.remove('active'));
-      this.classList.add('active');
-      activeIdx = parseInt(this.dataset.idx);
-      drawRadar(activeIdx);
-
-      // Update label
-      const s = stocks[activeIdx];
-      document.getElementById('radarStockLabel').textContent = s.name + ' ' + s.code;
-
-      // Update detail bar
-      const trendColor = s.trend === '↑' ? 'var(--accent-green)' : (s.trend === '→' ? 'var(--accent-yellow)' : 'var(--text-secondary)');
-      const trendLabel = s.trend === '↑' ? '↑ 上升' : (s.trend === '→' ? '→ 走平' : '— 持平');
-      const debtFloat = parseFloat(s.debt);
-      const debtColor = debtFloat > 35 ? 'var(--accent-red)' : (debtFloat > 25 ? 'var(--accent-yellow)' : 'var(--accent-green)');
-      document.getElementById('stockDetail').innerHTML =
-        '<strong>'+s.name+'</strong> '+s.code+' · Gate <span style="color:'+
-        (s.gate>=75?'var(--accent-green)':s.gate>=65?'var(--accent-yellow)':'var(--accent-red)')+
-        ';font-weight:700">'+s.gate+'</span> · 毛利率 <span style="color:var(--accent-green)">'+s.gross+'%</span> · 营收增速 <span style="color:var(--accent-green)">+'+s.rev+'%</span> · 负债率 <span style="color:'+debtColor+'">'+s.debt+'%</span> · 趋势 <span style="color:'+trendColor+'">'+trendLabel+'</span>'+
-        (s.risk ? ' · <span style="color:var(--accent-red)">'+s.risk+'</span>' : '');
-    });
-  });
-
-})();
+function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var el=document.getElementById(slug);if(el)el.classList.add('active');document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+slug+'"]');if(l)l.classList.add('active');}
+(function(){var first=document.querySelector('.chapter');if(first)first.classList.add('active');})();
+function doSearch(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('search-hidden',q&&!a.textContent.toLowerCase().includes(q)));document.querySelectorAll('.chapter').forEach(c=>{if(!q){c.style.display=c.classList.contains('active')?'block':'none'}else{c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none'}});}
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('search').focus();}});
 </script>
-
 </body>
 </html>
