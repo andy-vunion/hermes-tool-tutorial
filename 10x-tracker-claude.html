@@ -42,57 +42,9 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 <h1>🔬 十倍股全生命周期<br>跟踪系统 v1.0</h1>
 <div class="meta">设计模型：Claude fable-5 · 产业链拆解 v1.0 · 2026-06-13</div>
 <input type="text" id="search" placeholder="搜索 (Ctrl+K)..." oninput="doSearch()">
-<nav id="nav"><a href="#十倍股全生命周期跟踪系统-设计文档" onclick="navigate('十倍股全生命周期跟踪系统-设计文档')">十倍股全生命周期跟踪系统 —— 设计文档</a>
-<a style="color:var(--accent);font-size:11px;margin:12px 0 4px;padding:4px 10px">── 产业链拆解体系 ──</a>
-<a href="#目录" onclick="navigate('目录')">目录</a>
-<a href="#问题一-什么是-热门赛道-客观量化体系" onclick="navigate('问题一-什么是-热门赛道-客观量化体系')">问题一: 什么是"热门赛道"？——客观量化体系</a>
-<a href="#1-1-问题定义" onclick="navigate('1-1-问题定义')">1.1 问题定义</a>
-<a href="#1-2-赛道热度指标体系-6维度-18指标" onclick="navigate('1-2-赛道热度指标体系-6维度-18指标')">1.2 赛道热度指标体系（6维度 × 18指标）</a>
-<a href="#1-3-热度综合评分公式" onclick="navigate('1-3-热度综合评分公式')">1.3 热度综合评分公式</a>
-<a href="#1-4-趋势性热门-vs-周期性热门-的区分" onclick="navigate('1-4-趋势性热门-vs-周期性热门-的区分')">1.4 趋势性热门 vs 周期性热门 的区分</a>
-<a href="#1-5-回溯验证设计" onclick="navigate('1-5-回溯验证设计')">1.5 回溯验证设计</a>
-<a href="#问题二-产业发展规律与政策指向" onclick="navigate('问题二-产业发展规律与政策指向')">问题二: 产业发展规律与政策指向</a>
-<a href="#2-1-产业生命周期识别框架" onclick="navigate('2-1-产业生命周期识别框架')">2.1 产业生命周期识别框架</a>
-<a href="#2-2-政策信号层级体系" onclick="navigate('2-2-政策信号层级体系')">2.2 政策信号层级体系</a>
-<a href="#2-3-真成长-vs-政策催化伪需求-的判断框架" onclick="navigate('2-3-真成长-vs-政策催化伪需求-的判断框架')">2.3 "真成长" vs "政策催化伪需求" 的判断框架</a>
-<a href="#2-4-政策信号自动化追踪方案" onclick="navigate('2-4-政策信号自动化追踪方案')">2.4 政策信号自动化追踪方案</a>
-<a href="#问题三-多层级资金流向追踪-到钱多的地方" onclick="navigate('问题三-多层级资金流向追踪-到钱多的地方')">问题三: 多层级资金流向追踪 —— "到钱多的地方"</a>
-<a href="#3-1-资金层级塔" onclick="navigate('3-1-资金层级塔')">3.1 资金层级塔</a>
-<a href="#3-2-各级资金的预测力评估" onclick="navigate('3-2-各级资金的预测力评估')">3.2 各级资金的预测力评估</a>
-<a href="#3-3-关键前置指标-北美云厂商capex" onclick="navigate('3-3-关键前置指标-北美云厂商capex')">3.3 关键前置指标：北美云厂商CapEx</a>
-<a href="#3-4-资金流入-vs-基本面背离-泡沫检测" onclick="navigate('3-4-资金流入-vs-基本面背离-泡沫检测')">3.4 资金流入 vs 基本面背离 → 泡沫检测</a>
-<a href="#问题四-产业链拆解粒度方法论" onclick="navigate('问题四-产业链拆解粒度方法论')">问题四: 产业链拆解粒度方法论</a>
-<a href="#4-1-核心原则-拆到能回答三个问题为止" onclick="navigate('4-1-核心原则-拆到能回答三个问题为止')">4.1 核心原则：拆到能回答三个问题为止</a>
-<a href="#4-2-ai算力赛道拆解结果" onclick="navigate('4-2-ai算力赛道拆解结果')">4.2 AI算力赛道拆解结果</a>
-<a href="#满足三条件-可独立分析" onclick="navigate('满足三条件-可独立分析')">✅ 满足三条件（可独立分析）</a>
-<a href="#不满足条件-需向上聚合" onclick="navigate('不满足条件-需向上聚合')">❌ 不满足条件（需向上聚合）</a>
-<a href="#4-3-通用拆解流程-可复用到任何赛道" onclick="navigate('4-3-通用拆解流程-可复用到任何赛道')">4.3 通用拆解流程（可复用到任何赛道）</a>
-<a href="#4-4-数据模型" onclick="navigate('4-4-数据模型')">4.4 数据模型</a>
-<a href="#问题五-标的筛选-上市与未上市全覆盖" onclick="navigate('问题五-标的筛选-上市与未上市全覆盖')">问题五: 标的筛选——上市与未上市全覆盖</a>
-<a href="#5-1-标的覆盖矩阵" onclick="navigate('5-1-标的覆盖矩阵')">5.1 标的覆盖矩阵</a>
-<a href="#5-2-pre-ipo追踪系统" onclick="navigate('5-2-pre-ipo追踪系统')">5.2 Pre-IPO追踪系统</a>
-<a href="#5-3-已经太贵-的判断框架" onclick="navigate('5-3-已经太贵-的判断框架')">5.3 "已经太贵"的判断框架</a>
-<a href="#5-4-未上市公司评估的替代指标" onclick="navigate('5-4-未上市公司评估的替代指标')">5.4 未上市公司评估的替代指标</a>
-<a href="#问题六-美股对标体系" onclick="navigate('问题六-美股对标体系')">问题六: 美股对标体系</a>
-<a href="#6-1-三个层次的对标维度" onclick="navigate('6-1-三个层次的对标维度')">6.1 三个层次的对标维度</a>
-<a href="#6-2-ai算力美股对标映射-完整数据见-us_benchmarks-csv" onclick="navigate('6-2-ai算力美股对标映射-完整数据见-us_benchmarks-csv')">6.2 AI算力美股对标映射（完整数据见 us_benchmarks.csv）</a>
-<a href="#6-3-a股合理市值估算公式" onclick="navigate('6-3-a股合理市值估算公式')">6.3 A股合理市值估算公式</a>
-<a href="#问题七-赛道gate嵌入m0-m1流程" onclick="navigate('问题七-赛道gate嵌入m0-m1流程')">问题七: 赛道Gate嵌入M0→M1流程</a>
-<a href="#7-1-当前m0-m1流程" onclick="navigate('7-1-当前m0-m1流程')">7.1 当前M0→M1流程</a>
-<a href="#7-2-增加赛道gate后的新流程" onclick="navigate('7-2-增加赛道gate后的新流程')">7.2 增加赛道Gate后的新流程</a>
-<a href="#7-3-赛道gate输出-个股gate输入的参数传递" onclick="navigate('7-3-赛道gate输出-个股gate输入的参数传递')">7.3 赛道Gate输出 → 个股Gate输入的参数传递</a>
-<a href="#7-4-实施路线图" onclick="navigate('7-4-实施路线图')">7.4 实施路线图</a>
-<a href="#7-5-gate体系修改建议-详细" onclick="navigate('7-5-gate体系修改建议-详细')">7.5 Gate体系修改建议（详细）</a>
-<a href="#7-5-1-修改-hard_gate_result-表的扩展" onclick="navigate('7-5-1-修改-hard_gate_result-表的扩展')">7.5.1 修改 hard_gate_result 表的扩展</a>
-<a href="#7-5-2-修改m0硬门槛的动态化" onclick="navigate('7-5-2-修改m0硬门槛的动态化')">7.5.2 修改M0硬门槛的动态化</a>
-<a href="#7-5-3-修改m1评分中的产业链权重" onclick="navigate('7-5-3-修改m1评分中的产业链权重')">7.5.3 修改M1评分中的产业链权重</a>
-<a href="#附录a-数据源清单" onclick="navigate('附录a-数据源清单')">附录A: 数据源清单</a>
-<a href="#附录b-现有gate体系修改要点" onclick="navigate('附录b-现有gate体系修改要点')">附录B: 现有Gate体系修改要点</a>
-<a href="#b-1-hard_gate_result-修改" onclick="navigate('b-1-hard_gate_result-修改')">B.1 hard_gate_result 修改</a>
-<a href="#b-2-gate_score-修改" onclick="navigate('b-2-gate_score-修改')">B.2 gate_score 修改</a>
-<a href="#b-3-candidate_pool-修改" onclick="navigate('b-3-candidate_pool-修改')">B.3 candidate_pool 修改</a>
-<a href="#b-4-赛道复查周期" onclick="navigate('b-4-赛道复查周期')">B.4 赛道复查周期</a>
-<a href="#总结-赛道gate的主要决策逻辑" onclick="navigate('总结-赛道gate的主要决策逻辑')">总结: 赛道Gate的主要决策逻辑</a>
+<nav id="nav">
+<a href="#十倍股全生命周期跟踪系统-设计文档" onclick="navigate('design')">📋 十倍股全生命周期跟踪系统 —— 设计文档</a>
+<a href="#产业链拆解体系" onclick="navigate('chain')">🔗 产业链拆解体系</a>
 </nav>
 </div>
 <div id="main"><div id="十倍股全生命周期跟踪系统-设计文档" class="chapter"><h2>十倍股全生命周期跟踪系统 —— 设计文档</h2><section id="十倍股全生命周期跟踪系统-设计文档" class="subsection"><h3>十倍股全生命周期跟踪系统 —— 设计文档</h3><p><strong>版本</strong> v1.0（从零设计，替代 v0.1） | <strong>日期</strong> 2026-06-13 | <strong>作者</strong> Claude（系统架构师角色）</p>
@@ -618,13 +570,11 @@ CREATE TABLE IF NOT EXISTS alert_log (
 <a href="10x-dashboard.html" style="display:inline-block;background:linear-gradient(135deg,#3fb950,#39d2c0);color:#0d1117;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:16px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(63,185,80,.25)">🟢 查看实时看板 →</a>
 <p style="color:var(--text2);font-size:12px;margin-top:10px">5只候选池实时监控 · 雷达图交互 · 凯利仓位 · Kill退出</p>
 </div>
-<div class="chapter active"><h1 id="_1">产业链拆解体系 —— 方法论文档</h1>
+<div class="chapter" id="产业链拆解体系"><h1>产业链拆解体系 —— 方法论文档</h1>
 <blockquote>
 <p>版本: v1.0 | 日期: 2026-06-13 | 赛道示例: AI算力</p>
 </blockquote>
-<hr />
-</div></div><div class="chapter" id="目录">
-<h2 id="目录">目录</h2>
+<hr /><h2 id="目录">目录</h2>
 <ol>
 <li><a href="#q1">问题一: 什么是"热门赛道"？</a></li>
 <li><a href="#q2">问题二: 产业的发展规律与政策指向</a></li>
@@ -638,7 +588,6 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </ol>
 <hr />
 <p><a name="q1"></a></p>
-</div><div class="chapter" id="问题一-什么是-热门赛道-客观量化体系">
 <h2 id="q1">问题一: 什么是"热门赛道"？——客观量化体系</h2>
 <h3 id="1-1-问题定义">1.1 问题定义</h3>
 <p>"热门"是最危险的主观词。2020年白酒、2021年新能源、2023年AI——事后都是"热门"。
@@ -822,7 +771,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </blockquote>
 <hr />
 <p><a name="q2"></a></p>
-</div><div class="chapter" id="q2">
+
 <h2 id="问题二-产业发展规律与政策指向">问题二: 产业发展规律与政策指向</h2>
 <h3 id="2-1-产业生命周期识别框架">2.1 产业生命周期识别框架</h3>
 <p>将赛道生命周期分为5个阶段，每个阶段有客观判断标准：</p>
@@ -991,7 +940,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 
 <hr />
 <p><a name="q3"></a></p>
-</div><div class="chapter" id="问题三-多层级资金流向追踪-到钱多的地方">
+
 <h2 id="q3">问题三: 多层级资金流向追踪 —— "到钱多的地方"</h2>
 <h3 id="3-1-资金层级塔">3.1 资金层级塔</h3>
 <div class="codehilite"><pre><span></span><code>┌──────────────────────────────────────────────┐
@@ -1164,7 +1113,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 3. 新注册企业数暴增(连续2季&gt;+100% YoY)但盈利企业占比下降 → ⚠️</p>
 <hr />
 <p><a name="q4"></a></p>
-</div><div class="chapter" id="问题四-产业链拆解粒度方法论">
+
 <h2 id="q4">问题四: 产业链拆解粒度方法论</h2>
 <h3 id="4-1-核心原则-拆到能回答三个问题为止">4.1 核心原则：拆到能回答三个问题为止</h3>
 <div class="codehilite"><pre><span></span><code>拆解终止条件（三个条件必须同时满足，否则聚合到上一层）：
@@ -1399,7 +1348,7 @@ Step 5: 质量检查
 - <code>entity_graph</code> (已有): 实体关系</p>
 <hr />
 <p><a name="q5"></a></p>
-</div><div class="chapter" id="问题五-标的筛选-上市与未上市全覆盖">
+
 <h2 id="q5">问题五: 标的筛选——上市与未上市全覆盖</h2>
 <h3 id="5-1-标的覆盖矩阵">5.1 标的覆盖矩阵</h3>
 <table>
@@ -1570,7 +1519,7 @@ Step 5: 质量检查
 </table>
 <hr />
 <p><a name="q6"></a></p>
-</div><div class="chapter" id="问题六-美股对标体系">
+
 <h2 id="q6">问题六: 美股对标体系</h2>
 <h3 id="6-1-三个层次的对标维度">6.1 三个层次的对标维度</h3>
 <div class="codehilite"><pre><span></span><code>Layer 1: 天花板参照
@@ -1706,7 +1655,7 @@ Layer 3: 估值锚
 
 <hr />
 <p><a name="q7"></a></p>
-</div><div class="chapter" id="问题七-赛道gate嵌入m0-m1流程">
+
 <h2 id="q7">问题七: 赛道Gate嵌入M0→M1流程</h2>
 <h3 id="7-1-当前m0-m1流程">7.1 当前M0→M1流程</h3>
 <div class="codehilite"><pre><span></span><code>当前:
@@ -1835,7 +1784,7 @@ HG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling
 <p>例如在AI算力赛道: GPU芯片权重20% &gt; 电源权重5%，反映不同环节在产业链中的战略重要性差异。</p>
 <hr />
 <p><a name="appendix-a"></a></p>
-</div><div class="chapter" id="appendix-a">
+
 <h2 id="附录a-数据源清单">附录A: 数据源清单</h2>
 <table>
 <thead>
@@ -1949,7 +1898,7 @@ HG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling
 5. DuckDuckGo + 新华网爬虫 → 政策信号 ✅</p>
 <hr />
 <p><a name="appendix-b"></a></p>
-</div><div class="chapter" id="appendix-b">
+
 <h2 id="附录b-现有gate体系修改要点">附录B: 现有Gate体系修改要点</h2>
 <p>以下是对现有 <code>hard_gate_result</code> 和 <code>gate_score</code> 表的具体修改建议。</p>
 <h3 id="b-1-hard_gate_result-修改">B.1 hard_gate_result 修改</h3>
@@ -2012,7 +1961,7 @@ C/D级赛道: 半年复查
 3. 美股对标天花板是否有变化(技术代差缩小/扩大)?
 4. 政策信号是加强还是减弱?</p>
 <hr />
-</div><div class="chapter" id="总结-赛道gate的主要决策逻辑">
+
 <h2 id="总结-赛道gate的主要决策逻辑">总结: 赛道Gate的主要决策逻辑</h2>
 <div class="codehilite"><pre><span></span><code>输入: 待评估赛道
   ↓
@@ -2039,10 +1988,10 @@ US Benchmark Check (美股对标):
 </code></pre></div>
 
 <hr />
-<p><em>本文档中标注为 <code>assumption</code> 的判断基于公开数据和行业观察的合理推断，非精确量化结论。所有阈值和权重均为初始设定，需通过回测校准。</em></p></div>
+<p><em>本文档中标注为 <code>assumption</code> 的判断基于公开数据和行业观察的合理推断，非精确量化结论。所有阈值和权重均为初始设定，需通过回测校准。</em></p>
 </div></div>
 <script>
-function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var el=document.getElementById(slug)||document.querySelector('.chapter h2[id="'+slug+'"],.chapter h3[id="'+slug+'"]');if(el){var ch=el.closest('.chapter');if(ch)ch.classList.add('active');else el.classList.add('active');}document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+slug+'"]');if(l)l.classList.add('active');}
+function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var id=slug==='design'?'十倍股全生命周期跟踪系统-设计文档':slug==='chain'?'产业链拆解体系':slug;var el=document.getElementById(id);if(el&&el.classList.contains('chapter'))el.classList.add('active');document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+id+'"]');if(l)l.classList.add('active');}
 (function(){var hash=location.hash.replace('#','');if(hash){setTimeout(function(){navigate(hash);},0);}else{var first=document.querySelector('.chapter');if(first)first.classList.add('active');}})();window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(h)navigate(h);});
 function doSearch(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('search-hidden',q&&!a.textContent.toLowerCase().includes(q)));document.querySelectorAll('.chapter').forEach(c=>{if(!q){c.style.display=c.classList.contains('active')?'block':'none'}else{c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none'}});}
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('search').focus();}});
