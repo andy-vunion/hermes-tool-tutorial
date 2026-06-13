@@ -1,0 +1,16 @@
+chain_name,node_name,composition_node_name,us_ticker,us_company_name,us_market_cap_billion_usd,us_ps_ratio,us_pe_ratio,us_gross_margin_pct,us_rev_growth_3y_cagr,comparison_dimension,ceiling_market_cap_multiple,tech_gap_years,tech_gap_trend,tech_gap_metrics,valuation_premium_discount,valuation_rationale,liquidity_discount_pct,geopolitical_discount_pct,data_as_of_date,data_source,notes
+AI算力,GPU芯片,AI训练芯片,NVDA,NVIDIA,3200,25,45,75,60,ceiling,8,3.5,narrowing,"先进制程: 4nm vs 7nm; 算力: H200 4.0PF vs 海光DCU 1.5PF; CUDA生态壁垒极高",discount,技术代差3.5年+生态差10年;国产替代政策溢价部分抵消折价,15,20,2026-06-13,Yahoo Finance + 公司财报,海光信息为国内AI训练芯片龙头
+AI算力,GPU芯片,AI推理芯片,AMD,AMD,250,6,30,52,25,ceiling,8,2.0,narrowing,"推理性能: MI300 1.8x vs 寒武纪思元590; 推理端差距小于训练端",discount,推理端市场竞争激烈;寒武纪在字节等客户中份额提升,15,15,2026-06-13,Yahoo Finance,寒武纪为国内AI推理芯片龙头
+AI算力,光模块,800G光模块,COHR,Coherent,23,4,28,38,18,ceiling,1.5,-5,advantage,"中际旭创全球份额50%+; 800G光模块中国产能>80%; 技术领先",premium,国产全球份额第一; 技术路线（硅光/CPO）国内同样领先,0,5,2026-06-13,Yahoo Finance,中际旭创全球光模块龙头
+AI算力,光模块,1.6T光模块,LITE,Lumentum,9,3,22,42,12,ceiling,2,-3,advantage,"1.6T光模块中际旭创率先量产; 产能+良率领先",premium,技术路线领先一代;客户深度绑定,0,5,2026-06-13,Yahoo Finance,1.6T为下一代主力产品
+AI算力,光芯片,EML激光器(50G/100G),COHR,Coherent,23,4,28,38,18,target,4,3,narrowing,"100G EML量产: Lumentum/Coherent 2023 vs 源杰2025(预计); 2年差距",discount,国产化率从<10%→35%快速提升;技术壁垒高,15,20,2026-06-13,Yahoo Finance + 行业报告,源杰科技国内EML龙头
+AI算力,HBM先进封装,HBM封装,TSM,TSMC(台积电),800,7,18,55,25,ceiling,20,5,stable,"CoWoS产能: 台积电2025月产40K片; 国内长电/通富尚在验证阶段",discount,台积电绝对垄断;国产HBM封装刚刚起步,20,30,2026-06-13,Yahoo Finance,长电科技+通富微电国产封装主力
+AI算力,交换机,白盒交换机整机,AVGO,Broadcom,800,14,35,65,20,ceiling,30,5,stable,"交换芯片: Broadcom Tomahawk 5 51.2T vs 盛科通信 2.4T; 差距3-4代",discount,交换芯片极度集中;白盒交换机整机端国产有成本优势,20,25,2026-06-13,Yahoo Finance,锐捷网络国产交换机龙头
+AI算力,液冷散热,冷板式液冷,VRT,Vertiv,45,3,28,35,15,ceiling,3,0,same,"液冷技术路线中国同步;英维克/高澜份额快速增长",fair,技术同步但品牌/渠道弱于Vertiv;国内液冷渗透率快速提升,10,5,2026-06-13,Yahoo Finance,英维克国产液冷龙头
+AI算力,高端PCB,AI服务器主板(30+层),TTMI,TTM Technologies,1.5,0.8,15,22,8,target,0.5,-3,advantage,"国产PCB份额全球>60%;沪电/深南30+层PCB技术领先",premium,国产全球绝对主导;AI服务器PCB国产份额>70%,0,0,2026-06-13,Yahoo Finance,沪电股份+深南电路全球PCB龙头
+AI算力,半导体设备,刻蚀设备,LRCX,Lam Research,100,6,25,48,12,target,10,4,narrowing,"5nm刻蚀: Lam 2020量产 vs 中微 2024验证; 差距4年→2年",discount,国产替代加速;中微公司5nm刻蚀已进入验证,15,25,2026-06-13,Yahoo Finance,中微公司国产刻蚀龙头
+AI算力,半导体设备,薄膜沉积设备,AMAT,Applied Materials,160,6,22,47,10,target,10,5,narrowing,"ALD/CVD设备: AMAT全球50%+份额; 拓荆科技在28nm以上份额提升",discount,技术差距从10年→5年;拓荆进入长江存储供应链,15,25,2026-06-13,Yahoo Finance,拓荆科技国产薄膜沉积龙头
+AI算力,半导体设备,量测/检测设备,KLA,KLA Corporation,90,8,25,60,15,target,15,5,narrowing,"量测精度: KLA 0.1nm vs 中科飞测 0.5nm; 差距5年",discount,量测设备壁垒极高;国内市场份额<5%,15,25,2026-06-13,Yahoo Finance,中科飞测国产量测龙头
+AI算力,存储,企业级SSD,MU,Micron Technology,100,4,18,35,8,target,15,3,stable,"NAND制程: 美光232层 vs 长江存储232层(已追平);但量产差距仍在",discount,NAND技术已追平但品牌/渠道/可靠性验证落后,10,20,2026-06-13,Yahoo Finance,江波龙国产SSD龙头
+AI算力,高速铜连接,DAC铜缆,APH,Amphenol,80,4,28,32,12,target,8,0,same,"高速铜缆技术门槛低;兆龙互连/立讯精密产能充足",fair,技术同步;国产份额全球>60%,5,10,2026-06-13,Yahoo Finance,兆龙互连+立讯精密
+AI算力,EDA/IP,EDA工具,SNPS,Synopsys,85,13,35,82,15,ceiling,30,10,stable,"全流程EDA: Synopsys垄断%; 华大九天仅能覆盖模拟+部分数字流程",discount,EDA壁垒极高;生态锁定极强;国产替代从0开始,20,30,2026-06-13,Yahoo Finance,华大九天国产EDA龙头;差距10年+
