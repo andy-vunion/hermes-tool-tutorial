@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>十倍股系统 × 产业链拆解 — 核心摘要</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;--text:#c9d1d9;--text2:#8b949e;--accent:#58a6ff;--warn:#d29922;--green:#3fb950;--red:#f85149}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#1a2332 0%,#0d1117 100%);border-bottom:1px solid var(--border);padding:20px 40px;position:sticky;top:0;z-index:10}
+.header h1{font-size:20px;color:var(--accent)}
+.header p{font-size:13px;color:var(--text2);margin-top:4px}
+.tabs{display:flex;gap:0;margin-top:16px;border-bottom:1px solid var(--border)}
+.tab{padding:10px 24px;cursor:pointer;font-size:14px;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s;border-radius:6px 6px 0 0}
+.tab:hover{color:var(--text);background:var(--bg2)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--bg2)}
+.content{padding:32px 40px;max-width:900px;margin:0 auto}
+.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.summary-card h2{font-size:17px;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.summary-card h3{font-size:15px;color:var(--text);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--border)}
+.summary-card p,.summary-card li{font-size:14px;line-height:1.8;color:var(--text2)}
+.summary-card ul{margin:8px 0 8px 20px}
+.summary-card li{margin-bottom:4px}
+.summary-card strong{color:#e6edf3}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.metric-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.metric-box .value{font-size:28px;font-weight:700;color:var(--accent)}
+.metric-box .label{font-size:12px;color:var(--text2);margin-top:4px}
+.arch-diagram{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px;margin:16px 0;font-family:'Courier New',monospace;font-size:12px;line-height:1.6;white-space:pre;overflow-x:auto;color:var(--green)}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0;font-size:13px}
+.flow-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 14px;text-align:center;font-weight:600}
+.flow-arrow{color:var(--accent);font-size:16px}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}
+.tag-green{background:rgba(63,185,80,.15);color:var(--green)}
+.tag-blue{background:rgba(88,166,255,.15);color:var(--accent)}
+.tag-warn{background:rgba(210,153,34,.15);color:var(--warn)}
+.tag-red{background:rgba(248,81,73,.15);color:var(--red)}
+.highlight{border-left:3px solid var(--accent);padding:8px 16px;margin:12px 0;background:rgba(88,166,255,.05);border-radius:0 8px 8px 0;font-size:14px}
+.collapsible{cursor:pointer;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin:8px 0;font-size:14px;display:flex;justify-content:space-between;align-items:center;transition:all .2s}
+.collapsible:hover{background:var(--bg2)}
+.collapsible .arrow{transition:transform .2s;color:var(--text2)}
+.collapsible.open .arrow{transform:rotate(180deg)}
+.collapse-content{display:none;padding:0 16px 16px;font-size:14px;line-height:1.8;color:var(--text2)}
+.collapse-content.show{display:block}
+.decision-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.decision-table th,.decision-table td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+.decision-table th{background:var(--bg3);font-weight:600;color:var(--text)}
+.decision-table td{color:var(--text2)}
+.decision-table tr:hover td{background:rgba(88,166,255,.03)}
+@media(max-width:768px){.header,.content{padding:16px}.arch-diagram{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📊 十倍股系统 × 产业链拆解 — 核心摘要</h1>
+  <p>设计文档 v1.0 + 产业链拆解 v1.0 · 2026-06</p>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('design')">🔬 十倍股系统</div>
+    <div class="tab" onclick="switchTab('chain')">🔗 产业链拆解</div>
+    <div class="tab" onclick="switchTab('integration')">⚡ 系统整合</div>
+  </div>
+</div>
+<div class="content" id="content"></div>
+
+<script>
+const designDoc = `
+<div class="summary-card">
+  <h2>🎯 这个系统是什么</h2>
+  <p><strong>「批量带反对派的尽调覆盖器」</strong>——把人工只能覆盖5-10家公司的深度尽调流程，机械化到持续覆盖<strong>200-800家初筛池、20-50家深度池</strong>。</p>
+  <div class="highlight"><strong>不是十倍股预测器。</strong>十倍股样本太小，不可证伪。系统的工作是把彩票池密度做高，并在中奖时<strong>拿得住</strong>。</div>
+</div>
+
+<div class="summary-card">
+  <h2>🔑 四个核心决策（解锁上轮全部致命缺陷）</h2>
+  <table class="decision-table">
+    <tr><th>#</th><th>问题</th><th>解决</th></tr>
+    <tr><td>1</td><td>卡点与量价入场时点矛盾 → 系统性买在底部走完</td><td><span class="tag tag-green">先资格、后时机</span> 卡点管准入（季频），量价管择时（日频），两腿永不同时打架</td></tr>
+    <tr><td>2</td><td>3-5次40-60%回撤拿不住 → 任何移动止损必然洗出十倍股</td><td><span class="tag tag-blue">仓位状态机 E1→E2→E3</span> E3撤销一切价格止损，仅受kill/灾难/时间止损管辖</td></tr>
+    <tr><td>3</td><td>幸存者偏差 → 只看到活下来的</td><td><span class="tag tag-warn">全A季度快照做分母</span> 七个cohort全部跟踪前向收益，卖后继续跟12个月测卖飞成本</td></tr>
+    <tr><td>4</td><td>自由度爆炸 → 过拟合</td><td><span class="tag tag-red">活参数≤8个</span> 每季最多调2个，调前影子运行2季，其余参数冻结</td></tr>
+  </table>
+</div>
+
+<div class="summary-card">
+  <h2>🏗️ 五层系统架构</h2>
+  <div class="arch-diagram">L0 数据采集层 → L1 资格层(GATE,季频) → L2 择时层(TRIGGER,日频) → L3 仲裁投决(ARBITER) → L4 仓位执行(状态机) → L5 复盘校准(无偏差)</div>
+  <div class="flow">
+    <div class="flow-box">L1 资格<br><small>谁有资格？</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box">L2 择时<br><small>现在买不买？</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box">L3 投决<br><small>反对派怎么说？</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box">L4 执行<br><small>买多少/何时卖？</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box">L5 校准<br><small>系统跑得对吗？</small></div>
+  </div>
+  <p style="font-size:12px;color:var(--warn);margin-top:8px">⚠️ 数据流向纪律：L1→L2→L3→L4 单向。L5修改L1-L4只能通过参数治理流程，禁止任何「看了上周结果手动改」的短路操作。</p>
+</div>
+
+<div class="summary-card">
+  <h2>📐 核心方法</h2>
+
+  <h3>L1 资格层 — 硬门槛 + 卡点评分</h3>
+  <ul>
+    <li><strong>7条硬门槛</strong>：市值30-500亿 · 营收增速≥20% · 毛利率≥25% · 经营现金流>0 · 负债率≤60% · 上市≥365天 · 商誉/净资产≤30%</li>
+    <li><strong>四维卡点评分</strong>（0-100）：不可替代(40) + 技术锁定(25) + 价值量斜率(20) + 客户结构(15)</li>
+    <li><strong>证据账本</strong>：每条关键主张强制≥B级证据（双独立信源）+ 人工复核 + 365天过期机制</li>
+  </ul>
+
+  <h3>L2 择时层 — Stage-2突破三条件</h3>
+  <ul>
+    <li><strong>T1 趋势模板</strong>：close > MA50 > MA150 > MA200，MA200斜率向上</li>
+    <li><strong>T2 量价突破</strong>：距52周高≤5% 且 当日量≥MA50量×1.5</li>
+    <li><strong>T3 基底存在</strong>：≥30交易日整理区，振幅<25%</li>
+  </ul>
+  <p>触发 = T1 ∧ T2 ∧ T3，48h内必须召开L3投决。</p>
+
+  <h3>L4 仓位状态机 — 从侦察到核心</h3>
+  <div class="flow">
+    <div class="flow-box" style="border-color:var(--warn)">E1 侦察<br><small>1.5% | 硬止损-15%</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--accent)">E2 确认<br><small>4% | 周MA150/200</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--green)">E3 核心<br><small>8% | 无价格止损</small></div>
+  </div>
+  <p>E1→E2：首份季报确认 + 浮盈。E2→E3：第二份季报确认 + 浮盈≥30%。<strong>E3撤销一切百分比止损</strong>，只认kill criteria/灾难闸门/24月时间止损。</p>
+
+  <h3>五种卖出（只有这五种）</h3>
+  <ol>
+    <li><span class="tag tag-red">侦察失败</span> E1硬止损/90天未确认</li>
+    <li><span class="tag tag-warn">降级清仓</span> E2周MA200破位</li>
+    <li><span class="tag tag-red">Kill Criteria</span> 核心客户流失/替代技术落地/定价权丧失/治理恶化/财务造假</li>
+    <li><span class="tag tag-warn">灾难闸门</span> 沪深300单日-7%或5日-12%</li>
+    <li><span class="tag tag-blue">时间止损</span> 24月总回报<20%且成长熄火</li>
+  </ol>
+  <p><strong>没有止盈。</strong>设利润目标的系统永远拿不到10倍。</p>
+</div>
+
+<div class="summary-card">
+  <h2>📈 预期效果与验证</h2>
+  <div class="metric-grid">
+    <div class="metric-box"><div class="value">200-800</div><div class="label">初筛池覆盖数</div></div>
+    <div class="metric-box"><div class="value">20-50</div><div class="label">深度池标的</div></div>
+    <div class="metric-box"><div class="value">≤8</div><div class="label">最大持仓数</div></div>
+    <div class="metric-box"><div class="value">C4>C1</div><div class="label">全链路精确率显著优于硬门槛基线</div></div>
+  </div>
+  <h3>七个Cohort对照实验</h3>
+  <table class="decision-table">
+    <tr><th>Cohort</th><th>定义</th><th>回答的问题</th></tr>
+    <tr><td>C0</td><td>全A基准</td><td>市场底分布</td></tr>
+    <tr><td>C1</td><td>仅硬门槛通过</td><td>财务筛子本身值多少</td></tr>
+    <tr><td>C2</td><td>C1+卡点≥60（入池）</td><td>卡点评分增量价值</td></tr>
+    <tr><td>C3</td><td>C2+量价触发</td><td>量价腿增量价值</td></tr>
+    <tr><td>C4</td><td>C3+swarm GO（实际入场）</td><td><strong>系统全链路精确率</strong></td></tr>
+    <tr><td>C5</td><td>C3-C4（swarm否决组）</td><td>反对派是增益还是反指</td></tr>
+    <tr><td>C6</td><td>入池但5年从未触发</td><td>「好公司但市场永远没认」组</td></tr>
+  </table>
+</div>
+`;
+
+const chainDoc = `
+<div class="summary-card">
+  <h2>🎯 产业链拆解要解决什么问题</h2>
+  <p>选股不能脱离赛道。产业链拆解体系是<strong>选股前置层（M-1）</strong>——在个股Gate之前，先回答：<strong>这个赛道值得进吗？进哪个环节？什么时机进？</strong></p>
+  <div class="highlight">赛道Gate输出参数直接传递给个股Gate：毛利率benchmark从写死30%→赛道动态值，竞争格局从感觉→数据。</div>
+</div>
+
+<div class="summary-card">
+  <h2>🔑 七大核心问题</h2>
+
+  <h3>Q1 什么是「热门赛道」？→ 客观量化</h3>
+  <p><strong>6维度 × 18指标热度评分体系</strong>：资金面(25%) + 基本面(40%) + 情绪面(10%) + 政策面(20%) + 产业面(10%) + 价格面(5%) = 100分</p>
+  <div class="metric-grid">
+    <div class="metric-box"><div class="value" style="color:var(--green)">≥80</div><div class="label">Hotspot · 立即进入Gate</div></div>
+    <div class="metric-box"><div class="value" style="color:var(--accent)">60-79</div><div class="label">Warm · 候选观察池</div></div>
+    <div class="metric-box"><div class="value" style="color:var(--warn)">40-59</div><div class="label">Neutral · 季度复查</div></div>
+    <div class="metric-box"><div class="value" style="color:var(--red)"><40</div><div class="label">Cold · 不进入Gate</div></div>
+  </div>
+  <p><strong>趋势性 vs 周期性区分</strong>（三条件）：TAM CAGR≥15% + 供给侧受限 + 下游对涨价不敏感。AI算力✅趋势性，锂矿2022❌周期性。</p>
+
+  <h3>Q2 产业发展规律 → 生命周期识别</h3>
+  <div class="flow">
+    <div class="flow-box" style="border-color:var(--red)">概念期<br><small>❌ 标的不足3家</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--warn)">导入期<br><small>⚠️ 高风险</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--green)">成长期<br><small>✅ 甜点区</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--accent)">成熟期<br><small>⚠️ 关注龙头</small></div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:var(--red)">衰退期<br><small>❌ 不投</small></div>
+  </div>
+  <p><strong>AI算力当前判断</strong>：成长期（渗透率10%→15%，北美CSP CapEx CAGR 40%+）</p>
+  <p><strong>政策信号层级</strong>：国常会/部委提及 → 专项资金/补贴 → 牌照管制/准入 → 税收优惠。领先12-24个月。</p>
+
+  <h3>Q3 多层级资金流向 → 「到钱多的地方」</h3>
+  <p><strong>四层资金塔</strong>：</p>
+  <ul>
+    <li><span class="tag tag-green">L1 北美云厂商CapEx</span> 最前瞻，领先6-12月 — <strong>核心前置指标</strong></li>
+    <li><span class="tag tag-blue">L2 VC/PE一级市场</span> 领先12-24月 — 产业资本比二级市场聪明</li>
+    <li><span class="tag tag-warn">L3 政府/产业基金</span> 领先12-36月 — 政策资金引导产业方向</li>
+    <li><span class="tag tag-red">L4 二级市场资金流</span> ETF流入+机构持仓 — 同步指标，确认用</li>
+  </ul>
+
+  <h3>Q4 产业链拆解粒度 → 拆到能回答三个问题</h3>
+  <p>① 该环节是否有独立上市公司（≥3家）？ ② 该环节利润池是否独立可测算？ ③ 该环节竞争格局是否与上下游有明显边界？</p>
+  <p><strong>AI算力拆解结果</strong>：15个可独立分析节点（GPU/ASIC → HBM → 光模块 → 服务器 → 液冷 → 数据中心...），28家美股对标。</p>
+
+  <h3>Q6 美股对标体系</h3>
+  <p><strong>三个层次</strong>：产业对标（天花板）→ 业务对标（估值锚）→ 财务对标（增速/GM）。28家美股映射15个AI算力节点。</p>
+
+  <h3>Q7 赛道Gate嵌入M0→M1</h3>
+  <p><strong>新流程</strong>：<span class="tag tag-green">赛道Gate</span> → M0硬门槛(动态毛利率benchmark来自赛道) → M1评分(产业链权重来自赛道Gate) → candidate_pool</p>
+  <table class="decision-table">
+    <tr><th>参数</th><th>旧值（写死）</th><th>新值（赛道驱动）</th></tr>
+    <tr><td>毛利率门槛</td><td>固定30%</td><td>赛道中位数-0.5σ</td></tr>
+    <tr><td>营收增速门槛</td><td>固定20%</td><td>赛道P25增速</td></tr>
+    <tr><td>不可替代性权重</td><td>固定40分</td><td>赛道集中度动态调整</td></tr>
+  </table>
+</div>
+
+<div class="summary-card">
+  <h2>📊 数据基础</h2>
+  <div class="metric-grid">
+    <div class="metric-box"><div class="value">6</div><div class="label">新数据库表</div></div>
+    <div class="metric-box"><div class="value">15</div><div class="label">AI算力可分析节点</div></div>
+    <div class="metric-box"><div class="value">28</div><div class="label">美股对标公司</div></div>
+    <div class="metric-box"><div class="value">18</div><div class="label">热度指标</div></div>
+  </div>
+</div>
+`;
+
+const integrationDoc = `
+<div class="summary-card">
+  <h2>⚡ 两套系统的关系</h2>
+  <div class="arch-diagram">产业链拆解（赛道层，M-1）→ 赛道Gate → 动态参数注入 → 十倍股系统（个股层，M0-M3）</div>
+
+  <h3>信息流</h3>
+  <table class="decision-table">
+    <tr><th>产业链拆解产出</th><th>→</th><th>十倍股系统接入点</th></tr>
+    <tr><td>赛道热度评分</td><td>→</td><td>决定是否进入M0初筛</td></tr>
+    <tr><td>产业生命周期</td><td>→</td><td>Track Tier分级 (S/A/B/C/D)</td></tr>
+    <tr><td>产业链毛利率/增速基准</td><td>→</td><td>动态替代写死的硬门槛阈值</td></tr>
+    <tr><td>产业集中度</td><td>→</td><td>不可替代性评分权重调整</td></tr>
+    <tr><td>美股对标天花板</td><td>→</td><td>市值空间估算 bias up/down</td></tr>
+    <tr><td>资金层级流向</td><td>→</td><td>确认赛道级别资金面支撑</td></tr>
+  </table>
+
+  <h3>Gate体系修改要点</h3>
+  <ul>
+    <li><strong>hard_gate_result表扩展</strong>：新增 chain_id + track_tier 字段</li>
+    <li><strong>M0硬门槛动态化</strong>：毛利率、营收增速阈值从赛道中位数推算，不再写死</li>
+    <li><strong>M1评分权重动态化</strong>：不可替代性权重与产业集中度负相关</li>
+    <li><strong>赛道复查周期</strong>：S级赛道季度复查，A级半年度，B级年度</li>
+  </ul>
+</div>
+
+<div class="summary-card">
+  <h2>🎯 完整决策流程</h2>
+  <div class="flow" style="flex-direction:column;align-items:flex-start;gap:4px">
+    <div class="flow" style="font-size:12px"><div class="flow-box" style="border-color:var(--accent);font-size:12px">产业链拆解<br><small>赛道热不热？什么阶段？</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--green);font-size:12px">赛道Gate<br><small>硬门槛+热度+生命周期</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--accent);font-size:12px">M0 初筛<br><small>动态阈值+全A扫描</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--green);font-size:12px">M1 评分<br><small>动态权重+卡点评估</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--warn);font-size:12px">L2 择时<br><small>量价信号扫描</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--red);font-size:12px">L3 投决<br><small>swarm仲裁</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:var(--green);font-size:12px">L4 执行<br><small>E1→E2→E3</small></div></div>
+  </div>
+</div>
+`;
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab:nth-child(${tab === 'design' ? 1 : tab === 'chain' ? 2 : 3})`).classList.add('active');
+  const content = document.getElementById('content');
+  if (tab === 'design') content.innerHTML = designDoc;
+  else if (tab === 'chain') content.innerHTML = chainDoc;
+  else content.innerHTML = integrationDoc;
+}
+switchTab('design');
+</script>
+</body>
+</html>

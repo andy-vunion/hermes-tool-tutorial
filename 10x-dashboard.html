@@ -291,6 +291,7 @@ body.guide-open{overflow:auto}
   </div>
   <div class="header-right">
     <span class="guide-toggle" onclick="toggleGuide()">📖 使用说明</span>
+    <span class="guide-toggle" onclick="toggleSummary()" style="margin-left:4px">📊 核心摘要</span>
     <a href="10x-tracker-claude.html" class="back-link">📄 查看设计文档 ←</a>
     <span class="sys-badge live"><span class="dot"></span> 运行中</span>
     <span class="sys-badge info">候选池 5 只</span>
@@ -309,6 +310,11 @@ body.guide-open{overflow:auto}
     <div><strong>🚨 风险面板</strong> — Kill条款和告警。严重级别需要立即关注，关注级别定期复查。</div>
     <div><strong>⚙ Cron状态</strong> — 3个Cron自动化运行：日频扫描(交易日收盘后)、周度复检(每周六)、季度复盘(季末)。</div>
   </div>
+</div>
+
+<!-- ═══════════════ SUMMARY PANEL ═══════════════ -->
+<div class="guide-panel" id="summaryPanel" style="height:85vh">
+  <iframe src="10x-summary.html" style="width:100%;height:100%;border:none;border-radius:6px"></iframe>
 </div>
 
 <!-- ═══════════════ 3-COLUMN GRID ═══════════════ -->
@@ -530,6 +536,13 @@ body.guide-open{overflow:auto}
 <script>
 function toggleGuide(){
   var p=document.getElementById('guidePanel');
+  p.classList.toggle('open');
+  document.body.classList.toggle('guide-open');
+}
+function toggleSummary(){
+  var p=document.getElementById('summaryPanel');
+  var g=document.getElementById('guidePanel');
+  if(g.classList.contains('open')){g.classList.remove('open');document.body.classList.remove('guide-open');}
   p.classList.toggle('open');
   document.body.classList.toggle('guide-open');
 }
