@@ -7,275 +7,153 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg-primary:#0d1117;
-  --bg-secondary:#161b22;
-  --bg-tertiary:#30363d;
-  --border:#30363d;
-  --text-primary:#e6edf3;
-  --text-secondary:#8b949e;
-  --text-muted:#6e7681;
-  --accent-green:#3fb950;
-  --accent-red:#f85149;
-  --accent-yellow:#d29922;
-  --accent-blue:#58a6ff;
-  --accent-purple:#a371f7;
-  --accent-cyan:#39d2c0;
-  --card-radius:8px;
-  --transition:0.2s ease;
+  --bg-primary:#0d1117;--bg-secondary:#161b22;--bg-tertiary:#30363d;
+  --border:#30363d;--text-primary:#e6edf3;--text-secondary:#8b949e;--text-muted:#6e7681;
+  --accent-green:#3fb950;--accent-red:#f85149;--accent-yellow:#d29922;
+  --accent-blue:#58a6ff;--accent-purple:#a371f7;--accent-cyan:#39d2c0;
+  --card-radius:8px;--transition:0.2s ease;
 }
 body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
-  background:var(--bg-primary);
-  color:var(--text-primary);
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  padding:10px 12px;
-  line-height:1.4;
+  background:var(--bg-primary);color:var(--text-primary);
+  height:100vh;overflow:hidden;display:flex;flex-direction:column;
+  padding:8px 10px;line-height:1.4;
 }
 body.guide-open{overflow:auto}
-
-/* ── Header ── */
+/* Header */
 .header{
-  background:var(--bg-secondary);
-  border:1px solid var(--border);
-  border-radius:var(--card-radius);
-  padding:10px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:8px;
-  flex-shrink:0;
+  background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:6px;flex-shrink:0;
 }
-.header-left{display:flex;align-items:center;gap:10px}
-.logo-icon{
-  width:32px;height:32px;
-  background:linear-gradient(135deg,var(--accent-green),var(--accent-cyan));
-  border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:900;color:#0d1117;
-}
-.header h1{font-size:17px;font-weight:700}
+.header-left{display:flex;align-items:center;gap:8px}
+.logo-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--accent-green),var(--accent-cyan));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#0d1117}
+.header h1{font-size:16px;font-weight:700}
 .header h1 span{color:var(--accent-green)}
-.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sys-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:3px 10px;border-radius:16px;
-  font-size:11px;font-weight:600;
-  border:1px solid;
-}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sys-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid}
 .sys-badge.live{background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.3);color:var(--accent-green)}
 .sys-badge.info{background:rgba(88,166,255,.1);border-color:rgba(88,166,255,.25);color:var(--accent-blue)}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.cutoff{font-size:11px;color:var(--text-muted)}
-.header .back-link{
-  color:var(--text-secondary);text-decoration:none;font-size:12px;
-  padding:4px 10px;border-radius:6px;border:1px solid var(--border);
-  transition:all .15s;
-}
+.cutoff{font-size:10px;color:var(--text-muted)}
+.header .back-link{color:var(--text-secondary);text-decoration:none;font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);transition:all .15s}
 .header .back-link:hover{color:var(--accent-blue);border-color:var(--accent-blue);background:rgba(88,166,255,.06)}
-
-/* ── Guide Toggle ── */
-.guide-toggle{
-  cursor:pointer;font-size:11px;color:var(--accent-blue);
-  padding:3px 10px;border-radius:4px;border:1px solid rgba(88,166,255,.2);
-  user-select:none;transition:all .15s;
-}
+.guide-toggle{cursor:pointer;font-size:11px;color:var(--accent-blue);padding:3px 10px;border-radius:4px;border:1px solid rgba(88,166,255,.2);user-select:none;transition:all .15s}
 .guide-toggle:hover{background:rgba(88,166,255,.08)}
-
-/* ── Usage Guide Panel ── */
-.guide-panel{
-  display:none;
-  background:var(--bg-secondary);
-  border:1px solid var(--border);
-  border-radius:var(--card-radius);
-  padding:14px 18px;
-  margin-bottom:8px;
-  flex-shrink:0;
-}
+/* Panels */
+.guide-panel{display:none;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:14px 18px;margin-bottom:8px;flex-shrink:0}
 .guide-panel.open{display:block}
 .guide-panel h3{font-size:13px;color:var(--accent-blue);margin-bottom:8px}
-.guide-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:6px 14px;
-  font-size:11px;color:var(--text-secondary);line-height:1.6;
-}
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 14px;font-size:11px;color:var(--text-secondary);line-height:1.6}
 .guide-grid strong{color:var(--text-primary)}
 
 /* ── 3-Column Grid ── */
-.grid{
-  display:grid;
-  grid-template-columns:280px 1fr 320px;
-  gap:10px;
-  flex:1;
-  min-height:0;
-}
-@media(max-width:1200px){.grid{grid-template-columns:240px 1fr 280px}}
-@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-
-/* ── Card ── */
-.card{
-  background:var(--bg-secondary);
-  border:1px solid var(--border);
-  border-radius:var(--card-radius);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-.card-header{
-  padding:8px 14px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:12px;font-weight:600;
-  flex-shrink:0;
-}
-.card-body{padding:10px 14px;overflow-y:auto;flex:1;min-height:0}
+.grid{display:grid;grid-template-columns:280px 1fr 260px;gap:8px;flex:1;min-height:0}
+@media(max-width:1100px){.grid{grid-template-columns:240px 1fr 220px}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+/* Cards */
+.card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);overflow:hidden;display:flex;flex-direction:column}
+.card-header{padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:600;flex-shrink:0}
+.card-body{padding:8px 12px;overflow-y:auto;flex:1;min-height:0}
 .card-body.p0{padding:0}
 
-/* ── Left: Candidate Pool ── */
+/* ── LEFT: Candidate Pool ── */
 #leftCol{grid-row:1/3;display:flex;flex-direction:column}
-#leftCol .card{flex:1;min-height:0;display:flex;flex-direction:column}
-#leftCol .card-body{flex:1;min-height:0;overflow-y:auto}
-
+#leftCol .card{flex:1;min-height:0}
 .pool-table{width:100%;border-collapse:collapse;font-size:11px}
-.pool-table th{
-  text-align:left;padding:6px 8px;font-size:10px;font-weight:600;
-  color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;
-  border-bottom:1px solid var(--border);background:rgba(22,27,34,.8);
-  position:sticky;top:0;z-index:1;
-}
+.pool-table th{text-align:left;padding:6px 8px;font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border);background:rgba(22,27,34,.8);position:sticky;top:0;z-index:1}
 .pool-table td{padding:7px 8px;border-bottom:1px solid rgba(48,54,61,.35);vertical-align:middle}
 .pool-table tr{cursor:pointer;transition:background var(--transition)}
 .pool-table tr:hover{background:rgba(88,166,255,.04)}
 .pool-table tr.active{background:rgba(88,166,255,.08);border-left:3px solid var(--accent-blue)}
 .pool-table tr.active td:first-child{padding-left:5px}
-
 .stock-code{font-weight:700;font-size:12px;color:var(--accent-blue)}
 .stock-name{font-size:10.5px;color:var(--text-secondary)}
 .gate-score{font-weight:700;font-size:14px}
-.gate-high{color:var(--accent-green)}
-.gate-mid{color:var(--accent-yellow)}
-.gate-low{color:var(--accent-red)}
-
-.grade-badge{
-  display:inline-block;padding:1px 6px;border-radius:3px;
-  font-size:10px;font-weight:700;line-height:1.4;
-}
+.gate-high{color:var(--accent-green)}.gate-mid{color:var(--accent-yellow)}.gate-low{color:var(--accent-red)}
+.grade-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700}
 .grade-A{background:rgba(63,185,80,.15);color:var(--accent-green)}
 .grade-B{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
 .tag-row{display:flex;gap:2px;flex-wrap:wrap;margin-top:1px}
-.tag{
-  font-size:8.5px;padding:1px 5px;border-radius:2px;
-  background:rgba(163,113,247,.12);color:var(--accent-purple);
-  font-weight:600;
-}
+.tag{font-size:8.5px;padding:1px 5px;border-radius:2px;background:rgba(163,113,247,.12);color:var(--accent-purple);font-weight:600}
 .tag.risk{background:rgba(248,81,73,.12);color:var(--accent-red)}
+.pool-hint{padding:5px 12px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);flex-shrink:0}
 
-.pool-hint{padding:6px 14px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);flex-shrink:0}
-
-/* ── Middle: Radar + Finance ── */
-.radar-container{
-  display:flex;align-items:center;justify-content:center;
-  padding:6px 0;
-}
+/* ── MIDDLE: Radar Top ── */
+.radar-wrap{display:flex;flex-direction:column}
+.radar-container{display:flex;align-items:center;justify-content:center;padding:4px 0}
 .radar-container svg{max-width:100%;height:auto}
-.radar-legend{
-  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
-  padding:4px 14px 8px;font-size:10px;
-}
+.radar-legend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:2px 12px 6px;font-size:10px}
 .radar-legend span{display:flex;align-items:center;gap:3px}
 .legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.stock-info-bar{padding:5px 12px;border-top:1px solid var(--border);background:rgba(13,17,23,.4);font-size:11px;color:var(--text-secondary);flex-shrink:0}
+.stock-info-bar strong{color:var(--text-primary)}
 
-.selected-stock-info{
-  padding:6px 14px;border-top:1px solid var(--border);
-  background:rgba(13,17,23,.4);
-  font-size:11px;color:var(--text-secondary);
-  flex-shrink:0;
-}
-.selected-stock-info strong{color:var(--text-primary)}
+/* ── MIDDLE BOTTOM: Tabs ── */
+.tab-bar{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.tab-btn{padding:7px 16px;cursor:pointer;font-size:11px;color:var(--text-secondary);border-bottom:2px solid transparent;transition:all .15s;background:none}
+.tab-btn:hover{color:var(--text-primary)}
+.tab-btn.active{color:var(--accent-blue);border-bottom-color:var(--accent-blue)}
+.tab-panel{display:none;overflow-y:auto;flex:1;min-height:0}
+.tab-panel.active{display:block}
 
-/* Compact finance table */
-.finance-compact{width:100%;border-collapse:collapse;font-size:10.5px}
-.finance-compact th{
-  text-align:left;padding:5px 8px;font-size:9.5px;font-weight:600;
-  color:var(--text-muted);border-bottom:1px solid var(--border);
-  background:rgba(22,27,34,.6);position:sticky;top:0;
-}
-.finance-compact td{padding:5px 8px;border-bottom:1px solid rgba(48,54,61,.3)}
-.finance-compact .name-col{font-weight:600;color:var(--text-primary)}
-.finance-compact .avg-row{color:var(--accent-blue);font-weight:600}
-
-/* ── Right Column: 3 equal cards ── */
-#rightCol{display:flex;flex-direction:column;gap:10px;grid-row:1/3}
-#rightCol .card{flex:1;min-height:0;display:flex;flex-direction:column}
-#rightCol .card-body{flex:1;min-height:0;overflow-y:auto}
+/* Finance tables */
+.fin-section{margin-bottom:10px}
+.fin-section:last-child{margin-bottom:0}
+.fin-label{font-size:10.5px;color:var(--accent-blue);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.fin-table{width:100%;border-collapse:collapse;font-size:10.5px}
+.fin-table th{text-align:left;padding:4px 7px;font-size:9.5px;font-weight:600;color:var(--text-muted);border-bottom:1px solid var(--border);background:rgba(22,27,34,.5)}
+.fin-table td{padding:4px 7px;border-bottom:1px solid rgba(48,54,61,.25)}
+.fin-table .name{font-weight:600}
+.fin-table .avg-row{color:var(--accent-blue);font-weight:600}
+.fin-note{padding-top:6px;margin-top:6px;font-size:9.5px;color:var(--text-muted);border-top:1px solid var(--border)}
 
 /* Backtest table */
-.bt-table{width:100%;border-collapse:collapse;font-size:10.5px}
-.bt-table th{
-  text-align:left;padding:3px 6px;font-size:9.5px;color:var(--text-muted);
-  border-bottom:1px solid var(--border);font-weight:600;
-}
-.bt-table td{padding:4px 6px;border-bottom:1px solid rgba(48,54,61,.25)}
+.bt-wrap{padding:6px 0}
+.bt-table{width:100%;border-collapse:collapse;font-size:11px}
+.bt-table th{text-align:left;padding:5px 8px;font-size:10px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:600}
+.bt-table td{padding:5px 8px;border-bottom:1px solid rgba(48,54,61,.25)}
 .bt-table .avg-row{color:var(--text-muted);font-size:10px}
-.bt-table .bt-note{font-size:9.5px;color:var(--text-muted)}
+.bt-note{font-size:10px;color:var(--text-muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px}
+.signal-card{background:var(--bg-tertiary);border-radius:6px;padding:8px 10px;text-align:center}
+.signal-card .val{font-size:16px;font-weight:700}
+.signal-card .lab{font-size:9.5px;color:var(--text-muted);margin-top:2px}
 
-/* Risk items */
-.risk-item{
-  padding:8px 12px;border-bottom:1px solid rgba(48,54,61,.35);
-  display:flex;gap:8px;align-items:flex-start;
-}
+/* Risk */
+.risk-item{padding:7px 0;border-bottom:1px solid rgba(48,54,61,.25);display:flex;gap:8px;align-items:flex-start}
 .risk-item:last-child{border-bottom:none}
-.risk-icon{
-  font-size:14px;width:26px;height:26px;border-radius:5px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.risk-icon{font-size:13px;width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .risk-icon.high{background:rgba(248,81,73,.12);color:var(--accent-red)}
 .risk-icon.mid{background:rgba(210,153,34,.12);color:var(--accent-yellow)}
-.risk-icon.none{background:rgba(63,185,80,.12);color:var(--accent-green)}
+.risk-icon.safe{background:rgba(63,185,80,.12);color:var(--accent-green)}
 .risk-info{flex:1;min-width:0}
-.risk-info .stock{font-weight:600;font-size:12px}
+.risk-info .stock{font-weight:600;font-size:11.5px}
 .risk-info .desc{font-size:10.5px;color:var(--text-secondary);margin-top:1px}
-.risk-level{
-  font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;
-  flex-shrink:0;align-self:center;
-}
+.risk-level{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0;align-self:center}
 .risk-level.high{background:rgba(248,81,73,.15);color:var(--accent-red)}
 .risk-level.mid{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
 .risk-level.safe{background:rgba(63,185,80,.15);color:var(--accent-green)}
+.risk-summary{font-size:10.5px;color:var(--text-secondary);margin-bottom:6px;padding:6px 8px;background:rgba(248,81,73,.06);border-radius:4px;border-left:3px solid var(--accent-red)}
 
-/* Cron items */
-.cron-item{
-  padding:7px 12px;border-bottom:1px solid rgba(48,54,61,.25);
-  display:flex;align-items:center;gap:8px;font-size:11px;
-}
+/* ── RIGHT: Cron + Status ── */
+#rightCol{grid-row:1/3;display:flex;flex-direction:column;gap:8px}
+#rightCol .card{flex-shrink:0}
+.cron-item{padding:7px 10px;border-bottom:1px solid rgba(48,54,61,.25);display:flex;align-items:center;gap:8px;font-size:10.5px}
 .cron-item:last-child{border-bottom:none}
 .cron-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .cron-dot.green{background:var(--accent-green)}
 .cron-dot.blue{background:var(--accent-blue)}
 .cron-id{font-family:'SF Mono',monospace;font-size:9px;color:var(--text-muted)}
-.cron-meta{flex:1}
-.cron-meta .name{font-weight:600}
-.cron-meta .detail{font-size:10px;color:var(--text-secondary)}
-.params-row{display:flex;flex-wrap:wrap;gap:3px;padding:8px 12px}
-.param-tag{
-  font-size:9px;font-family:'SF Mono',monospace;
-  padding:2px 6px;border-radius:3px;
-  background:rgba(88,166,255,.08);color:var(--accent-blue);
-  border:1px solid rgba(88,166,255,.15);
-}
+.cron-meta{flex:1}.cron-meta .name{font-weight:600}.cron-meta .detail{font-size:9.5px;color:var(--text-secondary)}
+.params-row{display:flex;flex-wrap:wrap;gap:3px;padding:6px 10px}
+.param-tag{font-size:9px;font-family:'SF Mono',monospace;padding:2px 6px;border-radius:3px;background:rgba(88,166,255,.08);color:var(--accent-blue);border:1px solid rgba(88,166,255,.15)}
+.status-list{padding:6px 10px;font-size:10.5px;color:var(--text-secondary)}
+.status-list div{margin-bottom:3px;display:flex;justify-content:space-between}
+.status-list .ok{color:var(--accent-green)}
 
-/* Footer */
-.footer{
-  text-align:center;font-size:10px;color:var(--text-muted);
-  padding:6px;flex-shrink:0;
-}
+.footer{text-align:center;font-size:9.5px;color:var(--text-muted);padding:4px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -286,33 +164,31 @@ body.guide-open{overflow:auto}
     <div class="logo-icon">10X</div>
     <div>
       <h1>十倍股<span>实时看板</span></h1>
-      <div style="font-size:10px;color:var(--text-muted)">Gate-Moat Framework v2.4 · 日频扫描</div>
+      <div style="font-size:10px;color:var(--text-muted)">Gate-Moat v2.4 · 日频扫描</div>
     </div>
   </div>
   <div class="header-right">
     <span class="guide-toggle" onclick="toggleGuide()">📖 使用说明</span>
-    <span class="guide-toggle" onclick="toggleSummary()" style="margin-left:4px">📊 核心摘要</span>
-    <a href="10x-tracker-claude.html" class="back-link">📄 查看设计文档 ←</a>
+    <span class="guide-toggle" onclick="toggleSummary()">📊 核心摘要</span>
+    <a href="10x-tracker-claude.html" class="back-link">📄 设计文档</a>
     <span class="sys-badge live"><span class="dot"></span> 运行中</span>
     <span class="sys-badge info">候选池 5 只</span>
-    <span class="cutoff">📅 数据截止 2026-06-06</span>
+    <span class="cutoff">📅 2026-06-12</span>
   </div>
 </header>
 
-<!-- ═══════════════ USAGE GUIDE ═══════════════ -->
+<!-- ═══════════════ PANELS ═══════════════ -->
 <div class="guide-panel" id="guidePanel">
   <h3>📖 看板使用说明</h3>
   <div class="guide-grid">
-    <div><strong>📋 候选池</strong> — 5只通过硬门槛+卡点评分的标的，按Gate综合分降序排列。<strong>点击行</strong>切换雷达图标的。</div>
-    <div><strong>🎯 雷达图</strong> — 五维越大越好。Gate中心分数为综合评分，不可替代性维度最关键（需≥B级证据）。</div>
-    <div><strong>💰 财务指标</strong> — <span style="color:var(--accent-green)">绿色</span>健康 / <span style="color:var(--accent-yellow)">黄色</span>关注 / <span style="color:var(--accent-red)">红色</span>预警。关注毛利率趋势和负债率。</div>
-    <div><strong>📊 回测数据</strong> — T1突破/T2金叉/T3背离，数值为历史触发频率。凯利半仓公式算出的最优仓位配置。</div>
-    <div><strong>🚨 风险面板</strong> — Kill条款和告警。严重级别需要立即关注，关注级别定期复查。</div>
-    <div><strong>⚙ Cron状态</strong> — 3个Cron自动化运行：日频扫描(交易日收盘后)、周度复检(每周六)、季度复盘(季末)。</div>
+    <div><strong>📋 候选池</strong> — 按Gate综合分降序。<strong>点击行</strong>切换雷达图标的。</div>
+    <div><strong>🎯 雷达图</strong> — 五维越大越好，不可替代性最关键。</div>
+    <div><strong>💰 财务</strong> — 🟢健康 🟡关注 🔴预警。</div>
+    <div><strong>📊 回测</strong> — T1/T2/T3历史触发频率 + 凯利仓位。</div>
+    <div><strong>🚨 风险</strong> — Kill条款前兆告警。</div>
+    <div><strong>⚙ Cron</strong> — 日频扫描 · 周度复检 · 季度复盘。</div>
   </div>
 </div>
-
-<!-- ═══════════════ SUMMARY PANEL ═══════════════ -->
 <div class="guide-panel" id="summaryPanel" style="height:85vh">
   <iframe src="10x-summary.html" style="width:100%;height:100%;border:none;border-radius:6px"></iframe>
 </div>
@@ -320,24 +196,17 @@ body.guide-open{overflow:auto}
 <!-- ═══════════════ 3-COLUMN GRID ═══════════════ -->
 <div class="grid">
 
-  <!-- ━━━━ LEFT: 候选池列表 ━━━━ -->
+  <!-- ━━━━ LEFT: 候选池 ━━━━ -->
   <div id="leftCol">
     <div class="card">
       <div class="card-header">
         <span>📋 候选池 · Gate 排序</span>
-        <span style="font-size:10px;color:var(--text-muted)">门槛 ≥ 60</span>
+        <span style="font-size:10px;color:var(--text-muted)">≥ 60</span>
       </div>
       <div class="card-body p0">
         <table class="pool-table" id="poolTable">
           <thead>
-            <tr>
-              <th>标的</th>
-              <th>Gate</th>
-              <th>不可替代</th>
-              <th>锁定</th>
-              <th>斜率</th>
-              <th>客户</th>
-            </tr>
+            <tr><th>标的</th><th>Gate</th><th>不可替代</th><th>锁定</th><th>斜率</th><th>客户</th></tr>
           </thead>
           <tbody>
             <tr class="active stock-selector" data-idx="0" data-name="源杰科技" data-code="688498.SH" data-gate="82.4" data-irreplace="85" data-lockin="75" data-slope="82" data-customer="78" data-gross="77.8" data-rev="320.9" data-trend="↑" data-grade="A" data-risk="⚠ 副总刑拘" data-risk-level="high" data-debt="10.7">
@@ -373,285 +242,197 @@ body.guide-open{overflow:auto}
           </tbody>
         </table>
       </div>
-      <div class="pool-hint">点击行切换雷达图 · 共 5 只候选 · 日频扫描中</div>
+      <div class="pool-hint">点击行切换雷达 · 5 只候选 · 日频扫描</div>
     </div>
   </div>
 
-  <!-- ━━━━ MIDDLE: Radar ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>🎯 Gate-Moat 五维雷达</span>
-      <span style="font-size:10px;color:var(--text-muted)" id="radarStockLabel">源杰科技 688498.SH</span>
-    </div>
-    <div class="card-body" style="overflow-y:visible">
-      <div class="radar-container">
-        <svg id="radarSvg" viewBox="0 0 320 320" width="280" height="280"></svg>
+  <!-- ━━━━ MIDDLE ━━━━ -->
+  <div class="radar-wrap" style="grid-row:1">
+    <div class="card" style="flex:1;min-height:0">
+      <div class="card-header">
+        <span>🎯 Gate-Moat 五维雷达</span>
+        <span style="font-size:10px;color:var(--text-muted)" id="radarStockLabel">源杰科技 688498.SH</span>
       </div>
-      <div class="radar-legend">
-        <span><span class="legend-dot" style="background:var(--accent-cyan)"></span>源杰 82.4</span>
-        <span><span class="legend-dot" style="background:var(--accent-blue)"></span>光启 79.8</span>
-        <span><span class="legend-dot" style="background:var(--accent-yellow)"></span>安集 67.1</span>
-        <span><span class="legend-dot" style="background:var(--accent-purple)"></span>睿创 61.2</span>
-        <span><span class="legend-dot" style="background:var(--accent-red)"></span>天孚 60.2</span>
-      </div>
-    </div>
-    <div class="selected-stock-info" id="stockDetail">
-      <strong>源杰科技</strong> 688498.SH · Gate <span style="color:var(--accent-green);font-weight:700">82.4</span> · 毛利率 <span style="color:var(--accent-green)">77.8%</span> · 营收增速 <span style="color:var(--accent-green)">+320.9%</span> · 负债率 <span style="color:var(--accent-green)">10.7%</span> · 趋势 <span style="color:var(--accent-green)">↑ 上升</span>
-    </div>
-  </div>
-
-  <!-- ━━━━ MIDDLE BOTTOM: 财务指标 ━━━━ -->
-  <div class="card">
-    <div class="card-header">
-      <span>💰 核心财务指标</span>
-      <span style="font-size:10px;color:var(--text-muted)">Q1 2026 · 估算</span>
-    </div>
-    <div class="card-body" style="padding:12px 14px">
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <!-- 估值面 -->
-        <div style="flex:1;min-width:200px">
-          <div style="font-size:11px;color:var(--accent-blue);margin-bottom:6px;font-weight:600">📊 估值指标</div>
-          <table class="finance-compact">
-            <thead><tr><th>标的</th><th>市值(亿)</th><th>PE</th><th>PEG</th></tr></thead>
-            <tbody>
-              <tr><td class="name-col" style="color:var(--accent-cyan)">源杰科技</td><td>1743</td><td style="color:var(--accent-red)">167.6</td><td style="color:var(--accent-red)">5.89</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-blue)">光启技术</td><td>834</td><td style="color:var(--accent-red)">118.2</td><td style="color:var(--accent-red)">16.4</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-yellow)">安集科技</td><td>512</td><td style="color:var(--accent-green)">47.4</td><td style="color:var(--accent-yellow)">2.62</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-purple)">睿创微纳</td><td>610</td><td style="color:var(--accent-green)">32.7</td><td style="color:var(--accent-green)">1.25</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-red)">天孚通信</td><td>3065</td><td style="color:var(--accent-red)">110.9</td><td style="color:var(--accent-red)">3.37</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- 盈利面 -->
-        <div style="flex:1;min-width:220px">
-          <div style="font-size:11px;color:var(--accent-green);margin-bottom:6px;font-weight:600">📈 盈利指标</div>
-          <table class="finance-compact">
-            <thead><tr><th>标的</th><th>净利率</th><th>净利增速</th><th>毛利率</th><th>营收增速</th><th>负债率</th></tr></thead>
-            <tbody>
-              <tr><td class="name-col" style="color:var(--accent-cyan)">源杰</td><td style="color:var(--accent-green)">59.5%</td><td style="color:var(--accent-yellow)">28.4%</td><td style="color:var(--accent-green)">77.8%</td><td style="color:var(--accent-green)">+320.9%</td><td style="color:var(--accent-green)">10.7%</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-blue)">光启</td><td style="color:var(--accent-yellow)">38.5%</td><td style="color:var(--accent-red)">7.2%</td><td style="color:var(--accent-yellow)">49.9%</td><td>+40.3%</td><td style="color:var(--accent-green)">18.6%</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-yellow)">安集</td><td style="color:var(--accent-yellow)">30.8%</td><td style="color:var(--accent-yellow)">18.1%</td><td style="color:var(--accent-green)">55.5%</td><td>+32.8%</td><td style="color:var(--accent-green)">15.7%</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-purple)">睿创</td><td style="color:var(--accent-yellow)">27.2%</td><td style="color:var(--accent-yellow)">26.2%</td><td style="color:var(--accent-green)">53.4%</td><td style="color:var(--accent-green)">+71.1%</td><td style="color:var(--accent-yellow)">36.1%</td></tr>
-              <tr><td class="name-col" style="color:var(--accent-red)">天孚</td><td style="color:var(--accent-green)">43.4%</td><td style="color:var(--accent-green)">32.9%</td><td style="color:var(--accent-green)">56.6%</td><td>+40.8%</td><td style="color:var(--accent-green)">14.3%</td></tr>
-            </tbody>
-          </table>
+      <div class="card-body" style="overflow-y:visible">
+        <div class="radar-container"><svg id="radarSvg" viewBox="0 0 320 320" width="260" height="260"></svg></div>
+        <div class="radar-legend">
+          <span><span class="legend-dot" style="background:var(--accent-cyan)"></span>源杰 82.4</span>
+          <span><span class="legend-dot" style="background:var(--accent-blue)"></span>光启 79.8</span>
+          <span><span class="legend-dot" style="background:var(--accent-yellow)"></span>安集 67.1</span>
+          <span><span class="legend-dot" style="background:var(--accent-purple)"></span>睿创 61.2</span>
+          <span><span class="legend-dot" style="background:var(--accent-red)"></span>天孚 60.2</span>
         </div>
       </div>
-      <div style="padding-top:8px;margin-top:8px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border)">
-        市值=不复权价×总股本 · PE=市价÷EPS年化(Q1×4) · 净利率≈营业利润率 · 净利增速≈ROE年化 · 数据源: Sina
+      <div class="stock-info-bar" id="stockDetail">
+        <strong>源杰科技</strong> 688498.SH · Gate <span style="color:var(--accent-green);font-weight:700">82.4</span> · 毛利率 <span style="color:var(--accent-green)">77.8%</span> · 营收增速 <span style="color:var(--accent-green)">+320.9%</span> · 负债率 <span style="color:var(--accent-green)">10.7%</span> · 趋势 <span style="color:var(--accent-green)">↑ 上升</span>
       </div>
     </div>
   </div>
 
-  <!-- ━━━━ RIGHT: 3 Equal Cards ━━━━ -->
-  <div id="rightCol">
-    <!-- Backtest -->
-    <div class="card">
-      <div class="card-header">
-        <span>📊 M2 回测 & 仓位校准</span>
-        <span style="font-size:10px;color:var(--accent-cyan)">凯利半仓</span>
+  <div style="grid-row:2">
+    <div class="card" style="flex:1;min-height:0">
+      <div class="tab-bar">
+        <div class="tab-btn active" onclick="switchTab('finance')">💰 财务指标</div>
+        <div class="tab-btn" onclick="switchTab('backtest')">📊 回测仓位</div>
+        <div class="tab-btn" onclick="switchTab('risk')">🚨 风险监控</div>
       </div>
-      <div class="card-body p0" style="padding:6px 10px">
-        <table class="bt-table">
-          <thead>
-            <tr><th>标的</th><th style="text-align:center">T1突破</th><th style="text-align:center">T2金叉</th><th style="text-align:center">T3背离</th><th style="text-align:right">仓位</th></tr>
-          </thead>
-          <tbody>
-            <tr><td style="color:var(--accent-cyan)">源杰</td><td style="text-align:center">9.3%</td><td style="text-align:center">2.8%</td><td style="text-align:center">2.8%</td><td style="text-align:right"><b style="color:var(--accent-cyan)">30%</b></td></tr>
-            <tr><td style="color:var(--accent-blue)">光启</td><td style="text-align:center">10.5%</td><td style="text-align:center">3.7%</td><td style="text-align:center"><span style="color:var(--accent-yellow)">4.6%</span></td><td style="text-align:right"><b style="color:var(--accent-blue)">30%</b></td></tr>
-            <tr><td style="color:var(--accent-yellow)">安集</td><td style="text-align:center">10.4%</td><td style="text-align:center">3.3%</td><td style="text-align:center">3.6%</td><td style="text-align:right"><span style="color:var(--accent-yellow)">20%</span></td></tr>
-            <tr><td style="color:var(--accent-purple)">睿创</td><td style="text-align:center">10.7%</td><td style="text-align:center">2.8%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span style="color:var(--text-secondary)">10%</span></td></tr>
-            <tr><td style="color:var(--accent-red)">天孚</td><td style="text-align:center"><span style="color:var(--accent-yellow)">12.5%</span></td><td style="text-align:center">3.0%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span style="color:var(--text-secondary)">10%</span></td></tr>
-            <tr class="avg-row"><td>池均</td><td style="text-align:center">10.7%</td><td style="text-align:center">3.1%</td><td style="text-align:center">3.7%</td><td style="text-align:right">100%</td></tr>
-          </tbody>
-        </table>
-        <div class="bt-note" style="padding-top:4px;border-top:1px solid var(--border);margin-top:4px">凯利半仓 · 30%单票上限 · Kimi+Sina</div>
-      </div>
-    </div>
 
-    <!-- Risk -->
-    <div class="card">
-      <div class="card-header">
-        <span>🚨 风险告警面板</span>
-        <span style="font-size:10px;color:var(--accent-red)">2 条活跃</span>
+      <!-- Finance Tab -->
+      <div class="tab-panel active" id="tab-finance">
+        <div style="display:flex;gap:10px;padding:8px 0;flex-wrap:wrap">
+          <div style="flex:1;min-width:180px" class="fin-section">
+            <div class="fin-label">📊 估值指标</div>
+            <table class="fin-table"><thead><tr><th>标的</th><th>市值(亿)</th><th>PE</th><th>PEG</th></tr></thead><tbody>
+              <tr><td class="name" style="color:var(--accent-cyan)">源杰科技</td><td>1743</td><td style="color:var(--accent-red)">167.6</td><td style="color:var(--accent-red)">5.89</td></tr>
+              <tr><td class="name" style="color:var(--accent-blue)">光启技术</td><td>834</td><td style="color:var(--accent-red)">118.2</td><td style="color:var(--accent-red)">16.4</td></tr>
+              <tr><td class="name" style="color:var(--accent-yellow)">安集科技</td><td>512</td><td style="color:var(--accent-green)">47.4</td><td style="color:var(--accent-yellow)">2.62</td></tr>
+              <tr><td class="name" style="color:var(--accent-purple)">睿创微纳</td><td>610</td><td style="color:var(--accent-green)">32.7</td><td style="color:var(--accent-green)">1.25</td></tr>
+              <tr><td class="name" style="color:var(--accent-red)">天孚通信</td><td>3065</td><td style="color:var(--accent-red)">110.9</td><td style="color:var(--accent-red)">3.37</td></tr>
+            </tbody></table>
+          </div>
+          <div style="flex:1.4;min-width:260px" class="fin-section">
+            <div class="fin-label">📈 盈利指标</div>
+            <table class="fin-table"><thead><tr><th>标的</th><th>净利率</th><th>净利增速</th><th>毛利率</th><th>营收增速</th><th>负债率</th></tr></thead><tbody>
+              <tr><td class="name" style="color:var(--accent-cyan)">源杰</td><td style="color:var(--accent-green)">59.5%</td><td style="color:var(--accent-yellow)">28.4%</td><td style="color:var(--accent-green)">77.8%</td><td style="color:var(--accent-green)">+320.9%</td><td style="color:var(--accent-green)">10.7%</td></tr>
+              <tr><td class="name" style="color:var(--accent-blue)">光启</td><td style="color:var(--accent-yellow)">38.5%</td><td style="color:var(--accent-red)">7.2%</td><td style="color:var(--accent-yellow)">49.9%</td><td>+40.3%</td><td style="color:var(--accent-green)">18.6%</td></tr>
+              <tr><td class="name" style="color:var(--accent-yellow)">安集</td><td style="color:var(--accent-yellow)">30.8%</td><td style="color:var(--accent-yellow)">18.1%</td><td style="color:var(--accent-green)">55.5%</td><td>+32.8%</td><td style="color:var(--accent-green)">15.7%</td></tr>
+              <tr><td class="name" style="color:var(--accent-purple)">睿创</td><td style="color:var(--accent-yellow)">27.2%</td><td style="color:var(--accent-yellow)">26.2%</td><td style="color:var(--accent-green)">53.4%</td><td style="color:var(--accent-green)">+71.1%</td><td style="color:var(--accent-yellow)">36.1%</td></tr>
+              <tr><td class="name" style="color:var(--accent-red)">天孚</td><td style="color:var(--accent-green)">43.4%</td><td style="color:var(--accent-green)">32.9%</td><td style="color:var(--accent-green)">56.6%</td><td>+40.8%</td><td style="color:var(--accent-green)">14.3%</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+        <div class="fin-note">Q1 2026 · 估算 ｜ 市值=不复权价×总股本 ｜ PE=市价÷EPS年化(Q1×4) ｜ 净利率≈营业利润率 ｜ 净利增速≈ROE年化 ｜ 数据源: Sina</div>
       </div>
-      <div class="card-body p0">
+
+      <!-- Backtest Tab -->
+      <div class="tab-panel" id="tab-backtest">
+        <div class="bt-wrap">
+          <div style="font-size:10.5px;color:var(--text-muted);margin-bottom:6px">基于凯利半仓公式 · 历史触发频率 · 单票上限30%</div>
+          <table class="bt-table">
+            <thead><tr><th>标的</th><th style="text-align:center">T1 突破</th><th style="text-align:center">T2 放量</th><th style="text-align:center">T3 基底</th><th style="text-align:right">凯利仓位</th><th style="text-align:right">Gain/Pain</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--accent-cyan)">源杰科技</td><td style="text-align:center">9.3%</td><td style="text-align:center">2.8%</td><td style="text-align:center">2.8%</td><td style="text-align:right"><b style="color:var(--accent-cyan)">30%</b></td><td style="text-align:right;color:var(--accent-green)">2.1</td></tr>
+              <tr><td style="color:var(--accent-blue)">光启技术</td><td style="text-align:center">10.5%</td><td style="text-align:center">3.7%</td><td style="text-align:center;color:var(--accent-yellow)">4.6%</td><td style="text-align:right"><b style="color:var(--accent-blue)">30%</b></td><td style="text-align:right;color:var(--accent-green)">1.8</td></tr>
+              <tr><td style="color:var(--accent-yellow)">安集科技</td><td style="text-align:center">10.4%</td><td style="text-align:center">3.3%</td><td style="text-align:center">3.6%</td><td style="text-align:right"><span style="color:var(--accent-yellow)">20%</span></td><td style="text-align:right;color:var(--accent-yellow)">1.2</td></tr>
+              <tr><td style="color:var(--accent-purple)">睿创微纳</td><td style="text-align:center">10.7%</td><td style="text-align:center">2.8%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td><td style="text-align:right">0.9</td></tr>
+              <tr><td style="color:var(--accent-red)">天孚通信</td><td style="text-align:center">12.5%</td><td style="text-align:center">3.0%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td><td style="text-align:right">0.8</td></tr>
+            </tbody>
+          </table>
+          <div class="signal-grid">
+            <div class="signal-card"><div class="val" style="color:var(--accent-green)">0/5</div><div class="lab">今日触发信号</div></div>
+            <div class="signal-card"><div class="val" style="color:var(--accent-blue)">15</div><div class="lab">历史触发次数</div></div>
+            <div class="signal-card"><div class="val" style="color:var(--accent-yellow)">68%</div><div class="lab">触发后30日胜率</div></div>
+          </div>
+          <div class="bt-note">凯利半仓公式 · Kimi同花顺+Sina · 回测窗口 2021-2026</div>
+        </div>
+      </div>
+
+      <!-- Risk Tab -->
+      <div class="tab-panel" id="tab-risk">
+        <div class="risk-summary">
+          ⚠️ <strong>2 条严重</strong> · 1 条关注 · 2 条正常 ｜ Kill条款监控中
+        </div>
         <div class="risk-item">
           <div class="risk-icon high">⚠</div>
-          <div class="risk-info">
-            <div class="stock">源杰科技 688498</div>
-            <div class="desc">公司副总被刑事拘留，治理风险显著上升</div>
-          </div>
+          <div class="risk-info"><div class="stock">源杰科技 688498</div><div class="desc">副总刑拘 · 治理风险显著上升 <span style="color:var(--accent-red)">→ K4 Kill前兆</span></div></div>
           <span class="risk-level high">严重</span>
         </div>
         <div class="risk-item">
           <div class="risk-icon high">⚠</div>
-          <div class="risk-info">
-            <div class="stock">光启技术 002625</div>
-            <div class="desc">前五大客户集中度 90.35%，单一客户依赖度过高</div>
-          </div>
+          <div class="risk-info"><div class="stock">光启技术 002625</div><div class="desc">前5大客户集中度 90.35% · 单一依赖 <span style="color:var(--accent-red)">→ K1 Kill前兆</span></div></div>
           <span class="risk-level high">严重</span>
         </div>
         <div class="risk-item">
           <div class="risk-icon mid">⚡</div>
-          <div class="risk-info">
-            <div class="stock">天孚通信 300394</div>
-            <div class="desc">Gate 评分逼近门槛（60.2），边际标的</div>
-          </div>
+          <div class="risk-info"><div class="stock">天孚通信 300394</div><div class="desc">Gate 60.2 逼近门槛 · 边缘标的</div></div>
           <span class="risk-level mid">关注</span>
         </div>
         <div class="risk-item">
-          <div class="risk-icon none">✓</div>
-          <div class="risk-info">
-            <div class="stock">安集 · 睿创</div>
-            <div class="desc">当前无重大风险告警</div>
-          </div>
+          <div class="risk-icon safe">✓</div>
+          <div class="risk-info"><div class="stock">安集科技 · 睿创微纳</div><div class="desc">当前无 Kill 信号触发</div></div>
           <span class="risk-level safe">正常</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Cron -->
+  <!-- ━━━━ RIGHT: Cron + Status ━━━━ -->
+  <div id="rightCol">
     <div class="card">
-      <div class="card-header">
-        <span>⚙ 系统 Cron 任务</span>
-        <span style="font-size:10px;color:var(--accent-green)">全部运行中</span>
-      </div>
+      <div class="card-header"><span>⚙ 系统任务</span><span style="font-size:10px;color:var(--accent-green)">全部运行中</span></div>
       <div class="card-body p0">
         <div class="cron-item">
           <span class="cron-dot green"></span>
-          <div class="cron-meta">
-            <div class="name">日频扫描</div>
-            <div class="detail">每个交易日收盘后自动扫描全A股</div>
-          </div>
-          <span class="cron-id">93cc4087</span>
+          <div class="cron-meta"><div class="name">日频扫描</div><div class="detail">交易日 15:30 · T1/T2/T3</div></div>
         </div>
         <div class="cron-item">
           <span class="cron-dot blue"></span>
-          <div class="cron-meta">
-            <div class="name">周度复检</div>
-            <div class="detail">每周六对候选池进行深度复检</div>
-          </div>
-          <span class="cron-id">41d1aa88</span>
+          <div class="cron-meta"><div class="name">周度复检</div><div class="detail">周六 · Kill 前兆 + 证据更新</div></div>
         </div>
-        <div style="padding:6px 12px;border-top:1px solid var(--border)">
-          <div style="font-size:9.5px;color:var(--text-muted);margin-bottom:3px">活跃参数组 P01-P08</div>
-          <div class="params-row">
-            <span class="param-tag">P01</span><span class="param-tag">P02</span>
-            <span class="param-tag">P03</span><span class="param-tag">P04</span>
-            <span class="param-tag">P05</span><span class="param-tag">P06</span>
-            <span class="param-tag">P07</span><span class="param-tag">P08</span>
-          </div>
+        <div class="cron-item">
+          <span class="cron-dot blue"></span>
+          <div class="cron-meta"><div class="name">季度复盘</div><div class="detail">季末 · 7 Cohort + 参数治理</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>🔧 活参数 (P01-P08)</span></div>
+      <div class="card-body p0">
+        <div class="params-row">
+          <span class="param-tag" title="Gate准入">P01=60</span>
+          <span class="param-tag" title="Gate逐出">P02=45</span>
+          <span class="param-tag" title="营收增速">P03=20%</span>
+          <span class="param-tag" title="量比阈值">P04=1.5x</span>
+          <span class="param-tag" title="距高阈值">P05=5%</span>
+          <span class="param-tag" title="基底周数">P06=6w</span>
+          <span class="param-tag" title="E1硬止损">P07=15%</span>
+          <span class="param-tag" title="E3浮盈">P08=30%</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="flex:1">
+      <div class="card-header"><span>📡 数据状态</span></div>
+      <div class="card-body p0">
+        <div class="status-list">
+          <div><span>同花顺 (Kimi)</span><span class="ok">●</span></div>
+          <div><span>a-stock-data</span><span class="ok">●</span></div>
+          <div><span>akshare Sina</span><span class="ok">●</span></div>
+          <div><span>Metaso 搜索</span><span class="ok">●</span></div>
+          <div><span>东财 push2</span><span style="color:var(--accent-red)">✕</span></div>
+          <div><span>Agent-Reach</span><span style="color:var(--accent-yellow)">待接入</span></div>
         </div>
       </div>
     </div>
   </div>
 
 </div>
-
-<div class="footer">
-  十倍股跟踪系统 · Gate-Moat Framework · 数据截止 2026-06-12 · 仅供研究参考，不构成投资建议
-</div>
+<div class="footer">十倍股跟踪系统 · Gate-Moat Framework · 数据截止 2026-06-12 · 仅供研究参考，不构成投资建议</div>
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
-function toggleGuide(){
-  var p=document.getElementById('guidePanel');
-  p.classList.toggle('open');
-  document.body.classList.toggle('guide-open');
-}
-function toggleSummary(){
-  var p=document.getElementById('summaryPanel');
-  var g=document.getElementById('guidePanel');
-  if(g.classList.contains('open')){g.classList.remove('open');document.body.classList.remove('guide-open');}
-  p.classList.toggle('open');
-  document.body.classList.toggle('guide-open');
-}
+function toggleGuide(){var p=document.getElementById('guidePanel');p.classList.toggle('open');document.body.classList.toggle('guide-open')}
+function toggleSummary(){var p=document.getElementById('summaryPanel');var g=document.getElementById('guidePanel');if(g.classList.contains('open')){g.classList.remove('open');document.body.classList.remove('guide-open')}p.classList.toggle('open');document.body.classList.toggle('guide-open')}
+function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active')}
 
 (function(){
-  var stocks=[
-    {name:'源杰科技',code:'688498.SH',gate:82.4,irreplace:85,lockin:75,slope:82,customer:78,gross:'77.8',rev:'320.9',trend:'↑',grade:'A',debt:'10.7',risk:'⚠ 副总刑拘',riskLevel:'high'},
-    {name:'光启技术',code:'002625.SZ',gate:79.8,irreplace:88,lockin:72,slope:72,customer:58,gross:'49.9',rev:'40.3',trend:'→',grade:'A',debt:'18.6',risk:'⚠ 客户集中度90.35%',riskLevel:'high'},
-    {name:'安集科技',code:'688019.SH',gate:67.1,irreplace:75,lockin:65,slope:68,customer:62,gross:'55.5',rev:'32.8',trend:'—',grade:'B',debt:'15.7',risk:'',riskLevel:'safe'},
-    {name:'睿创微纳',code:'688002.SH',gate:61.2,irreplace:62,lockin:62,slope:64,customer:60,gross:'53.4',rev:'71.1',trend:'—',grade:'B',debt:'36.1',risk:'',riskLevel:'safe'},
-    {name:'天孚通信',code:'300394.SZ',gate:60.2,irreplace:52,lockin:62,slope:68,customer:60,gross:'56.6',rev:'40.8',trend:'↑',grade:'B',debt:'14.3',risk:'⚠ 边缘标的',riskLevel:'mid'}
-  ];
-
+  var stocks=[{name:'源杰科技',code:'688498.SH',gate:82.4,irreplace:85,lockin:75,slope:82,customer:78,gross:'77.8',rev:'320.9',trend:'↑',grade:'A',debt:'10.7',risk:'⚠ 副总刑拘',riskLevel:'high'},{name:'光启技术',code:'002625.SZ',gate:79.8,irreplace:88,lockin:72,slope:72,customer:58,gross:'49.9',rev:'40.3',trend:'→',grade:'A',debt:'18.6',risk:'⚠ 客户集中度90.35%',riskLevel:'high'},{name:'安集科技',code:'688019.SH',gate:67.1,irreplace:75,lockin:65,slope:68,customer:62,gross:'55.5',rev:'32.8',trend:'—',grade:'B',debt:'15.7',risk:'',riskLevel:'safe'},{name:'睿创微纳',code:'688002.SH',gate:61.2,irreplace:62,lockin:62,slope:64,customer:60,gross:'53.4',rev:'71.1',trend:'—',grade:'B',debt:'36.1',risk:'',riskLevel:'safe'},{name:'天孚通信',code:'300394.SZ',gate:60.2,irreplace:52,lockin:62,slope:68,customer:60,gross:'56.6',rev:'40.8',trend:'↑',grade:'B',debt:'14.3',risk:'⚠ 边缘标的',riskLevel:'mid'}];
   var dims=['Gate','不可替代','锁定效应','价值斜率','客户粘性'];
   var dimKeys=['gate','irreplace','lockin','slope','customer'];
   var colors=['#39d2c0','#58a6ff','#d29922','#a371f7','#f85149'];
-
-  var svg=document.getElementById('radarSvg');
-  var cx=160,cy=160,R=110,N=5;
-
-  function polar(i,val,maxVal){
-    var angle=-Math.PI/2+(2*Math.PI*i)/N;
-    var r=R*(val/maxVal);
-    return {x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle)};
-  }
-
+  var svg=document.getElementById('radarSvg'),cx=160,cy=160,R=100,N=5;
+  function polar(i,val,maxVal){var angle=-Math.PI/2+(2*Math.PI*i)/N;var r=R*(val/maxVal);return {x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle)}}
   function drawRadar(hi){
     var h='';
-    [20,40,60,80,100].forEach(function(lv){
-      var pts=[];
-      for(var i=0;i<N;i++){var p=polar(i,lv,100);pts.push(p.x.toFixed(1)+','+p.y.toFixed(1));}
-      h+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="rgba(48,54,61,0.45)" stroke-width="0.8"/>';
-    });
-    for(var i=0;i<N;i++){
-      var p=polar(i,100,100);
-      h+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'" stroke="rgba(48,54,61,0.6)" stroke-width="0.8"/>';
-    }
-    for(var i=0;i<N;i++){
-      var p=polar(i,112,100);
-      var la=-90+(360/N)*i;
-      var anchor='middle';
-      if(la>0&&la<180)anchor='start';
-      if(la>180)anchor='end';
-      h+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y-4).toFixed(1)+'" text-anchor="'+anchor+'" fill="#8b949e" font-size="9" font-weight="600">'+dims[i]+'</text>';
-    }
-    stocks.forEach(function(s,si){
-      var pts=[];
-      for(var i=0;i<N;i++){var p=polar(i,s[dimKeys[i]],100);pts.push(p.x.toFixed(1)+','+p.y.toFixed(1));}
-      var op=(si===hi)?0.5:0.15;
-      var sw=(si===hi)?2.2:0.9;
-      h+='<polygon points="'+pts.join(' ')+'" fill="'+colors[si]+'" fill-opacity="'+op+'" stroke="'+colors[si]+'" stroke-width="'+sw+'" stroke-linejoin="round"/>';
-    });
-    stocks.forEach(function(s,si){
-      if(si!==hi)return;
-      for(var i=0;i<N;i++){
-        var p=polar(i,s[dimKeys[i]],100);
-        h+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="3" fill="'+colors[si]+'" stroke="#fff" stroke-width="1"/>';
-      }
-    });
-    var hs=stocks[hi];
-    h+='<text x="'+cx+'" y="'+(cy-5)+'" text-anchor="middle" fill="'+colors[hi]+'" font-size="20" font-weight="800">'+hs.gate+'</text>';
-    h+='<text x="'+cx+'" y="'+(cy+12)+'" text-anchor="middle" fill="#8b949e" font-size="9">Gate 综合</text>';
-    svg.innerHTML=h;
+    [20,40,60,80,100].forEach(function(lv){var pts=[];for(var i=0;i<N;i++){var p=polar(i,lv,100);pts.push(p.x.toFixed(1)+','+p.y.toFixed(1))}h+='<polygon points=\"'+pts.join(' ')+'\" fill=\"none\" stroke=\"rgba(48,54,61,0.45)\" stroke-width=\"0.8\"/>'});
+    for(var i=0;i<N;i++){var p=polar(i,100,100);h+='<line x1=\"'+cx+'\" y1=\"'+cy+'\" x2=\"'+p.x.toFixed(1)+'\" y2=\"'+p.y.toFixed(1)+'\" stroke=\"rgba(48,54,61,0.6)\" stroke-width=\"0.8\"/>'}
+    for(var i=0;i<N;i++){var p=polar(i,112,100);var la=-90+(360/N)*i;var anchor='middle';if(la>0&&la<180)anchor='start';if(la>180)anchor='end';h+='<text x=\"'+p.x.toFixed(1)+'\" y=\"'+(p.y-4).toFixed(1)+'\" text-anchor=\"'+anchor+'\" fill=\"#8b949e\" font-size=\"9\" font-weight=\"600\">'+dims[i]+'</text>'}
+    stocks.forEach(function(s,si){var pts=[];for(var i=0;i<N;i++){var p=polar(i,s[dimKeys[i]],100);pts.push(p.x.toFixed(1)+','+p.y.toFixed(1))}var op=(si===hi)?0.5:0.15;var sw=(si===hi)?2.2:0.9;h+='<polygon points=\"'+pts.join(' ')+'\" fill=\"'+colors[si]+'\" fill-opacity=\"'+op+'\" stroke=\"'+colors[si]+'\" stroke-width=\"'+sw+'\" stroke-linejoin=\"round\"/>'});
+    stocks.forEach(function(s,si){if(si!==hi)return;for(var i=0;i<N;i++){var p=polar(i,s[dimKeys[i]],100);h+='<circle cx=\"'+p.x.toFixed(1)+'\" cy=\"'+p.y.toFixed(1)+'\" r=\"3\" fill=\"'+colors[si]+'\" stroke=\"#fff\" stroke-width=\"1\"/>'}});
+    var hs=stocks[hi];h+='<text x=\"'+cx+'\" y=\"'+(cy-5)+'\" text-anchor=\"middle\" fill=\"'+colors[hi]+'\" font-size=\"20\" font-weight=\"800\">'+hs.gate+'</text>';h+='<text x=\"'+cx+'\" y=\"'+(cy+12)+'\" text-anchor=\"middle\" fill=\"#8b949e\" font-size=\"9\">Gate 综合</text>';
+    svg.innerHTML=h
   }
-
-  var activeIdx=0;
-  drawRadar(activeIdx);
-
-  var rows=document.querySelectorAll('.stock-selector');
-  rows.forEach(function(row){
-    row.addEventListener('click',function(){
-      rows.forEach(function(r){r.classList.remove('active');});
-      this.classList.add('active');
-      activeIdx=parseInt(this.dataset.idx);
-      drawRadar(activeIdx);
-      var s=stocks[activeIdx];
-      document.getElementById('radarStockLabel').textContent=s.name+' '+s.code;
-      var tc=s.trend==='↑'?'var(--accent-green)':(s.trend==='→'?'var(--accent-yellow)':'var(--text-secondary)');
-      var tl=s.trend==='↑'?'↑ 上升':(s.trend==='→'?'→ 走平':'— 持平');
-      var df=parseFloat(s.debt);
-      var dc=df>35?'var(--accent-red)':(df>25?'var(--accent-yellow)':'var(--accent-green)');
-      document.getElementById('stockDetail').innerHTML=
-        '<strong>'+s.name+'</strong> '+s.code+' · Gate <span style="color:'+
-        (s.gate>=75?'var(--accent-green)':s.gate>=65?'var(--accent-yellow)':'var(--accent-red)')+
-        ';font-weight:700">'+s.gate+'</span> · 毛利率 <span style="color:var(--accent-green)">'+s.gross+'%</span> · 营收增速 <span style="color:var(--accent-green)">+'+s.rev+'%</span> · 负债率 <span style="color:'+dc+'">'+s.debt+'%</span> · 趋势 <span style="color:'+tc+'">'+tl+'</span>'+
-        (s.risk?' · <span style="color:var(--accent-red)">'+s.risk+'</span>':'');
-    });
-  });
+  var activeIdx=0;drawRadar(activeIdx);
+  document.querySelectorAll('.stock-selector').forEach(function(row){row.addEventListener('click',function(){document.querySelectorAll('.stock-selector').forEach(function(r){r.classList.remove('active')});this.classList.add('active');activeIdx=parseInt(this.dataset.idx);drawRadar(activeIdx);var s=stocks[activeIdx];document.getElementById('radarStockLabel').textContent=s.name+' '+s.code;var tc=s.trend==='↑'?'var(--accent-green)':(s.trend==='→'?'var(--accent-yellow)':'var(--text-secondary)');var tl=s.trend==='↑'?'↑ 上升':(s.trend==='→'?'→ 走平':'— 持平');var df=parseFloat(s.debt);var dc=df>35?'var(--accent-red)':(df>25?'var(--accent-yellow)':'var(--accent-green)');document.getElementById('stockDetail').innerHTML='<strong>'+s.name+'</strong> '+s.code+' · Gate <span style=\"color:'+(s.gate>=75?'var(--accent-green)':s.gate>=65?'var(--accent-yellow)':'var(--accent-red)')+';font-weight:700\">'+s.gate+'</span> · 毛利率 <span style=\"color:var(--accent-green)\">'+s.gross+'%</span> · 营收增速 <span style=\"color:var(--accent-green)\">+'+s.rev+'%</span> · 负债率 <span style=\"color:'+dc+'\">'+s.debt+'%</span> · 趋势 <span style=\"color:'+tc+'\">'+tl+'</span>'+(s.risk?' · <span style=\"color:var(--accent-red)\">'+s.risk+'</span>':'')})})
 })();
 </script>
 </body>
