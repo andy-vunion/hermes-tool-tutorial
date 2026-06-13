@@ -283,12 +283,12 @@ body.guide-open{overflow:auto}
         <div style="display:flex;gap:10px;padding:8px 0;flex-wrap:wrap">
           <div style="flex:1;min-width:180px" class="fin-section">
             <div class="fin-label">📊 估值指标</div>
-            <table class="fin-table"><thead><tr><th>标的</th><th>市值(亿)</th><th>PE</th><th>PEG</th></tr></thead><tbody>
-              <tr><td class="name" style="color:var(--accent-cyan)">源杰科技</td><td>1743</td><td style="color:var(--accent-red)">167.6</td><td style="color:var(--accent-red)">5.89</td></tr>
-              <tr><td class="name" style="color:var(--accent-blue)">光启技术</td><td>834</td><td style="color:var(--accent-red)">118.2</td><td style="color:var(--accent-red)">16.4</td></tr>
-              <tr><td class="name" style="color:var(--accent-yellow)">安集科技</td><td>512</td><td style="color:var(--accent-green)">47.4</td><td style="color:var(--accent-yellow)">2.62</td></tr>
-              <tr><td class="name" style="color:var(--accent-purple)">睿创微纳</td><td>610</td><td style="color:var(--accent-green)">32.7</td><td style="color:var(--accent-green)">1.25</td></tr>
-              <tr><td class="name" style="color:var(--accent-red)">天孚通信</td><td>3065</td><td style="color:var(--accent-red)">110.9</td><td style="color:var(--accent-red)">3.37</td></tr>
+            <table class="fin-table"><thead><tr><th>标的</th><th>市值(亿)</th><th>PE</th><th style="color:var(--accent-yellow)">PEG*</th></tr></thead><tbody>
+              <tr><td class="name" style="color:var(--accent-cyan)">源杰科技</td><td>1743</td><td style="color:var(--accent-red)">167.6</td><td style="color:var(--text-muted);font-size:10px">待核实</td></tr>
+              <tr><td class="name" style="color:var(--accent-blue)">光启技术</td><td>834</td><td style="color:var(--accent-red)">118.2</td><td style="color:var(--text-muted);font-size:10px">待核实</td></tr>
+              <tr><td class="name" style="color:var(--accent-yellow)">安集科技</td><td>512</td><td style="color:var(--accent-green)">47.4</td><td style="color:var(--text-muted);font-size:10px">待核实</td></tr>
+              <tr><td class="name" style="color:var(--accent-purple)">睿创微纳</td><td>610</td><td style="color:var(--accent-green)">32.7</td><td style="color:var(--text-muted);font-size:10px">待核实</td></tr>
+              <tr><td class="name" style="color:var(--accent-red)">天孚通信</td><td>3065</td><td style="color:var(--accent-red)">110.9</td><td style="color:var(--text-muted);font-size:10px">待核实</td></tr>
             </tbody></table>
           </div>
           <div style="flex:1.4;min-width:260px" class="fin-section">
@@ -302,7 +302,7 @@ body.guide-open{overflow:auto}
             </tbody></table>
           </div>
         </div>
-        <div class="fin-note">Q1 2026 · 估算 ｜ 市值=不复权价×总股本 ｜ PE=市价÷EPS年化(Q1×4) ｜ 净利率≈营业利润率 ｜ 净利增速≈ROE年化 ｜ 数据源: Sina</div>
+        <div class="fin-note">Q1 2026 · 估算 ｜ PE=股价÷EPS年化(Q1×4) ｜ *PEG=PE÷净利增速(%)，因缺少真实净利同比数据暂无法计算 · 待 Kimi 同花顺补全</div>
       </div>
 
       <!-- Backtest Tab -->
