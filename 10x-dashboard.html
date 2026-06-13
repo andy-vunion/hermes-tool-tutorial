@@ -13,23 +13,19 @@
   --accent-blue:#58a6ff;--accent-purple:#a371f7;--accent-cyan:#39d2c0;
   --card-radius:8px;--transition:0.2s ease;
 }
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
-  background:var(--bg-primary);color:var(--text-primary);
-  height:100vh;overflow:hidden;display:flex;flex-direction:column;
-  padding:8px 10px;line-height:1.4;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg-primary);color:var(--text-primary);height:100vh;overflow:hidden;display:flex;flex-direction:column;padding:8px 10px;line-height:1.4}
 body.guide-open{overflow:auto}
+
 /* Header */
-.header{
-  background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);
-  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:6px;flex-shrink:0;
-}
-.header-left{display:flex;align-items:center;gap:8px}
+.header{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.header-left{display:flex;align-items:center;gap:10px}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--accent-green),var(--accent-cyan));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#0d1117}
 .header h1{font-size:16px;font-weight:700}
 .header h1 span{color:var(--accent-green)}
+.mode-bar{display:flex;gap:0;background:var(--bg-tertiary);border-radius:6px;overflow:hidden}
+.mode-btn{padding:6px 16px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text-secondary);background:none;border:none;transition:all .15s}
+.mode-btn:hover{color:var(--text-primary)}
+.mode-btn.active{background:var(--accent-blue);color:#fff}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .sys-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid}
 .sys-badge.live{background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.3);color:var(--accent-green)}
@@ -37,28 +33,37 @@ body.guide-open{overflow:auto}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .cutoff{font-size:10px;color:var(--text-muted)}
-.header .back-link{color:var(--text-secondary);text-decoration:none;font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);transition:all .15s}
-.header .back-link:hover{color:var(--accent-blue);border-color:var(--accent-blue);background:rgba(88,166,255,.06)}
 .guide-toggle{cursor:pointer;font-size:11px;color:var(--accent-blue);padding:3px 10px;border-radius:4px;border:1px solid rgba(88,166,255,.2);user-select:none;transition:all .15s}
 .guide-toggle:hover{background:rgba(88,166,255,.08)}
-/* Panels */
+.back-link{color:var(--text-secondary);text-decoration:none;font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);transition:all .15s}
+.back-link:hover{color:var(--accent-blue);border-color:var(--accent-blue);background:rgba(88,166,255,.06)}
+
 .guide-panel{display:none;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:14px 18px;margin-bottom:8px;flex-shrink:0}
 .guide-panel.open{display:block}
 .guide-panel h3{font-size:13px;color:var(--accent-blue);margin-bottom:8px}
 .guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 14px;font-size:11px;color:var(--text-secondary);line-height:1.6}
 .guide-grid strong{color:var(--text-primary)}
 
-/* ── 3-Column Grid ── */
-.grid{display:grid;grid-template-columns:280px 1fr 260px;gap:8px;flex:1;min-height:0}
-@media(max-width:1100px){.grid{grid-template-columns:240px 1fr 220px}}
-@media(max-width:800px){.grid{grid-template-columns:1fr}}
-/* Cards */
+/* Mode containers */
+.mode-container{display:none;flex:1;min-height:0}
+.mode-container.active{display:flex;flex-direction:column}
+
+/* STOCK MODE: 3-col grid */
+.stock-grid{display:grid;grid-template-columns:280px 1fr 260px;gap:8px;flex:1;min-height:0}
+@media(max-width:1100px){.stock-grid{grid-template-columns:240px 1fr 220px}}
+@media(max-width:800px){.stock-grid{grid-template-columns:1fr}}
+
+/* SECTOR MODE: 2-col */
+.sector-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;min-height:0;overflow-y:auto;padding-bottom:4px}
+.sector-full{grid-column:1/-1}
+@media(max-width:800px){.sector-grid{grid-template-columns:1fr}}
+
 .card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);overflow:hidden;display:flex;flex-direction:column}
 .card-header{padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:600;flex-shrink:0}
 .card-body{padding:8px 12px;overflow-y:auto;flex:1;min-height:0}
 .card-body.p0{padding:0}
 
-/* ── LEFT: Candidate Pool ── */
+/* Left Col */
 #leftCol{grid-row:1/3;display:flex;flex-direction:column}
 #leftCol .card{flex:1;min-height:0}
 .pool-table{width:100%;border-collapse:collapse;font-size:11px}
@@ -67,7 +72,6 @@ body.guide-open{overflow:auto}
 .pool-table tr{cursor:pointer;transition:background var(--transition)}
 .pool-table tr:hover{background:rgba(88,166,255,.04)}
 .pool-table tr.active{background:rgba(88,166,255,.08);border-left:3px solid var(--accent-blue)}
-.pool-table tr.active td:first-child{padding-left:5px}
 .stock-code{font-weight:700;font-size:12px;color:var(--accent-blue)}
 .stock-name{font-size:10.5px;color:var(--text-secondary)}
 .gate-score{font-weight:700;font-size:14px}
@@ -77,11 +81,9 @@ body.guide-open{overflow:auto}
 .grade-B{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
 .tag-row{display:flex;gap:2px;flex-wrap:wrap;margin-top:1px}
 .tag{font-size:8.5px;padding:1px 5px;border-radius:2px;background:rgba(163,113,247,.12);color:var(--accent-purple);font-weight:600}
-.tag.risk{background:rgba(248,81,73,.12);color:var(--accent-red)}
 .pool-hint{padding:5px 12px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);flex-shrink:0}
 
-/* ── MIDDLE: Radar Top ── */
-.radar-wrap{display:flex;flex-direction:column}
+/* Radar */
 .radar-container{display:flex;align-items:center;justify-content:center;padding:4px 0}
 .radar-container svg{max-width:100%;height:auto}
 .radar-legend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:2px 12px 6px;font-size:10px}
@@ -90,15 +92,15 @@ body.guide-open{overflow:auto}
 .stock-info-bar{padding:5px 12px;border-top:1px solid var(--border);background:rgba(13,17,23,.4);font-size:11px;color:var(--text-secondary);flex-shrink:0}
 .stock-info-bar strong{color:var(--text-primary)}
 
-/* ── MIDDLE BOTTOM: Tabs ── */
+/* Tab bar */
 .tab-bar{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
-.tab-btn{padding:7px 16px;cursor:pointer;font-size:11px;color:var(--text-secondary);border-bottom:2px solid transparent;transition:all .15s;background:none}
+.tab-btn{padding:7px 16px;cursor:pointer;font-size:11px;color:var(--text-secondary);border-bottom:2px solid transparent;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none}
 .tab-btn:hover{color:var(--text-primary)}
 .tab-btn.active{color:var(--accent-blue);border-bottom-color:var(--accent-blue)}
 .tab-panel{display:none;overflow-y:auto;flex:1;min-height:0}
 .tab-panel.active{display:block}
 
-/* Finance tables */
+/* Finance */
 .fin-section{margin-bottom:10px}
 .fin-section:last-child{margin-bottom:0}
 .fin-label{font-size:10.5px;color:var(--accent-blue);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
@@ -106,15 +108,13 @@ body.guide-open{overflow:auto}
 .fin-table th{text-align:left;padding:4px 7px;font-size:9.5px;font-weight:600;color:var(--text-muted);border-bottom:1px solid var(--border);background:rgba(22,27,34,.5)}
 .fin-table td{padding:4px 7px;border-bottom:1px solid rgba(48,54,61,.25)}
 .fin-table .name{font-weight:600}
-.fin-table .avg-row{color:var(--accent-blue);font-weight:600}
 .fin-note{padding-top:6px;margin-top:6px;font-size:9.5px;color:var(--text-muted);border-top:1px solid var(--border)}
 
-/* Backtest table */
+/* Backtest */
 .bt-wrap{padding:6px 0}
 .bt-table{width:100%;border-collapse:collapse;font-size:11px}
 .bt-table th{text-align:left;padding:5px 8px;font-size:10px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:600}
 .bt-table td{padding:5px 8px;border-bottom:1px solid rgba(48,54,61,.25)}
-.bt-table .avg-row{color:var(--text-muted);font-size:10px}
 .bt-note{font-size:10px;color:var(--text-muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
 .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px}
 .signal-card{background:var(--bg-tertiary);border-radius:6px;padding:8px 10px;text-align:center}
@@ -131,27 +131,37 @@ body.guide-open{overflow:auto}
 .risk-info{flex:1;min-width:0}
 .risk-info .stock{font-weight:600;font-size:11.5px}
 .risk-info .desc{font-size:10.5px;color:var(--text-secondary);margin-top:1px}
-.risk-level{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0;align-self:center}
+.risk-level{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0}
 .risk-level.high{background:rgba(248,81,73,.15);color:var(--accent-red)}
 .risk-level.mid{background:rgba(210,153,34,.15);color:var(--accent-yellow)}
 .risk-level.safe{background:rgba(63,185,80,.15);color:var(--accent-green)}
 .risk-summary{font-size:10.5px;color:var(--text-secondary);margin-bottom:6px;padding:6px 8px;background:rgba(248,81,73,.06);border-radius:4px;border-left:3px solid var(--accent-red)}
 
-/* ── RIGHT: Cron + Status ── */
+/* Right */
 #rightCol{grid-row:1/3;display:flex;flex-direction:column;gap:8px}
 #rightCol .card{flex-shrink:0}
 .cron-item{padding:7px 10px;border-bottom:1px solid rgba(48,54,61,.25);display:flex;align-items:center;gap:8px;font-size:10.5px}
 .cron-item:last-child{border-bottom:none}
 .cron-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.cron-dot.green{background:var(--accent-green)}
-.cron-dot.blue{background:var(--accent-blue)}
-.cron-id{font-family:'SF Mono',monospace;font-size:9px;color:var(--text-muted)}
+.cron-dot.green{background:var(--accent-green)}.cron-dot.blue{background:var(--accent-blue)}
 .cron-meta{flex:1}.cron-meta .name{font-weight:600}.cron-meta .detail{font-size:9.5px;color:var(--text-secondary)}
 .params-row{display:flex;flex-wrap:wrap;gap:3px;padding:6px 10px}
 .param-tag{font-size:9px;font-family:'SF Mono',monospace;padding:2px 6px;border-radius:3px;background:rgba(88,166,255,.08);color:var(--accent-blue);border:1px solid rgba(88,166,255,.15)}
 .status-list{padding:6px 10px;font-size:10.5px;color:var(--text-secondary)}
 .status-list div{margin-bottom:3px;display:flex;justify-content:space-between}
 .status-list .ok{color:var(--accent-green)}
+
+/* Sector mode cards */
+.sector-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px}
+.node-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+.node-card{background:var(--bg-tertiary);border-radius:7px;padding:10px}
+.node-card .node-name{font-weight:700;font-size:12px}
+.node-card .node-meta{font-size:10px;color:var(--text-secondary);margin:3px 0}
+.node-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.node-tag{font-size:8.5px;padding:1px 5px;border-radius:2px}
+.flow-card{background:var(--bg-tertiary);border-radius:6px;padding:12px;border-left:3px solid}
+.flow-card .flow-val{font-size:18px;font-weight:700}
+.flow-card .flow-lab{font-size:9.5px;color:var(--text-muted);margin-bottom:2px}
 
 .footer{text-align:center;font-size:9.5px;color:var(--text-muted);padding:4px;flex-shrink:0}
 </style>
@@ -164,7 +174,11 @@ body.guide-open{overflow:auto}
     <div class="logo-icon">10X</div>
     <div>
       <h1>十倍股<span>实时看板</span></h1>
-      <div style="font-size:10px;color:var(--text-muted)">Gate-Moat v2.4 · 日频扫描</div>
+      <div style="font-size:10px;color:var(--text-muted)">Gate-Moat v2.4</div>
+    </div>
+    <div class="mode-bar">
+      <button class="mode-btn active" onclick="switchMode('stocks')">📊 标的监控</button>
+      <button class="mode-btn" onclick="switchMode('sector')">🔗 赛道视图</button>
     </div>
   </div>
   <div class="header-right">
@@ -177,68 +191,46 @@ body.guide-open{overflow:auto}
   </div>
 </header>
 
-<!-- ═══════════════ PANELS ═══════════════ -->
 <div class="guide-panel" id="guidePanel">
   <h3>📖 看板使用说明</h3>
   <div class="guide-grid">
-    <div><strong>📋 候选池</strong> — 按Gate综合分降序。<strong>点击行</strong>切换雷达图标的。</div>
-    <div><strong>🎯 雷达图</strong> — 五维越大越好，不可替代性最关键。</div>
-    <div><strong>💰 财务</strong> — 🟢健康 🟡关注 🔴预警。</div>
-    <div><strong>📊 回测</strong> — T1/T2/T3历史触发频率 + 凯利仓位。</div>
-    <div><strong>🚨 风险</strong> — Kill条款前兆告警。</div>
-    <div><strong>⚙ Cron</strong> — 日频扫描 · 周度复检 · 季度复盘。</div>
+    <div><strong>📊 标的监控</strong> — 候选池+雷达+财务+回测+风险，点击行切换</div>
+    <div><strong>🔗 赛道视图</strong> — 产业链拆解+热度评分+资金流向+美股对标</div>
+    <div><strong>📖 使用说明</strong> — 本面板</div>
+    <div><strong>📊 核心摘要</strong> — 三大系统整合摘要</div>
   </div>
 </div>
 <div class="guide-panel" id="summaryPanel" style="height:85vh">
   <iframe src="10x-summary.html" style="width:100%;height:100%;border:none;border-radius:6px"></iframe>
 </div>
 
-<!-- ═══════════════ 3-COLUMN GRID ═══════════════ -->
-<div class="grid">
+<!-- ═══════════════ MODE: 标的监控 ═══════════════ -->
+<div class="mode-container active" id="mode-stocks">
+<div class="stock-grid">
 
-  <!-- ━━━━ LEFT: 候选池 ━━━━ -->
+  <!-- LEFT: 候选池 -->
   <div id="leftCol">
     <div class="card">
-      <div class="card-header">
-        <span>📋 候选池 · Gate 排序</span>
-        <span style="font-size:10px;color:var(--text-muted)">≥ 60</span>
-      </div>
+      <div class="card-header"><span>📋 候选池 · Gate 排序</span><span style="font-size:10px;color:var(--text-muted)">≥ 60</span></div>
       <div class="card-body p0">
         <table class="pool-table" id="poolTable">
-          <thead>
-            <tr><th>标的</th><th>Gate</th><th>不可替代</th><th>锁定</th><th>斜率</th><th>客户</th></tr>
-          </thead>
+          <thead><tr><th>标的</th><th>Gate</th><th>不可替代</th><th>锁定</th><th>斜率</th><th>客户</th></tr></thead>
           <tbody>
             <tr class="active stock-selector" data-idx="0" data-name="源杰科技" data-code="688498.SH" data-gate="82.4" data-irreplace="85" data-lockin="75" data-slope="82" data-customer="78" data-gross="77.8" data-rev="320.9" data-trend="↑" data-grade="A" data-risk="⚠ 副总刑拘" data-risk-level="high" data-debt="10.7">
               <td><div class="stock-code">688498</div><div class="stock-name">源杰科技</div></td>
-              <td><span class="gate-score gate-high">82.4</span></td>
-              <td><span class="grade-badge grade-A">A 85</span></td>
-              <td>75</td><td>82</td><td>78</td>
-            </tr>
+              <td><span class="gate-score gate-high">82.4</span></td><td><span class="grade-badge grade-A">A 85</span></td><td>75</td><td>82</td><td>78</td></tr>
             <tr class="stock-selector" data-idx="1" data-name="光启技术" data-code="002625.SZ" data-gate="79.8" data-irreplace="88" data-lockin="72" data-slope="72" data-customer="58" data-gross="49.9" data-rev="40.3" data-trend="→" data-grade="A" data-risk="⚠ 客户集中度90.35%" data-risk-level="high" data-debt="18.6">
               <td><div class="stock-code">002625</div><div class="stock-name">光启技术</div></td>
-              <td><span class="gate-score gate-high">79.8</span></td>
-              <td><span class="grade-badge grade-A">A 88</span></td>
-              <td>72</td><td>72</td><td><span style="color:var(--accent-yellow)">58</span></td>
-            </tr>
+              <td><span class="gate-score gate-high">79.8</span></td><td><span class="grade-badge grade-A">A 88</span></td><td>72</td><td>72</td><td><span style="color:var(--accent-yellow)">58</span></td></tr>
             <tr class="stock-selector" data-idx="2" data-name="安集科技" data-code="688019.SH" data-gate="67.1" data-irreplace="75" data-lockin="65" data-slope="68" data-customer="62" data-gross="55.5" data-rev="32.8" data-trend="—" data-grade="B" data-risk="" data-risk-level="safe" data-debt="15.7">
               <td><div class="stock-code">688019</div><div class="stock-name">安集科技</div></td>
-              <td><span class="gate-score gate-mid">67.1</span></td>
-              <td><span class="grade-badge grade-B">B 75</span></td>
-              <td>65</td><td>68</td><td>62</td>
-            </tr>
+              <td><span class="gate-score gate-mid">67.1</span></td><td><span class="grade-badge grade-B">B 75</span></td><td>65</td><td>68</td><td>62</td></tr>
             <tr class="stock-selector" data-idx="3" data-name="睿创微纳" data-code="688002.SH" data-gate="61.2" data-irreplace="62" data-lockin="62" data-slope="64" data-customer="60" data-gross="53.4" data-rev="71.1" data-trend="—" data-grade="B" data-risk="" data-risk-level="safe" data-debt="36.1">
               <td><div class="stock-code">688002</div><div class="stock-name">睿创微纳</div></td>
-              <td><span class="gate-score gate-low">61.2</span></td>
-              <td><span class="grade-badge grade-B">B 62</span></td>
-              <td>62</td><td>64</td><td>60</td>
-            </tr>
+              <td><span class="gate-score gate-low">61.2</span></td><td><span class="grade-badge grade-B">B 62</span></td><td>62</td><td>64</td><td>60</td></tr>
             <tr class="stock-selector" data-idx="4" data-name="天孚通信" data-code="300394.SZ" data-gate="60.2" data-irreplace="52" data-lockin="62" data-slope="68" data-customer="60" data-gross="56.6" data-rev="40.8" data-trend="↑" data-grade="B" data-risk="⚠ 边缘标的" data-risk-level="mid" data-debt="14.3">
               <td><div class="stock-code">300394</div><div class="stock-name">天孚通信</div><div class="tag-row"><span class="tag">边缘</span></div></td>
-              <td><span class="gate-score gate-low">60.2</span></td>
-              <td><span class="grade-badge grade-B">B 52</span></td>
-              <td>62</td><td><span style="color:var(--accent-green)">68</span></td><td>60</td>
-            </tr>
+              <td><span class="gate-score gate-low">60.2</span></td><td><span class="grade-badge grade-B">B 52</span></td><td>62</td><td><span style="color:var(--accent-green)">68</span></td><td>60</td></tr>
           </tbody>
         </table>
       </div>
@@ -246,13 +238,10 @@ body.guide-open{overflow:auto}
     </div>
   </div>
 
-  <!-- ━━━━ MIDDLE ━━━━ -->
-  <div class="radar-wrap" style="grid-row:1">
+  <!-- MIDDLE TOP: Radar -->
+  <div style="grid-row:1">
     <div class="card" style="flex:1;min-height:0">
-      <div class="card-header">
-        <span>🎯 Gate-Moat 五维雷达</span>
-        <span style="font-size:10px;color:var(--text-muted)" id="radarStockLabel">源杰科技 688498.SH</span>
-      </div>
+      <div class="card-header"><span>🎯 Gate-Moat 五维雷达</span><span style="font-size:10px;color:var(--text-muted)" id="radarStockLabel">源杰科技 688498.SH</span></div>
       <div class="card-body" style="overflow-y:visible">
         <div class="radar-container"><svg id="radarSvg" viewBox="0 0 320 320" width="260" height="260"></svg></div>
         <div class="radar-legend">
@@ -269,16 +258,14 @@ body.guide-open{overflow:auto}
     </div>
   </div>
 
+  <!-- MIDDLE BOTTOM: Tabs -->
   <div style="grid-row:2">
     <div class="card" style="flex:1;min-height:0">
       <div class="tab-bar">
-        <div class="tab-btn" onclick="switchTab('chain')">🔗 产业链</div>
         <div class="tab-btn active" onclick="switchTab('finance')">💰 财务指标</div>
         <div class="tab-btn" onclick="switchTab('backtest')">📊 回测仓位</div>
         <div class="tab-btn" onclick="switchTab('risk')">🚨 风险监控</div>
       </div>
-
-      <!-- Finance Tab -->
       <div class="tab-panel active" id="tab-finance">
         <div style="display:flex;gap:10px;padding:8px 0;flex-wrap:wrap">
           <div style="flex:1;min-width:180px" class="fin-section">
@@ -302,227 +289,171 @@ body.guide-open{overflow:auto}
             </tbody></table>
           </div>
         </div>
-        <div class="fin-note">Q1 2026 · 估算 ｜ PE=股价÷EPS年化(Q1×4) ｜ *PEG=PE÷净利增速(%)，因缺少真实净利同比数据暂无法计算 · 待 Kimi 同花顺补全</div>
+        <div class="fin-note">Q1 2026 · 估算 ｜ PE=股价÷EPS年化(Q1×4) ｜ *PEG=PE÷净利增速(%)，待 Kimi 同花顺补全</div>
       </div>
-
-      <!-- Backtest Tab -->
       <div class="tab-panel" id="tab-backtest">
         <div class="bt-wrap">
-          <div style="font-size:10.5px;color:var(--text-muted);margin-bottom:6px">基于凯利半仓公式 · 历史触发频率 · 单票上限30%</div>
+          <div style="font-size:10.5px;color:var(--text-muted);margin-bottom:6px">凯利半仓公式 · 历史触发频率 · 单票上限30%</div>
           <table class="bt-table">
-            <thead><tr><th>标的</th><th style="text-align:center">T1 突破</th><th style="text-align:center">T2 放量</th><th style="text-align:center">T3 基底</th><th style="text-align:right">凯利仓位</th><th style="text-align:right">Gain/Pain</th></tr></thead>
+            <thead><tr><th>标的</th><th style="text-align:center">T1突破</th><th style="text-align:center">T2放量</th><th style="text-align:center">T3基底</th><th style="text-align:right">仓位</th></tr></thead>
             <tbody>
-              <tr><td style="color:var(--accent-cyan)">源杰科技</td><td style="text-align:center">9.3%</td><td style="text-align:center">2.8%</td><td style="text-align:center">2.8%</td><td style="text-align:right"><b style="color:var(--accent-cyan)">30%</b></td><td style="text-align:right;color:var(--accent-green)">2.1</td></tr>
-              <tr><td style="color:var(--accent-blue)">光启技术</td><td style="text-align:center">10.5%</td><td style="text-align:center">3.7%</td><td style="text-align:center;color:var(--accent-yellow)">4.6%</td><td style="text-align:right"><b style="color:var(--accent-blue)">30%</b></td><td style="text-align:right;color:var(--accent-green)">1.8</td></tr>
-              <tr><td style="color:var(--accent-yellow)">安集科技</td><td style="text-align:center">10.4%</td><td style="text-align:center">3.3%</td><td style="text-align:center">3.6%</td><td style="text-align:right"><span style="color:var(--accent-yellow)">20%</span></td><td style="text-align:right;color:var(--accent-yellow)">1.2</td></tr>
-              <tr><td style="color:var(--accent-purple)">睿创微纳</td><td style="text-align:center">10.7%</td><td style="text-align:center">2.8%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td><td style="text-align:right">0.9</td></tr>
-              <tr><td style="color:var(--accent-red)">天孚通信</td><td style="text-align:center">12.5%</td><td style="text-align:center">3.0%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td><td style="text-align:right">0.8</td></tr>
+              <tr><td style="color:var(--accent-cyan)">源杰科技</td><td style="text-align:center">9.3%</td><td style="text-align:center">2.8%</td><td style="text-align:center">2.8%</td><td style="text-align:right"><b style="color:var(--accent-cyan)">30%</b></td></tr>
+              <tr><td style="color:var(--accent-blue)">光启技术</td><td style="text-align:center">10.5%</td><td style="text-align:center">3.7%</td><td style="text-align:center;color:var(--accent-yellow)">4.6%</td><td style="text-align:right"><b style="color:var(--accent-blue)">30%</b></td></tr>
+              <tr><td style="color:var(--accent-yellow)">安集科技</td><td style="text-align:center">10.4%</td><td style="text-align:center">3.3%</td><td style="text-align:center">3.6%</td><td style="text-align:right"><span style="color:var(--accent-yellow)">20%</span></td></tr>
+              <tr><td style="color:var(--accent-purple)">睿创微纳</td><td style="text-align:center">10.7%</td><td style="text-align:center">2.8%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td></tr>
+              <tr><td style="color:var(--accent-red)">天孚通信</td><td style="text-align:center">12.5%</td><td style="text-align:center">3.0%</td><td style="text-align:center">3.7%</td><td style="text-align:right"><span>10%</span></td></tr>
             </tbody>
           </table>
-          <div class="signal-grid">
-            <div class="signal-card"><div class="val" style="color:var(--accent-green)">0/5</div><div class="lab">今日触发信号</div></div>
-            <div class="signal-card"><div class="val" style="color:var(--accent-blue)">15</div><div class="lab">历史触发次数</div></div>
-            <div class="signal-card"><div class="val" style="color:var(--accent-yellow)">68%</div><div class="lab">触发后30日胜率</div></div>
-          </div>
-          <div class="bt-note">凯利半仓公式 · Kimi同花顺+Sina · 回测窗口 2021-2026</div>
+          <div class="bt-note">凯利半仓 · 回测窗口 2021-2026</div>
         </div>
       </div>
-
-      <!-- Risk Tab -->
       <div class="tab-panel" id="tab-risk">
-        <div class="risk-summary">
-          ⚠️ <strong>2 条严重</strong> · 1 条关注 · 2 条正常 ｜ Kill条款监控中
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon high">⚠</div>
-          <div class="risk-info"><div class="stock">源杰科技 688498</div><div class="desc">副总刑拘 · 治理风险显著上升 <span style="color:var(--accent-red)">→ K4 Kill前兆</span></div></div>
-          <span class="risk-level high">严重</span>
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon high">⚠</div>
-          <div class="risk-info"><div class="stock">光启技术 002625</div><div class="desc">前5大客户集中度 90.35% · 单一依赖 <span style="color:var(--accent-red)">→ K1 Kill前兆</span></div></div>
-          <span class="risk-level high">严重</span>
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon mid">⚡</div>
-          <div class="risk-info"><div class="stock">天孚通信 300394</div><div class="desc">Gate 60.2 逼近门槛 · 边缘标的</div></div>
-          <span class="risk-level mid">关注</span>
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon safe">✓</div>
-          <div class="risk-info"><div class="stock">安集科技 · 睿创微纳</div><div class="desc">当前无 Kill 信号触发</div></div>
-          <span class="risk-level safe">正常</span>
-        </div>
+        <div class="risk-summary">⚠️ <strong>2 条严重</strong> · 1 条关注 · Kill条款监控中</div>
+        <div class="risk-item"><div class="risk-icon high">⚠</div><div class="risk-info"><div class="stock">源杰科技 688498</div><div class="desc">副总刑拘 · 治理风险 → K4 Kill前兆</div></div><span class="risk-level high">严重</span></div>
+        <div class="risk-item"><div class="risk-icon high">⚠</div><div class="risk-info"><div class="stock">光启技术 002625</div><div class="desc">客户集中度90.35% → K1 Kill前兆</div></div><span class="risk-level high">严重</span></div>
+        <div class="risk-item"><div class="risk-icon mid">⚡</div><div class="risk-info"><div class="stock">天孚通信 300394</div><div class="desc">Gate 60.2 逼近门槛</div></div><span class="risk-level mid">关注</span></div>
+        <div class="risk-item"><div class="risk-icon safe">✓</div><div class="risk-info"><div class="stock">安集 · 睿创</div><div class="desc">当前无 Kill 信号</div></div><span class="risk-level safe">正常</span></div>
       </div>
-      <!-- ═══════════ CHAIN TAB ═══════════ -->
-      <div class="tab-panel" id="tab-chain" style="display:flex;flex-direction:column;gap:16px;padding:16px 20px 20px;overflow-y:auto;max-height:calc(100vh - 160px);">
+    </div>
+  </div>
 
-  <div style="display:flex;gap:16px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:260px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:18px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <span style="background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));color:#fff;font-weight:700;font-size:15px;padding:3px 10px;border-radius:4px;">S</span>
-        <span style="color:var(--text-primary);font-size:17px;font-weight:700;">AI算力</span>
+  <!-- RIGHT -->
+  <div id="rightCol">
+    <div class="card"><div class="card-header"><span>⚙ 系统任务</span><span style="font-size:10px;color:var(--accent-green)">全部运行中</span></div>
+      <div class="card-body p0">
+        <div class="cron-item"><span class="cron-dot green"></span><div class="cron-meta"><div class="name">日频扫描</div><div class="detail">交易日 15:30 · T1/T2/T3</div></div></div>
+        <div class="cron-item"><span class="cron-dot blue"></span><div class="cron-meta"><div class="name">周度复检</div><div class="detail">周六 · Kill前兆+证据更新</div></div></div>
+        <div class="cron-item"><span class="cron-dot blue"></span><div class="cron-meta"><div class="name">季度复盘</div><div class="detail">季末 · 7 Cohort+参数治理</div></div></div>
+      </div></div>
+    <div class="card"><div class="card-header"><span>🔧 活参数 P01-P08</span></div>
+      <div class="card-body p0"><div class="params-row">
+        <span class="param-tag">P01=60</span><span class="param-tag">P02=45</span><span class="param-tag">P03=20%</span><span class="param-tag">P04=1.5x</span>
+        <span class="param-tag">P05=5%</span><span class="param-tag">P06=6w</span><span class="param-tag">P07=15%</span><span class="param-tag">P08=30%</span>
+      </div></div></div>
+    <div class="card" style="flex:1"><div class="card-header"><span>📡 数据源</span></div>
+      <div class="card-body p0"><div class="status-list">
+        <div><span>同花顺 Kimi</span><span class="ok">●</span></div>
+        <div><span>a-stock-data</span><span class="ok">●</span></div>
+        <div><span>akshare Sina</span><span class="ok">●</span></div>
+        <div><span>Metaso</span><span class="ok">●</span></div>
+        <div><span>东财 push2</span><span style="color:var(--accent-red)">✕</span></div>
+      </div></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ MODE: 赛道视图 ═══════════════ -->
+<div class="mode-container" id="mode-sector">
+<div class="sector-grid">
+
+  <!-- Sector Header + Heat -->
+  <div class="sector-card" style="display:flex;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:280px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));color:#fff;font-weight:700;font-size:16px;padding:4px 12px;border-radius:4px;">S</span>
+        <span style="font-size:20px;font-weight:700;">AI算力</span>
         <span style="background:var(--accent-green);color:#0d1117;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;">HOTSPOT</span>
       </div>
-      <div style="color:var(--text-secondary);font-size:12px;line-height:1.6;">
+      <div style="color:var(--text-secondary);font-size:12px;line-height:1.7;">
         <div>📍 成长期 · 渗透率 15% · 置信度 High</div>
-        <div>📈 营收加速增长 · 利润率扩张中</div>
-        <div>🏛️ 2026政府工作报告"人工智能+"行动</div>
+        <div>📈 营收加速增长 · 利润率扩张中 · 政策强信号</div>
       </div>
-      <div style="margin-top:12px;display:flex;align-items:center;gap:8px;">
-        <div style="flex:1;height:6px;border-radius:3px;background:var(--bg-primary);overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent-green),var(--accent-yellow),var(--accent-red));box-shadow:0 0 8px rgba(63,185,80,0.4);"></div></div>
-        <span style="font-weight:800;font-size:22px;color:var(--accent-green);">85</span><span style="font-size:11px;color:var(--text-secondary);">/100</span>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;border-radius:4px;background:var(--bg-tertiary);overflow:hidden;"><div style="width:85%;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent-green),var(--accent-yellow),var(--accent-red));"></div></div>
+        <span style="font-weight:800;font-size:24px;color:var(--accent-green);">85</span><span style="font-size:11px;color:var(--text-muted);">/100</span>
       </div>
     </div>
-    <div style="flex:1.8;min-width:400px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
-      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">🔥 六维热度明细</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">资金</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:88%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">88</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">基本</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:82%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">82</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">政策</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:90%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">90</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">产业</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:85%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-green);min-width:24px;">85</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">情绪</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-yellow);min-width:24px;">78</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-secondary);width:42px;">价格</span><div style="flex:1;height:5px;background:var(--bg-primary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:var(--accent-yellow);min-width:24px;">78</span></div>
+    <div style="flex:1.5;min-width:360px;">
+      <div style="font-size:12px;font-weight:700;margin-bottom:8px;">🔥 六维热度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">资金</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:88%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-green);">88</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">基本</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:82%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-green);">82</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">政策</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:90%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-green);">90</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">产业</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:85%;height:100%;background:var(--accent-green);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-green);">85</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">情绪</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-yellow);">78</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--text-secondary);width:36px;">价格</span><div style="flex:1;height:5px;background:var(--bg-tertiary);border-radius:3px;"><div style="width:78%;height:100%;background:var(--accent-yellow);border-radius:3px;"></div></div><span style="font-size:11px;font-weight:700;color:var(--accent-yellow);">78</span></div>
       </div>
     </div>
   </div>
 
-  <div style="display:flex;gap:12px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-green);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">政府/产业基金</div><div style="font-size:17px;font-weight:700;color:var(--accent-green);">¥820亿</div><div style="font-size:10px;color:var(--text-secondary);">YoY +150% · 领先12月</div></div>
-    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-blue);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">VC/PE一级市场</div><div style="font-size:17px;font-weight:700;color:var(--accent-blue);">¥25亿/月</div><div style="font-size:10px;color:var(--text-secondary);">领先24-36月</div></div>
-    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-purple);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">机构持仓变化</div><div style="font-size:17px;font-weight:700;color:var(--accent-purple);">+8家/季</div><div style="font-size:10px;color:var(--text-secondary);">同步指标</div></div>
-    <div style="flex:1;min-width:140px;background:var(--bg-tertiary);border-left:3px solid var(--accent-cyan);border-radius:6px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">北美CSP CapEx</div><div style="font-size:17px;font-weight:700;color:var(--accent-cyan);">$2500亿+</div><div style="font-size:10px;color:var(--text-secondary);">领先6-12月 · 核心指标</div></div>
+  <!-- Capital Flows -->
+  <div class="sector-card" style="display:flex;gap:10px;flex-wrap:wrap;">
+    <div class="flow-card" style="border-left-color:var(--accent-green);flex:1;min-width:130px;"><div class="flow-lab">政府/产业基金</div><div class="flow-val" style="color:var(--accent-green);">¥820亿</div><div style="font-size:9.5px;color:var(--text-secondary);">YoY +150% · 领先12月</div></div>
+    <div class="flow-card" style="border-left-color:var(--accent-blue);flex:1;min-width:130px;"><div class="flow-lab">VC/PE一级市场</div><div class="flow-val" style="color:var(--accent-blue);">¥25亿/月</div><div style="font-size:9.5px;color:var(--text-secondary);">领先24-36月</div></div>
+    <div class="flow-card" style="border-left-color:var(--accent-purple);flex:1;min-width:130px;"><div class="flow-lab">机构持仓变化</div><div class="flow-val" style="color:var(--accent-purple);">+8家/季</div><div style="font-size:9.5px;color:var(--text-secondary);">同步指标</div></div>
+    <div class="flow-card" style="border-left-color:var(--accent-cyan);flex:1;min-width:130px;"><div class="flow-lab">北美CSP CapEx</div><div class="flow-val" style="color:var(--accent-cyan);">$2500亿+</div><div style="font-size:9.5px;color:var(--text-secondary);">领先6-12月 · 核心</div></div>
   </div>
 
-  <div style="background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:18px;">
-    <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:14px;">🌳 产业链节点树 · 15个可独立分析节点</div>
-    <div style="padding:10px 16px;background:var(--bg-secondary);border:1px solid var(--accent-blue);border-radius:8px;margin-bottom:10px;font-weight:700;font-size:14px;color:var(--accent-blue);">🔷 AI算力 · 总TAM ~¥7,270亿 · S级赛道 · 5只池内标的</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-left:16px;border-left:2px solid rgba(88,166,255,.2);padding-left:12px;">
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">光模块</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥600亿 · 龙中际旭创(30%) · CR3=60%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化70%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">光芯片</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥200亿 · 龙源杰科技(20%) · CR3=50%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化10%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-70%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">高速铜连接</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥150亿 · 龙立讯精密(35%) · CR3=65%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化80%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利20-30%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">高端PCB</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥400亿 · 龙沪电股份(18%) · CR3=40%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">液冷散热</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥250亿 · 龙英维克(22%) · CR3=45%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化75%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-40%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">服务器</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥1500亿 · 龙工业富联(30%) · CR3=55%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化85%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">毛利8-15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">交换机</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥350亿 · 龙紫光股份(28%) · CR3=50%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化55%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利35-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(210,153,34,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-yellow);">电源/PSU</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥120亿 · 龙麦格米特(15%) · CR3=35%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利20-30%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注(分散)</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(210,153,34,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-yellow);">半导体设备</span><span style="font-size:9px;color:var(--accent-green);">★ 候选覆盖</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥600亿 · 龙北方华创(20%) · CR3=45%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利40-50%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">GPU/AI训练芯片</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥800亿 · 龙海光信息(45%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化5%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-65%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">HBM先进封装</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥500亿 · 龙长电科技(25%) · CR3=55%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化15%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">存储(HBM/SSD)</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥300亿 · 龙兆易创新(12%) · CR3=30%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化8%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-40%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-red);">EDA/IP</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥100亿 · 龙华大九天(40%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">国产化10%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利85-95%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(248,81,73,.12);color:var(--accent-red);">⚠瓶颈</span></div></div>
-
-<div style="background:var(--bg-secondary);border:1px solid rgba(63,185,80,.3);border-radius:7px;padding:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:13px;color:var(--accent-cyan);">云服务/智算中心</span></div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0;">TAM ¥2000亿 · 龙阿里云(35%) · CR3=75%</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">国产化90%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+  <!-- Chain Node Tree -->
+  <div class="sector-card sector-full">
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px;">🌳 产业链节点树 · 15 节点</div>
+    <div style="padding:8px 14px;background:var(--bg-tertiary);border:1px solid var(--accent-blue);border-radius:6px;margin-bottom:10px;font-weight:700;color:var(--accent-blue);">🔷 AI算力 · 总TAM ~¥7,270亿 · S级</div>
+    <div class="node-grid">
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">光模块 <span style="font-size:9px;color:var(--accent-green);">★</span></div><div class="node-meta">TAM ¥600亿 · 龙:中际旭创(30%) · CR3=60%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化70%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+<div class="node-card" style="border:1px solid rgba(210,153,34,.3)"><div class="node-name" style="color:var(--accent-yellow);">光芯片 <span style="font-size:9px;color:var(--accent-green);">★</span></div><div class="node-meta">TAM ¥200亿 · 龙:源杰科技(20%) · CR3=50%</div><div class="node-tags"><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化10%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-70%</span><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">关注</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">高速铜连接</div><div class="node-meta">TAM ¥150亿 · 龙:立讯精密(35%) · CR3=65%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化80%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利20-30%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">可投</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">高端PCB</div><div class="node-meta">TAM ¥400亿 · 龙:沪电股份(18%) · CR3=40%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">液冷散热</div><div class="node-meta">TAM ¥250亿 · 龙:英维克(22%) · CR3=45%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化75%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-40%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">服务器</div><div class="node-meta">TAM ¥1500亿 · 龙:工业富联(30%) · CR3=55%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化85%</span><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">毛利8-15%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">交换机</div><div class="node-meta">TAM ¥350亿 · 龙:紫光股份(28%) · CR3=50%</div><div class="node-tags"><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化55%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利35-45%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(210,153,34,.3)"><div class="node-name" style="color:var(--accent-yellow);">电源/PSU</div><div class="node-meta">TAM ¥120亿 · 龙:麦格米特(15%) · CR3=35%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化60%</span><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">毛利20-30%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(210,153,34,.3)"><div class="node-name" style="color:var(--accent-yellow);">半导体设备 <span style="font-size:9px;color:var(--accent-green);">★</span></div><div class="node-meta">TAM ¥600亿 · 龙:北方华创(20%) · CR3=45%</div><div class="node-tags"><span class="node-tag" style="background:rgba(210,153,34,.12);color:var(--accent-yellow);">国产化15%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利40-50%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(248,81,73,.3)"><div class="node-name" style="color:var(--accent-red);">GPU/AI训练芯片</div><div class="node-meta">TAM ¥800亿 · 龙:海光信息(45%) · CR3=75%</div><div class="node-tags"><span class="node-tag" style="background:rgba(248,81,73,.12);color:var(--accent-red);">国产化5%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利50-65%</span><span class="node-tag" style="background:rgba(248,81,73,.12);color:var(--accent-red);">瓶颈</span></div></div>
+<div class="node-card" style="border:1px solid rgba(248,81,73,.3)"><div class="node-name" style="color:var(--accent-red);">HBM先进封装</div><div class="node-meta">TAM ¥500亿 · 龙:长电科技(25%) · CR3=55%</div><div class="node-tags"><span class="node-tag" style="background:rgba(248,81,73,.12);color:var(--accent-red);">国产化15%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利30-45%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(248,81,73,.3)"><div class="node-name" style="color:var(--accent-red);">存储(HBM/SSD)</div><div class="node-meta">TAM ¥300亿 · 龙:兆易创新(12%) · CR3=30%</div><div class="node-tags"><span class="node-tag" style="background:rgba(248,81,73,.12);color:var(--accent-red);">国产化8%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-40%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(248,81,73,.3)"><div class="node-name" style="color:var(--accent-red);">EDA/IP</div><div class="node-meta">TAM ¥100亿 · 龙:华大九天(40%) · CR3=75%</div><div class="node-tags"><span class="node-tag" style="background:rgba(248,81,73,.12);color:var(--accent-red);">国产化10%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利85-95%</span></div></div>
+<div class="node-card" style="border:1px solid rgba(63,185,80,.3)"><div class="node-name" style="color:var(--accent-cyan);">云服务/智算中心</div><div class="node-meta">TAM ¥2000亿 · 龙:阿里云(35%) · CR3=75%</div><div class="node-tags"><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">国产化90%</span><span class="node-tag" style="background:rgba(63,185,80,.12);color:var(--accent-green);">毛利25-35%</span></div></div>
     </div>
+    <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">★ = 候选池已覆盖 | 🟢 7可投 · 🟡 3关注 · 🔴 5瓶颈</div>
   </div>
 
-  <div style="display:flex;gap:16px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:300px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
-      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:10px;">🎯 候选池标的 → 产业链映射</div>
-      <table style="width:100%;border-collapse:collapse;font-size:11px;">
-        <tr style="color:var(--text-secondary);font-size:10px;"><th style="text-align:left;padding:4px 6px;">标的</th><th style="text-align:left;padding:4px 6px;">链节点</th><th style="text-align:right;padding:4px 6px;">Gate</th></tr>
-        <tr style="color:var(--accent-cyan);"><td style="padding:5px 6px;font-weight:600;">源杰科技</td><td style="padding:5px 6px;">光芯片</td><td style="text-align:right;padding:5px 6px;font-weight:700;">82.4</td></tr>
-        <tr style="color:var(--accent-blue);"><td style="padding:5px 6px;font-weight:600;">光启技术</td><td style="padding:5px 6px;">超材料</td><td style="text-align:right;padding:5px 6px;font-weight:700;">79.8</td></tr>
-        <tr style="color:var(--accent-yellow);"><td style="padding:5px 6px;font-weight:600;">安集科技</td><td style="padding:5px 6px;">半导体设备</td><td style="text-align:right;padding:5px 6px;font-weight:700;">67.1</td></tr>
-        <tr style="color:var(--accent-purple);"><td style="padding:5px 6px;font-weight:600;">睿创微纳</td><td style="padding:5px 6px;">传感器</td><td style="text-align:right;padding:5px 6px;font-weight:700;">61.2</td></tr>
-        <tr style="color:var(--accent-red);"><td style="padding:5px 6px;font-weight:600;">天孚通信</td><td style="padding:5px 6px;">光模块/光器件</td><td style="text-align:right;padding:5px 6px;font-weight:700;">60.2</td></tr>
-      </table>
-      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">光模块产业链已覆盖2只 · 光芯片1只 · 半导体设备1只</div>
-    </div>
-    <div style="flex:1;min-width:300px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:10px;padding:16px;">
-      <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:10px;">🇺🇸 美股对标 · 天花板参照</div>
-      <table style="width:100%;border-collapse:collapse;font-size:11px;">
-        <tr style="color:var(--text-secondary);font-size:10px;"><th style="text-align:left;padding:4px 6px;">链节点</th><th style="text-align:left;padding:4px 6px;">美股对标</th><th style="text-align:right;padding:4px 6px;">市值</th><th style="text-align:center;padding:4px 6px;">代差</th></tr>
-        <tr><td style="padding:5px 6px;">GPU</td><td style="padding:5px 6px;color:var(--accent-green);">NVDA</td><td style="text-align:right;padding:5px 6px;">$3500B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">2代</td></tr>
-        <tr><td style="padding:5px 6px;">光模块</td><td style="padding:5px 6px;color:var(--accent-blue);">LITE</td><td style="text-align:right;padding:5px 6px;">$40B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-yellow);">2年↓</td></tr>
-        <tr><td style="padding:5px 6px;">HBM</td><td style="padding:5px 6px;color:var(--accent-purple);">MU</td><td style="text-align:right;padding:5px 6px;">$1200B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">2-3年</td></tr>
-        <tr><td style="padding:5px 6px;">液冷</td><td style="padding:5px 6px;color:var(--accent-green);">VRT</td><td style="text-align:right;padding:5px 6px;">$450B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-green);">持平</td></tr>
-        <tr><td style="padding:5px 6px;">EDA</td><td style="padding:5px 6px;color:var(--accent-red);">SNPS</td><td style="text-align:right;padding:5px 6px;">$850B</td><td style="text-align:center;padding:5px 6px;color:var(--accent-red);">10年+</td></tr>
-      </table>
-      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">↓ = 代差缩小中 · 光模块/光芯片国产替代加速</div>
-    </div>
+  <!-- US Benchmarks -->
+  <div class="sector-card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px;">🇺🇸 美股对标</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px;">
+      <tr style="color:var(--text-muted);font-size:10px;"><th style="text-align:left;padding:3px 6px;">节点</th><th style="text-align:left;padding:3px 6px;">美股</th><th style="text-align:right;padding:3px 6px;">市值</th><th style="text-align:center;padding:3px 6px;">代差</th></tr>
+      <tr><td>GPU</td><td style="color:var(--accent-green);">NVDA</td><td style="text-align:right;">$3500B</td><td style="text-align:center;color:var(--accent-red);">2代</td></tr>
+      <tr><td>光模块</td><td style="color:var(--accent-blue);">LITE</td><td style="text-align:right;">$40B</td><td style="text-align:center;color:var(--accent-yellow);">2年↓</td></tr>
+      <tr><td>HBM</td><td style="color:var(--accent-purple);">MU</td><td style="text-align:right;">$1200B</td><td style="text-align:center;color:var(--accent-red);">3年</td></tr>
+      <tr><td>液冷</td><td style="color:var(--accent-green);">VRT</td><td style="text-align:right;">$450B</td><td style="text-align:center;color:var(--accent-green);">持平</td></tr>
+      <tr><td>EDA</td><td style="color:var(--accent-red);">SNPS</td><td style="text-align:right;">$850B</td><td style="text-align:center;color:var(--accent-red);">10年+</td></tr>
+    </table>
   </div>
 
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap;gap:8px;">
-    <span>15 节点 · <span style="color:var(--accent-green);">7 可投</span> · <span style="color:var(--accent-yellow);">3 关注</span> · <span style="color:var(--accent-red);">5 瓶颈</span></span>
-    <span>5 只池内标的覆盖 5 个节点</span>
-    <span>总TAM <span style="color:var(--accent-blue);font-weight:700;">~¥7,270亿</span></span>
-    <span>数据截止 2026-06 · <span style="color:var(--accent-yellow);">Sina+Kimi+Metaso</span></span>
-  </div>
-</div>
-    </div>
-  </div>
-
-  <!-- ━━━━ RIGHT: Cron + Status ━━━━ -->
-  <div id="rightCol">
-    <div class="card">
-      <div class="card-header"><span>⚙ 系统任务</span><span style="font-size:10px;color:var(--accent-green)">全部运行中</span></div>
-      <div class="card-body p0">
-        <div class="cron-item">
-          <span class="cron-dot green"></span>
-          <div class="cron-meta"><div class="name">日频扫描</div><div class="detail">交易日 15:30 · T1/T2/T3</div></div>
-        </div>
-        <div class="cron-item">
-          <span class="cron-dot blue"></span>
-          <div class="cron-meta"><div class="name">周度复检</div><div class="detail">周六 · Kill 前兆 + 证据更新</div></div>
-        </div>
-        <div class="cron-item">
-          <span class="cron-dot blue"></span>
-          <div class="cron-meta"><div class="name">季度复盘</div><div class="detail">季末 · 7 Cohort + 参数治理</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span>🔧 活参数 (P01-P08)</span></div>
-      <div class="card-body p0">
-        <div class="params-row">
-          <span class="param-tag" title="Gate准入">P01=60</span>
-          <span class="param-tag" title="Gate逐出">P02=45</span>
-          <span class="param-tag" title="营收增速">P03=20%</span>
-          <span class="param-tag" title="量比阈值">P04=1.5x</span>
-          <span class="param-tag" title="距高阈值">P05=5%</span>
-          <span class="param-tag" title="基底周数">P06=6w</span>
-          <span class="param-tag" title="E1硬止损">P07=15%</span>
-          <span class="param-tag" title="E3浮盈">P08=30%</span>
-        </div>
-      </div>
-    </div>
-    <div class="card" style="flex:1">
-      <div class="card-header"><span>📡 数据状态</span></div>
-      <div class="card-body p0">
-        <div class="status-list">
-          <div><span>同花顺 (Kimi)</span><span class="ok">●</span></div>
-          <div><span>a-stock-data</span><span class="ok">●</span></div>
-          <div><span>akshare Sina</span><span class="ok">●</span></div>
-          <div><span>Metaso 搜索</span><span class="ok">●</span></div>
-          <div><span>东财 push2</span><span style="color:var(--accent-red)">✕</span></div>
-          <div><span>Agent-Reach</span><span style="color:var(--accent-yellow)">待接入</span></div>
-        </div>
-      </div>
-    </div>
+  <!-- Pool mapping -->
+  <div class="sector-card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px;">🎯 候选池映射</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px;">
+      <tr style="color:var(--text-muted);font-size:10px;"><th>标的</th><th>链节点</th><th style="text-align:right;">Gate</th></tr>
+      <tr style="color:var(--accent-cyan);"><td style="font-weight:600;">源杰科技</td><td>光芯片</td><td style="text-align:right;font-weight:700;">82.4</td></tr>
+      <tr style="color:var(--accent-blue);"><td style="font-weight:600;">光启技术</td><td>超材料</td><td style="text-align:right;font-weight:700;">79.8</td></tr>
+      <tr style="color:var(--accent-yellow);"><td style="font-weight:600;">安集科技</td><td>半导体设备</td><td style="text-align:right;font-weight:700;">67.1</td></tr>
+      <tr style="color:var(--accent-purple);"><td style="font-weight:600;">睿创微纳</td><td>传感器</td><td style="text-align:right;font-weight:700;">61.2</td></tr>
+      <tr style="color:var(--accent-red);"><td style="font-weight:600;">天孚通信</td><td>光模块/光器件</td><td style="text-align:right;font-weight:700;">60.2</td></tr>
+    </table>
   </div>
 
 </div>
+</div>
+
 <div class="footer">十倍股跟踪系统 · Gate-Moat Framework · 数据截止 2026-06-12 · 仅供研究参考，不构成投资建议</div>
 
-<!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
 function toggleGuide(){var p=document.getElementById('guidePanel');p.classList.toggle('open');document.body.classList.toggle('guide-open')}
 function toggleSummary(){var p=document.getElementById('summaryPanel');var g=document.getElementById('guidePanel');if(g.classList.contains('open')){g.classList.remove('open');document.body.classList.remove('guide-open')}p.classList.toggle('open');document.body.classList.toggle('guide-open')}
-function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active')}
+function switchMode(m){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mode-container').forEach(c=>c.classList.remove('active'));
+  document.getElementById('mode-'+m).classList.add('active');
+  event.target.classList.add('active');
+}
+function switchTab(t){
+  var card=event.target.closest('.card');
+  card.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  card.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  card.querySelector('#tab-'+t).classList.add('active');
+}
 
 (function(){
   var stocks=[{name:'源杰科技',code:'688498.SH',gate:82.4,irreplace:85,lockin:75,slope:82,customer:78,gross:'77.8',rev:'320.9',trend:'↑',grade:'A',debt:'10.7',risk:'⚠ 副总刑拘',riskLevel:'high'},{name:'光启技术',code:'002625.SZ',gate:79.8,irreplace:88,lockin:72,slope:72,customer:58,gross:'49.9',rev:'40.3',trend:'→',grade:'A',debt:'18.6',risk:'⚠ 客户集中度90.35%',riskLevel:'high'},{name:'安集科技',code:'688019.SH',gate:67.1,irreplace:75,lockin:65,slope:68,customer:62,gross:'55.5',rev:'32.8',trend:'—',grade:'B',debt:'15.7',risk:'',riskLevel:'safe'},{name:'睿创微纳',code:'688002.SH',gate:61.2,irreplace:62,lockin:62,slope:64,customer:60,gross:'53.4',rev:'71.1',trend:'—',grade:'B',debt:'36.1',risk:'',riskLevel:'safe'},{name:'天孚通信',code:'300394.SZ',gate:60.2,irreplace:52,lockin:62,slope:68,customer:60,gross:'56.6',rev:'40.8',trend:'↑',grade:'B',debt:'14.3',risk:'⚠ 边缘标的',riskLevel:'mid'}];
