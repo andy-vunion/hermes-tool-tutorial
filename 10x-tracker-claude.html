@@ -623,8 +623,8 @@ CREATE TABLE IF NOT EXISTS alert_log (
 <p>版本: v1.0 | 日期: 2026-06-13 | 赛道示例: AI算力</p>
 </blockquote>
 <hr />
-</div><div class="chapter">
-<h2 id="_2">目录</h2>
+</div><div class="chapter" id="目录">
+<h2 id="目录">目录</h2>
 <ol>
 <li><a href="#q1">问题一: 什么是"热门赛道"？</a></li>
 <li><a href="#q2">问题二: 产业的发展规律与政策指向</a></li>
@@ -638,12 +638,12 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </ol>
 <hr />
 <p><a name="q1"></a></p>
-</div><div class="chapter">
-<h2 id="_3">问题一: 什么是"热门赛道"？——客观量化体系</h2>
-<h3 id="11">1.1 问题定义</h3>
+</div><div class="chapter" id="问题一-什么是-热门赛道-客观量化体系">
+<h2 id="q1">问题一: 什么是"热门赛道"？——客观量化体系</h2>
+<h3 id="1-1-问题定义">1.1 问题定义</h3>
 <p>"热门"是最危险的主观词。2020年白酒、2021年新能源、2023年AI——事后都是"热门"。
 我们需要的是<strong>事前可识别、过程可验证、事后可回测</strong>的热度度量。</p>
-<h3 id="12-6-18">1.2 赛道热度指标体系（6维度 × 18指标）</h3>
+<h3 id="1-2-赛道热度指标体系-6维度-18指标">1.2 赛道热度指标体系（6维度 × 18指标）</h3>
 <table>
 <thead>
 <tr>
@@ -763,7 +763,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </tbody>
 </table>
 <p><strong>说明</strong>: 权重分配基于先验判断（可后续通过回测校准）。领先/滞后标注基于对2018-2025年中国产业周期（新能源、半导体、医药、电动车）的回顾分析，部分为 assumption。</p>
-<h3 id="13">1.3 热度综合评分公式</h3>
+<h3 id="1-3-热度综合评分公式">1.3 热度综合评分公式</h3>
 <div class="codehilite"><pre><span></span><code>Heat_Score = Σ (维度得分 × 维度权重)
 维度得分 = Σ (子指标归一化值 × 子指标权重)
 </code></pre></div>
@@ -774,7 +774,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 - <strong>Warm</strong> (60-79): 部分维度热，进入候选观察池
 - <strong>Neutral</strong> (40-59): 中性，季度复查
 - <strong>Cold</strong> (&lt;40): 不进入Gate流程</p>
-<h3 id="14-vs">1.4 趋势性热门 vs 周期性热门 的区分</h3>
+<h3 id="1-4-趋势性热门-vs-周期性热门-的区分">1.4 趋势性热门 vs 周期性热门 的区分</h3>
 <p>这是最容易出错的地方——2022年锂矿就是周期性热门（后来腰斩）。</p>
 <p><strong>区分标准</strong>（需同时满足3条）：
 1. <strong>需求侧</strong>: TAM的CAGR ≥ 15%（非周期反弹，而是结构性增长）
@@ -812,7 +812,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </tr>
 </tbody>
 </table>
-<h3 id="15">1.5 回溯验证设计</h3>
+<h3 id="1-5-回溯验证设计">1.5 回溯验证设计</h3>
 <p>用历史数据（2018-2025）对三件事做回测：
 - <strong>2019年能否提前识别半导体？</strong> → 验证指标: 大基金一期(2014)→ 2019是投入高峰，VC融资额2017-2018爆发…应该在2019年给出 warm→hotspot 信号
 - <strong>2021年能否提前识别新能源？</strong> → 2020年双碳政策信号+电动车渗透率突破5%拐点
@@ -822,9 +822,9 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </blockquote>
 <hr />
 <p><a name="q2"></a></p>
-</div><div class="chapter">
-<h2 id="_4">问题二: 产业发展规律与政策指向</h2>
-<h3 id="21">2.1 产业生命周期识别框架</h3>
+</div><div class="chapter" id="q2">
+<h2 id="问题二-产业发展规律与政策指向">问题二: 产业发展规律与政策指向</h2>
+<h3 id="2-1-产业生命周期识别框架">2.1 产业生命周期识别框架</h3>
 <p>将赛道生命周期分为5个阶段，每个阶段有客观判断标准：</p>
 <table>
 <thead>
@@ -875,7 +875,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
   - 北美四大云厂商AI CapEx CAGR: 40%+ — 加速扩张
   - 国产化率: 加权约35% — 国产替代尚在早期
   - 玩家数量: 持续增加但龙头开始出现（中际旭创/海光/寒武纪）</p>
-<h3 id="22">2.2 政策信号层级体系</h3>
+<h3 id="2-2-政策信号层级体系">2.2 政策信号层级体系</h3>
 <p>中国产业政策遵循 "顶层定调 → 部委规划 → 地方落地 → 税收/补贴兑现" 四层传导。</p>
 <p><strong>信号层级与判断标准</strong>：</p>
 <table>
@@ -932,7 +932,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 <blockquote>
 <p><strong>⚠️ 假设标注</strong>: L1→L2→L3→L4→业绩的传导链是基于2015-2025年10年观测的事后总结，时滞数据为 assumption。未来政策传导速度可能更快（AI受到的政治优先级高于过往产业）。</p>
 </blockquote>
-<h3 id="23-vs">2.3 "真成长" vs "政策催化伪需求" 的判断框架</h3>
+<h3 id="2-3-真成长-vs-政策催化伪需求-的判断框架">2.3 "真成长" vs "政策催化伪需求" 的判断框架</h3>
 <p>这是中国产业投资的独特风险——2015年"互联网+"、2017年"区块链"都有大量纯政策驱动但缺乏真实需求的公司。</p>
 <p><strong>判断标准（4问法）</strong>：</p>
 <table>
@@ -974,7 +974,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 <blockquote>
 <p><strong>诚实标注</strong>: 以上对比中的"区块链2017"用的是回头看的事后判断。事前区分真伪需求非常困难——2017年当时很多人真的相信区块链会改变世界。</p>
 </blockquote>
-<h3 id="24">2.4 政策信号自动化追踪方案</h3>
+<h3 id="2-4-政策信号自动化追踪方案">2.4 政策信号自动化追踪方案</h3>
 <div class="codehilite"><pre><span></span><code>数据源爬取模板:
 - 新华社/人民日报: RPA每日抓取 → 关键词(KV对)匹配 → 信号Level判定
 - 国务院/工信部/发改委/科技部: 官网&quot;政策&quot;栏目 RSS/每周爬取
@@ -991,9 +991,9 @@ CREATE TABLE IF NOT EXISTS alert_log (
 
 <hr />
 <p><a name="q3"></a></p>
-</div><div class="chapter">
-<h2 id="_5">问题三: 多层级资金流向追踪 —— "到钱多的地方"</h2>
-<h3 id="31">3.1 资金层级塔</h3>
+</div><div class="chapter" id="问题三-多层级资金流向追踪-到钱多的地方">
+<h2 id="q3">问题三: 多层级资金流向追踪 —— "到钱多的地方"</h2>
+<h3 id="3-1-资金层级塔">3.1 资金层级塔</h3>
 <div class="codehilite"><pre><span></span><code>┌──────────────────────────────────────────────┐
 │ L5: 二级市场散户/游资          ← 噪音最多  │
 │ L4: 公募/私募/ETF 机构配置       ← 同步/略滞后│
@@ -1003,7 +1003,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 └──────────────────────────────────────────────┘
 </code></pre></div>
 
-<h3 id="32">3.2 各级资金的预测力评估</h3>
+<h3 id="3-2-各级资金的预测力评估">3.2 各级资金的预测力评估</h3>
 <table>
 <thead>
 <tr>
@@ -1071,7 +1071,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 - L2(政府) 提供方向性信号但金额精确度低。
 - L3(产业CapEx) 是最可靠的<strong>确认信号</strong>——如果四大云厂商CapEx指引上调，基本确认AI需求真实。
 - L4/L5 是同步或滞后指标，不能用于先行判断，但可用于<strong>验证一致性</strong>。</p>
-<h3 id="33-capex">3.3 关键前置指标：北美云厂商CapEx</h3>
+<h3 id="3-3-关键前置指标-北美云厂商capex">3.3 关键前置指标：北美云厂商CapEx</h3>
 <p>这是AI算力赛道最重要、最及时的前置指标——不依赖中国数据，直接可跟踪：</p>
 <table>
 <thead>
@@ -1116,7 +1116,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </tbody>
 </table>
 <p><strong>投资含义</strong>: 只要四大云厂商CapEx Collective ≥ +20% YoY，AI算力赛道需求侧就没有问题。</p>
-<h3 id="34-vs">3.4 资金流入 vs 基本面背离 → 泡沫检测</h3>
+<h3 id="3-4-资金流入-vs-基本面背离-泡沫检测">3.4 资金流入 vs 基本面背离 → 泡沫检测</h3>
 <table>
 <thead>
 <tr>
@@ -1164,9 +1164,9 @@ CREATE TABLE IF NOT EXISTS alert_log (
 3. 新注册企业数暴增(连续2季&gt;+100% YoY)但盈利企业占比下降 → ⚠️</p>
 <hr />
 <p><a name="q4"></a></p>
-</div><div class="chapter">
-<h2 id="_6">问题四: 产业链拆解粒度方法论</h2>
-<h3 id="41">4.1 核心原则：拆到能回答三个问题为止</h3>
+</div><div class="chapter" id="问题四-产业链拆解粒度方法论">
+<h2 id="q4">问题四: 产业链拆解粒度方法论</h2>
+<h3 id="4-1-核心原则-拆到能回答三个问题为止">4.1 核心原则：拆到能回答三个问题为止</h3>
 <div class="codehilite"><pre><span></span><code>拆解终止条件（三个条件必须同时满足，否则聚合到上一层）：
 
 ✅ 条件1: 这个细分有多少家上市公司（含拟IPO）？ ≥ 3家
@@ -1176,9 +1176,9 @@ CREATE TABLE IF NOT EXISTS alert_log (
 不满足任何一条 → 向上聚合到父节点。
 </code></pre></div>
 
-<h3 id="42-ai">4.2 AI算力赛道拆解结果</h3>
+<h3 id="4-2-ai算力赛道拆解结果">4.2 AI算力赛道拆解结果</h3>
 <p>以下是对14个一级节点的拆解，说明哪些满足独立分析条件、哪些需要聚合：</p>
-<h4 id="_7">✅ 满足三条件（可独立分析）</h4>
+<h4 id="满足三条件-可独立分析">✅ 满足三条件（可独立分析）</h4>
 <table>
 <thead>
 <tr>
@@ -1313,7 +1313,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </tr>
 </tbody>
 </table>
-<h4 id="_8">❌ 不满足条件（需向上聚合）</h4>
+<h4 id="不满足条件-需向上聚合">❌ 不满足条件（需向上聚合）</h4>
 <table>
 <thead>
 <tr>
@@ -1362,7 +1362,7 @@ CREATE TABLE IF NOT EXISTS alert_log (
 </tr>
 </tbody>
 </table>
-<h3 id="43">4.3 通用拆解流程（可复用到任何赛道）</h3>
+<h3 id="4-3-通用拆解流程-可复用到任何赛道">4.3 通用拆解流程（可复用到任何赛道）</h3>
 <div class="codehilite"><pre><span></span><code>Step 1: 定义产业链边界
   ├── 输入: 终端产品或服务 (如&quot;AI训练服务器&quot;)
   ├── 输出: 产业链上下游层级名单 (一级节点)
@@ -1391,7 +1391,7 @@ Step 5: 质量检查
   └── 诚实标注所有 assumption
 </code></pre></div>
 
-<h3 id="44">4.4 数据模型</h3>
+<h3 id="4-4-数据模型">4.4 数据模型</h3>
 <p>详见 <code>industry-chain-schema.sql</code>。核心表:
 - <code>chain_composition_detail</code>: 产业链拆解明细（本方法论产出）
 - <code>industry_chain</code> (已有): 一级节点
@@ -1399,9 +1399,9 @@ Step 5: 质量检查
 - <code>entity_graph</code> (已有): 实体关系</p>
 <hr />
 <p><a name="q5"></a></p>
-</div><div class="chapter">
-<h2 id="_9">问题五: 标的筛选——上市与未上市全覆盖</h2>
-<h3 id="51">5.1 标的覆盖矩阵</h3>
+</div><div class="chapter" id="问题五-标的筛选-上市与未上市全覆盖">
+<h2 id="q5">问题五: 标的筛选——上市与未上市全覆盖</h2>
+<h3 id="5-1-标的覆盖矩阵">5.1 标的覆盖矩阵</h3>
 <table>
 <thead>
 <tr>
@@ -1450,7 +1450,7 @@ Step 5: 质量检查
 </tr>
 </tbody>
 </table>
-<h3 id="52-pre-ipo">5.2 Pre-IPO追踪系统</h3>
+<h3 id="5-2-pre-ipo追踪系统">5.2 Pre-IPO追踪系统</h3>
 <p><strong>数据源流水线</strong>：</p>
 <div class="codehilite"><pre><span></span><code>自动化管道:
   证监会/交易所官网
@@ -1471,7 +1471,7 @@ Step 5: 质量检查
          ↑ 此时加入追踪        ↑ 可开始深度分析    ↑ 关键节点
 </code></pre></div>
 
-<h3 id="53">5.3 "已经太贵"的判断框架</h3>
+<h3 id="5-3-已经太贵-的判断框架">5.3 "已经太贵"的判断框架</h3>
 <blockquote>
 <p><strong>核心问题</strong>: 好赛道+好公司 = 一定好投资吗？不一定——如果已经太贵。</p>
 </blockquote>
@@ -1518,7 +1518,7 @@ Step 5: 质量检查
   3. PEG &lt; 1.5x → 高增长消化高估值的时间在可接受范围
 </code></pre></div>
 
-<h3 id="54">5.4 未上市公司评估的替代指标</h3>
+<h3 id="5-4-未上市公司评估的替代指标">5.4 未上市公司评估的替代指标</h3>
 <p>未上市公司缺乏财务报表，用以下指标替代:</p>
 <table>
 <thead>
@@ -1570,9 +1570,9 @@ Step 5: 质量检查
 </table>
 <hr />
 <p><a name="q6"></a></p>
-</div><div class="chapter">
-<h2 id="_10">问题六: 美股对标体系</h2>
-<h3 id="61">6.1 三个层次的对标维度</h3>
+</div><div class="chapter" id="问题六-美股对标体系">
+<h2 id="q6">问题六: 美股对标体系</h2>
+<h3 id="6-1-三个层次的对标维度">6.1 三个层次的对标维度</h3>
 <div class="codehilite"><pre><span></span><code>Layer 1: 天花板参照
   美股市值最大的同赛道公司 → A股市值天花板
   典型倍数: A股是美股的 1/3 到 1/10 (取决于技术代差+流动性折价+地缘折价)
@@ -1587,7 +1587,7 @@ Layer 3: 估值锚
   合理性: 如果A股增速是美股的2x，溢价1.5x是合理的
 </code></pre></div>
 
-<h3 id="62-ai-us_benchmarkscsv">6.2 AI算力美股对标映射（完整数据见 us_benchmarks.csv）</h3>
+<h3 id="6-2-ai算力美股对标映射-完整数据见-us_benchmarks-csv">6.2 AI算力美股对标映射（完整数据见 us_benchmarks.csv）</h3>
 <table>
 <thead>
 <tr>
@@ -1690,7 +1690,7 @@ Layer 3: 估值锚
 </tr>
 </tbody>
 </table>
-<h3 id="63-a">6.3 A股合理市值估算公式</h3>
+<h3 id="6-3-a股合理市值估算公式">6.3 A股合理市值估算公式</h3>
 <div class="codehilite"><pre><span></span><code>A股合理市值 = 美股对标市值(CNY) ÷ 天花板倍数
 天花板倍数 = 基准折价 × (1 + 国产替代溢价因子)
 
@@ -1706,9 +1706,9 @@ Layer 3: 估值锚
 
 <hr />
 <p><a name="q7"></a></p>
-</div><div class="chapter">
-<h2 id="gatem0m1">问题七: 赛道Gate嵌入M0→M1流程</h2>
-<h3 id="71-m0m1">7.1 当前M0→M1流程</h3>
+</div><div class="chapter" id="问题七-赛道gate嵌入m0-m1流程">
+<h2 id="q7">问题七: 赛道Gate嵌入M0→M1流程</h2>
+<h3 id="7-1-当前m0-m1流程">7.1 当前M0→M1流程</h3>
 <div class="codehilite"><pre><span></span><code>当前:
   M0: 全A 5207只股票
       ↓
@@ -1722,7 +1722,7 @@ Layer 3: 估值锚
 </code></pre></div>
 
 <p><strong>当前架构缺失</strong>: 没有回答"为什么选这个赛道"。</p>
-<h3 id="72-gate">7.2 增加赛道Gate后的新流程</h3>
+<h3 id="7-2-增加赛道gate后的新流程">7.2 增加赛道Gate后的新流程</h3>
 <div class="codehilite"><pre><span></span><code>新流程:
   M-1: 全赛道扫描 (约30-50个申万二级行业 or 自定义赛道)
       ├── 赛道硬门槛 → T0 Gate
@@ -1757,7 +1757,7 @@ Layer 3: 估值锚
   M2: 深度分析 (不变)
 </code></pre></div>
 
-<h3 id="73-gate-gate">7.3 赛道Gate输出 → 个股Gate输入的参数传递</h3>
+<h3 id="7-3-赛道gate输出-个股gate输入的参数传递">7.3 赛道Gate输出 → 个股Gate输入的参数传递</h3>
 <p>赛道Gate的产出直接作为个股Gate的参数：</p>
 <div class="codehilite"><pre><span></span><code>track_gate_result 输出 → 个股M0/M1 使用方式
   ├── node_weight_overrides    → 个股Gate评分中各维度的权重分配
@@ -1767,7 +1767,7 @@ Layer 3: 估值锚
   └── avg_tech_gap_years        → 不可替代性评分的难度系数(代差大→卡脖子强→分数高)
 </code></pre></div>
 
-<h3 id="74">7.4 实施路线图</h3>
+<h3 id="7-4-实施路线图">7.4 实施路线图</h3>
 <table>
 <thead>
 <tr>
@@ -1804,8 +1804,8 @@ Layer 3: 估值锚
 </tr>
 </tbody>
 </table>
-<h3 id="75-gate">7.5 Gate体系修改建议（详细）</h3>
-<h4 id="751-hard_gate_result">7.5.1 修改 hard_gate_result 表的扩展</h4>
+<h3 id="7-5-gate体系修改建议-详细">7.5 Gate体系修改建议（详细）</h3>
+<h4 id="7-5-1-修改-hard_gate_result-表的扩展">7.5.1 修改 hard_gate_result 表的扩展</h4>
 <p>在现有 <code>hard_gate_result</code> 表中增加赛道关联字段（或在 <code>gate_score</code> 中引用 <code>track_gate_result</code>）:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">-- 建议: 在 hard_gate_result 增加字段</span>
 <span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">hard_gate_result</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_name</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>
@@ -1817,7 +1817,7 @@ Layer 3: 估值锚
 <span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">gate_score</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_gate_snap_date</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>
 </code></pre></div>
 
-<h4 id="752-m0">7.5.2 修改M0硬门槛的动态化</h4>
+<h4 id="7-5-2-修改m0硬门槛的动态化">7.5.2 修改M0硬门槛的动态化</h4>
 <p>当前硬门槛是写死的（HG1: 营收增速≥15%, HG3: 毛利率≥30%...）。</p>
 <p><strong>改为</strong>:</p>
 <div class="codehilite"><pre><span></span><code>HG1(成长性): revenue_growth_yoy ≥ track_gate_result.benchmark_rev_growth
@@ -1826,7 +1826,7 @@ HG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling
 </code></pre></div>
 
 <p>不同赛道有不同的benchmark——成熟行业(白酒)的增速门槛应该低于成长行业(AI)。</p>
-<h4 id="753-m1">7.5.3 修改M1评分中的产业链权重</h4>
+<h4 id="7-5-3-修改m1评分中的产业链权重">7.5.3 修改M1评分中的产业链权重</h4>
 <p>当前M1 Gate对每个维度等权评分。建议改为:</p>
 <div class="codehilite"><pre><span></span><code>individual_stock_gate_score = Σ (node_weight × node_specific_score)
   其中 node_weight 来自 track_gate_result.node_weight_overrides
@@ -1835,8 +1835,8 @@ HG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling
 <p>例如在AI算力赛道: GPU芯片权重20% &gt; 电源权重5%，反映不同环节在产业链中的战略重要性差异。</p>
 <hr />
 <p><a name="appendix-a"></a></p>
-</div><div class="chapter">
-<h2 id="a">附录A: 数据源清单</h2>
+</div><div class="chapter" id="appendix-a">
+<h2 id="附录a-数据源清单">附录A: 数据源清单</h2>
 <table>
 <thead>
 <tr>
@@ -1949,10 +1949,10 @@ HG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling
 5. DuckDuckGo + 新华网爬虫 → 政策信号 ✅</p>
 <hr />
 <p><a name="appendix-b"></a></p>
-</div><div class="chapter">
-<h2 id="b-gate">附录B: 现有Gate体系修改要点</h2>
+</div><div class="chapter" id="appendix-b">
+<h2 id="附录b-现有gate体系修改要点">附录B: 现有Gate体系修改要点</h2>
 <p>以下是对现有 <code>hard_gate_result</code> 和 <code>gate_score</code> 表的具体修改建议。</p>
-<h3 id="b1-hard_gate_result">B.1 hard_gate_result 修改</h3>
+<h3 id="b-1-hard_gate_result-修改">B.1 hard_gate_result 修改</h3>
 <p><strong>当前状态</strong>:</p>
 <div class="codehilite"><pre><span></span><code>hg1-hg7 硬门槛: 固定值, 所有股票用一个标准
 passed: 全部通过即进入M1
@@ -1967,7 +1967,7 @@ hg7(估值):    ≤ track_gate_result.benchmark_pe_ceiling     (而非不限制)
   → 支持追溯&quot;这只股票是在哪个赛道Gate框架下通过的&quot;
 </code></pre></div>
 
-<h3 id="b2-gate_score">B.2 gate_score 修改</h3>
+<h3 id="b-2-gate_score-修改">B.2 gate_score 修改</h3>
 <p><strong>当前状态</strong>:</p>
 <div class="codehilite"><pre><span></span><code>irreplace_score + lockin_score + value_slope_score + customer_score = total
 </code></pre></div>
@@ -1988,7 +1988,7 @@ hg7(估值):    ≤ track_gate_result.benchmark_pe_ceiling     (而非不限制)
 <span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="nx">使用</span><span class="w"> </span><span class="nx">industry_chain</span><span class="w"> </span><span class="nx">中的</span><span class="w"> </span><span class="nx">downstream</span><span class="w"> </span><span class="nx">节点和</span><span class="w"> </span><span class="nx">indirect_beneficiaries</span>
 </code></pre></div>
 
-<h3 id="b3-candidate_pool">B.3 candidate_pool 修改</h3>
+<h3 id="b-3-candidate_pool-修改">B.3 candidate_pool 修改</h3>
 <p><strong>当前状态</strong>: 直接从 hard_gate_result 中 passed=1 的股票进入候选池。</p>
 <p><strong>修改后</strong>: 增加一道赛道预筛选</p>
 <div class="codehilite"><pre><span></span><code>candidate_pool 中增加字段:
@@ -1999,7 +1999,7 @@ hg7(估值):    ≤ track_gate_result.benchmark_pe_ceiling     (而非不限制)
 </code></pre></div>
 
 <p>只有当 <code>track_gate_result.pass_for_stock_gate=1</code> 的赛道中的股票才能进入候选池。</p>
-<h3 id="b4">B.4 赛道复查周期</h3>
+<h3 id="b-4-赛道复查周期">B.4 赛道复查周期</h3>
 <div class="codehilite"><pre><span></span><code>S级赛道: 月度复查 (如AI算力)
 A级赛道: 季度复查
 B级赛道: 季度复查 (关注向上跃迁)
@@ -2012,8 +2012,8 @@ C/D级赛道: 半年复查
 3. 美股对标天花板是否有变化(技术代差缩小/扩大)?
 4. 政策信号是加强还是减弱?</p>
 <hr />
-</div><div class="chapter">
-<h2 id="gate">总结: 赛道Gate的主要决策逻辑</h2>
+</div><div class="chapter" id="总结-赛道gate的主要决策逻辑">
+<h2 id="总结-赛道gate的主要决策逻辑">总结: 赛道Gate的主要决策逻辑</h2>
 <div class="codehilite"><pre><span></span><code>输入: 待评估赛道
   ↓
 T0 Gate (硬门槛):
@@ -2042,7 +2042,7 @@ US Benchmark Check (美股对标):
 <p><em>本文档中标注为 <code>assumption</code> 的判断基于公开数据和行业观察的合理推断，非精确量化结论。所有阈值和权重均为初始设定，需通过回测校准。</em></p></div>
 </div></div>
 <script>
-function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var el=document.getElementById(slug);if(!el){var h=document.querySelector('.chapter h2[id="'+slug+'"],.chapter h3[id="'+slug+'"]');if(h)el=h.closest('.chapter');}if(el)el.classList.add('active');document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+slug+'"]');if(l)l.classList.add('active');}
+function navigate(slug){document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));var el=document.getElementById(slug)||document.querySelector('.chapter h2[id="'+slug+'"],.chapter h3[id="'+slug+'"]');if(el){var ch=el.closest('.chapter');if(ch)ch.classList.add('active');else el.classList.add('active');}document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));var l=document.querySelector('#nav a[href="#'+slug+'"]');if(l)l.classList.add('active');}
 (function(){var first=document.querySelector('.chapter');if(first)first.classList.add('active');})();
 function doSearch(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('search-hidden',q&&!a.textContent.toLowerCase().includes(q)));document.querySelectorAll('.chapter').forEach(c=>{if(!q){c.style.display=c.classList.contains('active')?'block':'none'}else{c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none'}});}
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('search').focus();}});
