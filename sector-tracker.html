@@ -17,16 +17,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .tab .count{font-size:10px;color:var(--text2);margin-left:4px}
-.grid{padding:20px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color .2s}
-.card:hover{border-color:#3a4560}
+.grid{padding:20px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
 .card h3{font-size:11px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
 .card .value{font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px}
-.card .value.sm{font-size:20px}
+.card .value.sm{font-size:18px}
 .card .sub{font-size:11px;color:var(--text2);line-height:1.5}
 .panel{margin:0 32px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.panel-header{padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
-.panel-header .controls{display:flex;gap:8px;align-items:center}
+.panel-header{padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.panel-header .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .panel-header input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;font-size:11px;width:180px;outline:none}
 .panel-header input:focus{border-color:var(--accent)}
 .panel-header select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-size:11px;outline:none}
@@ -42,6 +41,9 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 .badge-a{background:rgba(88,166,255,.15);color:#58a6ff}
 .badge-b{background:rgba(210,153,34,.15);color:#d29922}
 .badge-c{background:rgba(139,148,158,.15);color:#8b949e}
+.badge-near{background:rgba(63,185,80,.12);color:#3fb950}
+.badge-mid{background:rgba(88,166,255,.12);color:#58a6ff}
+.badge-far{background:rgba(139,148,158,.12);color:#8b949e}
 .score-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:4px;min-width:60px}
 .score-bar div{height:100%;border-radius:3px;transition:width .3s}
 .signal-tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}
@@ -49,20 +51,28 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 .signal-t2{background:rgba(88,166,255,.12);color:#58a6ff}
 .signal-t3{background:rgba(210,153,34,.12);color:#d29922}
 .signal-all3{background:rgba(163,113,247,.12);color:#a371f7}
+.legend{padding:10px 20px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;gap:20px;flex-wrap:wrap;font-size:11px;color:var(--text2);line-height:1.6}
+.legend strong{color:var(--text)}
+.help-panel{margin:0 32px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px 24px}
+.help-panel h3{font-size:14px;color:var(--accent);margin-bottom:12px}
+.help-panel p,.help-panel li{font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:4px}
+.help-panel ul{margin:6px 0 12px 20px}
+.help-panel code{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:11px;color:var(--warn)}
 .empty{text-align:center;padding:40px;color:var(--text2);font-size:13px}
 .hidden{display:none}
 .footer{text-align:center;padding:20px;color:var(--text2);font-size:10px;border-top:1px solid var(--border)}
+tr.resonance{border-left:3px solid var(--purple)!important}
 </style>
 </head>
 <body>
 <div class="header">
   <div>
-    <h1>🎯 十五五赛道跟踪 <span style="font-size:12px;color:var(--green);font-weight:400">(动态 · 实时DB)</span></h1>
-    <div class="meta">十五五规划纲要 → 28赛道 → 169标的 → 实时信号 · 曼尼投研系统</div>
-    <div class="updated">📡 最后更新: 2026-06-15 12:12</div>
+    <h1>🎯 十五五赛道跟踪 <span style="font-size:12px;color:var(--green);font-weight:400">(DB驱动)</span></h1>
+    <div class="meta">十五五规划纲要 → 28赛道 → 169标的 → 134研报 · 曼尼投研系统</div>
+    <div class="updated">📡 数据快照: 2026-06-15 12:55（运行 sync_sector_tracker.py 刷新）</div>
   </div>
   <div style="text-align:right">
-    <div style="font-size:14px;color:var(--green)">█ 分母已建立</div>
+    <div style="font-size:14px;color:var(--green)">█ 全市场分母</div>
     <div class="meta" id="universe-summary">...</div>
   </div>
 </div>
@@ -85,14 +95,21 @@ tr:hover td{background:rgba(88,166,255,0.03)}
     <tbody id="top10-sectors"></tbody></table>
   </div>
   <div class="panel">
-    <div class="panel-header">📡 最新信号 (Top 10)</div>
-    <table><thead><tr><th>日期</th><th>标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th>距52W高</th><th>量比</th></tr></thead>
+    <div class="panel-header">📡 最新信号 (Top 15)</div>
+    <table><thead><tr><th>日期</th><th>标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th>收盘价</th><th>距52W高</th><th>量比</th></tr></thead>
     <tbody id="latest-signals"></tbody></table>
   </div>
 </div>
 
 <!-- SECTORS -->
 <div id="tab-sectors" class="tab-content hidden">
+  <div class="legend">
+    <div><strong>优先级解读：</strong></div>
+    <div><span class="badge badge-s">S</span> = 规划专节+量化目标（如AI 10万亿）</div>
+    <div><span class="badge badge-a">A</span> = 八大战略性新兴产业</div>
+    <div><span class="badge badge-b">B</span> = 六大未来产业</div>
+    <div><span class="badge badge-c">C</span> = 关键核心技术 / 新基建</div>
+  </div>
   <div class="panel">
     <div class="panel-header">
       <span>🏭 二十八赛道全景</span>
@@ -114,15 +131,25 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 
 <!-- HOLDINGS -->
 <div id="tab-holdings" class="tab-content hidden">
+  <div class="legend">
+    <div><strong>PE分位数</strong> = 该标的PE_TTM在全部5207只A股中的排名百分比。分位越高越贵。</div>
+    <div><span style="color:var(--green)">0-30%</span> = 低估 | <span style="color:var(--accent)">30-60%</span> = 合理 | <span style="color:var(--warn)">60-80%</span> = 偏高 | <span style="color:var(--red)">80%+</span> = 昂贵</div>
+  </div>
   <div class="panel">
     <div class="panel-header">💼 持仓5只 · 全市场PE分位数校准</div>
-    <table><thead><tr><th>标的</th><th>代码</th><th>PE_TTM</th><th>全市场分位</th><th>毛利率</th><th>营收YoY</th><th>ROE≈</th><th>所属赛道</th><th>最新信号</th></tr></thead>
+    <table><thead><tr><th onclick="sortTable('holdings',0)">标的</th><th onclick="sortTable('holdings',1)">代码</th><th onclick="sortTable('holdings',2)">PE_TTM</th><th onclick="sortTable('holdings',3)">全市场分位</th><th onclick="sortTable('holdings',4)">毛利率</th><th onclick="sortTable('holdings',5)">营收YoY</th><th onclick="sortTable('holdings',6)">ROE≈</th><th>所属赛道</th><th>最新信号</th></tr></thead>
     <tbody id="holdings-table"></tbody></table>
   </div>
 </div>
 
 <!-- SIGNALS -->
 <div id="tab-signals" class="tab-content hidden">
+  <div class="legend">
+    <div><strong>T1 技术突破</strong> <span class="signal-tag signal-t1">T1</span> = 距52周高点≤15%，量比≥1.5，突破阻力位</div>
+    <div><strong>T2 基底形成</strong> <span class="signal-tag signal-t2">T2</span> = 基底≥6周，振幅收敛，蓄力形态</div>
+    <div><strong>T3 量价确认</strong> <span class="signal-tag signal-t3">T3</span> = 放量突破基底上沿，量价配合确认</div>
+    <div><strong>🔥 三信号共振</strong> <span style="color:var(--purple)">T1+T2+T3全部触发</span> = 最强信号，左侧紫色高亮</div>
+  </div>
   <div class="panel">
     <div class="panel-header">
       <span>📡 触发信号 (T1/T2/T3)</span>
@@ -137,7 +164,7 @@ tr:hover td{background:rgba(88,166,255,0.03)}
         <input id="signal-search" placeholder="搜索标的..." oninput="renderSignals()">
       </div>
     </div>
-    <table><thead><tr><th onclick="sortTable('signals',0)">日期</th><th onclick="sortTable('signals',1)">标的</th><th>赛道</th><th onclick="sortTable('signals',2)">T1</th><th onclick="sortTable('signals',3)">T2</th><th onclick="sortTable('signals',4)">T3</th><th>收盘价</th><th>距52W高</th><th>量比</th><th>可投性</th></tr></thead>
+    <table><thead><tr><th onclick="sortTable('signals',0)">日期</th><th onclick="sortTable('signals',1)">标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th onclick="sortTable('signals',2)">收盘价</th><th onclick="sortTable('signals',3)">距52W高</th><th onclick="sortTable('signals',4)">量比</th><th>可投性</th></tr></thead>
     <tbody id="signals-table"></tbody></table>
   </div>
 </div>
@@ -146,10 +173,10 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 <div id="tab-financials" class="tab-content hidden">
   <div class="panel">
     <div class="panel-header">
-      <span>📈 财务数据 (2025年 · 全部标的)</span>
-      <div class="controls"><input id="fin-search" placeholder="搜索标的..." oninput="renderFinancials()"></div>
+      <span>📈 财务数据 (2025年报 · 全部赛道标的)</span>
+      <div class="controls"><input id="fin-search" placeholder="搜索标的/代码..." oninput="renderFinancials()"></div>
     </div>
-    <table><thead><tr><th onclick="sortTable('financials',0)">标的</th><th onclick="sortTable('financials',1)">代码</th><th onclick="sortTable('financials',2)">PE_TTM</th><th>PB</th><th onclick="sortTable('financials',3)">毛利率</th><th onclick="sortTable('financials',4)">营收YoY</th><th>负债率</th><th onclick="sortTable('financials',5)">ROE≈</th><th>市值(亿)</th></tr></thead>
+    <table><thead><tr><th onclick="sortTable('financials',0)">标的</th><th>代码</th><th onclick="sortTable('financials',1)">PE_TTM</th><th>PB</th><th onclick="sortTable('financials',2)">毛利率</th><th onclick="sortTable('financials',3)">营收YoY</th><th>负债率</th><th onclick="sortTable('financials',4)">ROE≈</th><th>市值(亿)</th></tr></thead>
     <tbody id="financials-table"></tbody></table>
   </div>
 </div>
@@ -158,19 +185,40 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 <div id="tab-mapping" class="tab-content hidden">
   <div class="panel">
     <div class="panel-header">
-      <span>🔗 赛道→公司映射 (169条)</span>
+      <span>🔗 赛道→公司映射 (169条 · 同一标的可跨多赛道)</span>
       <div class="controls">
         <select id="map-sector" onchange="renderMapping()"><option value="">全部赛道</option></select>
         <input id="map-search" placeholder="搜索公司/代码..." oninput="renderMapping()">
       </div>
     </div>
-    <table><thead><tr><th onclick="sortTable('mapping',0)">赛道</th><th onclick="sortTable('mapping',1)">标的</th><th onclick="sortTable('mapping',2)">代码</th><th onclick="sortTable('mapping',3)">角色</th><th>PE_TTM</th><th>市值(亿)</th></tr></thead>
+    <table><thead><tr><th onclick="sortTable('mapping',0)">赛道</th><th onclick="sortTable('mapping',1)">标的</th><th>代码</th><th>角色</th><th>PE_TTM</th><th>市值(亿)</th></tr></thead>
     <tbody id="mapping-table"></tbody></table>
   </div>
 </div>
 
+<!-- USAGE GUIDE -->
+<div class="help-panel" id="help-panel" style="display:none">
+<h3>📖 使用说明</h3>
+<p><strong>数据来源：</strong>十五五规划纲要（gov.cn 2026-03-13）+ research.db 实时快照</p>
+<p><strong>刷新方式：</strong>运行 <code>python3 ~/.hermes/scripts/sync_sector_tracker.py</code> 重新生成并推送 GitHub Pages</p>
+<ul>
+<li><strong>📊 总览</strong> — 全市场PE分布 + 5只持仓PE分位 + TOP10赛道 + 最新信号</li>
+<li><strong>🏭 赛道</strong> — 28赛道按S/A/B/C优先级筛选，含规划章节引用和量化目标</li>
+<li><strong>💼 持仓</strong> — 5只标的 vs 全市场PE分位数校准，可排序</li>
+<li><strong>📡 信号</strong> — T1(技术突破)/T2(基底)/T3(量价确认) 三重扫描，可筛选共振信号</li>
+<li><strong>📈 财务</strong> — 113只赛道标的2025年报关键财务指标，可搜索排序</li>
+<li><strong>🔗 映射</strong> — 169条赛道→公司归属关系，同标的跨多赛道会重复出现</li>
+</ul>
+<p><strong>PE分位数：</strong>标的PE在全部5207只A股中的排名百分比，分位越高越贵。<br>
+<strong>PE均值 87.1：</strong>全市场3706只有效PE_TTM的简单算术平均，非加权。<br>
+<strong>PE&lt;15 419只：</strong>深度价值阈值，PE低于15倍的传统价值股数量。</p>
+<p><strong>T1/T2/T3说明：</strong>三个信号独立判断。<strong>T3量价确认</strong>最稳健——放量突破基底确认趋势。
+但最佳信号是<strong>三信号共振</strong>(T1+T2+T3全触发)，表示技术面、形态面、量价面同时验证。</p>
+</div>
+
 <div class="footer">
-  十五五赛道跟踪 v2.0（动态版）· 十倍股全生命周期系统 · 曼尼构建 · 数据源: research.db
+  十五五赛道跟踪 v2.0（动态DB版）· 十倍股全生命周期系统 · 曼尼构建
+  <span style="cursor:pointer;color:var(--accent);margin-left:8px" onclick="document.getElementById('help-panel').style.display=document.getElementById('help-panel').style.display==='none'?'block':'none'">📖 使用说明</span>
 </div>
 
 <script id="tracker-data" type="application/json">
@@ -187,30 +235,21 @@ const SIGNALS = D.signals;
 const UNIVERSE = D.universe;
 const PE_RANK = D.pe_rank;
 
-// Build sector name → analysis lookup
+// Lookups
 const SECTOR_MAP = {};
 ANALYSIS.forEach(s => { SECTOR_MAP[s.sector_name] = s; });
-
-// Build company name lookup for signals
 const COMPANY_MAP = {};
 COMPANIES.forEach(c => { if(c.ticker && c.name) COMPANY_MAP[c.ticker] = c; });
 FINANCIALS.forEach(f => { if(f.ts_code && f.name) COMPANY_MAP[f.ts_code] = f; });
 
-// Badge colors
 function priBadge(p) {
   if(p==='S') return 'badge-s';
   if(p==='A') return 'badge-a';
   if(p==='B') return 'badge-b';
   return 'badge-c';
 }
-function peColor(pe, pct) {
-  if(pct && pct<30) return 'var(--green)';
-  if(pct && pct<60) return 'var(--accent)';
-  if(pe>100) return 'var(--red)';
-  return 'var(--warn)';
-}
 
-// Switch tabs
+// Tab switching
 function switchTab(name) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
@@ -223,61 +262,57 @@ function switchTab(name) {
   if(name==='mapping') { buildMapSectorSelect(); renderMapping(); }
 }
 
-// ==== OVERVIEW ====
+// Init counts
 document.getElementById('universe-summary').textContent = UNIVERSE.total+'只A股 | PE均值'+UNIVERSE.avg_pe.toFixed(1)+' | PE<15: '+UNIVERSE.pe_lt15+'只';
 document.getElementById('cnt-sectors').textContent = SECTORS.length;
 document.getElementById('cnt-signals').textContent = SIGNALS.length;
 document.getElementById('cnt-fin').textContent = FINANCIALS.length;
 document.getElementById('cnt-map').textContent = COMPANIES.length;
 
-// Overview cards
+// ===== OVERVIEW =====
 let cards = '';
-// Universe card
-cards += '<div class="card"><h3>全市场 PE_TTM 均值</h3><div class="value">'+UNIVERSE.avg_pe.toFixed(1)+'</div><div class="sub">PE<15: '+UNIVERSE.pe_lt15+'只 | PE 15-30: '+UNIVERSE.pe_lt30+'只 | PE≥30: '+UNIVERSE.pe_ge30+'只</div></div>';
+cards += '<div class="card"><h3>全市场 PE_TTM 均值</h3><div class="value">'+UNIVERSE.avg_pe.toFixed(1)+'</div><div class="sub">简单算术平均 · PE<15: '+UNIVERSE.pe_lt15+'只 | 15-30: '+UNIVERSE.pe_lt30+'只 | ≥30: '+UNIVERSE.pe_ge30+'只</div></div>';
 
-// PE percentile cards for 5 holdings
 for(const [code, d] of Object.entries(PE_RANK)) {
-  const col = d.pe>100 ? 'var(--red)' : d.pe>60 ? 'var(--warn)' : 'var(--green)';
+  const col = d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
   cards += '<div class="card"><h3>📊 '+d.name+'</h3><div class="value sm" style="color:'+col+'">PE '+d.pe.toFixed(1)+'</div><div class="sub">全市场 '+d.pct+'% 分位 | 毛利 '+d.gm.toFixed(1)+'% | ROE≈ '+d.roe.toFixed(1)+'%</div></div>';
 }
 
-// Best PEG
-cards += '<div class="card"><h3>🏆 最佳 PEG</h3><div class="value sm" style="color:#3fb950">睿创微纳 0.80</div><div class="sub">PE 41.9 vs 52.2% C26增速 · 集成电路+高端装备</div></div>';
+cards += '<div class="card"><h3>🏆 最佳 PEG</h3><div class="value sm" style="color:#3fb950">睿创微纳 0.80</div><div class="sub">PE 41.9 vs C26增速 52.2% · 集成电路+高端装备</div></div>';
 
-// Reports
 const totalReports = D.report_summary.reduce((s,r)=>s+r.cnt,0);
 cards += '<div class="card"><h3>📄 券商研报</h3><div class="value">'+totalReports+'</div><div class="sub">覆盖 '+D.report_summary.length+' 个赛道</div></div>';
 
-// Signals
-const todaySignals = SIGNALS.filter(s=>s.signal_date===SIGNALS[0]?.signal_date).length;
-cards += '<div class="card"><h3>📡 最新信号</h3><div class="value">'+todaySignals+'</div><div class="sub">'+SIGNALS[0]?.signal_date||'无' +' | 累计 '+SIGNALS.length+' 条</div></div>';
-
+cards += '<div class="card"><h3>📡 最新信号</h3><div class="value">'+SIGNALS.length+'</div><div class="sub">'+SIGNALS[0]?.signal_date||'无' +' | 累计'+SIGNALS.length+'条</div></div>';
 document.getElementById('overview-cards').innerHTML = cards;
 
 // Top 10 sectors
 let top10 = ANALYSIS.slice(0,10);
-let topHTML = top10.map((s,i)=>{
+document.getElementById('top10-sectors').innerHTML = top10.map((s,i)=>{
   let col = s.investability_score>=8.5?'#3fb950':s.investability_score>=7.5?'#58a6ff':'#d29922';
-  let tBadge = s.time_horizon==='near'?'badge-s':s.time_horizon==='mid'?'badge-a':'badge-b';
+  let tBadge = s.time_horizon==='near'?'badge-near':s.time_horizon==='mid'?'badge-mid':'badge-far';
   let mkt = s.market_size_cn_5y ? (s.market_size_cn_5y/10000).toFixed(0)+'万' : '-';
   return '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.policy_weight.toFixed(1)+'</td>'
     +'<td style="color:'+col+';font-weight:600">'+s.investability_score.toFixed(1)+'<div class="score-bar"><div style="width:'+(s.investability_score*10)+'%;background:'+col+'"></div></div></td>'
     +'<td><span class="badge '+tBadge+'">'+(s.time_horizon||'-')+'</span></td>'
-    +'<td>'+mkt+'</td><td>'+(s.growth_cagr_pct||'-')+'%</td><td style="font-size:11px">'+(s.catalyst_2026||'-').substring(0,60)+'</td></tr>';
+    +'<td>'+mkt+'</td><td>'+(s.growth_cagr_pct||'-')+'%</td><td style="font-size:10px">'+(s.catalyst_2026||'-').substring(0,55)+'</td></tr>';
 }).join('');
-document.getElementById('top10-sectors').innerHTML = topHTML;
 
-// Latest 10 signals
-let sigHTML = SIGNALS.slice(0,10).map(s=>{
-  let tag=''; if(s.t1_pass) tag+='<span class="signal-tag signal-t1">T1</span>'; if(s.t2_pass) tag+='<span class="signal-tag signal-t2">T2</span>'; if(s.t3_pass) tag+='<span class="signal-tag signal-t3">T3</span>';
+// Latest signals (top 15)
+document.getElementById('latest-signals').innerHTML = SIGNALS.slice(0,15).map(s=>{
   let name = COMPANY_MAP[s.ts_code]?.name || s.ts_code;
-  return '<tr><td>'+s.signal_date+'</td><td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td><td style="font-size:10px">'+(s.sectors||'-')+'</td>'
-    +'<td>'+tag+'</td><td>'+tag+'</td><td>'+tag+'</td>'
-    +'<td>'+(s.dist_52w_high||'-').toFixed(1)+'%</td><td>'+(s.vol_ratio||'-').toFixed(1)+'</td></tr>';
+  let t1 = s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'';
+  let t2 = s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'';
+  let t3 = s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'';
+  let all3 = s.t1_pass&&s.t2_pass&&s.t3_pass;
+  return '<tr'+(all3?' class="resonance"':'')+'>'
+    +'<td>'+s.signal_date+'</td><td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td>'
+    +'<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td>'
+    +'<td>'+t1+'</td><td>'+t2+'</td><td>'+t3+'</td>'
+    +'<td>'+(s.close||0).toFixed(2)+'</td><td>'+(s.dist_52w_high||0).toFixed(1)+'%</td><td>'+(s.vol_ratio||0).toFixed(1)+'</td></tr>';
 }).join('');
-document.getElementById('latest-signals').innerHTML = sigHTML;
 
-// ==== SECTORS ====
+// ===== SECTORS =====
 function renderSectors() {
   let cat = document.getElementById('sector-cat').value;
   let q = document.getElementById('sector-search').value.toLowerCase();
@@ -286,34 +321,29 @@ function renderSectors() {
     if(q && !s.sector_name.toLowerCase().includes(q) && !(s.plan_citation||'').toLowerCase().includes(q)) return false;
     return true;
   });
-  let html = filtered.map((s,i)=>{
-    return '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.category+'</td>'
-      +'<td>'+s.plan_section+'</td><td><span class="badge '+priBadge(s.priority)+'">'+s.priority+'</span></td>'
-      +'<td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>';
-  }).join('');
-  document.getElementById('sectors-table').innerHTML = html||'<tr><td colspan="6" class="empty">无匹配赛道</td></tr>';
+  document.getElementById('sectors-table').innerHTML = filtered.map((s,i)=>
+    '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.category+'</td>'
+    +'<td>'+s.plan_section+'</td><td><span class="badge '+priBadge(s.priority)+'">'+s.priority+'</span></td>'
+    +'<td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>'
+  ).join('')||'<tr><td colspan="6" class="empty">无匹配赛道</td></tr>';
 }
 
-// ==== HOLDINGS ====
-function renderHoldings() {
-  const holdings = [
-    {code:'688498.SH',name:'源杰科技',peg:1.61},
-    {code:'688019.SH',name:'安集科技',peg:1.87},
-    {code:'688002.SH',name:'睿创微纳',peg:0.80},
-    {code:'300394.SZ',name:'天孚通信',peg:2.17},
-    {code:'002625.SZ',name:'光启技术',peg:2.20},
-  ];
-  // Get sector info from signals
-  const stockSectors = {};
-  SIGNALS.forEach(s=>{
-    if(!stockSectors[s.ts_code] && s.sectors) stockSectors[s.ts_code]=s.sectors;
-  });
+// ===== HOLDINGS =====
+const HOLDINGS_DATA = [
+  {code:'688498.SH',name:'源杰科技',peg:1.61},
+  {code:'688019.SH',name:'安集科技',peg:1.87},
+  {code:'688002.SH',name:'睿创微纳',peg:0.80},
+  {code:'300394.SZ',name:'天孚通信',peg:2.17},
+  {code:'002625.SZ',name:'光启技术',peg:2.20},
+];
 
-  let html = holdings.map(h=>{
+const stockSectors = {};
+SIGNALS.forEach(s=>{ if(!stockSectors[s.ts_code] && s.sectors) stockSectors[s.ts_code]=s.sectors; });
+
+function renderHoldings() {
+  document.getElementById('holdings-table').innerHTML = HOLDINGS_DATA.map(h=>{
     let d = PE_RANK[h.code]||{};
     let col = d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
-    let pegCol = h.peg<1?'var(--green)':h.peg<2?'var(--warn)':'var(--red)';
-    // Get latest signal
     let lastSig = SIGNALS.find(s=>s.ts_code===h.code);
     let sigTags = '';
     if(lastSig){
@@ -325,13 +355,12 @@ function renderHoldings() {
       +'<td style="color:'+col+';font-weight:600">'+d.pe.toFixed(1)+'</td>'
       +'<td><span style="color:'+col+'">'+d.pct+'%</span> <span style="font-size:10px;color:var(--text2)">('+d.rank+'/'+UNIVERSE.with_pe+')</span></td>'
       +'<td>'+(d.gm||'-').toFixed(1)+'%</td><td>'+(d.rev_yoy||'-').toFixed(1)+'%</td><td>'+(d.roe||'-').toFixed(1)+'%</td>'
-      +'<td style="font-size:10px">'+(stockSectors[h.code]||'-')+'</td>'
+      +'<td style="font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(stockSectors[h.code]||'-')+'</td>'
       +'<td>'+sigTags+'</td></tr>';
   }).join('');
-  document.getElementById('holdings-table').innerHTML = html;
 }
 
-// ==== SIGNALS ====
+// ===== SIGNALS =====
 function renderSignals() {
   let filter = document.getElementById('signal-filter').value;
   let q = document.getElementById('signal-search').value.toLowerCase();
@@ -346,55 +375,47 @@ function renderSignals() {
     }
     return true;
   });
-  let html = filtered.map(s=>{
+  document.getElementById('signals-table').innerHTML = filtered.length ? filtered.map(s=>{
     let name = COMPANY_MAP[s.ts_code]?.name||s.ts_code;
-    let tags = [];
-    if(s.t1_pass) tags.push('<span class="signal-tag signal-t1">T1</span>');
-    if(s.t2_pass) tags.push('<span class="signal-tag signal-t2">T2</span>');
-    if(s.t3_pass) tags.push('<span class="signal-tag signal-t3">T3</span>');
     let all3 = s.t1_pass&&s.t2_pass&&s.t3_pass;
-    return '<tr'+(all3?' style="border-left:3px solid var(--purple)"':'')+'>'
+    return '<tr'+(all3?' class="resonance"':'')+'>'
       +'<td>'+s.signal_date+'</td>'
       +'<td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td>'
-      +'<td style="font-size:10px">'+(s.sectors||'-')+'</td>'
-      +'<td><span class="signal-tag '+(s.t1_pass?'signal-t1':'')+'">'+(s.t1_pass?'✓':'')+'</span></td>'
-      +'<td><span class="signal-tag '+(s.t2_pass?'signal-t2':'')+'">'+(s.t2_pass?'✓':'')+'</span></td>'
-      +'<td><span class="signal-tag '+(s.t3_pass?'signal-t3':'')+'">'+(s.t3_pass?'✓':'')+'</span></td>'
-      +'<td>'+(s.close||'-').toFixed(2)+'</td>'
-      +'<td>'+(s.dist_52w_high||'-').toFixed(1)+'%</td>'
-      +'<td>'+(s.vol_ratio||'-').toFixed(1)+'</td>'
+      +'<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td>'
+      +'<td>'+(s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'')+'</td>'
+      +'<td>'+(s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'')+'</td>'
+      +'<td>'+(s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'')+'</td>'
+      +'<td>'+(s.close||0).toFixed(2)+'</td>'
+      +'<td>'+(s.dist_52w_high||0).toFixed(1)+'%</td>'
+      +'<td>'+(s.vol_ratio||0).toFixed(1)+'</td>'
       +'<td>'+(s.investability_score||'-').toFixed(1)+'</td></tr>';
-  }).join('');
-  document.getElementById('signals-table').innerHTML = html||'<tr><td colspan="11" class="empty">无匹配信号</td></tr>';
+  }).join('') : '<tr><td colspan="10" class="empty">无匹配信号</td></tr>';
 }
 
-// ==== FINANCIALS ====
+// ===== FINANCIALS =====
 function renderFinancials() {
-  let q = document.getElementById('fin-search').value.toLowerCase();
+  let q = document.getElementById('fin-search')?.value?.toLowerCase()||'';
   let filtered = FINANCIALS.filter(f=>{
     if(q && !(f.name||'').toLowerCase().includes(q) && !(f.ts_code||'').toLowerCase().includes(q)) return false;
     return true;
   });
-  let html = filtered.map(f=>{
+  document.getElementById('financials-table').innerHTML = filtered.length ? filtered.map(f=>{
     let mktcap = f.mktcap ? (f.mktcap/100000000).toFixed(0) : '-';
-    return '<tr><td><strong>'+f.name+'</strong></td><td><code>'+f.ts_code.split('.')[0]+'</code></td>'
-      +'<td style="font-weight:600">'+(f.pe_ttm||'-').toFixed(1)+'</td><td>'+(f.pb||'-').toFixed(2)+'</td>'
-      +'<td>'+(f.gm_ttm||'-').toFixed(1)+'%</td><td>'+(f.rev_ttm_yoy||'-').toFixed(1)+'%</td>'
-      +'<td>'+(f.debt_ratio||'-').toFixed(1)+'%</td><td>'+(f.roe_est||'-').toFixed(1)+'%</td>'
+    return '<tr><td><strong>'+(f.name||'-')+'</strong></td><td><code>'+(f.ts_code||'').split('.')[0]+'</code></td>'
+      +'<td style="font-weight:600">'+(f.pe_ttm||0).toFixed(1)+'</td><td>'+(f.pb||0).toFixed(2)+'</td>'
+      +'<td>'+(f.gm_ttm||0).toFixed(1)+'%</td><td>'+(f.rev_ttm_yoy||0).toFixed(1)+'%</td>'
+      +'<td>'+(f.debt_ratio||0).toFixed(1)+'%</td><td>'+(f.roe_est||0).toFixed(1)+'%</td>'
       +'<td>'+mktcap+'</td></tr>';
-  }).join('');
-  document.getElementById('financials-table').innerHTML = html||'<tr><td colspan="9" class="empty">无匹配结果</td></tr>';
+  }).join('') : '<tr><td colspan="9" class="empty">无匹配结果</td></tr>';
 }
 
-// ==== MAPPING ====
+// ===== MAPPING =====
 function buildMapSectorSelect() {
   let sectors = [...new Set(COMPANIES.map(c=>{
-    // Get sector name from analysis
     let a = ANALYSIS.find(a=>a.id===c.sector_analysis_id);
     return a?a.sector_name:'';
   }).filter(Boolean))].sort();
-  let sel = document.getElementById('map-sector');
-  sel.innerHTML = '<option value="">全部赛道</option>'+sectors.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  document.getElementById('map-sector').innerHTML = '<option value="">全部赛道</option>'+sectors.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
 }
 
 function renderMapping() {
@@ -408,40 +429,36 @@ function renderMapping() {
     if(q && !(c.name||'').toLowerCase().includes(q) && !(c.ticker||'').toLowerCase().includes(q)) return false;
     return true;
   });
-  let html = filtered.map(c=>{
+  document.getElementById('mapping-table').innerHTML = filtered.length ? filtered.map(c=>{
     let sectorName = '';
     let a = ANALYSIS.find(a=>a.id===c.sector_analysis_id);
     if(a) sectorName = a.sector_name;
-    let mktcap = c.mcap_yi ? (c.mcap_yi/100).toFixed(0) : '-';
-    return '<tr><td>'+sectorName+'</td><td><strong>'+c.name+'</strong></td>'
-      +'<td><code>'+c.ticker+'</code></td><td>'+c.role+'</td>'
+    // mcap_yi is already in 亿 (人民币)
+    let mktcap = c.mcap_yi ? c.mcap_yi.toFixed(0)+' 亿' : '-';
+    return '<tr><td>'+sectorName+'</td><td><strong>'+(c.name||'-')+'</strong></td>'
+      +'<td><code>'+(c.ticker||'')+'</code></td><td>'+(c.role||'-')+'</td>'
       +'<td>'+(c.pe_ttm||'-')+'</td><td>'+mktcap+'</td></tr>';
-  }).join('');
-  document.getElementById('mapping-table').innerHTML = html||'<tr><td colspan="6" class="empty">无匹配结果</td></tr>';
+  }).join('') : '<tr><td colspan="6" class="empty">无匹配结果</td></tr>';
 }
 
-// Simple sort
+// ===== SORTING =====
 let sortState = {};
 function sortTable(tableId, colIdx) {
   let key = tableId+'_'+colIdx;
   sortState[key] = !sortState[key];
   let asc = sortState[key];
   
-  let rows, tbodyId, renderFn;
-  if(tableId==='sectors'){
-    renderSectors();
-    rows = Array.from(document.querySelectorAll('#sectors-table tr'));
-  } else if(tableId==='signals'){
-    renderSignals();
-    rows = Array.from(document.querySelectorAll('#signals-table tr'));
-  } else if(tableId==='financials'){
-    renderFinancials();
-    rows = Array.from(document.querySelectorAll('#financials-table tr'));
-  } else if(tableId==='mapping'){
-    renderMapping();
-    rows = Array.from(document.querySelectorAll('#mapping-table tr'));
-  }
-  if(!rows||rows.length<2) return;
+  let tbodyId;
+  if(tableId==='sectors') tbodyId='sectors-table';
+  else if(tableId==='signals') tbodyId='signals-table';
+  else if(tableId==='financials') tbodyId='financials-table';
+  else if(tableId==='mapping') tbodyId='mapping-table';
+  else if(tableId==='holdings') tbodyId='holdings-table';
+  else return;
+  
+  let tbody = document.getElementById(tbodyId);
+  let rows = Array.from(tbody.querySelectorAll('tr'));
+  if(rows.length<2) return;
   
   rows.sort((a,b)=>{
     let va = (a.cells[colIdx]?.textContent||'').trim();
@@ -450,14 +467,17 @@ function sortTable(tableId, colIdx) {
     if(!isNaN(na) && !isNaN(nb)) return asc ? na-nb : nb-na;
     return asc ? va.localeCompare(vb) : vb.localeCompare(va);
   });
-  let tbody = rows[0].parentElement;
   tbody.innerHTML = '';
   rows.forEach(r=>tbody.appendChild(r));
 }
 
 // Init
 renderSectors();
+renderHoldings();
+renderSignals();
+renderFinancials();
 buildMapSectorSelect();
+renderMapping();
 </script>
 </body>
 </html>
