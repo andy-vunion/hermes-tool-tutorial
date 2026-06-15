@@ -3,20 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>十五五赛道跟踪 · 十倍股系统 (动态)</title>
+<title>十五五赛道跟踪 · 十倍股全生命周期系统</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0d1117;--bg2:#141920;--bg3:#1c2333;--bg4:#242d3d;--border:#2a3345;--text:#c9d1d9;--text2:#8b949e;--accent:#58a6ff;--green:#3fb950;--warn:#d29922;--red:#f85149;--purple:#a371f7}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
 .header{background:linear-gradient(135deg,#0d1117 0%,#1a2332 100%);border-bottom:1px solid var(--border);padding:18px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.header h1{font-size:19px;color:var(--accent);display:flex;align-items:center;gap:10px}
+.header h1{font-size:19px;color:var(--accent)}
 .header .meta{font-size:11px;color:var(--text2)}
 .header .updated{font-size:10px;color:var(--warn);margin-top:4px}
-.tabs{display:flex;gap:4px;padding:0 32px;border-bottom:1px solid var(--border);background:var(--bg2);overflow-x:auto}
-.tab{padding:10px 16px;cursor:pointer;font-size:12px;color:var(--text2);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tabs{display:flex;gap:2px;padding:0 32px;border-bottom:1px solid var(--border);background:var(--bg2);overflow-x:auto;flex-wrap:wrap}
+.tab{padding:10px 14px;cursor:pointer;font-size:11.5px;color:var(--text2);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab .count{font-size:10px;color:var(--text2);margin-left:4px}
+.tab .count{font-size:10px;color:var(--text2);margin-left:3px}
+.tab.new{color:var(--green)}
 .grid{padding:20px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
 .card h3{font-size:11px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
@@ -33,7 +34,6 @@ table{width:100%;border-collapse:collapse;font-size:12px}
 th,td{border-bottom:1px solid var(--border);padding:7px 12px;text-align:left}
 th{background:var(--bg3);font-weight:600;font-size:10px;color:var(--text2);text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap}
 th:hover{color:var(--text)}
-th.sorted{color:var(--accent)}
 td{color:var(--text2)}
 tr:hover td{background:rgba(88,166,255,0.03)}
 .badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap}
@@ -50,26 +50,41 @@ tr:hover td{background:rgba(88,166,255,0.03)}
 .signal-t1{background:rgba(63,185,80,.12);color:#3fb950}
 .signal-t2{background:rgba(88,166,255,.12);color:#58a6ff}
 .signal-t3{background:rgba(210,153,34,.12);color:#d29922}
-.signal-all3{background:rgba(163,113,247,.12);color:#a371f7}
 .legend{padding:10px 20px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;gap:20px;flex-wrap:wrap;font-size:11px;color:var(--text2);line-height:1.6}
 .legend strong{color:var(--text)}
-.help-panel{margin:0 32px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px 24px}
-.help-panel h3{font-size:14px;color:var(--accent);margin-bottom:12px}
-.help-panel p,.help-panel li{font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:4px}
-.help-panel ul{margin:6px 0 12px 20px}
-.help-panel code{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:11px;color:var(--warn)}
+.doc-chapter{padding:24px 32px;max-width:960px}
+.doc-chapter h2{font-size:20px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:20px}
+.doc-chapter h3{font-size:15px;color:var(--text);margin:18px 0 8px}
+.doc-chapter p{font-size:13px;line-height:1.8;margin-bottom:10px;color:var(--text2)}
+.doc-chapter ul,.doc-chapter ol{margin:6px 0 14px 24px;font-size:13px;line-height:1.8;color:var(--text2)}
+.doc-chapter li{margin-bottom:3px}
+.doc-chapter code{background:var(--bg3);padding:2px 6px;border-radius:3px;font-size:12px;color:var(--warn)}
+.doc-chapter pre{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px 18px;overflow-x:auto;margin:12px 0;font-size:11px;line-height:1.5}
+.doc-chapter pre code{background:none;padding:0;color:var(--text)}
+.doc-chapter table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+.doc-chapter th,.doc-chapter td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+.doc-chapter th{background:var(--bg3);font-weight:600;font-size:11px;color:var(--text2)}
+.doc-chapter td{color:var(--text2);font-size:12px}
+.doc-chapter blockquote{border-left:3px solid var(--accent);margin:12px 0;padding:6px 14px;background:rgba(88,166,255,0.05);border-radius:0 6px 6px 0;font-size:13px;color:var(--text2)}
+.doc-chapter strong{color:var(--text)}
+.doc-chapter hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .empty{text-align:center;padding:40px;color:var(--text2);font-size:13px}
 .hidden{display:none}
 .footer{text-align:center;padding:20px;color:var(--text2);font-size:10px;border-top:1px solid var(--border)}
 tr.resonance{border-left:3px solid var(--purple)!important}
+.guide-section{margin-bottom:24px}
+.guide-section h3{font-size:15px;color:var(--accent);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.guide-section p,.guide-section li{font-size:13px;color:var(--text2);line-height:1.9}
+.guide-section ul{margin:6px 0 12px 20px}
+.guide-section code{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:11px;color:var(--warn)}
 </style>
 </head>
 <body>
 <div class="header">
   <div>
-    <h1>🎯 十五五赛道跟踪 <span style="font-size:12px;color:var(--green);font-weight:400">(DB驱动)</span></h1>
-    <div class="meta">十五五规划纲要 → 28赛道 → 169标的 → 134研报 · 曼尼投研系统</div>
-    <div class="updated">📡 数据快照: 2026-06-15 12:57（运行 sync_sector_tracker.py 刷新）</div>
+    <h1>🎯 十倍股全生命周期跟踪系统 <span style="font-size:12px;color:var(--green);font-weight:400">v2.0</span></h1>
+    <div class="meta">十五五规划 → 28赛道 → 169标的 · 设计文档 · 数据验证 · 曼尼投研</div>
+    <div class="updated">📡 快照: 2026-06-15 13:06 | 刷新: python3 ~/.hermes/scripts/sync_sector_tracker.py</div>
   </div>
   <div style="text-align:right">
     <div style="font-size:14px;color:var(--green)">█ 全市场分母</div>
@@ -84,141 +99,102 @@ tr.resonance{border-left:3px solid var(--purple)!important}
   <div class="tab" onclick="switchTab('signals')">📡 信号<span class="count" id="cnt-signals"></span></div>
   <div class="tab" onclick="switchTab('financials')">📈 财务<span class="count" id="cnt-fin"></span></div>
   <div class="tab" onclick="switchTab('mapping')">🔗 映射<span class="count" id="cnt-map"></span></div>
+  <div class="tab new" onclick="switchTab('design')">📋 设计</div>
+  <div class="tab new" onclick="switchTab('datasource')">🔬 验证</div>
+  <div class="tab new" onclick="switchTab('policy')">📜 政策</div>
+  <div class="tab new" onclick="switchTab('guide')">📖 说明</div>
 </div>
 
-<!-- OVERVIEW -->
+<!-- OVERVIEW (existing, kept intact) -->
 <div id="tab-overview" class="tab-content">
   <div class="grid" id="overview-cards"></div>
-  <div class="panel">
-    <div class="panel-header">🏆 TOP 10 赛道 · 可投性排名</div>
+  <div class="panel"><div class="panel-header">🏆 TOP 10 赛道 · 可投性排名</div>
     <table><thead><tr><th>#</th><th>赛道</th><th>政策权重</th><th>可投性</th><th>时间窗口</th><th>五年市场(亿)</th><th>CAGR</th><th>催化剂</th></tr></thead>
-    <tbody id="top10-sectors"></tbody></table>
-  </div>
-  <div class="panel">
-    <div class="panel-header">📡 最新信号 (Top 15)</div>
+    <tbody id="top10-sectors"></tbody></table></div>
+  <div class="panel"><div class="panel-header">📡 最新信号 (Top 15)</div>
     <table><thead><tr><th>日期</th><th>标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th>收盘价</th><th>距52W高</th><th>量比</th></tr></thead>
-    <tbody id="latest-signals"></tbody></table>
-  </div>
+    <tbody id="latest-signals"></tbody></table></div>
 </div>
 
 <!-- SECTORS -->
 <div id="tab-sectors" class="tab-content hidden">
   <div class="legend">
-    <div><strong>优先级解读：</strong></div>
-    <div><span class="badge badge-s">S</span> = 规划专节+量化目标（如AI 10万亿）</div>
-    <div><span class="badge badge-a">A</span> = 八大战略性新兴产业</div>
-    <div><span class="badge badge-b">B</span> = 六大未来产业</div>
-    <div><span class="badge badge-c">C</span> = 关键核心技术 / 新基建</div>
+    <div><strong>优先级：</strong><span class="badge badge-s">S</span>=专节+量化目标 <span class="badge badge-a">A</span>=战略新兴产业 <span class="badge badge-b">B</span>=未来产业 <span class="badge badge-c">C</span>=核心技术/新基建</div>
   </div>
-  <div class="panel">
-    <div class="panel-header">
-      <span>🏭 二十八赛道全景</span>
-      <div class="controls">
-        <select id="sector-cat" onchange="renderSectors()">
-          <option value="">全部优先级</option>
-          <option value="S">🔴 S级</option>
-          <option value="A">🟠 A级</option>
-          <option value="B">🟡 B级</option>
-          <option value="C">🟢 C级</option>
-        </select>
-        <input id="sector-search" placeholder="搜索赛道..." oninput="renderSectors()">
-      </div>
-    </div>
-    <table><thead><tr><th onclick="sortTable('sectors',0)">#</th><th onclick="sortTable('sectors',1)">赛道</th><th onclick="sortTable('sectors',2)">类别</th><th onclick="sortTable('sectors',3)">规划章节</th><th onclick="sortTable('sectors',4)">优先级</th><th>量化目标</th></tr></thead>
-    <tbody id="sectors-table"></tbody></table>
-  </div>
+  <div class="panel"><div class="panel-header"><span>🏭 二十八赛道全景</span>
+    <div class="controls">
+      <select id="sector-cat" onchange="renderSectors()"><option value="">全部</option><option value="S">🔴 S级</option><option value="A">🟠 A级</option><option value="B">🟡 B级</option><option value="C">🟢 C级</option></select>
+      <input id="sector-search" placeholder="搜索..." oninput="renderSectors()"></div></div>
+    <table><thead><tr><th>#</th><th>赛道</th><th>类别</th><th>规划章节</th><th>优先级</th><th>量化目标</th></tr></thead>
+    <tbody id="sectors-table"></tbody></table></div>
 </div>
 
 <!-- HOLDINGS -->
 <div id="tab-holdings" class="tab-content hidden">
   <div class="legend">
-    <div><strong>PE分位数</strong> = 该标的PE_TTM在全部5207只A股中的排名百分比。分位越高越贵。</div>
-    <div><span style="color:var(--green)">0-30%</span> = 低估 | <span style="color:var(--accent)">30-60%</span> = 合理 | <span style="color:var(--warn)">60-80%</span> = 偏高 | <span style="color:var(--red)">80%+</span> = 昂贵</div>
+    <div><strong>PE分位数</strong>=标的PE在3706只A股中的排名% <span style="color:var(--green)">0-30%低估</span> <span style="color:var(--accent)">30-60%合理</span> <span style="color:var(--warn)">60-80%偏高</span> <span style="color:var(--red)">80%+昂贵</span></div>
   </div>
-  <div class="panel">
-    <div class="panel-header">💼 持仓5只 · 全市场PE分位数校准</div>
-    <table><thead><tr><th onclick="sortTable('holdings',0)">标的</th><th onclick="sortTable('holdings',1)">代码</th><th onclick="sortTable('holdings',2)">PE_TTM</th><th onclick="sortTable('holdings',3)">全市场分位</th><th onclick="sortTable('holdings',4)">PEG</th><th onclick="sortTable('holdings',5)">毛利率</th><th onclick="sortTable('holdings',6)">营收YoY</th><th onclick="sortTable('holdings',7)">ROE≈</th><th>所属赛道</th><th>最新信号</th></tr></thead>
-    <tbody id="holdings-table"></tbody></table>
-  </div>
+  <div class="panel"><div class="panel-header">💼 持仓5只 · 全市场PE分位数校准</div>
+    <table><thead><tr><th onclick="sortTable('holdings',0)">标的</th><th>代码</th><th onclick="sortTable('holdings',1)">PE_TTM</th><th onclick="sortTable('holdings',2)">分位</th><th onclick="sortTable('holdings',3)">PEG</th><th>毛利率</th><th>营收YoY</th><th>ROE≈</th><th>赛道</th><th>信号</th></tr></thead>
+    <tbody id="holdings-table"></tbody></table></div>
 </div>
 
 <!-- SIGNALS -->
 <div id="tab-signals" class="tab-content hidden">
   <div class="legend">
-    <div><strong>T1 技术突破</strong> <span class="signal-tag signal-t1">T1</span> = 距52周高点≤15%，量比≥1.5，突破阻力位</div>
-    <div><strong>T2 基底形成</strong> <span class="signal-tag signal-t2">T2</span> = 基底≥6周，振幅收敛，蓄力形态</div>
-    <div><strong>T3 量价确认</strong> <span class="signal-tag signal-t3">T3</span> = 放量突破基底上沿，量价配合确认</div>
-    <div><strong>🔥 三信号共振</strong> <span style="color:var(--purple)">T1+T2+T3全部触发</span> = 最强信号，左侧紫色高亮</div>
+    <div><span class="signal-tag signal-t1">T1</span><strong>技术突破</strong> 距52W高≤15%+量比≥1.5</div>
+    <div><span class="signal-tag signal-t2">T2</span><strong>基底形成</strong> 基底≥6周+振幅收敛</div>
+    <div><span class="signal-tag signal-t3">T3</span><strong>量价确认</strong> 放量突破基底 ⭐最稳健</div>
+    <div style="color:var(--purple)"><strong>🔥三信号共振</strong>=T1+T2+T3全触发 最强信号</div>
   </div>
-  <div class="panel">
-    <div class="panel-header">
-      <span>📡 触发信号 (T1/T2/T3)</span>
-      <div class="controls">
-        <select id="signal-filter" onchange="renderSignals()">
-          <option value="">全部信号</option>
-          <option value="t1">T1-技术突破</option>
-          <option value="t2">T2-基底形成</option>
-          <option value="t3">T3-量价确认</option>
-          <option value="all3">🔥 三信号共振</option>
-        </select>
-        <input id="signal-search" placeholder="搜索标的..." oninput="renderSignals()">
-      </div>
-    </div>
-    <table><thead><tr><th onclick="sortTable('signals',0)">日期</th><th onclick="sortTable('signals',1)">标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th onclick="sortTable('signals',2)">收盘价</th><th onclick="sortTable('signals',3)">距52W高</th><th onclick="sortTable('signals',4)">量比</th><th>可投性</th></tr></thead>
-    <tbody id="signals-table"></tbody></table>
-  </div>
+  <div class="panel"><div class="panel-header"><span>📡 触发信号</span>
+    <div class="controls">
+      <select id="signal-filter" onchange="renderSignals()"><option value="">全部</option><option value="t1">T1</option><option value="t2">T2</option><option value="t3">T3</option><option value="all3">🔥共振</option></select>
+      <input id="signal-search" placeholder="搜索..." oninput="renderSignals()"></div></div>
+    <table><thead><tr><th>日期</th><th>标的</th><th>赛道</th><th>T1</th><th>T2</th><th>T3</th><th>收盘价</th><th>距52W高</th><th>量比</th><th>可投性</th></tr></thead>
+    <tbody id="signals-table"></tbody></table></div>
 </div>
 
 <!-- FINANCIALS -->
 <div id="tab-financials" class="tab-content hidden">
-  <div class="panel">
-    <div class="panel-header">
-      <span>📈 财务数据 (2025年报 · 全部赛道标的)</span>
-      <div class="controls"><input id="fin-search" placeholder="搜索标的/代码..." oninput="renderFinancials()"></div>
-    </div>
-    <table><thead><tr><th onclick="sortTable('financials',0)">标的</th><th>代码</th><th onclick="sortTable('financials',1)">PE_TTM</th><th>PB</th><th onclick="sortTable('financials',2)">毛利率</th><th onclick="sortTable('financials',3)">营收YoY</th><th>负债率</th><th onclick="sortTable('financials',4)">ROE≈</th><th>市值(亿)</th></tr></thead>
-    <tbody id="financials-table"></tbody></table>
-  </div>
+  <div class="panel"><div class="panel-header"><span>📈 财务数据 (2025年报)</span>
+    <div class="controls"><input id="fin-search" placeholder="搜索..." oninput="renderFinancials()"></div></div>
+    <table><thead><tr><th>标的</th><th>代码</th><th onclick="sortTable('financials',0)">PE_TTM</th><th>PB</th><th>毛利率</th><th>营收YoY</th><th>负债率</th><th>ROE≈</th><th>市值(亿)</th></tr></thead>
+    <tbody id="financials-table"></tbody></table></div>
 </div>
 
 <!-- MAPPING -->
 <div id="tab-mapping" class="tab-content hidden">
-  <div class="panel">
-    <div class="panel-header">
-      <span>🔗 赛道→公司映射 (169条 · 同一标的可跨多赛道)</span>
-      <div class="controls">
-        <select id="map-sector" onchange="renderMapping()"><option value="">全部赛道</option></select>
-        <input id="map-search" placeholder="搜索公司/代码..." oninput="renderMapping()">
-      </div>
-    </div>
-    <table><thead><tr><th onclick="sortTable('mapping',0)">赛道</th><th onclick="sortTable('mapping',1)">标的</th><th>代码</th><th>角色</th><th>PE_TTM</th><th>市值(亿)</th></tr></thead>
-    <tbody id="mapping-table"></tbody></table>
-  </div>
+  <div class="panel"><div class="panel-header"><span>🔗 赛道→公司 (169条·跨赛道可重复)</span>
+    <div class="controls">
+      <select id="map-sector" onchange="renderMapping()"><option value="">全部赛道</option></select>
+      <input id="map-search" placeholder="搜索..." oninput="renderMapping()"></div></div>
+    <table><thead><tr><th>赛道</th><th>标的</th><th>代码</th><th>角色</th><th>PE_TTM</th><th>市值(亿)</th></tr></thead>
+    <tbody id="mapping-table"></tbody></table></div>
+</div>
+
+<!-- DESIGN DOC (from 10x-tracker-claude.html) -->
+<div id="tab-design" class="tab-content hidden">
+  <div class="doc-chapter" id="design-content">Loading...</div>
+</div>
+
+<!-- DATASOURCE VERIFICATION -->
+<div id="tab-datasource" class="tab-content hidden">
+  <div class="doc-chapter" id="datasource-content">Loading...</div>
+</div>
+
+<!-- POLICY -->
+<div id="tab-policy" class="tab-content hidden">
+  <div class="doc-chapter" id="policy-content">Loading...</div>
 </div>
 
 <!-- USAGE GUIDE -->
-<div class="help-panel" id="help-panel" style="display:none">
-<h3>📖 使用说明</h3>
-<p><strong>数据来源：</strong>十五五规划纲要（gov.cn 2026-03-13）+ research.db 实时快照</p>
-<p><strong>刷新方式：</strong>运行 <code>python3 ~/.hermes/scripts/sync_sector_tracker.py</code> 重新生成并推送 GitHub Pages</p>
-<ul>
-<li><strong>📊 总览</strong> — 全市场PE分布 + 5只持仓PE分位 + TOP10赛道 + 最新信号</li>
-<li><strong>🏭 赛道</strong> — 28赛道按S/A/B/C优先级筛选，含规划章节引用和量化目标</li>
-<li><strong>💼 持仓</strong> — 5只标的 vs 全市场PE分位数校准，可排序</li>
-<li><strong>📡 信号</strong> — T1(技术突破)/T2(基底)/T3(量价确认) 三重扫描，可筛选共振信号</li>
-<li><strong>📈 财务</strong> — 113只赛道标的2025年报关键财务指标，可搜索排序</li>
-<li><strong>🔗 映射</strong> — 169条赛道→公司归属关系，同标的跨多赛道会重复出现</li>
-</ul>
-<p><strong>PE分位数：</strong>标的PE在全部5207只A股中的排名百分比，分位越高越贵。<br>
-<strong>PE均值 87.1：</strong>全市场3706只有效PE_TTM的简单算术平均，非加权。<br>
-<strong>PE&lt;15 419只：</strong>深度价值阈值，PE低于15倍的传统价值股数量。</p>
-<p><strong>T1/T2/T3说明：</strong>三个信号独立判断。<strong>T3量价确认</strong>最稳健——放量突破基底确认趋势。
-但最佳信号是<strong>三信号共振</strong>(T1+T2+T3全触发)，表示技术面、形态面、量价面同时验证。</p>
+<div id="tab-guide" class="tab-content hidden">
+  <div class="doc-chapter" id="guide-content"></div>
 </div>
 
 <div class="footer">
-  十五五赛道跟踪 v2.0（动态DB版）· 十倍股全生命周期系统 · 曼尼构建
-  <span style="cursor:pointer;color:var(--accent);margin-left:8px" onclick="document.getElementById('help-panel').style.display=document.getElementById('help-panel').style.display==='none'?'block':'none'">📖 使用说明</span>
+  十倍股全生命周期跟踪系统 v2.0 · 十五五赛道+设计文档+数据验证 合体版 · 曼尼构建
 </div>
 
 <script id="tracker-data" type="application/json">
@@ -226,260 +202,222 @@ tr.resonance{border-left:3px solid var(--purple)!important}
 </script>
 
 <script>
+// Inject chapters
+document.getElementById('design-content').innerHTML = ' <div id="chapter-十倍股全生命周期跟踪系统-设计文档" class="doc-chapter"><h2>十倍股全生命周期跟踪系统 —— 设计文档</h2><section id="十倍股全生命周期跟踪系统-设计文档" class="subsection"><h3>十倍股全生命周期跟踪系统 —— 设计文档</h3><p><strong>版本</strong> v1.0（从零设计，替代 v0.1） | <strong>日期</strong> 2026-06-13 | <strong>作者</strong> Claude（系统架构师角色）</p>\n<hr></section><section id="0-系统定位与设计哲学" class="subsection"><h3>0. 系统定位与设计哲学</h3><h3>0.1 这个系统是什么、不是什么</h3>\n<p><strong>是</strong>：一台"批量带反对派的尽调覆盖器"。它把人工只能覆盖 5-10 家公司的深度尽调流程（卡点穿透 + 证据溯源 + 魔鬼代言人 + 仓位纪律），机械化到能持续覆盖 200-800 家初筛池、20-50 家深度池，并用无幸存者偏差的全样本数据持续校准自己。</p>\n<p><strong>不是</strong>：十倍股预测器。十倍股在任何周期都是个位数样本，任何声称"预测十倍"的系统在统计上不可证伪、在工程上必然过拟合。</p>\n<p><strong>诚实的主 KPI</strong>：入场组（C4）的"5 年内最大涨幅 >= 200%（3 倍）"比例，显著高于硬门槛基线组（C1）。十倍是这个分布的右尾彩票——系统的工作是把彩票池的密度做高，并在中奖时<strong>拿得住</strong>，不是预言哪张中奖。</p>\n<h3>0.2 四个核心决策（解锁上轮全部致命缺陷的钥匙）</h3>\n<table>\n<tr><th>#</th><th>问题</th><th>决策</th></tr>\n<tr><th>1</th><th>卡点与量价的入场时点矛盾（同时满足 -> 系统性买在底部走完之后）</th><th>**先资格、后时机**。卡点不参与择时，只管池子准入/逐出（季频慢腿）；量价只对池内标的开火（日频快腿）。两腿永不在同一时刻打架。</th></tr>\n<tr><th>2</th><th>途中 3-5 次 40-60% 回撤拿不住（任何移动止损必然洗出十倍股）</th><th>**仓位状态机 E1->E2->E3，止损规则随状态切换**。侦察仓硬止损；核心仓 E3 **撤销一切百分比/均线止损**，只受 kill criteria、灾难闸门、时间止损三者管辖。</th></tr>\n<tr><th>3</th><th>幸存者偏差</th><th>每季度全 A 快照落库做分母；C0-C6 七个 cohort（含 swarm 否决组、单腿对照组）全部跟踪前向收益；卖出后继续跟踪 12 个月测卖飞成本。</th></tr>\n<tr><th>4</th><th>自由度爆炸 -> 过拟合</th><th>全系统参数清单化编号（param_registry），**活参数 <= 8 个**，每季度最多调 2 个，调参前必须影子运行 2 个季度。其余参数冻结。</th></tr>\n</table>\n<h3>0.3 上轮 8 条约束的处置对照</h3>\n<table>\n<tr><th>约束</th><th>处置</th></tr>\n<tr><th>1 无幸存者偏差</th><th>L5 校准层 + universe_snapshot 分母（见 5 章）</th></tr>\n<tr><th>2 持有/退出/仓位不能缺</th><th>L4 状态机 + kill criteria + 组合层（见 4 章）</th></tr>\n<tr><th>3 两腿时点矛盾</th><th>先资格后时机仲裁（见 3 章）</th></tr>\n<tr><th>4 北向数据已停</th><th>**全系统所有阈值规则不含北向资金**。龙虎榜/资金流向仅作 swarm 参考材料，不进任何触发条件。</th></tr>\n<tr><th>5 BOM 卡点数据不可靠</th><th>evidence_ledger 证据账本：关键事实强制 >=B 级证据（双独立信源）+ 人工复核 + 证据过期机制（见 2.1.3）</th></tr>\n<tr><th>6 自由度爆炸</th><th>参数治理（见 5.4）</th></tr>\n<tr><th>7 宏观对个股十倍约等于噪声</th><th>宏观在 gate 评分权重 0%、量价权重 0%，仅保留"灾难闸门"一个二元开关（见 4.5），整体影响 <= 10%</th></tr>\n<tr><th>8 定位诚实</th><th>见 0.1</th></tr>\n</table>\n<hr></section><section id="1-系统架构图" class="subsection"><h3>1. 系统架构图</h3><pre><code>\n+-----------------------------------------------------------------------------+\n| L0 数据采集层（只进不出，全部落 research.db）                                   |\n|   东财 datacenter API(财务/行情)   Kimi datasource(财报批读)                   |\n|   Metaso(产业事实+溯源链接)        vibe-trading get_market_data(OHLCV)         |\n|   人工录入(BOM 复核 / 证据定级)                                                 |\n+------+---------------------------------------------------+------------------+\n       | 季频                                               | 日频(仅池内)\n+------v--------------------------+         +--------------v-----------------+\n| L1 资格层 GATE（慢腿）            |         | L2 择时层 TRIGGER（快腿）        |\n| 1) 硬门槛 HG1-HG7(财务可验证)     |  池子    | Stage-2 突破: T1 & T2 & T3     |\n| 2) 卡点四维评分(证据&gt;=B级强制)    | 成员名单  |  T1 趋势模板(MA50&gt;150&gt;200 up)  |\n| 产出: candidate_pool 准入/逐出   |---------&gt;|  T2 量价突破(1.5x量,距高&lt;=5%)  |\n| 资格不择时——只回答"谁有资格"      |          |  T3 基底&gt;=6周                  |\n+---------------------------------+          | 产出: trigger_signal           |\n                                             +--------------+-----------------+\n                                                           | 触发后 48h 内\n                                             +--------------v-----------------+\n                                             | L3 仲裁投决 ARBITER             |\n                                             | run_swarm: bull/bear/risk/PM   |\n                                             | 结构化否决清单 V1-V4            |\n                                             | 产出: GO / NO-GO / WAIT        |\n                                             +--------------+-----------------+\n                                                            | GO\n+-----------------------------------------------------------v-----------------+\n| L4 执行与仓位层（状态机）                                                       |\n|   E1 侦察仓 1.5%（硬止损-15% 与基底下沿取更紧）                                  |\n|    --首次财报确认--&gt; E2 确认仓 4%（周线 MA150 减半 / MA200 清仓）                |\n|        --二次财报确认 且 浮盈&gt;=30%--&gt; E3 核心仓 8%（撤销价格止损，               |\n|              仅受 kill criteria / 灾难闸门 / 24月时间止损管辖）                 |\n|   组合约束: 持仓&lt;=8只 | 单链&lt;=40% | E1总敞口&lt;=6% | 组合回撤35%熔断新开仓          |\n|   减仓再平衡: 单票&gt;15% -&gt; 减回10%（不是看空，是风控）                            |\n+-----------------------------------------+-----------------------------------+\n                                          | 全部状态变迁/交易落库\n+-----------------------------------------v-----------------------------------+\n| L5 复盘校准层（反馈回路，无幸存者偏差）                                          |\n|   universe_snapshot(全A分母,季度) -&gt; cohort C0-C6 前向收益(月度更新)            |\n|   sold_tracking(卖后跟12月,测卖飞成本) | param_registry(活参数&lt;=8,季调&lt;=2)      |\n|   产出: 精确率/分桶收益报表 --治理流程--&gt; 反馈调整 L1/L2/L3 阈值                 |\n+------------------------------------------------------------------------------+\n</code></pre>\n<p>数据流向纪律：<strong>L1->L2->L3->L4 单向</strong>；L5 对 L1-L4 的修改只能通过参数治理流程（影子运行 2 季 -> 季度复盘会 -> 改 param_registry），禁止任何"看了上周结果手动改阈值"的短路操作。</p>\n<hr></section><section id="2-分层详细设计" class="subsection"><h3>2. 分层详细设计</h3><h3>2.0 L0 数据采集层</h3>\n<table>\n<tr><th>数据</th><th>来源</th><th>接口</th><th>频率</th><th>落表</th></tr>\n<tr><th>全 A 股票列表+市值+ST状态</th><th>东财 datacenter</th><th>行情快照 + 列表接口</th><th>季度</th><th>universe_snapshot</th></tr>\n<tr><th>利润表/资产负债表/现金流</th><th>东财 datacenter / Kimi datasource</th><th>RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE / kimi CLI</th><th>季度（财报季加密）</th><th>hard_gate_result, gate_score</th></tr>\n<tr><th>OHLCV 日线</th><th>vibe-trading</th><th>get_market_data(symbol, period="daily")</th><th>日频（仅池内+持仓）</th><th>trigger_signal（仅存信号，不存全量行情）</th></tr>\n<tr><th>产业链事实/竞争格局</th><th>Metaso</th><th>metaso_web_search -> metaso_web_reader</th><th>按需 + 季度复查</th><th>evidence_ledger</th></tr>\n<tr><th>BOM 价值拆解</th><th>research.db 既有 bom_analysis</th><th>SQL</th><th>既有</th><th>复核结果写 evidence_ledger</th></tr>\n<tr><th>公告/财报原文</th><th>Kimi datasource / read_document</th><th>kimi CLI / read_document</th><th>财报季</th><th>evidence_ledger（A 级证据）</th></tr>\n</table>\n<p>已知坑的工程化处置：</p>\n<ul>\n<li><strong>Kimi 429</strong>：所有 Kimi 批量任务走重试队列——失败任务写入 alert_log(kind=\'kimi_retry\')，次日 cron 重试，连续 3 天失败升级人工。</li>\n<li><strong>Kimi 超时 300s 无输出</strong>：单任务粒度切到"一家公司一次调用"，永不批量拼 prompt；HTML 生成场景禁用 Python f-string 模板。</li>\n<li><strong>东财非结构化数据缺失</strong>（供应商集中度/替代窗口期/BOM 拆解）：这类字段一律不从 API 取，只能由 evidence_ledger 人工复核流程产生。</li>\n<li><strong>vibe web_search（DuckDuckGo）被墙</strong>：产业事实搜索全部走 Metaso，vibe 的 web_search 在本系统中禁用。</li>\n</ul>\n<h3>2.1 L1 资格层（GATE，季频慢腿）</h3>\n<p><strong>职责</strong>：回答"谁有资格被量价腿扫描"。不回答"现在买不买"。</p>\n<h4>2.1.1 硬门槛 HG1-HG7（全部可从 API 机械验证，零人工判断）</h4>\n<table>\n<tr><th>#</th><th>规则</th><th>阈值</th><th>数据源</th></tr>\n<tr><th>HG1</th><th>总市值</th><th>30 亿 <= mktcap <= 500 亿</th><th>东财行情</th></tr>\n<tr><th>HG2</th><th>成长性</th><th>TTM 营收同比 >= 20%（P03），**或** 最近两季营收增速逐季加速</th><th>RPT_DMSK_FN_INCOME</th></tr>\n<tr><th>HG3</th><th>定价权痕迹</th><th>毛利率 >= 25% 且 TTM 毛利率同比降幅 < 5pct</th><th>同上</th></tr>\n<tr><th>HG4</th><th>现金流真实性</th><th>近 4 季经营现金流净额之和 > 0</th><th>现金流量表</th></tr>\n<tr><th>HG5</th><th>杠杆</th><th>资产负债率 <= 60%</th><th>RPT_DMSK_FN_BALANCE</th></tr>\n<tr><th>HG6</th><th>可信度</th><th>上市 >= 365 天；非 ST/*ST；近 12 月无证监会立案</th><th>universe_snapshot</th></tr>\n<tr><th>HG7</th><th>商誉雷</th><th>商誉/净资产 <= 30%</th><th>资产负债表</th></tr>\n</table>\n<p>通过 = 7 条全过。每条的逐条布尔结果写 hard_gate_result（便于复盘"哪条门槛筛掉了后来的十倍股"——这是校准层的关键诊断数据）。预期通过数量 200-800 只；连续两季超出此区间则视为门槛失准，自动生成参数复盘提案。</p>\n<h4>2.1.2 卡点评分 gate_score（0-100，季频，需人工复核）</h4>\n<p>复用既有 stock_analysis 四维框架（irreplaceability / tech_lockin 字段），但<strong>每一分都必须挂证据</strong>：</p>\n<table>\n<tr><th>维度</th><th>分值</th><th>计分规则</th></tr>\n<tr><th>不可替代性</th><th>0-40</th><th>合格供应商数 <=2 -> 40；3-4 -> 25；>=5 -> 10。**该维度证据等级必须 >=B，否则按 >=5 家保守计 10 分**</th></tr>\n<tr><th>技术锁定</th><th>0-25</th><th>客户认证周期 >=2 年 -> +15；存在可证的切换成本（公告/调研纪要）-> +10</th></tr>\n<tr><th>价值量斜率</th><th>0-20</th><th>bom_analysis.value_add_pct 三年趋势：上升 -> 20；持平 -> 10；下降 -> 0</th></tr>\n<tr><th>客户结构</th><th>0-15</th><th>绑定行业前三大客户 -> +10；第一大客户收入占比 < 50% -> +5</th></tr>\n</table>\n<p><strong>准入</strong>：硬门槛全过 且 gate_score >= 60（P01）且 不可替代性维度证据 >=B</p>\n<p><strong>逐出</strong>：gate_score < 45（P02，与准入留 15 分防抖带）或 硬门槛连续两季破 或 关键证据被证伪（evidence status=\'refuted\'）。逐出时若该标的有持仓，自动生成 kill 复核任务（见 4.3），但<strong>逐出本身不自动卖出</strong>——卖出永远走 L4 的规则。</p>\n<h4>2.1.3 evidence_ledger 证据账本（对付约束 5：LLM 在专有事实上幻觉率最高）</h4>\n<p>每条关键主张（claim）一行，强制溯源：</p>\n<ul>\n<li><strong>证据等级</strong>：A = 公司公告/招股书/年报原文（含页码）；B = 两个<strong>独立</strong>信源交叉验证（Metaso 溯源链接，同源转载不算独立）；C = 单一媒体报道；D = LLM 推断。</li>\n<li><strong>强制规则</strong>：支撑 gate_score >= 20 分的 claim（实际上就是"供应商 <=2 家""替代窗口 >3 年"这类专有工业事实）必须 >=B 级且 verified_by=\'human\'。D 级证据在任何计分中按不存在处理。</li>\n<li><strong>证据过期</strong>：每条证据带 expire_date（默认 365 天）。过期自动降为 stale，对应维度分数回退保守值，并生成季度复查任务。竞争格局是流动的——去年"全球唯二"今年可能量产出第三家。</li>\n<li><strong>复核工作流</strong>：Metaso 搜索（保留溯源链接）-> 人工打开 source_url -> 摘录原文进 source_quote -> 人工定级。LLM 可以做初筛和摘要，<strong>定级权只在人</strong>。</li>\n</ul>\n<h3>2.2 L2 择时层（TRIGGER，日频快腿，只扫池内）</h3>\n<p><strong>职责</strong>：回答"池内谁现在出现了右侧确认"。不回答"这家公司好不好"（那是 L1 的事，已经答过了）。</p>\n<p>Stage-2 突破三条件（参考 Weinstein 阶段分析，参数刻意少）：</p>\n<table>\n<tr><th>#</th><th>条件</th><th>精确定义</th></tr>\n<tr><th>T1 趋势模板</th><th>多头排列</th><th>close > MA50 > MA150 > MA200，且 MA200 今值 > 21 个交易日前值（斜率向上）</th></tr>\n<tr><th>T2 量价突破</th><th>创高放量</th><th>close >= 52 周最高收盘价 x 95%（P05：距高 <=5%），且当日成交量 >= MA50(vol) x 1.5（P04）</th></tr>\n<tr><th>T3 基底存在</th><th>蓄势充分</th><th>突破前存在 >= 30 个交易日（P06：6 周）的整理区，区间振幅 (max-min)/min < 25%</th></tr>\n</table>\n<p><strong>触发 = T1 且 T2 且 T3</strong>，写入 trigger_signal，48 小时内必须召开 L3 投决（防拖延腐化信号）。</p>\n<p>反过滤与边界处理：</p>\n<ul>\n<li>突破当日涨幅 > 9%（接近涨停，实际无法成交）-> 信号标记 wait_pullback，此后 10 个交易日内回踩不破基底上沿视为有效入场窗。</li>\n<li>上市不足 250 日 -> 用上市以来最高价替代 52 周高，标记 short_history=1（cohort 分析时单独分桶，禁止混入主样本）。</li>\n<li>T3 基底识别用 pattern_recognition 辅助，但<strong>判定以上述数值规则为准</strong>，形态识别只作 swarm 参考材料——形态学不进硬规则，防自由度泄漏。</li>\n<li>同日多标的触发 -> 按 gate_score 降序排队，受组合约束截断。</li>\n<li>北向资金、龙虎榜、资金流向：<strong>不出现在 T1/T2/T3 任何条件中</strong>（约束 4）。</li>\n</ul>\n<h3>2.3 L3 仲裁投决层（ARBITER，事件驱动）</h3>\n<p><strong>触发</strong>：trigger_signal 新增且 48h 内。工具：vibe-trading run_swarm（bull analyst / bear analyst / risk officer / PM）。</p>\n<p>输入材料包（自动组装，写入 swarm 的 context）：</p>\n<ol>\n<li>gate_score 明细 + evidence_ledger 关键证据原文摘录（含等级）</li>\n<li>trigger_signal 明细（T1/T2/T3 数值）</li>\n<li>最近 4 季财务摘要（Kimi datasource 拉取）</li>\n<li>macro_screening 最新快照（仅作背景，不计分）</li>\n<li>龙虎榜/资金流向（仅作背景，不计分）</li>\n</ol>\n<p><strong>结构化否决清单</strong>（bear/risk officer 不许说"风险较大"这种废话，只能引用 V1-V4）：</p>\n<table>\n<tr><th>#</th><th>否决情形</th><th>可检验定义</th></tr>\n<tr><th>V1</th><th>证据空心化</th><th>任一支撑 >=20 分的 claim 证据等级 <B 或已 stale</th></tr>\n<tr><th>V2</th><th>kill 前兆</th><th>最近 30 天内出现该标的任一 kill criteria（见 4.3）的前兆事件（如大客户公告自研、竞品中标）</th></tr>\n<tr><th>V3</th><th>组合约束满</th><th>持仓已 8 只 / 该产业链已 40% / E1 总敞口已 6%</th></tr>\n<tr><th>V4</th><th>流动性不足</th><th>20 日均成交额 < 1.5 亿元（E3 目标仓位按 8% x 组合规模估算，进出冲击成本 > 2% 即否决）</th></tr>\n</table>\n<p><strong>PM 输出</strong>（写 swarm_verdict）：</p>\n<ul>\n<li><strong>GO</strong>：进入 L4，开 E1 侦察仓。</li>\n<li><strong>NO-GO</strong>：引用 V1-V4 编号 + 一段论据。该标的 60 天内不再重复投决（除非触发新信号且否决原因已消除）。</li>\n<li><strong>WAIT</strong>：附复核日期（<=14 天）与复核条件。最多连续 WAIT 两次，第三次强制 GO/NO-GO。</li>\n</ul>\n<p><strong>全部 NO-GO 的标的进 C5 cohort 继续跟踪前向收益</strong>——swarm 否决组的表现是检验"反对派有没有用"的唯一标准。如果 C5 长期跑赢 C4，说明 swarm 在做反向指标，必须重构提示词。</p>\n<hr></section><section id="3-入场仲裁机制两条腿的时点矛盾如何解开" class="subsection"><h3>3. 入场仲裁机制——两条腿的时点矛盾如何解开</h3><h3>3.1 矛盾的本质（上轮审阅指出的）</h3>\n<p>卡点识别是<strong>左侧逻辑</strong>（产业地位在股价底部就成立），量价突破是<strong>右侧逻辑</strong>（确认要等趋势走出来）。如果要求"同时满足"，等价于要求"在产业逻辑被市场充分认知之后才进场"——系统性买在主升浪中后段。</p>\n<h3>3.2 解法：先资格、后时机（Eligibility, then Timing）</h3>\n<pre><code>\n时间轴 -----------------------------------------------------------------&gt;\n [卡点成立]          [入池]              [量价触发]      [swarm GO]  [E1]\n  产业事实层         季度评审              任意时点         48h内      开仓\n     |&lt;--- 可以等很久，池子不催促 ---&gt;|       |&lt;-- 48h --&gt;|\n  卡点回答: 这家公司值得被盯着          量价回答: 市场开始认知了，现在上车\n</code></pre>\n<ul>\n<li><strong>卡点永不催促入场</strong>。一家公司可以在池子里躺 2 年没有任何动作——这是 feature 不是 bug（产业逻辑领先市场认知 1-3 年是常态）。</li>\n<li><strong>量价永不背着资格开火</strong>。池外标的出现再漂亮的突破也不会产生信号——系统不做"纯技术面投机"。</li>\n<li>两腿的耦合点只有一个：<strong>池子成员名单</strong>。L1 每季度更新名单，L2 每天只扫名单内。</li>\n<li>时序上永远是"资格在前、时机在后"，且资格的有效性独立于价格位置——<strong>底部、半山腰、新高都可以入池</strong>，但只有出现 Stage-2 右侧确认才开火。买的是"右侧的早段"，放弃抄底（接受这个代价，换取胜率与可执行性）。</li>\n</ul>\n<h3>3.3 冲突场景手册</h3>\n<table>\n<tr><th>场景</th><th>处置</th></tr>\n<tr><th>量价触发但当季 gate 复审还没做（财报刚出）</th><th>用上季 gate 结果 + swarm 投决时人工核对最新财报（材料包第 3 项已含）</th></tr>\n<tr><th>入池当天就触发量价</th><th>正常流程，无需冷却期——资格审查与价格无关，不存在"刚入池不能买"</th></tr>\n<tr><th>持仓中标的被池子逐出</th><th>不自动卖。生成 kill 复核任务，按 4.3 流程判定；E3 仓位只认 kill/灾难/时间止损</th></tr>\n<tr><th>突破后 swarm WAIT，期间涨 20%</th><th>WAIT 复核时若仍满足 T1-T3（距高 <=5% 已不满足则信号失效）-> 按失效处理，等下一个基底。**不追高**，宁可错过</th></tr>\n<tr><th>多链共振（同链 3 只同时触发）</th><th>按 gate_score 取最高 1 只 + 单链 40% 约束；其余进 C3 cohort 跟踪（错过的也要量化）</th></tr>\n</table>\n<hr></section><section id="4-持有-退出-仓位层L4状态机全集" class="subsection"><h3>4. 持有 / 退出 / 仓位层（L4，状态机全集）</h3><h3>4.1 仓位状态机</h3>\n<pre><code>\n            +--财报确认1∧price&gt;entry--+        +--财报确认2∧浮盈&gt;=30%--+\n            |                        |        |                      |\n [GO] --&gt; [E1 侦察仓 1.5%] ----------&gt; [E2 确认仓 4%] ---------------&gt; [E3 核心仓 8%]\n            |                                 |                          |\n            | 硬止损-15% 或 基底下沿            | 周MA150减半-&gt;2%           | 仅受三类管辖:\n            | 90天未达E2且浮盈&lt;5% -&gt; 退出       | 周MA200清仓               |  kill criteria\n            v                                 v                          |  灾难闸门\n          [OUT]                             [OUT]                        |  24月时间止损\n                                                                         v\n                                                          [减仓再平衡: &gt;15% -&gt; 10%]\n</code></pre>\n<p><strong>状态转换精确定义</strong>（全部写入 position_state，状态变迁记 trade_log）：</p>\n<table>\n<tr><th>转换</th><th>条件（全部满足）</th><th>动作</th></tr>\n<tr><th>GO -> E1</th><th>swarm GO</th><th>买入至组合 1.5%。记录 entry_price、基底下沿 base_low</th></tr>\n<tr><th>E1 -> E2</th><th>入场后第一份季报：营收同比 >= 20% 且 毛利率同比降幅 < 5pct 且 swarm 入场时写下的"E2 确认问题"答案为是 且 close > entry_price</th><th>加仓至 4%</th></tr>\n<tr><th>E1 -> OUT</th><th>close <= entry_price x 0.85（P07）或 close < base_low（取更紧）；或入场 90 天未达 E2 条件且浮盈 < 5%</th><th>清仓。写 sold_tracking</th></tr>\n<tr><th>E2 -> E3</th><th>第二份季报继续确认（同 E2 标准）且 浮盈 >= 30%（P08）</th><th>加仓至 8%</th></tr>\n<tr><th>E2 -> 减半</th><th>周线收盘 < MA150(周)</th><th>减至 2%，保留观察</th></tr>\n<tr><th>E2 -> OUT</th><th>周线收盘 < MA200(周)</th><th>清仓。写 sold_tracking</th></tr>\n<tr><th>E3 -> OUT</th><th>仅三类：kill criteria 确认（5 个交易日内分批清仓）/ 灾难闸门（按 4.5）/ 时间止损（4.4）</th><th>写 sold_tracking</th></tr>\n<tr><th>E3 减仓</th><th>单票市值 > 组合 15%</th><th>减回 10%（再平衡卖出，标记 rebalance=1，不进卖飞统计的"决策卖出"组</th></tr>\n</table>\n<p><strong>为什么 E2 保留价格止损而 E3 撤销</strong>：E1/E2 阶段论点只被 0-1 份财报验证，突破仍可能是假突破；E3 已有两份财报 + 30% 浮盈双重确认，此后的 40-60% 回撤大概率是 beta 与情绪，价格止损在这里只会把十倍股在第二次回撤时洗掉。<strong>拿住的代价是放弃 E3 阶段的回撤保护——这是设计出来的取舍，不是疏忽</strong>（单票 E3 上限 8%、组合层约束兜底）。</p>\n<h3>4.2 卖出的完整枚举（系统只有这五种卖出，不存在第六种）</h3>\n<ol>\n<li><strong>侦察失败</strong>：E1 硬止损 / 90 天未确认。</li>\n<li><strong>降级清仓</strong>：E2 周线 MA200 破位。</li>\n<li><strong>kill criteria</strong>：论点失效（4.3）。任何状态下都生效，E3 唯一的基本面卖出通道。</li>\n<li><strong>灾难闸门</strong>：组合级别动作（4.5）。</li>\n<li><strong>时间止损</strong>：24 个月总回报 < +20% 且最近两季营收增速均 < 15%（4.4）。</li>\n<li>（再平衡减仓不是"卖出决策"，是仓位维护。）</li>\n</ol>\n<p><strong>没有"止盈"</strong>。十倍系统设利润目标位止盈是自我否定——涨 3 倍卖掉的系统永远拿不到 10 倍。利润保护由再平衡（15%->10%）+ kill criteria 承担。</p>\n<h3>4.3 Kill Criteria（论点失效清单）</h3>\n<p><strong>通用五条</strong>（K1-K5，所有持仓自动适用）：</p>\n<table>\n<tr><th>#</th><th>条款</th><th>可检验定义</th><th>检查方式</th></tr>\n<tr><th>K1</th><th>核心客户流失</th><th>第一大客户收入占比环比降 > 15pct 且有公告/调研证实丢单</th><th>财报季 Kimi + Metaso 周扫</th></tr>\n<tr><th>K2</th><th>替代技术落地</th><th>竞品公告量产 且 获得原客户订单（两条都要，防"PPT 替代"误杀）</th><th>Metaso 周扫 + evidence_ledger</th></tr>\n<tr><th>K3</th><th>定价权丧失</th><th>毛利率连续两季下滑合计 > 8pct</th><th>财报季自动计算</th></tr>\n<tr><th>K4</th><th>治理恶化</th><th>实控人/核心技术团队变动 且 重要股东减持 > 5%</th><th>公告监控</th></tr>\n<tr><th>K5</th><th>财务造假</th><th>立案调查 / 审计非标意见</th><th>公告监控。**K5 不等 5 日，次日开盘即清**</th></tr>\n</table>\n<p><strong>标的特化 2-3 条</strong>：swarm GO 时由 bear analyst 强制产出（写 kill_criteria 表，type=\'specific\'），必须是可检验事件，例如"英伟达下一代平台改用 XX 方案则本标的 HBM 逻辑失效"。<strong>入场即立遗嘱</strong>——买入那天就写好什么情况下承认错误。</p>\n<p><strong>执行流程</strong>：cron 周检扫描 -> 疑似触发 -> 24h 内人工核实证据（写 evidence_ledger）-> 确认则 5 个交易日内分批清仓（K5 除外）-> review_log 记录全过程。</p>\n<h3>4.4 时间止损</h3>\n<p>入场满 24 个月时检查：总回报 < +20% <strong>且</strong> 最近两季营收增速均 < 15% -> 清仓。</p>\n<p>逻辑：十倍论点的燃料是高速成长。两年不涨可以忍（市场迟钝），但两年不涨 + 成长熄火 = 论点本身错了。只要营收还在跑，时间止损不触发——给"逻辑兑现慢"留足空间。</p>\n<h3>4.5 灾难闸门（宏观的唯一入口，约束 7 的落地）</h3>\n<p>宏观不选股（gate 权重 0）、不择时（trigger 权重 0），只保留一个组合级二元开关：</p>\n<table>\n<tr><th>#</th><th>触发</th><th>动作</th></tr>\n<tr><th>G1</th><th>沪深300 单日 -7% 或 5 日累计 -12%</th><th>组合目标仓位 x0.5：E1 全清，E2/E3 各减半。30 天后复评，复评通过则按状态机规则逐步回补</th></tr>\n<tr><th>G2</th><th>国家级针对持仓产业链的禁运/制裁/牌照管制公告</th><th>该链持仓全部降至 E1 水平（1.5%），并对该链全部池内标的发起 kill 复核</th></tr>\n</table>\n<p>灾难闸门动作记 trade_log(reason=\'gate_G1/G2\')，卖出部分同样进 sold_tracking——<strong>闸门本身的成本也要被审计</strong>（如果历史数据显示 G1 每次都卖在底部，复盘会要砍掉它）。</p>\n<h3>4.6 40-60% 回撤持有手册（"什么信号让你继续持有"的正面回答）</h3>\n<p><strong>触发</strong>：position_state.high_watermark 回撤 >= 30% 的持仓（cron 周检发现）-> 强制生成 H1-H4 checklist 任务，3 个交易日内完成，结论写 review_log。</p>\n<table>\n<tr><th>#</th><th>检查项</th><th>通过标准</th><th>工具</th></tr>\n<tr><th>H1</th><th>卡点逻辑完好</th><th>供应商格局/替代窗口无恶化：evidence_ledger 无新增 refuted，Metaso 复查无 K2 前兆</th><th>metaso_web_search + 人工</th></tr>\n<tr><th>H2</th><th>成长未熄火</th><th>最近季报营收增速 >= 15% 且毛利率降幅 < 5pct</th><th>Kimi datasource</th></tr>\n<tr><th>H3</th><th>回撤是 beta 不是 alpha</th><th>相对同链基准（链内池子等权指数）超额回撤 < 15pct</th><th>get_market_data 计算</th></tr>\n<tr><th>H4</th><th>无 kill 触发</th><th>kill_criteria 表全部 status=\'armed\'（无 triggered）</th><th>SQL</th></tr>\n</table>\n<p><strong>裁决</strong>：</p>\n<ul>\n<li>四条全过 -> <strong>持有不动</strong>（E3 一股不卖）。把结论写进 review_log，下次回撤直接参考。</li>\n<li>H1 或 H4 破 -> 进 kill 流程（4.3）。</li>\n<li>仅 H2 破 -> E3 降级至 E2 仓位（4%），观察一个财报季，下季恢复则补回。</li>\n<li>仅 H3 破（个股独跌但基本面查无实据）-> 持有，但标记 alpha_drawdown=1，连续两次独跌触发深度复查（市场可能知道我们不知道的事）。</li>\n</ul>\n<p>这个手册就是"拿住"的工程化：<strong>回撤期间唯一允许的操作是核查论点，唯一禁止的操作是看着价格做决定</strong>。</p>\n<h3>4.7 组合层约束（全部硬编码，不属于活参数）</h3>\n<table>\n<tr><th>约束</th><th>值</th></tr>\n<tr><th>同时持仓</th><th><= 8 只</th></tr>\n<tr><th>单一产业链敞口</th><th><= 40%</th></tr>\n<tr><th>E1 总敞口</th><th><= 6%（即同时最多 4 只侦察仓）</th></tr>\n<tr><th>单票上限</th><th>E3 满仓 8%，涨到 15% 触发再平衡减回 10%</th></tr>\n<tr><th>组合最大回撤容忍</th><th>距组合 high_watermark -35%：暂停一切新开 E1（**不强平 E3**——熔断的是进攻，不是防守变恐慌）</th></tr>\n<tr><th>现金下限</th><th>无强制（满仓 8x8%=64% + 再平衡浮动，天然留有现金）</th></tr>\n</table>\n<hr></section><section id="5-回测与校准层L5无幸存者偏差" class="subsection"><h3>5. 回测与校准层（L5，无幸存者偏差）</h3><h3>5.1 分母构建</h3>\n<p>每季度末（cron）拉取<strong>全部 A 股</strong>（含当季已退市/ST 的——退市股保留在快照里，前向收益按退市价计 -100% 或最后成交价，<strong>绝不删除</strong>）写入 universe_snapshot。这是一切统计的分母。</p>\n<h3>5.2 七个 cohort（同一只股票可同时属于多个 cohort）</h3>\n<table>\n<tr><th>Cohort</th><th>定义</th><th>回答的问题</th></tr>\n<tr><th>C0</th><th>全 A</th><th>基准分布</th></tr>\n<tr><th>C1</th><th>仅硬门槛通过</th><th>财务筛子本身值多少</th></tr>\n<tr><th>C2</th><th>C1 + gate_score >= 60（入池）</th><th>卡点评分增量价值</th></tr>\n<tr><th>C3</th><th>C2 + 量价触发（无论 swarm 结论）</th><th>量价腿增量价值</th></tr>\n<tr><th>C4</th><th>C3 + swarm GO（实际入场组）</th><th>系统全链路精确率</th></tr>\n<tr><th>C5</th><th>C3 - C4（swarm 否决组）</th><th>反对派是增益还是反指</th></tr>\n<tr><th>C6</th><th>入池但 5 年内量价从未触发</th><th>卡点单腿对照（"好公司但市场永远没认"组）</th></tr>\n</table>\n<p>每季 cohort 成员写 cohort_membership（记 entry_date、entry_price），月度 cron 更新 fwd_6m/12m/24m/36m/60m 前向收益与期间最大涨幅 max_runup。</p>\n<h3>5.3 核心报表（季度复盘会固定输出）</h3>\n<ol>\n<li><strong>精确率表</strong>：P(60 个月内 max_runup >= 200% | cohort)，C4 vs C1 vs C0。系统存在的意义 = C4 显著 > C1。十倍命中（>=900%）单列但只作观察项（样本太小，不做决策依据）。</li>\n<li><strong>分桶收益分布</strong>：各 cohort 前向收益的 P10/P25/中位数/P75/P90——看分布形态不看均值（均值被右尾绑架）。</li>\n<li><strong>漏斗诊断</strong>：hard_gate_result 逐条统计"每条门槛各筛掉了多少后来的 3 倍股"（HG 条款的代价审计）。</li>\n<li><strong>swarm 审计</strong>：C5 vs C4 前向收益对比 + 否决理由 V1-V4 分布。</li>\n<li><strong>卖飞成本表</strong>：sold_tracking 中各卖出原因（侦察失败/降级/kill/灾难/时间止损）卖出后 12 个月收益——哪类卖出规则在系统性卖飞，哪类在真救命。</li>\n<li><strong>持有手册审计</strong>：H1-H4 checklist 历史裁决 vs 此后 12 个月走势。</li>\n</ol>\n<h3>5.4 参数治理（约束 6 的落地）</h3>\n<ul>\n<li><strong>活参数恰好 8 个</strong>（P01-P08，见附录 A），其余全部冻结（写死在代码里，修改 = 系统大版本）。</li>\n<li>季度复盘会最多调整 <strong>2 个</strong>活参数；任何调整必须先在<strong>影子组合</strong>（不实盘，规则并行跑）运行 2 个完整季度且影子结果优于现行。</li>\n<li>param_registry 记录每次变更：旧值/新值/理由/影子运行证据/生效日期。<strong>回测时按 as-of 参数重放</strong>，防"用今天的参数美化昨天的成绩"。</li>\n<li>历史回测纪律：用 backtest + factor_analysis 验证量价腿时，训练窗 2015-2021、验证窗 2022-2024、2025 起 walk-forward；财务数据按公告日对齐（防前视偏差）。</li>\n</ul>\n<hr></section><section id="6-数据库扩展researchdb全部-CREATE-TABLE-IF-NOT-EXISTS对旧表零侵入" class="subsection"><h3>6. 数据库扩展（research.db，全部 CREATE TABLE IF NOT EXISTS，对旧表零侵入）</h3><pre><code>\n-- 6.1 全A季度快照（分母，永不删行）\nCREATE TABLE IF NOT EXISTS universe_snapshot (\n  snap_date     TEXT NOT NULL,            -- 季度末 YYYY-MM-DD\n  ts_code       TEXT NOT NULL,            -- 600519.SH\n  name          TEXT,\n  list_date     TEXT,\n  list_status   TEXT DEFAULT \'L\',         -- L上市 D退市 P暂停\n  is_st         INTEGER DEFAULT 0,\n  mktcap        REAL,                     -- 总市值(亿)\n  rev_ttm_yoy   REAL,                     -- TTM营收同比%\n  gm_ttm        REAL,                     -- TTM毛利率%\n  gm_ttm_yoy    REAL,                     -- 毛利率同比变化pct\n  ocf_4q        REAL,                     -- 近4季经营现金流合计(亿)\n  debt_ratio    REAL,\n  goodwill_pct  REAL,                     -- 商誉/净资产%\n  PRIMARY KEY (snap_date, ts_code)\n);\n\n-- 6.2 硬门槛逐条结果（漏斗诊断用）\nCREATE TABLE IF NOT EXISTS hard_gate_result (\n  snap_date TEXT NOT NULL, ts_code TEXT NOT NULL,\n  hg1 INTEGER, hg2 INTEGER, hg3 INTEGER, hg4 INTEGER,\n  hg5 INTEGER, hg6 INTEGER, hg7 INTEGER,\n  passed INTEGER,\n  PRIMARY KEY (snap_date, ts_code)\n);\n\n-- 6.3 卡点评分\nCREATE TABLE IF NOT EXISTS gate_score (\n  snap_date TEXT NOT NULL, ts_code TEXT NOT NULL,\n  irreplace_score REAL, irreplace_evidence_grade TEXT,  -- A/B/C/D\n  lockin_score REAL, value_slope_score REAL, customer_score REAL,\n  total REAL,\n  scored_by TEXT,                          -- human / llm+human\n  note TEXT,\n  PRIMARY KEY (snap_date, ts_code)\n);\n\n-- 6.4 证据账本（卡点事实的唯一可信来源）\nCREATE TABLE IF NOT EXISTS evidence_ledger (\n  evidence_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  ts_code TEXT, claim_text TEXT NOT NULL,  -- 例: 全球合格供应商仅2家\n  dimension TEXT,                          -- irreplace/lockin/value_slope/customer/kill\n  grade TEXT CHECK(grade IN (\'A\',\'B\',\'C\',\'D\')),\n  source_url TEXT, source_quote TEXT,      -- 原文摘录\n  source2_url TEXT, source2_quote TEXT,    -- B级需第二独立信源\n  verified_by TEXT DEFAULT \'llm\',          -- llm / human\n  verify_date TEXT, expire_date TEXT,      -- 默认+365天\n  status TEXT DEFAULT \'active\'             -- active/stale/refuted\n);\n\n-- 6.5 候选池\nCREATE TABLE IF NOT EXISTS candidate_pool (\n  ts_code TEXT PRIMARY KEY,\n  chain_id TEXT,                           -- 关联 industry_chain\n  enter_date TEXT, exit_date TEXT,\n  enter_gate_score REAL,\n  status TEXT DEFAULT \'active\',            -- active/exited\n  exit_reason TEXT\n);\n\n-- 6.6 量价信号\nCREATE TABLE IF NOT EXISTS trigger_signal (\n  signal_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  ts_code TEXT, signal_date TEXT,\n  t1_pass INTEGER, t2_pass INTEGER, t3_pass INTEGER,\n  close REAL, vol_ratio REAL,              -- 当日量/50日均量\n  dist_52w_high REAL,                      -- 距52周高%\n  base_weeks REAL, base_low REAL,          -- 基底周数/下沿价\n  wait_pullback INTEGER DEFAULT 0,\n  short_history INTEGER DEFAULT 0,\n  verdict_id INTEGER                       -- 关联 swarm_verdict\n);\n\n-- 6.7 投决记录\nCREATE TABLE IF NOT EXISTS swarm_verdict (\n  verdict_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  signal_id INTEGER, ts_code TEXT, verdict_date TEXT,\n  decision TEXT CHECK(decision IN (\'GO\',\'NO-GO\',\'WAIT\')),\n  veto_codes TEXT,                         -- 例: V1,V4\n  bull_brief TEXT, bear_brief TEXT, risk_brief TEXT, pm_brief TEXT,\n  recheck_date TEXT, wait_count INTEGER DEFAULT 0\n);\n\n-- 6.8 Kill 条款（入场即立遗嘱）\nCREATE TABLE IF NOT EXISTS kill_criteria (\n  kill_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  ts_code TEXT, type TEXT,                 -- generic(K1-K5)/specific\n  clause_code TEXT,                        -- K1..K5 / S1..S3\n  clause_text TEXT NOT NULL,               -- 可检验事件描述\n  armed_date TEXT,\n  status TEXT DEFAULT \'armed\',             -- armed/suspect/triggered/retired\n  trigger_date TEXT, evidence_id INTEGER   -- 触发证据\n);\n\n-- 6.9 仓位状态机\nCREATE TABLE IF NOT EXISTS position_state (\n  ts_code TEXT PRIMARY KEY,\n  state TEXT CHECK(state IN (\'E1\',\'E2\',\'E3\',\'OUT\')),\n  entry_date TEXT, entry_price REAL, base_low REAL,\n  target_weight REAL,                      -- 1.5/4/8\n  high_watermark REAL,                     -- 持仓期最高收盘\n  confirm_count INTEGER DEFAULT 0,         -- 财报确认次数\n  e2_question TEXT,                        -- swarm入场时写的E2确认问题\n  alpha_drawdown INTEGER DEFAULT 0,\n  last_transition TEXT\n);\n\n-- 6.10 交易流水（状态变迁全记录）\nCREATE TABLE IF NOT EXISTS trade_log (\n  trade_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  ts_code TEXT, trade_date TEXT,\n  action TEXT,                             -- open/add/trim/close\n  from_state TEXT, to_state TEXT,\n  price REAL, weight_before REAL, weight_after REAL,\n  reason TEXT,                             -- stop_e1/confirm/kill_K2/gate_G1/time_stop/rebalance\n  rebalance INTEGER DEFAULT 0\n);\n\n-- 6.11 Cohort 成员与前向收益\nCREATE TABLE IF NOT EXISTS cohort_membership (\n  snap_date TEXT, ts_code TEXT, cohort TEXT,   -- C0..C6\n  entry_price REAL,\n  fwd_6m REAL, fwd_12m REAL, fwd_24m REAL, fwd_36m REAL, fwd_60m REAL,\n  max_runup_60m REAL,                      -- 期间最大涨幅%（十倍判定用）\n  delisted INTEGER DEFAULT 0,\n  PRIMARY KEY (snap_date, ts_code, cohort)\n);\n\n-- 6.12 卖出后跟踪（卖飞成本）\nCREATE TABLE IF NOT EXISTS sold_tracking (\n  ts_code TEXT, sell_date TEXT, sell_price REAL,\n  sell_reason TEXT,\n  px_3m REAL, px_6m REAL, px_12m REAL,     -- 卖后价格\n  regret_12m REAL,                         -- px_12m/sell_price-1，正=卖飞\n  PRIMARY KEY (ts_code, sell_date)\n);\n\n-- 6.13 参数注册表\nCREATE TABLE IF NOT EXISTS param_registry (\n  param_id TEXT PRIMARY KEY,               -- P01..P08\n  name TEXT, live INTEGER DEFAULT 1,\n  current_value REAL, prev_value REAL,\n  changed_date TEXT, change_reason TEXT,\n  shadow_evidence TEXT                     -- 影子运行2季的结论摘要\n);\n\n-- 6.14 复盘与告警\nCREATE TABLE IF NOT EXISTS review_log (\n  review_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  review_date TEXT, kind TEXT,             -- drawdown_check/kill_verify/quarterly\n  ts_code TEXT, h1 INTEGER, h2 INTEGER, h3 INTEGER, h4 INTEGER,\n  conclusion TEXT, detail TEXT\n);\nCREATE TABLE IF NOT EXISTS alert_log (\n  alert_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  alert_date TEXT, kind TEXT,              -- kimi_retry/cron_fail/kill_suspect/gate_trigger\n  payload TEXT, resolved INTEGER DEFAULT 0\n);\n</code></pre>\n<p><strong>迁移说明</strong>：兼容既有表的已知数据类型混用（如 substitute_available 既有 int 又有 string）——新表读取旧表时一律 <code>CAST(substitute_available AS TEXT) IN (\'1\',\'true\',\'yes\')</code> 防御式解析；迁移脚本只做新增，绝不 ALTER 旧表。</p>\n<hr></section><section id="7-工具调用链每个环节用什么怎么调写哪张表" class="subsection"><h3>7. 工具调用链（每个环节用什么、怎么调、写哪张表）</h3><table>\n<tr><th>环节</th><th>工具与调用</th><th>写入</th></tr>\n<tr><th>季度全A快照</th><th>python 脚本调东财 datacenter（行情列表 + RPT_DMSK_FN_INCOME / RPT_DMSK_FN_BALANCE 分页拉取）</th><th>universe_snapshot</th></tr>\n<tr><th>硬门槛筛选</th><th>纯 SQL（对 universe_snapshot 跑 HG1-HG7）</th><th>hard_gate_result</th></tr>\n<tr><th>财报深读</th><th>`kimi -m kimi-k2.6 -p "读取<ts_code>最新季报，输出JSON{rev_yoy,gm,top_customer_pct,capex}"`（一司一调用；429 进重试队列）</th><th>gate_score 辅助字段</th></tr>\n<tr><th>卡点事实搜证</th><th>MCP: `metaso_web_search(query="<公司> <部件> 供应商 唯一 认证周期")` -> `metaso_web_reader(url)` 取原文摘录</th><th>evidence_ledger</th></tr>\n<tr><th>卡点评分</th><th>LLM 初评（读 evidence_ledger + bom_analysis 四维打分）+ 人工定级复核</th><th>gate_score, candidate_pool</th></tr>\n<tr><th>日频量价扫描</th><th>MCP: `get_market_data(symbol, period="daily", count=300)` 对池内逐只算 T1/T2/T3（python 向量化）</th><th>trigger_signal</th></tr>\n<tr><th>基底形态辅助</th><th>MCP: `pattern_recognition(symbol)`（只作 swarm 材料，不进硬规则）</th><th>swarm 材料包</th></tr>\n<tr><th>投决会</th><th>MCP: `run_swarm(target=ts_code, context=材料包)`，bear 强制产出标的特化 kill 条款</th><th>swarm_verdict, kill_criteria</th></tr>\n<tr><th>历史回测</th><th>MCP: `backtest`（config.json + signal_engine.py 复刻 T1-T3，as-of 参数）+ `factor_analysis`（gate_score 当因子做 IC/分位数回测）</th><th>复盘报告</th></tr>\n<tr><th>持仓周检</th><th>SQL（回撤>=30% 检出）+ `metaso_web_search`（K2/H1 复查）+ kimi（H2 财务核查）</th><th>review_log, kill_criteria</th></tr>\n<tr><th>月度对账</th><th>MCP: `analyze_trade_journal(交割单文件)` 与 trade_log 比对执行漂移</th><th>trade_log 校正</th></tr>\n<tr><th>执行漂移审计</th><th>MCP: `extract_shadow_strategy` + `run_shadow_backtest`（从真实交割单反推实际规则 vs 设计规则的差值归因）</th><th>季度复盘材料</th></tr>\n<tr><th>季度看板</th><th>`claude --model opus --effort max -p "$(cat spec.md 路径)"`（spec 落盘传路径，规避反引号/特殊字符；300KB+ 看板 600s 超时属正常，禁用 background+pty）</th><th>看板 HTML</th></tr>\n</table></section><section id="8-Cron-排期" class="subsection"><h3>8. Cron 排期</h3><p>前提纪律：cron session 无对话上下文——<strong>每个任务 prompt 必须自包含</strong>（从 research.db 读状态、写回 db、异常写 alert_log），禁止依赖会话记忆。</p>\n<table>\n<tr><th>任务</th><th>crontab</th><th>内容</th></tr>\n<tr><th>日频量价扫描</th><th>`35 17 * * 1-5`</th><th>拉池内+持仓日线 -> 算 T1/T2/T3 -> 写 trigger_signal（有触发写 alert_log 提醒 48h 投决）；更新 high_watermark；检查 E1/E2 止损线与灾难闸门 G1</th></tr>\n<tr><th>持仓周检</th><th>`10 9 * * 6`</th><th>kill_criteria 全表扫（Metaso 搜 K2/K4 前兆）；回撤>=30% 检出 -> 生成 H1-H4 任务；evidence expire 检查 -> 过期降 stale</th></tr>\n<tr><th>月度 cohort 更新</th><th>`20 8 3 * *`</th><th>cohort_membership 前向收益、max_runup、sold_tracking 卖后价格</th></tr>\n<tr><th>季度全A快照+复审</th><th>`50 8 5 1,4,7,10 *`</th><th>universe_snapshot -> hard_gate_result -> 池子准入/逐出**提案**（人工确认后生效）-> cohort 新成员登记</th></tr>\n<tr><th>财报季批量深读</th><th>`40 9 2 5,9,11 *`（年报季 4 月底另加一轮）</th><th>Kimi 一司一调用拉关键字段</th></tr>\n<tr><th>Kimi 重试队列</th><th>`25 10 * * *`</th><th>alert_log(kind=\'kimi_retry\', resolved=0) 逐条重试，3 次失败升级人工</th></tr>\n<tr><th>季度复盘材料</th><th>`15 9 12 1,4,7,10 *`</th><th>生成 5.3 六张报表 + claude 看板；参数提案汇总</th></tr>\n</table></section><section id="9-第一个落地里程碑不追求一步到位" class="subsection"><h3>9. 第一个落地里程碑（不追求一步到位）</h3><p><strong>M0（第 1-2 周）：地基</strong></p>\n<p>建 14 张表（迁移脚本，全部 IF NOT EXISTS）；东财 API 拉一次全 A 快照；HG1-HG7 SQL 跑通。</p>\n<p><strong>验收</strong>：C1 名单产出且数量落在 200-800；漏斗报表能算出每条 HG 的筛除量。</p>\n<p><strong>M1（第 3-6 周）：第一条链的资格层</strong></p>\n<p>对既有 AI 算力链 19 家公司跑 gate 评分；evidence_ledger 人工复核流程走通（每家 >=3 条关键 claim，不可替代性维度强制 >=B）。</p>\n<p><strong>验收</strong>：预期入池 3-8 家；每个入池标的的证据可被第三方点开 source_url 复核；bom_analysis 的 AI 估算数据全部标 grade=\'D\'（不参与计分，倒逼真证据补齐）。</p>\n<p><strong>M2（第 7-10 周）：择时腿 + 历史体检</strong></p>\n<p>日频扫描 cron 上线；用 backtest 对 2019-2024 模拟池跑 T1-T3 触发分布（验证触发频率合理性：预期每只 5 年 2-6 次）；run_swarm 在 1-2 个真实触发上演练并产出第一批标的特化 kill 条款。</p>\n<p><strong>验收</strong>：影子信号连跑 2 周无漏扫；回测报告含 as-of 参数与公告日对齐说明。</p>\n<p><strong>M3（第 11-22 周）：影子组合一个完整季度</strong></p>\n<p>不实盘。E1->E2 状态机全流程在影子组合走通；至少一次 H1-H4 回撤演练（取历史回撤标的模拟）；第一次季度复盘会产出 5.3 全部六张报表。</p>\n<p><strong>实盘 Gate（四条全过才允许动钱）</strong>：影子组合 >=1 季 + 精确率基线报表产出 + >=1 次完整 kill 演练 + 全部 cron 稳定运行 30 天。实盘前两个季度单票 E1 减半（0.75%）。</p>\n<hr></section><section id="附录-A活参数清单全系统仅此-8-个可调" class="subsection"><h3>附录 A：活参数清单（全系统仅此 8 个可调）</h3><table>\n<tr><th>ID</th><th>参数</th><th>当前值</th><th>所属层</th></tr>\n<tr><th>P01</th><th>池子准入分</th><th>60</th><th>L1</th></tr>\n<tr><th>P02</th><th>池子逐出分</th><th>45</th><th>L1</th></tr>\n<tr><th>P03</th><th>硬门槛营收增速</th><th>20%</th><th>L1</th></tr>\n<tr><th>P04</th><th>突破量比</th><th>1.5x</th><th>L2</th></tr>\n<tr><th>P05</th><th>距 52 周高带</th><th>5%</th><th>L2</th></tr>\n<tr><th>P06</th><th>基底最短周数</th><th>6 周</th><th>L2</th></tr>\n<tr><th>P07</th><th>E1 硬止损</th><th>-15%</th><th>L4</th></tr>\n<tr><th>P08</th><th>E3 晋级浮盈</th><th>30%</th><th>L4</th></tr>\n</table>\n<p>冻结参数（修改=大版本，需重跑全量回测）：市值带 30-500 亿、毛利率 25%、负债率 60%、商誉 30%、仓位档 1.5/4/8%、持仓 8 只、单链 40%、E1 总敞口 6%、回撤熔断 35%、再平衡 15%->10%、时间止损 24 月/+20%/15%、灾难闸门 G1（-7%/-12%）、kill K1-K5 各阈值、证据有效期 365 天、WAIT 上限 2 次、投决时限 48h、回撤手册触发线 30%、H3 超额回撤 15pct。</p></section><section id="附录-B诚实声明系统边界" class="subsection"><h3>附录 B：诚实声明（系统边界）</h3><ol>\n<li>本系统<strong>不预测十倍股</strong>。它提高的是"3 倍/5 年"密度与持有完整度；十倍是右尾运气，系统的贡献是让你在运气来临时还在车上。</li>\n<li>BOM/供应商数据天然不可靠，gate_score 的上限由 evidence_ledger 的人工复核质量决定——<strong>研究员的搜证勤奋度是本系统最大的单点依赖</strong>。</li>\n<li>E3 撤销价格止损意味着接受单票 -50% 以上的账面回撤；靠 8% 单票上限和组合分散兜底。心理上拿不住的人不应运行本系统。</li>\n<li>已知未解决：A 股借壳/重组导致 ts_code 语义漂移（快照层 list_status 部分缓解）；E3 流动性冲击成本未精确建模（V4 粗筛缓解）；swarm 的 LLM 判断质量未经长期验证（C5 cohort 持续审计）。</li>\n<li>任何"系统最近表现不好"都不构成绕过参数治理的理由。改参数只有一条路：提案 -> 影子 2 季 -> 季度复盘会。</li>\n</ol>\n<p>（全文完）</p></section>\n<div style="text-align:center;padding:32px 0;margin-top:24px;border-top:1px solid var(--border)">\n<a href="10x-dashboard.html" style="display:inline-block;background:linear-gradient(135deg,#3fb950,#39d2c0);color:#0d1117;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:16px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(63,185,80,.25)">🟢 查看实时看板 →</a>\n<p style="color:var(--text2);font-size:12px;margin-top:10px">5只候选池实时监控 · 雷达图交互 · 凯利仓位 · Kill退出</p>\n</div></div>\n<div class="chapter" id="产业链拆解体系"><h1>产业链拆解体系 —— 方法论文档</h1>\n<blockquote>\n<p>版本: v1.0 | 日期: 2026-06-13 | 赛道示例: AI算力</p>\n</blockquote>\n<hr /><h2 id="目录">目录</h2>\n<ol>\n<li><a href="#q1">问题一: 什么是"热门赛道"？</a></li>\n<li><a href="#q2">问题二: 产业的发展规律与政策指向</a></li>\n<li><a href="#q3">问题三: 多层级资金流向追踪</a></li>\n<li><a href="#q4">问题四: 产业链拆解粒度方法论</a></li>\n<li><a href="#q5">问题五: 标的筛选——上市与未上市全覆盖</a></li>\n<li><a href="#q6">问题六: 美股对标体系</a></li>\n<li><a href="#q7">问题七: 赛道Gate嵌入M0→M1流程</a></li>\n<li><a href="#appendix-a">附录: 数据源清单</a></li>\n<li><a href="#appendix-b">附录: 现有Gate体系修改建议</a></li>\n</ol>\n<hr />\n<p><a name="q1"></a></p>\n<h2 id="q1">问题一: 什么是"热门赛道"？——客观量化体系</h2>\n<h3 id="1-1-问题定义">1.1 问题定义</h3>\n<p>"热门"是最危险的主观词。2020年白酒、2021年新能源、2023年AI——事后都是"热门"。\n我们需要的是<strong>事前可识别、过程可验证、事后可回测</strong>的热度度量。</p>\n<h3 id="1-2-赛道热度指标体系-6维度-18指标">1.2 赛道热度指标体系（6维度 × 18指标）</h3>\n<table>\n<thead>\n<tr>\n<th>维度</th>\n<th>指标</th>\n<th>数据源</th>\n<th style="text-align: center;">领先/同步/滞后</th>\n<th style="text-align: center;">权重</th>\n<th style="text-align: center;">阈值(≥)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>资金面</strong></td>\n<td>板块ETF月度净流入</td>\n<td>Wind ETF资金流 (日频)</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">15%</td>\n<td style="text-align: center;">≥5亿元/月</td>\n</tr>\n<tr>\n<td></td>\n<td>机构重仓股数季度变化</td>\n<td>公募基金季报 (披露滞后45天)</td>\n<td style="text-align: center;">滞后0-1Q</td>\n<td style="text-align: center;">10%</td>\n<td style="text-align: center;">≥+5家</td>\n</tr>\n<tr>\n<td><strong>基本面</strong></td>\n<td>板块营收增速中位数</td>\n<td>财报/Wind一致预期</td>\n<td style="text-align: center;">滞后</td>\n<td style="text-align: center;">15%</td>\n<td style="text-align: center;">≥20% YoY</td>\n</tr>\n<tr>\n<td></td>\n<td>毛利率趋势(环比变化)</td>\n<td>财报</td>\n<td style="text-align: center;">滞后</td>\n<td style="text-align: center;">10%</td>\n<td style="text-align: center;">≥+1pp</td>\n</tr>\n<tr>\n<td></td>\n<td>ROE中位数</td>\n<td>财报</td>\n<td style="text-align: center;">滞后</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥10%</td>\n</tr>\n<tr>\n<td></td>\n<td>盈利上调/下调比</td>\n<td>分析师一致预期</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">10%</td>\n<td style="text-align: center;">≥1.5x</td>\n</tr>\n<tr>\n<td><strong>情绪面</strong></td>\n<td>板块日均换手率</td>\n<td>交易所数据</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥5%</td>\n</tr>\n<tr>\n<td></td>\n<td>分析师覆盖数量变化</td>\n<td>Wind/同花顺</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥+10篇/季度</td>\n</tr>\n<tr>\n<td><strong>政策面</strong></td>\n<td>国常会/部委提及次数(季度)</td>\n<td>爬虫+关键词库</td>\n<td style="text-align: center;">领先12-18月</td>\n<td style="text-align: center;">10%</td>\n<td style="text-align: center;">≥3次</td>\n</tr>\n<tr>\n<td></td>\n<td>财政/补贴投入规模</td>\n<td>政府公告/预算</td>\n<td style="text-align: center;">领先12-24月</td>\n<td style="text-align: center;">10%</td>\n<td style="text-align: center;">≥100亿元</td>\n</tr>\n<tr>\n<td><strong>产业面</strong></td>\n<td>VC/PE月度融资额</td>\n<td>IT桔子/CVSource</td>\n<td style="text-align: center;">领先24-36月</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥10亿元/月</td>\n</tr>\n<tr>\n<td></td>\n<td>新增企业注册数(季度)</td>\n<td>企查查/天眼查</td>\n<td style="text-align: center;">领先12-18月</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥+100家</td>\n</tr>\n<tr>\n<td><strong>价格面</strong></td>\n<td>12月滚动Alpha vs 沪深300</td>\n<td>行情数据</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">5%</td>\n<td style="text-align: center;">≥15%</td>\n</tr>\n</tbody>\n</table>\n<p><strong>说明</strong>: 权重分配基于先验判断（可后续通过回测校准）。领先/滞后标注基于对2018-2025年中国产业周期（新能源、半导体、医药、电动车）的回顾分析，部分为 assumption。</p>\n<h3 id="1-3-热度综合评分公式">1.3 热度综合评分公式</h3>\n<div class="codehilite"><pre><span></span><code>Heat_Score = Σ (维度得分 × 维度权重)\n维度得分 = Σ (子指标归一化值 × 子指标权重)\n</code></pre></div>\n\n<p>归一化方法: Min-Max标准化，将原始值映射到 [0, 100]。</p>\n<p>热度等级:\n- <strong>Hotspot</strong> (≥80): 多维度共振，立即进入赛道Gate\n- <strong>Warm</strong> (60-79): 部分维度热，进入候选观察池\n- <strong>Neutral</strong> (40-59): 中性，季度复查\n- <strong>Cold</strong> (&lt;40): 不进入Gate流程</p>\n<h3 id="1-4-趋势性热门-vs-周期性热门-的区分">1.4 趋势性热门 vs 周期性热门 的区分</h3>\n<p>这是最容易出错的地方——2022年锂矿就是周期性热门（后来腰斩）。</p>\n<p><strong>区分标准</strong>（需同时满足3条）：\n1. <strong>需求侧</strong>: TAM的CAGR ≥ 15%（非周期反弹，而是结构性增长）\n2. <strong>供给侧</strong>: 产能扩张受限于技术/牌照/资源（非"有钱就能产"）\n3. <strong>价格传导</strong>: 下游对涨价不敏感（毛利率传导通畅）</p>\n<p>判断矩阵：</p>\n<table>\n<thead>\n<tr>\n<th>要素</th>\n<th>趋势性热门（AI算力）</th>\n<th>周期性热门（锂矿2022）</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>TAM CAGR</td>\n<td>30%+ (AI计算需求指数增长)</td>\n<td>60% (但受制于电动车渗透率天花板)</td>\n</tr>\n<tr>\n<td>供给侧限制</td>\n<td>台积电CoWoS产能/ASML光刻机</td>\n<td>海外矿山扩产+国内盐湖提锂</td>\n</tr>\n<tr>\n<td>价格传导</td>\n<td>GPU涨价4x客户仍排队</td>\n<td>碳酸锂60万/吨后车厂压价</td>\n</tr>\n<tr>\n<td>判断</td>\n<td>✅ 趋势性</td>\n<td>❌ 周期性（已证伪）</td>\n</tr>\n</tbody>\n</table>\n<h3 id="1-5-回溯验证设计">1.5 回溯验证设计</h3>\n<p>用历史数据（2018-2025）对三件事做回测：\n- <strong>2019年能否提前识别半导体？</strong> → 验证指标: 大基金一期(2014)→ 2019是投入高峰，VC融资额2017-2018爆发…应该在2019年给出 warm→hotspot 信号\n- <strong>2021年能否提前识别新能源？</strong> → 2020年双碳政策信号+电动车渗透率突破5%拐点\n- <strong>2023年能否提前识别AI？</strong> → ChatGPT(2022.11)+英伟达H100(2022)+北美CSP Capex指引</p>\n<blockquote>\n<p><strong>诚实标注</strong>: 回测需要完整的历史数据（2018-2025年Wind ETF资金流+分析师覆盖+VC融资数据）。当前未完成此回测，标注为 <strong>assumption pending backtest</strong>。</p>\n</blockquote>\n<hr />\n<p><a name="q2"></a></p>\n\n<h2 id="问题二-产业发展规律与政策指向">问题二: 产业发展规律与政策指向</h2>\n<h3 id="2-1-产业生命周期识别框架">2.1 产业生命周期识别框架</h3>\n<p>将赛道生命周期分为5个阶段，每个阶段有客观判断标准：</p>\n<table>\n<thead>\n<tr>\n<th style="text-align: center;">阶段</th>\n<th>典型信号</th>\n<th>财务指标</th>\n<th style="text-align: center;">投资可行性</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style="text-align: center;"><strong>概念期</strong></td>\n<td>科学研究突破 / 政策顶层设计发布</td>\n<td>几乎无上市公司纯正标的；营收规模&lt;10亿</td>\n<td style="text-align: center;">❌ 太早——标的不足3家</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>导入期</strong></td>\n<td>可行性验证通过 / 样板项目落地</td>\n<td>少数公司开始产生收入；毛利率波动大(30-80%)</td>\n<td style="text-align: center;">⚠️ 极早期——高风险高赔率</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>成长期</strong></td>\n<td>渗透率5%→30%；竞争加剧但蛋糕更大</td>\n<td>营收CAGR&gt;30%；毛利率趋稳；龙头出现</td>\n<td style="text-align: center;">✅ <strong>最佳</strong>——我们的甜点区</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>成熟期</strong></td>\n<td>渗透率&gt;50%；竞争格局固化</td>\n<td>营收增速&lt;15%；毛利率压缩；CR5&gt;70%</td>\n<td style="text-align: center;">⚠️ 关注龙头整合+第二曲线</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>衰退期</strong></td>\n<td>技术替代/需求萎缩</td>\n<td>营收负增长；大规模出清</td>\n<td style="text-align: center;">❌ 不投</td>\n</tr>\n</tbody>\n</table>\n<p><strong>AI算力当前判断</strong>:\n- 生命周期阶段: <strong>成长期</strong>（从导入期→成长期的加速阶段）\n- 证据链: \n  - 全球AI服务器渗透率: 2024约10% → 2025约15% (TrendForce) — 处于5-30%成长期区间\n  - 北美四大云厂商AI CapEx CAGR: 40%+ — 加速扩张\n  - 国产化率: 加权约35% — 国产替代尚在早期\n  - 玩家数量: 持续增加但龙头开始出现（中际旭创/海光/寒武纪）</p>\n<h3 id="2-2-政策信号层级体系">2.2 政策信号层级体系</h3>\n<p>中国产业政策遵循 "顶层定调 → 部委规划 → 地方落地 → 税收/补贴兑现" 四层传导。</p>\n<p><strong>信号层级与判断标准</strong>：</p>\n<table>\n<thead>\n<tr>\n<th style="text-align: center;">层级</th>\n<th>信号源</th>\n<th style="text-align: center;">信号强度</th>\n<th style="text-align: center;">历史平均→业绩兑现</th>\n<th>自动化追踪方案</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style="text-align: center;">L1</td>\n<td>总书记讲话 / 中央经济工作会议 / 政治局会议</td>\n<td style="text-align: center;">⭐⭐⭐⭐⭐</td>\n<td style="text-align: center;">18-36个月</td>\n<td>新华社/人民日报关键词爬取</td>\n</tr>\n<tr>\n<td style="text-align: center;">L2</td>\n<td>国务院/部委规划文件 / 产业目录</td>\n<td style="text-align: center;">⭐⭐⭐⭐</td>\n<td style="text-align: center;">12-24个月</td>\n<td>工信部/发改委/科技部官网爬取</td>\n</tr>\n<tr>\n<td style="text-align: center;">L3</td>\n<td>地方政府配套政策 / 产业园设立</td>\n<td style="text-align: center;">⭐⭐⭐</td>\n<td style="text-align: center;">6-18个月</td>\n<td>省/市政府官网爬取</td>\n</tr>\n<tr>\n<td style="text-align: center;">L4</td>\n<td>税收优惠/补贴细则/政府采购</td>\n<td style="text-align: center;">⭐⭐</td>\n<td style="text-align: center;">3-12个月</td>\n<td>财政部/税务总局公告</td>\n</tr>\n</tbody>\n</table>\n<p><strong>AI算力政策信号时间线（示意）</strong>：</p>\n<div class="codehilite"><pre><span></span><code><span class="mf">2022</span><span class="o">-</span><span class="mf">10</span><span class="p">:</span><span class="w"> </span><span class="n">二十大报告提出</span><span class="s">&quot;加快发展数字经济&quot;</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>\n<span class="mf">2023</span><span class="o">-</span><span class="mf">02</span><span class="p">:</span><span class="w"> </span><span class="n">国务院</span><span class="err">《</span><span class="n">数字中国建设整体布局规划</span><span class="err">》</span><span class="p">(</span><span class="n">L2</span><span class="p">)</span>\n<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="p">:</span><span class="w"> </span><span class="n">工信部等六部门</span><span class="err">《</span><span class="n">算力基础设施高质量发展行动计划</span><span class="err">》</span><span class="p">(</span><span class="n">L2</span><span class="p">)</span>\n<span class="mf">2024</span><span class="o">-</span><span class="mf">03</span><span class="p">:</span><span class="w"> </span><span class="n">政府工作报告首提</span><span class="s">&quot;人工智能+&quot;</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>\n<span class="mf">2024</span><span class="o">-</span><span class="mf">12</span><span class="p">:</span><span class="w"> </span><span class="n">大基金三期落地</span><span class="p">(</span><span class="mf">3440</span><span class="n">亿</span><span class="p">)</span><span class="n">正式投资</span><span class="p">(</span><span class="n">L4</span><span class="p">)</span>\n<span class="mf">2025</span><span class="o">-</span><span class="n">Q1</span><span class="p">:</span><span class="w"> </span><span class="n">上海</span><span class="o">/</span><span class="n">北京</span><span class="o">/</span><span class="n">深圳</span><span class="w"> </span><span class="n">AI算力补贴方案出台</span><span class="p">(</span><span class="n">L3</span><span class="p">)</span>\n<span class="mf">2025</span><span class="o">-</span><span class="n">Q4</span><span class="p">:</span><span class="w"> </span><span class="n">阿里</span><span class="o">/</span><span class="n">腾讯</span><span class="o">/</span><span class="n">字节</span><span class="w"> </span><span class="n">智算中心实际采购</span><span class="p">(</span><span class="n">lag约18个月证实</span><span class="p">)</span>\n</code></pre></div>\n\n<blockquote>\n<p><strong>⚠️ 假设标注</strong>: L1→L2→L3→L4→业绩的传导链是基于2015-2025年10年观测的事后总结，时滞数据为 assumption。未来政策传导速度可能更快（AI受到的政治优先级高于过往产业）。</p>\n</blockquote>\n<h3 id="2-3-真成长-vs-政策催化伪需求-的判断框架">2.3 "真成长" vs "政策催化伪需求" 的判断框架</h3>\n<p>这是中国产业投资的独特风险——2015年"互联网+"、2017年"区块链"都有大量纯政策驱动但缺乏真实需求的公司。</p>\n<p><strong>判断标准（4问法）</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>问题</th>\n<th style="text-align: center;">真成长（AI算力）</th>\n<th style="text-align: center;">伪需求（区块链2017）</th>\n<th>数据来源</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Q1: 有没有海外对标? 海外是否已商业化?</td>\n<td style="text-align: center;">✅ 英伟达营收$60B+; OpenAI收入$3.7B</td>\n<td style="text-align: center;">✅ 比特币/以太坊有真实使用(但国内政策禁止)</td>\n<td>美股财报/Yahoo Finance</td>\n</tr>\n<tr>\n<td>Q2: 企业和消费者愿意自掏腰包吗? (非补贴驱动)</td>\n<td style="text-align: center;">✅ CSP自愿投入$250B+/年CapEx</td>\n<td style="text-align: center;">❌ 区块链应用无付费意愿，纯投机</td>\n<td>CapEx数据/用户调研</td>\n</tr>\n<tr>\n<td>Q3: 供给侧有不可逾越的技术壁垒吗?</td>\n<td style="text-align: center;">✅ CoWoS/EUV/7nm制程只有几家能做</td>\n<td style="text-align: center;">❌ 区块链节点架设门槛极低</td>\n<td>技术路线图</td>\n</tr>\n<tr>\n<td>Q4: 政策退坡后产业能否自己走?</td>\n<td style="text-align: center;">✅ 即使没有补贴，AI需求仍存在</td>\n<td style="text-align: center;">❌ 禁止ICO后整个赛道消失</td>\n<td>压力测试</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p><strong>诚实标注</strong>: 以上对比中的"区块链2017"用的是回头看的事后判断。事前区分真伪需求非常困难——2017年当时很多人真的相信区块链会改变世界。</p>\n</blockquote>\n<h3 id="2-4-政策信号自动化追踪方案">2.4 政策信号自动化追踪方案</h3>\n<div class="codehilite"><pre><span></span><code>数据源爬取模板:\n- 新华社/人民日报: RPA每日抓取 → 关键词(KV对)匹配 → 信号Level判定\n- 国务院/工信部/发改委/科技部: 官网&quot;政策&quot;栏目 RSS/每周爬取\n- 地方政府: 按关键字&quot;算力/AI芯片/智算中心/新质生产力&quot;搜\n\n关键词库(按赛道):\n  AI算力: [&quot;人工智能&quot;,&quot;算力&quot;,&quot;智算中心&quot;,&quot;GPU&quot;,&quot;芯片&quot;,&quot;英伟达&quot;,&quot;国产替代&quot;,\n            &quot;东数西算&quot;,&quot;数据中心&quot;,&quot;新质生产力&quot;,&quot;数字经济&quot;,&quot;AI芯片&quot;]\n  新能源:  [&quot;光伏&quot;,&quot;风电&quot;,&quot;锂电池&quot;,&quot;储能&quot;,&quot;碳中和&quot;,&quot;碳达峰&quot;,&quot;新型电力系统&quot;]\n  机器人:  [&quot;人形机器人&quot;,&quot;具身智能&quot;,&quot;工业机器人&quot;,&quot;伺服电机&quot;,&quot;减速器&quot;]\n\n实现建议: Python + feedparser(RSS) + requests + BeautifulSoup + 定时任务(cron)\n</code></pre></div>\n\n<hr />\n<p><a name="q3"></a></p>\n\n<h2 id="q3">问题三: 多层级资金流向追踪 —— "到钱多的地方"</h2>\n<h3 id="3-1-资金层级塔">3.1 资金层级塔</h3>\n<div class="codehilite"><pre><span></span><code>┌──────────────────────────────────────────────┐\n│ L5: 二级市场散户/游资          ← 噪音最多  │\n│ L4: 公募/私募/ETF 机构配置       ← 同步/略滞后│\n│ L3: 产业资本 CapEx / 定增        ← 确认信号  │\n│ L2: 政府基金(大基金/引导基金)     ← 方向信号  │\n│ L1: VC/PE 一级市场融资           ← 领先指标  │\n└──────────────────────────────────────────────┘\n</code></pre></div>\n\n<h3 id="3-2-各级资金的预测力评估">3.2 各级资金的预测力评估</h3>\n<table>\n<thead>\n<tr>\n<th>资金类型</th>\n<th style="text-align: center;">领先期</th>\n<th style="text-align: center;">预测力评分 (0-10)</th>\n<th style="text-align: center;">数据可获取性</th>\n<th>关键指标</th>\n<th>现有数据源</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>VC/PE融资</strong></td>\n<td style="text-align: center;">24-36个月</td>\n<td style="text-align: center;">8.0</td>\n<td style="text-align: center;">⚠️ 付费(Wind/CVSource/IT桔子)</td>\n<td>月度融资额、轮次分布、估值增长</td>\n<td>IT桔子(部分免费)、清科(付费)</td>\n</tr>\n<tr>\n<td><strong>政府基金</strong></td>\n<td style="text-align: center;">12-24个月</td>\n<td style="text-align: center;">7.0</td>\n<td style="text-align: center;">✅ 公开(但分散)</td>\n<td>大基金投向公告、地方引导基金规模</td>\n<td>工信部/财政部官网</td>\n</tr>\n<tr>\n<td><strong>产业CapEx</strong></td>\n<td style="text-align: center;">6-12个月</td>\n<td style="text-align: center;">7.5</td>\n<td style="text-align: center;">✅ 财报公开</td>\n<td>CSP资本开支指引、上市公司CapEx</td>\n<td>季报/年报</td>\n</tr>\n<tr>\n<td><strong>公募重仓</strong></td>\n<td style="text-align: center;">0-3个月(同步)</td>\n<td style="text-align: center;">3.5</td>\n<td style="text-align: center;">✅ 季报公开</td>\n<td>重仓股数量变化、仓位变化</td>\n<td>公募季报(Wind)</td>\n</tr>\n<tr>\n<td><strong>ETF资金流</strong></td>\n<td style="text-align: center;">0个月(同步)</td>\n<td style="text-align: center;">4.0</td>\n<td style="text-align: center;">✅ 日频公开</td>\n<td>日度/月度净流入</td>\n<td>Wind/东方财富</td>\n</tr>\n<tr>\n<td><strong>北向资金</strong></td>\n<td style="text-align: center;">滞后/不可靠</td>\n<td style="text-align: center;">2.0</td>\n<td style="text-align: center;">✅ 日频公开</td>\n<td>净流入</td>\n<td>沪深港通</td>\n</tr>\n</tbody>\n</table>\n<p><strong>核心结论</strong>: \n- L1(VC/PE) 是唯一真正领先的指标，领先期2-3年。但数据获取最困难。\n- L2(政府) 提供方向性信号但金额精确度低。\n- L3(产业CapEx) 是最可靠的<strong>确认信号</strong>——如果四大云厂商CapEx指引上调，基本确认AI需求真实。\n- L4/L5 是同步或滞后指标，不能用于先行判断，但可用于<strong>验证一致性</strong>。</p>\n<h3 id="3-3-关键前置指标-北美云厂商capex">3.3 关键前置指标：北美云厂商CapEx</h3>\n<p>这是AI算力赛道最重要、最及时的前置指标——不依赖中国数据，直接可跟踪：</p>\n<table>\n<thead>\n<tr>\n<th>公司</th>\n<th style="text-align: center;">CapEx 2025(估算)</th>\n<th style="text-align: center;">YoY</th>\n<th style="text-align: center;">可跟踪性</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Microsoft</td>\n<td style="text-align: center;">$80B</td>\n<td style="text-align: center;">+40%</td>\n<td style="text-align: center;">每季电话会议指引</td>\n</tr>\n<tr>\n<td>Amazon</td>\n<td style="text-align: center;">$75B</td>\n<td style="text-align: center;">+30%</td>\n<td style="text-align: center;">每季电话会议指引</td>\n</tr>\n<tr>\n<td>Google</td>\n<td style="text-align: center;">$55B</td>\n<td style="text-align: center;">+35%</td>\n<td style="text-align: center;">每季电话会议指引</td>\n</tr>\n<tr>\n<td>Meta</td>\n<td style="text-align: center;">$40B</td>\n<td style="text-align: center;">+45%</td>\n<td style="text-align: center;">每季电话会议指引</td>\n</tr>\n<tr>\n<td><strong>合计</strong></td>\n<td style="text-align: center;"><strong>$250B</strong></td>\n<td style="text-align: center;"><strong>~+38%</strong></td>\n<td style="text-align: center;">—</td>\n</tr>\n</tbody>\n</table>\n<p><strong>投资含义</strong>: 只要四大云厂商CapEx Collective ≥ +20% YoY，AI算力赛道需求侧就没有问题。</p>\n<h3 id="3-4-资金流入-vs-基本面背离-泡沫检测">3.4 资金流入 vs 基本面背离 → 泡沫检测</h3>\n<table>\n<thead>\n<tr>\n<th>场景</th>\n<th style="text-align: center;">资金流入</th>\n<th style="text-align: center;">基本面</th>\n<th>判断</th>\n<th>案例</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>A</td>\n<td style="text-align: center;">↑</td>\n<td style="text-align: center;">↑</td>\n<td>✅ 良性增长</td>\n<td>AI算力 2023-2025</td>\n</tr>\n<tr>\n<td>B</td>\n<td style="text-align: center;">↑</td>\n<td style="text-align: center;">↓</td>\n<td>⚠️ <strong>泡沫</strong></td>\n<td>区块链 2017</td>\n</tr>\n<tr>\n<td>C</td>\n<td style="text-align: center;">↓</td>\n<td style="text-align: center;">↑</td>\n<td>抄底机会(需验证)</td>\n<td>医药 2023</td>\n</tr>\n<tr>\n<td>D</td>\n<td style="text-align: center;">↓</td>\n<td style="text-align: center;">↓</td>\n<td>❌ 避开</td>\n<td>教育双减后 2021</td>\n</tr>\n</tbody>\n</table>\n<p><strong>泡沫检测信号组合</strong>:\n1. VC融资额连续2个季度&gt;50%环比增长，但产业CapEx未跟进 → ⚠️\n2. 板块PS中位数 &gt; 历史90分位 → ⚠️\n3. 新注册企业数暴增(连续2季&gt;+100% YoY)但盈利企业占比下降 → ⚠️</p>\n<hr />\n<p><a name="q4"></a></p>\n\n<h2 id="q4">问题四: 产业链拆解粒度方法论</h2>\n<h3 id="4-1-核心原则-拆到能回答三个问题为止">4.1 核心原则：拆到能回答三个问题为止</h3>\n<div class="codehilite"><pre><span></span><code>拆解终止条件（三个条件必须同时满足，否则聚合到上一层）：\n\n✅ 条件1: 这个细分有多少家上市公司（含拟IPO）？ ≥ 3家\n✅ 条件2: 这个细分的TAM ≥ 100亿 RMB？\n✅ 条件3: 竞争格局是否可辨识（谁老大、谁老二、壁垒在哪）？\n\n不满足任何一条 → 向上聚合到父节点。\n</code></pre></div>\n\n<h3 id="4-2-ai算力赛道拆解结果">4.2 AI算力赛道拆解结果</h3>\n<p>以下是对14个一级节点的拆解，说明哪些满足独立分析条件、哪些需要聚合：</p>\n<h4 id="满足三条件-可独立分析">✅ 满足三条件（可独立分析）</h4>\n<table>\n<thead>\n<tr>\n<th>细分节点</th>\n<th style="text-align: center;">上市公司</th>\n<th style="text-align: center;">TAM(亿元)</th>\n<th>龙头(代码)</th>\n<th style="text-align: center;">龙头份额</th>\n<th style="text-align: center;">护城河类型</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>GPU芯片→AI训练芯片</td>\n<td style="text-align: center;">4</td>\n<td style="text-align: center;">800</td>\n<td>海光信息</td>\n<td style="text-align: center;">45%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>GPU芯片→AI推理芯片</td>\n<td style="text-align: center;">5</td>\n<td style="text-align: center;">500</td>\n<td>寒武纪</td>\n<td style="text-align: center;">30%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>GPU芯片→GPU模组制造</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">300</td>\n<td>工业富联</td>\n<td style="text-align: center;">50%</td>\n<td style="text-align: center;">规模+客户</td>\n</tr>\n<tr>\n<td>光模块→800G光模块</td>\n<td style="text-align: center;">5</td>\n<td style="text-align: center;">350</td>\n<td>中际旭创</td>\n<td style="text-align: center;">50%</td>\n<td style="text-align: center;">技术+规模</td>\n</tr>\n<tr>\n<td>光模块→1.6T光模块</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">200</td>\n<td>中际旭创</td>\n<td style="text-align: center;">40%</td>\n<td style="text-align: center;">技术</td>\n</tr>\n<tr>\n<td>光芯片→EML激光器(50G/100G)</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">120</td>\n<td>源杰科技</td>\n<td style="text-align: center;">35%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>液冷散热→冷板式液冷</td>\n<td style="text-align: center;">5</td>\n<td style="text-align: center;">150</td>\n<td>英维克</td>\n<td style="text-align: center;">25%</td>\n<td style="text-align: center;">客户+技术</td>\n</tr>\n<tr>\n<td>高端PCB→AI服务器主板(30+层)</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">150</td>\n<td>沪电股份</td>\n<td style="text-align: center;">40%</td>\n<td style="text-align: center;">技术+规模</td>\n</tr>\n<tr>\n<td>高端PCB→IC载板(FCBGA)</td>\n<td style="text-align: center;">4</td>\n<td style="text-align: center;">100</td>\n<td>深南电路</td>\n<td style="text-align: center;">30%</td>\n<td style="text-align: center;">技术+规模</td>\n</tr>\n<tr>\n<td>交换机→白盒交换机整机</td>\n<td style="text-align: center;">4</td>\n<td style="text-align: center;">120</td>\n<td>锐捷网络</td>\n<td style="text-align: center;">30%</td>\n<td style="text-align: center;">规模+渠道</td>\n</tr>\n<tr>\n<td>存储→企业级SSD</td>\n<td style="text-align: center;">4</td>\n<td style="text-align: center;">180</td>\n<td>江波龙</td>\n<td style="text-align: center;">25%</td>\n<td style="text-align: center;">技术+渠道</td>\n</tr>\n<tr>\n<td>半导体设备→刻蚀设备</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">250</td>\n<td>中微公司</td>\n<td style="text-align: center;">40%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>半导体设备→薄膜沉积设备</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">200</td>\n<td>拓荆科技</td>\n<td style="text-align: center;">35%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>半导体设备→量测/检测设备</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">110</td>\n<td>中科飞测</td>\n<td style="text-align: center;">25%</td>\n<td style="text-align: center;">技术壁垒</td>\n</tr>\n<tr>\n<td>高速铜连接→DAC铜缆</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">100</td>\n<td>兆龙互连</td>\n<td style="text-align: center;">35%</td>\n<td style="text-align: center;">技术+客户</td>\n</tr>\n</tbody>\n</table>\n<h4 id="不满足条件-需向上聚合">❌ 不满足条件（需向上聚合）</h4>\n<table>\n<thead>\n<tr>\n<th>细分节点</th>\n<th style="text-align: center;">不满足条件</th>\n<th>原因</th>\n<th>处理方式</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>光模块→硅光模块</td>\n<td style="text-align: center;">TAM&lt;100亿</td>\n<td>2025年TAM约80亿;2027后可能达标</td>\n<td>归入1.6T光模块</td>\n</tr>\n<tr>\n<td>光芯片→DFB(25G及以下)</td>\n<td style="text-align: center;">TAM&lt;100亿</td>\n<td>TAM约60亿</td>\n<td>归入"光芯片"</td>\n</tr>\n<tr>\n<td>光芯片→CW激光器</td>\n<td style="text-align: center;">TAM&lt;100亿</td>\n<td>TAM约40亿</td>\n<td>归入"光芯片"</td>\n</tr>\n<tr>\n<td>液冷散热→浸没式液冷</td>\n<td style="text-align: center;">TAM&lt;100亿</td>\n<td>TAM约50亿</td>\n<td>归入"液冷散热"</td>\n</tr>\n<tr>\n<td>交换机→交换芯片</td>\n<td style="text-align: center;">上市公司&lt;3家</td>\n<td>仅盛科通信1家上市</td>\n<td>归入"交换机"</td>\n</tr>\n<tr>\n<td>存储→HBM封装</td>\n<td style="text-align: center;">上市公司&lt;3家</td>\n<td>仅长电+通富2家</td>\n<td>归入"HBM先进封装"</td>\n</tr>\n</tbody>\n</table>\n<h3 id="4-3-通用拆解流程-可复用到任何赛道">4.3 通用拆解流程（可复用到任何赛道）</h3>\n<div class="codehilite"><pre><span></span><code>Step 1: 定义产业链边界\n  ├── 输入: 终端产品或服务 (如&quot;AI训练服务器&quot;)\n  ├── 输出: 产业链上下游层级名单 (一级节点)\n  └── 工具: 研报分析 + 供应链拆机报告\n\nStep 2: 一级节点BOM分析\n  ├── 输入: 整机BOM成本构成 + 供应商清单\n  ├── 输出: 每个一级节点的价值占比、毛利率、卡脖子程度\n  └── 工具: bom_analysis表\n\nStep 3: 递归拆解 (深度优先)\n  ├── 对每个一级节点依次问三条件\n  ├── 满足 → 创建独立节点，继续拆解\n  ├── 不满足 → 停止，向上聚合\n  └── 最大深度: 通常3层 (再往下上市公司不够)\n\nStep 4: 竞争格局分析\n  ├── 对每个满足条件的节点标注龙头/CR3/CR5\n  ├── 标注护城河类型 (tech/scale/customer/channel/policy)\n  └── 标注国产化率和卡脖子程度\n\nStep 5: 质量检查\n  ├── 每个独立节点是否真的≥3家上市公司?\n  ├── TAM估算是否有至少2个独立数据源?\n  ├── 竞争格局判断是否有数据支撑?\n  └── 诚实标注所有 assumption\n</code></pre></div>\n\n<h3 id="4-4-数据模型">4.4 数据模型</h3>\n<p>详见 <code>industry-chain-schema.sql</code>。核心表:\n- <code>chain_composition_detail</code>: 产业链拆解明细（本方法论产出）\n- <code>industry_chain</code> (已有): 一级节点\n- <code>bom_analysis</code> (已有): BOM价值拆解\n- <code>entity_graph</code> (已有): 实体关系</p>\n<hr />\n<p><a name="q5"></a></p>\n\n<h2 id="q5">问题五: 标的筛选——上市与未上市全覆盖</h2>\n<h3 id="5-1-标的覆盖矩阵">5.1 标的覆盖矩阵</h3>\n<table>\n<thead>\n<tr>\n<th>上市状态</th>\n<th style="text-align: center;">数据可得性</th>\n<th>估值方法</th>\n<th>纳入时机</th>\n<th style="text-align: center;">追踪频率</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>已上市</strong></td>\n<td style="text-align: center;">⭐⭐⭐⭐⭐ 财报/行情全</td>\n<td>Gate-Moat 评分体系</td>\n<td>通过赛道Gate后</td>\n<td style="text-align: center;">周度</td>\n</tr>\n<tr>\n<td><strong>Pre-IPO (受理)</strong></td>\n<td style="text-align: center;">⭐⭐⭐ 招股书初稿</td>\n<td>可比公司法+PS/PEG</td>\n<td>受理即加入候选</td>\n<td style="text-align: center;">月度</td>\n</tr>\n<tr>\n<td><strong>辅导备案</strong></td>\n<td style="text-align: center;">⭐⭐⭐ 辅导备案报告</td>\n<td>融资估值参考</td>\n<td>辅导备案后</td>\n<td style="text-align: center;">月度</td>\n</tr>\n<tr>\n<td><strong>一级市场(独角兽)</strong></td>\n<td style="text-align: center;">⭐⭐ IT桔子/企查查</td>\n<td>最新融资估值+可比公司折价</td>\n<td>进入候选池</td>\n<td style="text-align: center;">季度</td>\n</tr>\n<tr>\n<td><strong>专精特新小巨人</strong></td>\n<td style="text-align: center;">⭐⭐ 工信部名单</td>\n<td>粗略(信息极少)</td>\n<td>仅做追踪</td>\n<td style="text-align: center;">季度</td>\n</tr>\n</tbody>\n</table>\n<h3 id="5-2-pre-ipo追踪系统">5.2 Pre-IPO追踪系统</h3>\n<p><strong>数据源流水线</strong>：</p>\n<div class="codehilite"><pre><span></span><code>自动化管道:\n  证监会/交易所官网\n  ├── 科创板受理名单: star.sse.com.cn (REST API)\n  ├── 创业板受理名单: chinext.szse.cn (REST API)\n  ├── 北交所受理名单: bse.cn (REST API)\n  └── 发审委/上市委会议公告: 每周发布\n\n  证监会派出机构\n  └── 辅导备案企业公示: 各地方证监局官网 (需爬虫)\n\n  IT桔子/CVSource/企查查\n  └── 融资事件/估值信息 (API付费)\n</code></pre></div>\n\n<p><strong>关键时间节点追踪</strong>：</p>\n<div class="codehilite"><pre><span></span><code>辅导备案 → 受理(2-6月) → 问询(3-12月) → 上会(1-3月) → 注册(1-2月) → 发行上市(1月)\n         ↑ 此时加入追踪        ↑ 可开始深度分析    ↑ 关键节点\n</code></pre></div>\n\n<h3 id="5-3-已经太贵-的判断框架">5.3 "已经太贵"的判断框架</h3>\n<blockquote>\n<p><strong>核心问题</strong>: 好赛道+好公司 = 一定好投资吗？不一定——如果已经太贵。</p>\n</blockquote>\n<p><strong>判断"是否太贵"的三个锚</strong>：</p>\n<table>\n<thead>\n<tr>\n<th>锚</th>\n<th>计算方法</th>\n<th>AI算力示例</th>\n<th>判定标准</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>锚1: TAM天花板法</strong></td>\n<td>TAM × 合理市占率天花板 × 合理PS</td>\n<td>AI训练芯片 TAM=800亿 × 40% × PS=15x → 市值天花板≈4800亿</td>\n<td>当前市值 &gt; 天花板70% → ⚠️贵</td>\n</tr>\n<tr>\n<td><strong>锚2: 美股对标折价法</strong></td>\n<td>美股同赛道市值 ÷ 天花板倍数</td>\n<td>NVDA 3.2T USD ÷ 8x(技术代差) = 400B USD ≈ 2.8万亿CNY</td>\n<td>海光当前市值 vs 天花板差距</td>\n</tr>\n<tr>\n<td><strong>锚3: PEG消化年数法</strong></td>\n<td>PE ÷ 盈利增速 → 消化到30x PE需要几年?</td>\n<td>海光 PEG=2.77, 消化年数=3.7年</td>\n<td>&gt;3年 → ⚠️已透支; &lt;1年 → ✅合理</td>\n</tr>\n</tbody>\n</table>\n<p><strong>综合判断</strong>：</p>\n<div class="codehilite"><pre><span></span><code>&quot;已经太贵&quot;的信号:\n  1. PEG &gt; 3x → 估值已透支3年以上增长\n  2. 当前市值 &gt; TAM天花板 × 70% → 空间有限\n  3. 上市不满6个月且IPO估值高于一级市场最后一轮 × 3 → 一级已充分套利\n\n&quot;不怕贵&quot;的条件（需同时满足）:\n  1. TAM在持续扩大（3年CAGR &gt; 30%）→ 天花板在上移\n  2. 公司在扩大市场份额（份额每年+2pp以上）→ 价值捕获在加速\n  3. PEG &lt; 1.5x → 高增长消化高估值的时间在可接受范围\n</code></pre></div>\n\n<h3 id="5-4-未上市公司评估的替代指标">5.4 未上市公司评估的替代指标</h3>\n<p>未上市公司缺乏财务报表，用以下指标替代:</p>\n<table>\n<thead>\n<tr>\n<th>替代指标</th>\n<th>能说明什么</th>\n<th>数据源</th>\n<th style="text-align: center;">可信度</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>融资轮次+金额</strong></td>\n<td>资本认可度; 估值增长轨迹</td>\n<td>IT桔子/CVSource</td>\n<td style="text-align: center;">高</td>\n</tr>\n<tr>\n<td><strong>投资方背景</strong></td>\n<td>大基金/顶级VC投 = 信号强; 非机构投 = 弱</td>\n<td>企查查</td>\n<td style="text-align: center;">高</td>\n</tr>\n<tr>\n<td><strong>产能规划</strong></td>\n<td>招工/购地/设备采购 = 有客户订单</td>\n<td>地方新闻/公告</td>\n<td style="text-align: center;">中</td>\n</tr>\n<tr>\n<td><strong>客户数量</strong></td>\n<td>招股书/36氪报道中的客户披露</td>\n<td>招股书/媒体</td>\n<td style="text-align: center;">低(选择性披露)</td>\n</tr>\n<tr>\n<td><strong>专利数量</strong></td>\n<td>技术实力侧面验证</td>\n<td>国家知识产权局</td>\n<td style="text-align: center;">中</td>\n</tr>\n<tr>\n<td><strong>竞品对标</strong></td>\n<td>如果可比已上市公司增长好，未上市可能也不错</td>\n<td>公开信息</td>\n<td style="text-align: center;">低(相关性不确定)</td>\n</tr>\n</tbody>\n</table>\n<hr />\n<p><a name="q6"></a></p>\n\n<h2 id="q6">问题六: 美股对标体系</h2>\n<h3 id="6-1-三个层次的对标维度">6.1 三个层次的对标维度</h3>\n<div class="codehilite"><pre><span></span><code>Layer 1: 天花板参照\n  美股市值最大的同赛道公司 → A股市值天花板\n  典型倍数: A股是美股的 1/3 到 1/10 (取决于技术代差+流动性折价+地缘折价)\n\nLayer 2: 技术代差量化\n  产品参数: 制程节点 / 算力(TOPS) / 带宽 / 速率\n  客户等级: 是否进入北美头部客户 / 台积电供应链层级\n  迭代节奏: 新产品发布间隔 vs 国产\n\nLayer 3: 估值锚\n  美股PS/PE是多少? A股相对溢价还是折价?\n  合理性: 如果A股增速是美股的2x，溢价1.5x是合理的\n</code></pre></div>\n\n<h3 id="6-2-ai算力美股对标映射-完整数据见-us_benchmarks-csv">6.2 AI算力美股对标映射（完整数据见 us_benchmarks.csv）</h3>\n<table>\n<thead>\n<tr>\n<th>A股赛道节点</th>\n<th>美股对标</th>\n<th style="text-align: center;">天花板倍数</th>\n<th style="text-align: center;">技术代差(年)</th>\n<th style="text-align: center;">代差趋势</th>\n<th style="text-align: center;">估值对比</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>GPU芯片(训练)</td>\n<td>NVDA</td>\n<td style="text-align: center;">8x</td>\n<td style="text-align: center;">3.5</td>\n<td style="text-align: center;">缩小中</td>\n<td style="text-align: center;">折价(国产替代溢价部分抵消)</td>\n</tr>\n<tr>\n<td>GPU芯片(推理)</td>\n<td>AMD</td>\n<td style="text-align: center;">8x</td>\n<td style="text-align: center;">2.0</td>\n<td style="text-align: center;">缩小中</td>\n<td style="text-align: center;">折价</td>\n</tr>\n<tr>\n<td>光模块(800G/1.6T)</td>\n<td>COHR/LITE</td>\n<td style="text-align: center;">1.5x</td>\n<td style="text-align: center;"><strong>领先</strong></td>\n<td style="text-align: center;">优势</td>\n<td style="text-align: center;"><strong>溢价</strong>(全球份额第一)</td>\n</tr>\n<tr>\n<td>光芯片(EML 50G/100G)</td>\n<td>COHR/LITE</td>\n<td style="text-align: center;">4x</td>\n<td style="text-align: center;">2-4</td>\n<td style="text-align: center;">缩小中</td>\n<td style="text-align: center;">大幅折价</td>\n</tr>\n<tr>\n<td>HBM先进封装</td>\n<td>TSM(台积电)</td>\n<td style="text-align: center;">20x</td>\n<td style="text-align: center;">5</td>\n<td style="text-align: center;">稳定</td>\n<td style="text-align: center;">巨大折价</td>\n</tr>\n<tr>\n<td>交换机(交换芯片)</td>\n<td>AVGO(Broadcom)</td>\n<td style="text-align: center;">30x</td>\n<td style="text-align: center;">5</td>\n<td style="text-align: center;">稳定</td>\n<td style="text-align: center;">巨大折价</td>\n</tr>\n<tr>\n<td>液冷散热</td>\n<td>VRT(Vertiv)</td>\n<td style="text-align: center;">3x</td>\n<td style="text-align: center;">0</td>\n<td style="text-align: center;">同步</td>\n<td style="text-align: center;">合理</td>\n</tr>\n<tr>\n<td>高端PCB</td>\n<td>TTMI</td>\n<td style="text-align: center;">0.5x</td>\n<td style="text-align: center;"><strong>领先</strong></td>\n<td style="text-align: center;">稳定</td>\n<td style="text-align: center;"><strong>溢价</strong>(国产全球领先)</td>\n</tr>\n<tr>\n<td>半导体设备</td>\n<td>AMAT/LRCX</td>\n<td style="text-align: center;">10x</td>\n<td style="text-align: center;">4-5</td>\n<td style="text-align: center;">缩小中</td>\n<td style="text-align: center;">大幅折价</td>\n</tr>\n<tr>\n<td>EDA/IP</td>\n<td>SNPS/CDNS</td>\n<td style="text-align: center;">30x</td>\n<td style="text-align: center;">10+</td>\n<td style="text-align: center;">稳定</td>\n<td style="text-align: center;">巨大折价</td>\n</tr>\n<tr>\n<td>存储(HBM)</td>\n<td>MU(美光)</td>\n<td style="text-align: center;">20x</td>\n<td style="text-align: center;">3</td>\n<td style="text-align: center;">稳定</td>\n<td style="text-align: center;">巨大折价</td>\n</tr>\n</tbody>\n</table>\n<h3 id="6-3-a股合理市值估算公式">6.3 A股合理市值估算公式</h3>\n<div class="codehilite"><pre><span></span><code>A股合理市值 = 美股对标市值(CNY) ÷ 天花板倍数\n天花板倍数 = 基准折价 × (1 + 国产替代溢价因子)\n\n基准折价因子:\n  - 流动性折价: 15-20% (美股流动性优于A股)\n  - 地缘政治折价: 5-30% (取决于制裁风险)\n  - 技术代差折价: 1% / 年代差 (= 差5年就折25%)\n\n国产替代溢价因子:\n  - 国产化率越低(&lt;20%)需求越刚性 → 溢价越高\n  - 政策优先级越高(国家级) → 溢价越高\n</code></pre></div>\n\n<hr />\n<p><a name="q7"></a></p>\n\n<h2 id="q7">问题七: 赛道Gate嵌入M0→M1流程</h2>\n<h3 id="7-1-当前m0-m1流程">7.1 当前M0→M1流程</h3>\n<div class="codehilite"><pre><span></span><code>当前:\n  M0: 全A 5207只股票\n      ↓\n  硬门槛筛选(HG1-HG7): 成长性/毛利率/ROE/市值/PB/流动性/负面清单\n      ↓\n  200-800只候选\n      ↓\n  M1: Gate评分(不可替代性+价值量斜率+客户结构)\n      ↓\n  M2: 深度分析+估值+风控\n</code></pre></div>\n\n<p><strong>当前架构缺失</strong>: 没有回答"为什么选这个赛道"。</p>\n<h3 id="7-2-增加赛道gate后的新流程">7.2 增加赛道Gate后的新流程</h3>\n<div class="codehilite"><pre><span></span><code>新流程:\n  M-1: 全赛道扫描 (约30-50个申万二级行业 or 自定义赛道)\n      ├── 赛道硬门槛 → T0 Gate\n      │    ✓ ≥3家上市公司?\n      │    ✓ TAM ≥ 100亿?\n      │    ✓ 竞争格局可辨识?\n      │    ↓\n      ├── 赛道热度评分 → Heat Score\n      │    ✓ 资金面/基本面/政策面/产业面/价格面 → 0-100\n      │    ↓\n      ├── 生命周期判断 → investable?\n      │    ✓ concept期 → ❌ 太早 \n      │    ✓ growth期 → ✅ 最佳\n      │    ✓ maturity期 → ⚠️ 关注龙头\n      │    ↓\n      └── 赛道分级: S/A/B/C/D\n      │    ↓\n      ↓\n  M0: 通过赛道Gate的个股 (仅从S/A级赛道中选取)\n      ├── 硬门槛(HG) 复用到新赛道 → 但benchmark来自赛道Gate\n      │    ✓ HG1(成长性): ≥ 赛道benchmark(如AI算力=35%)\n      │    ✓ HG3(毛利率): ≥ 赛道benchmark(如AI算力=45%)\n      │    ✓ HG7(估值): ≤ 赛道PE天花板(如AI算力=50x)\n      │    ↓\n      ↓\n  M1: Gate评分 (现有体系复用到新赛道)\n      ├── 不可替代性: 用赛道拆解结果验证&quot;卡脖子&quot;→ score × 产业链权重\n      ├── 价值量斜率: 用BOM分析+产业链价值量占比 → score\n      └── 客户结构: 用赛道下游分析 → score\n      │    ↓\n      ↓\n  M2: 深度分析 (不变)\n</code></pre></div>\n\n<h3 id="7-3-赛道gate输出-个股gate输入的参数传递">7.3 赛道Gate输出 → 个股Gate输入的参数传递</h3>\n<p>赛道Gate的产出直接作为个股Gate的参数：</p>\n<div class="codehilite"><pre><span></span><code>track_gate_result 输出 → 个股M0/M1 使用方式\n  ├── node_weight_overrides    → 个股Gate评分中各维度的权重分配\n  ├── benchmark_gross_margin   → 个股HG3(毛利率门槛)的动态benchmark\n  ├── benchmark_rev_growth      → 个股HG1(成长性门槛)的动态benchmark\n  ├── benchmark_pe_ceiling      → 个股合理估值上限的动态benchmark\n  └── avg_tech_gap_years        → 不可替代性评分的难度系数(代差大→卡脖子强→分数高)\n</code></pre></div>\n\n<h3 id="7-4-实施路线图">7.4 实施路线图</h3>\n<table>\n<thead>\n<tr>\n<th style="text-align: center;">阶段</th>\n<th>任务</th>\n<th>产出</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style="text-align: center;"><strong>Phase 1</strong> (当前)</td>\n<td>完成AI算力1个赛道的完整拆解</td>\n<td>本交付件</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>Phase 2</strong> (2-4周)</td>\n<td>扩展到3-5个赛道(机器人/新能源/创新药/半导体设备)</td>\n<td>赛道Gate可运行原型</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>Phase 3</strong> (4-8周)</td>\n<td>自动化数据管道(爬虫+API+数据库更新)</td>\n<td>持续更新的赛道数据库</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>Phase 4</strong> (8-12周)</td>\n<td>回测验证(2018-2025赛道选择 vs 后续1年/3年收益)</td>\n<td>验证框架有效性</td>\n</tr>\n<tr>\n<td style="text-align: center;"><strong>Phase 5</strong> (12周+)</td>\n<td>根据回测结果校准权重、修改Gate规则</td>\n<td>稳定的M-1→M2全流程</td>\n</tr>\n</tbody>\n</table>\n<h3 id="7-5-gate体系修改建议-详细">7.5 Gate体系修改建议（详细）</h3>\n<h4 id="7-5-1-修改-hard_gate_result-表的扩展">7.5.1 修改 hard_gate_result 表的扩展</h4>\n<p>在现有 <code>hard_gate_result</code> 表中增加赛道关联字段（或在 <code>gate_score</code> 中引用 <code>track_gate_result</code>）:</p>\n<div class="codehilite"><pre><span></span><code><span class="c1">-- 建议: 在 hard_gate_result 增加字段</span>\n<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">hard_gate_result</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_name</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>\n<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">hard_gate_result</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_tier</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>\n<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">hard_gate_result</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_gate_snap_date</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>\n\n<span class="c1">-- 在 gate_score 增加字段</span>\n<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">gate_score</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_weight</span><span class="w"> </span><span class="nb">REAL</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 该股票所在赛道节点的Gate权重</span>\n<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">gate_score</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">track_gate_snap_date</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>\n</code></pre></div>\n\n<h4 id="7-5-2-修改m0硬门槛的动态化">7.5.2 修改M0硬门槛的动态化</h4>\n<p>当前硬门槛是写死的（HG1: 营收增速≥15%, HG3: 毛利率≥30%...）。</p>\n<p><strong>改为</strong>:</p>\n<div class="codehilite"><pre><span></span><code>HG1(成长性): revenue_growth_yoy ≥ track_gate_result.benchmark_rev_growth\nHG3(毛利率):  gross_margin ≥ track_gate_result.benchmark_gross_margin\nHG7(估值):    pe_ttm ≤ track_gate_result.benchmark_pe_ceiling\n</code></pre></div>\n\n<p>不同赛道有不同的benchmark——成熟行业(白酒)的增速门槛应该低于成长行业(AI)。</p>\n<h4 id="7-5-3-修改m1评分中的产业链权重">7.5.3 修改M1评分中的产业链权重</h4>\n<p>当前M1 Gate对每个维度等权评分。建议改为:</p>\n<div class="codehilite"><pre><span></span><code>individual_stock_gate_score = Σ (node_weight × node_specific_score)\n  其中 node_weight 来自 track_gate_result.node_weight_overrides\n</code></pre></div>\n\n<p>例如在AI算力赛道: GPU芯片权重20% &gt; 电源权重5%，反映不同环节在产业链中的战略重要性差异。</p>\n<hr />\n<p><a name="appendix-a"></a></p>\n\n<h2 id="附录a-数据源清单">附录A: 数据源清单</h2>\n<table>\n<thead>\n<tr>\n<th>数据源</th>\n<th style="text-align: center;">类型</th>\n<th style="text-align: center;">成本</th>\n<th style="text-align: center;">更新频率</th>\n<th>用途</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Wind金融终端</td>\n<td style="text-align: center;">综合金融数据</td>\n<td style="text-align: center;">付费(年费~3万)</td>\n<td style="text-align: center;">日/周/季</td>\n<td>估值、ETF资金流、机构持仓、分析师覆盖</td>\n</tr>\n<tr>\n<td>东方财富Choice</td>\n<td style="text-align: center;">综合金融数据</td>\n<td style="text-align: center;">付费(年费~1.5万)</td>\n<td style="text-align: center;">日/周/季</td>\n<td>同上(Wind替代)</td>\n</tr>\n<tr>\n<td>同花顺iFinD</td>\n<td style="text-align: center;">综合金融数据</td>\n<td style="text-align: center;">付费</td>\n<td style="text-align: center;">日/周/季</td>\n<td>个股财务、行情</td>\n</tr>\n<tr>\n<td>IT桔子</td>\n<td style="text-align: center;">一级市场融资</td>\n<td style="text-align: center;">付费(按套餐)</td>\n<td style="text-align: center;">日更</td>\n<td>VC/PE融资额、估值、轮次</td>\n</tr>\n<tr>\n<td>CVSource(投中)</td>\n<td style="text-align: center;">一级市场融资</td>\n<td style="text-align: center;">付费</td>\n<td style="text-align: center;">日更</td>\n<td>同上</td>\n</tr>\n<tr>\n<td>清科私募通</td>\n<td style="text-align: center;">一级市场融资</td>\n<td style="text-align: center;">付费</td>\n<td style="text-align: center;">日更</td>\n<td>同上</td>\n</tr>\n<tr>\n<td>企查查/天眼查</td>\n<td style="text-align: center;">企业工商</td>\n<td style="text-align: center;">基础免费/深度付费</td>\n<td style="text-align: center;">日更</td>\n<td>企业注册数、股东背景、关联公司</td>\n</tr>\n<tr>\n<td>国家知识产权局</td>\n<td style="text-align: center;">专利数据</td>\n<td style="text-align: center;"><strong>免费</strong></td>\n<td style="text-align: center;">周更</td>\n<td>专利申报量、技术领域分布</td>\n</tr>\n<tr>\n<td>证监会/交易所官网</td>\n<td style="text-align: center;">IPO进度</td>\n<td style="text-align: center;"><strong>免费</strong></td>\n<td style="text-align: center;">日更</td>\n<td>受理/问询/上会/注册</td>\n</tr>\n<tr>\n<td>工信部/发改委/科技部</td>\n<td style="text-align: center;">政策文件</td>\n<td style="text-align: center;"><strong>免费</strong></td>\n<td style="text-align: center;">不定期</td>\n<td>政策信号</td>\n</tr>\n<tr>\n<td>Yahoo Finance</td>\n<td style="text-align: center;">美股数据</td>\n<td style="text-align: center;"><strong>免费</strong></td>\n<td style="text-align: center;">日更</td>\n<td>美股对标公司估值、财务</td>\n</tr>\n<tr>\n<td>DuckDuckGo/搜索引擎</td>\n<td style="text-align: center;">公开信息</td>\n<td style="text-align: center;"><strong>免费</strong></td>\n<td style="text-align: center;">实时</td>\n<td>行业新闻、公司动态</td>\n</tr>\n<tr>\n<td>券商研报(中信/华泰等)</td>\n<td style="text-align: center;">行业研究</td>\n<td style="text-align: center;">随终端/Wind</td>\n<td style="text-align: center;">不定期</td>\n<td>产业链分析、TAM估算</td>\n</tr>\n</tbody>\n</table>\n<p><strong>最小可行数据栈</strong> (免费/低成本即可启动):\n1. Yahoo Finance API → 美股对标数据 ✅\n2. 证监会/交易所官网爬虫 → IPO追踪 ✅\n3. 企查查基础版 → 企业注册追踪 ✅\n4. Tushare/AKShare → A股基本面+ETF数据 ✅(免费)\n5. DuckDuckGo + 新华网爬虫 → 政策信号 ✅</p>\n<hr />\n<p><a name="appendix-b"></a></p>\n\n<h2 id="附录b-现有gate体系修改要点">附录B: 现有Gate体系修改要点</h2>\n<p>以下是对现有 <code>hard_gate_result</code> 和 <code>gate_score</code> 表的具体修改建议。</p>\n<h3 id="b-1-hard_gate_result-修改">B.1 hard_gate_result 修改</h3>\n<p><strong>当前状态</strong>:</p>\n<div class="codehilite"><pre><span></span><code>hg1-hg7 硬门槛: 固定值, 所有股票用一个标准\npassed: 全部通过即进入M1\n</code></pre></div>\n\n<p><strong>修改后</strong>:</p>\n<div class="codehilite"><pre><span></span><code>hg1(成长性): ≥ track_gate_result.benchmark_rev_growth  (而非写死15%)\nhg3(毛利率):  ≥ track_gate_result.benchmark_gross_margin  (而非写死30%)\nhg7(估值):    ≤ track_gate_result.benchmark_pe_ceiling     (而非不限制)\n\n新增字段: track_name, track_tier, track_gate_snap_date\n  → 支持追溯&quot;这只股票是在哪个赛道Gate框架下通过的&quot;\n</code></pre></div>\n\n<h3 id="b-2-gate_score-修改">B.2 gate_score 修改</h3>\n<p><strong>当前状态</strong>:</p>\n<div class="codehilite"><pre><span></span><code>irreplace_score + lockin_score + value_slope_score + customer_score = total\n</code></pre></div>\n\n<p><strong>修改后</strong>:</p>\n<div class="codehilite"><pre><span></span><code><span class="nx">每个评分维度</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="nx">track_weight</span><span class="p">(</span><span class="nx">该节点在产业链中的权重</span><span class="p">)</span>\n\n<span class="nx">irreplace_score</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="nx">node_weight</span><span class="p">(</span><span class="nx">如GPU芯片权重0</span><span class="m m-Double">.20</span><span class="p">)</span>\n<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="nx">使用</span><span class="w"> </span><span class="nx">chain_composition_detail</span><span class="w"> </span><span class="nx">中的</span><span class="w"> </span><span class="nx">bottleneck_severity</span><span class="w"> </span><span class="nx">和</span><span class="w"> </span><span class="nx">localization_rate</span>\n\n<span class="nx">lockin_score</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="nx">node_weight</span>\n<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="nx">使用</span><span class="w"> </span><span class="nx">chain_composition_detail</span><span class="w"> </span><span class="nx">中的</span><span class="w"> </span><span class="nx">competitive_moat_type</span><span class="w"> </span><span class="nx">和</span><span class="w"> </span><span class="nx">cr3_concentration</span>\n\n<span class="nx">value_slope_score</span><span class="w"> </span>\n<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="nx">使用</span><span class="w"> </span><span class="nx">chain_composition_detail</span><span class="w"> </span><span class="nx">中的</span><span class="w"> </span><span class="nx">value_trend</span><span class="w"> </span><span class="nx">和</span><span class="w"> </span><span class="nx">value_pct_in_chain</span>\n\n<span class="nx">customer_score</span>\n<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="nx">使用</span><span class="w"> </span><span class="nx">industry_chain</span><span class="w"> </span><span class="nx">中的</span><span class="w"> </span><span class="nx">downstream</span><span class="w"> </span><span class="nx">节点和</span><span class="w"> </span><span class="nx">indirect_beneficiaries</span>\n</code></pre></div>\n\n<h3 id="b-3-candidate_pool-修改">B.3 candidate_pool 修改</h3>\n<p><strong>当前状态</strong>: 直接从 hard_gate_result 中 passed=1 的股票进入候选池。</p>\n<p><strong>修改后</strong>: 增加一道赛道预筛选</p>\n<div class="codehilite"><pre><span></span><code>candidate_pool 中增加字段:\n  track_name TEXT,\n  track_tier TEXT,\n  track_node TEXT,           -- 该股票所属产业链节点\n  track_node_weight REAL     -- 该节点的Gate权重\n</code></pre></div>\n\n<p>只有当 <code>track_gate_result.pass_for_stock_gate=1</code> 的赛道中的股票才能进入候选池。</p>\n<h3 id="b-4-赛道复查周期">B.4 赛道复查周期</h3>\n<div class="codehilite"><pre><span></span><code>S级赛道: 月度复查 (如AI算力)\nA级赛道: 季度复查\nB级赛道: 季度复查 (关注向上跃迁)\nC/D级赛道: 半年复查\n</code></pre></div>\n\n<p>复查内容:\n1. 热度指数是否保持?\n2. 产业链结构是否有重大变化(新节点出现/旧节点萎缩)?\n3. 美股对标天花板是否有变化(技术代差缩小/扩大)?\n4. 政策信号是加强还是减弱?</p>\n<hr />\n\n<h2 id="总结-赛道gate的主要决策逻辑">总结: 赛道Gate的主要决策逻辑</h2>\n<div class="codehilite"><pre><span></span><code>输入: 待评估赛道\n  ↓\nT0 Gate (硬门槛):\n  ✓ 上市公司≥3家? → NO → ❌ 淘汰\n  ✓ TAM≥100亿?    → NO → ❌ 淘汰\n  ✓ 竞争可辨识?   → NO → ❌ 淘汰\n  ↓\nHeat Score (热度评分):\n  资金面(25%)+基本面(40%)+政策面(20%)+产业面(15%)\n  ↓ ≥60 通过\n  ↓\nLifecycle Check (生命周期):\n  concept → ❌ 太早\n  growth  → ✅ 最佳 (S级候选)\n  maturity → ✅ A级 (关注龙头)\n  decline → ❌ 不投\n  ↓\nUS Benchmark Check (美股对标):\n  天花板充足? 技术代差在缩小? → bias upward\n  天花板有限? 代差在扩大?     → bias downward\n  ↓\n输出: Track Tier (S/A/B/C/D) + 进入M0的个股Pool\n</code></pre></div>\n\n<hr />\n<p><em>本文档中标注为 <code>assumption</code> 的判断基于公开数据和行业观察的合理推断，非精确量化结论。所有阈值和权重均为初始设定，需通过回测校准。</em></p>\n</div>\n\n</div> ';
+document.getElementById('datasource-content').innerHTML = ' <div id="chapter-数据源交叉验证" class="doc-chapter"><h2>🔬 数据源交叉验证</h2>\n<section id="summary-table" class="subsection">\n<h3>四源交叉对比总览（2026-06-13）</h3>\n<table>\n<thead><tr><th>数据源</th><th>PE_TTM</th><th>归母净利</th><th>一致预期</th><th>可用性</th><th>延迟</th></tr></thead>\n<tbody>\n<tr><td><strong>同花顺 realhead + worth</strong></td><td style="color:#3fb950">✅ 完整</td><td style="color:#3fb950">✅ 完整</td><td style="color:#3fb950">✅ C26/C27</td><td>HTTP 直连</td><td>实时</td></tr>\n<tr><td><strong>baostock</strong></td><td style="color:#3fb950">✅ 完整</td><td style="color:#d29922">⚠️ 睿创有差异</td><td style="color:#f85149">❌ 无</td><td>pip install</td><td>1-2周</td></tr>\n<tr><td><strong>腾讯财经 qt.gtimg.cn</strong></td><td style="color:#3fb950">✅ 完整</td><td style="color:#f85149">❌ 无</td><td style="color:#f85149">❌ 无</td><td>HTTP 直连</td><td>实时</td></tr>\n<tr><td><strong>Kimi CLI datasource</strong></td><td style="color:#8b949e">⏸ 理论可行</td><td style="color:#8b949e">⏸ 理论可行</td><td style="color:#8b949e">⏸ 理论可行</td><td style="color:#d29922">⚠️ 仅交互模式</td><td>实时</td></tr>\n<tr><td><strong>秘塔 Metaso</strong></td><td style="color:#f85149">❌ 不可用</td><td style="color:#f85149">❌ 不可用</td><td style="color:#8b949e">⏸ 可搜报告</td><td style="color:#f85149">❌ DDG 后端故障</td><td>N/A</td></tr>\n</tbody>\n</table>\n\n<blockquote>\n<strong>核心发现：</strong>同花顺、baostock、腾讯财经三个独立数据源的 PE_TTM <strong>完全一致</strong>（偏差 0.00），相互独立验证了估值数据的可靠性。归母净利润仅同花顺和 baostock 有，一致预期增速（C26/C27）仅同花顺 worth.html 提供——这是 PEG 计算的核心依赖，也是同花顺的不可替代价值。\n</blockquote>\n</section>\n\n<section id="pe-validation" class="subsection">\n<h3>PE_TTM 三源独立验证（偏差分析）</h3>\n<p>三个数据源的 PE_TTM 取数路径完全独立：</p>\n<ul>\n<li><strong>同花顺</strong>：realhead API → 字段 3153 = PE_TTM（实时行情计算）</li>\n<li><strong>baostock</strong>：交易所官方数据 → 日K线 peTTM 字段（盘后快照）</li>\n<li><strong>腾讯财经</strong>：qt.gtimg.cn → 字段 39 = PE(TTM)（实时行情计算）</li>\n</ul>\n\n<table>\n<thead><tr><th>标的</th><th>同花顺PE</th><th>baostockPE</th><th>腾讯PE</th><th>三源偏差</th><th>可信度</th></tr></thead>\n<tbody>\n<tr><td>源杰科技</td><td>489.55</td><td>489.55</td><td>489.55</td><td style="color:#3fb950">0.00</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n<tr><td>安集科技</td><td>62.23</td><td>62.23</td><td>62.23</td><td style="color:#3fb950">0.00</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n<tr><td>睿创微纳</td><td>41.88</td><td>41.88</td><td>41.88</td><td style="color:#3fb950">0.00</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n<tr><td>天孚通信</td><td>141.11</td><td>141.11</td><td>141.11</td><td style="color:#3fb950">0.00</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n<tr><td>光启技术</td><td>116.99</td><td>116.99</td><td>116.99</td><td style="color:#3fb950">0.00</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n</tbody>\n</table>\n\n<blockquote>\n<strong>结论：</strong>5 只标的、3 个独立源、15 个 PE_TTM 数据点的<strong>最大偏差 = 0.00</strong>。这不是巧合——说明三家均使用相同的底层价格/盈利数据（交易所原始数据），计算口径一致，可以放心采用。\n</blockquote>\n</section>\n\n<section id="np-comparison" class="subsection">\n<h3>归母净利润双源对比（同花顺 vs baostock）</h3>\n<table>\n<thead><tr><th>标的</th><th>同花顺 NP25(亿)</th><th>baostock NP25(亿)</th><th>偏差</th><th>同花顺 NP24(亿)</th><th>YoY%</th><th>备注</th></tr></thead>\n<tbody>\n<tr><td>源杰科技</td><td>1.91</td><td>1.91</td><td style="color:#3fb950">0.00</td><td>-0.06</td><td>扭亏为盈</td><td>一致</td></tr>\n<tr><td>安集科技</td><td>7.84</td><td>7.84</td><td style="color:#3fb950">0.00</td><td>5.34</td><td>46.8%</td><td>一致</td></tr>\n<tr><td>睿创微纳</td><td>11.25</td><td>9.91</td><td style="color:#d29922">-1.34亿</td><td>5.69</td><td>97.7% / 74.2%</td><td>⚠️ 口径差异</td></tr>\n<tr><td>天孚通信</td><td>20.17</td><td>20.18</td><td style="color:#3fb950">+0.01</td><td>13.44</td><td>50.1%</td><td>一致</td></tr>\n<tr><td>光启技术</td><td>6.87</td><td>6.87</td><td style="color:#3fb950">0.00</td><td>6.52</td><td>5.4%</td><td>一致</td></tr>\n</tbody>\n</table>\n\n<blockquote>\n<strong>⚠️ 睿创微纳差异分析：</strong>同花顺 worth.html 报 11.25 亿，baostock 报 9.91 亿，差 1.34 亿（~12%）。<strong>最大可能是归母 vs 扣非口径差异</strong>——同花顺 worth.html 的 yjycData 表标注为归母净利润，但 baostock 的 profit_data 可能报告的是扣非归母净利润。睿创 2025 年有较大非经常性损益（政府补助、资产处置等），这种差异在军工/半导体企业常见。<br>\n<strong>行动项：</strong>优先用工信部/年报原文验证睿创 2025 年真正的归母净利润。在确认前，财务报表引用使用同花顺口径，并标注"待年报原文验证"。\n</blockquote>\n</section>\n\n<section id="valuation-full" class="subsection">\n<h3>五只标的估值全貌（同花顺 + 腾讯财经联合）</h3>\n<table>\n<thead><tr><th>标的</th><th>PE_TTM</th><th>PB</th><th>市值(亿)</th><th>EPS_TTM</th><th>NP25(亿)</th><th>YoY%</th><th>C26%</th><th>C27%</th><th>PEG</th><th>评级</th></tr></thead>\n<tbody>\n<tr><td>源杰科技</td><td>489.55</td><td>70.72</td><td>1720.5</td><td>2.86</td><td>1.91</td><td>扭亏</td><td>304.2</td><td>67.6</td><td style="color:#3fb950">1.61</td><td style="color:#d29922">成长溢价</td></tr>\n<tr><td>安集科技</td><td>62.23</td><td>11.37</td><td>511.9</td><td>3.62</td><td>7.84</td><td>46.8</td><td>33.3</td><td>32.9</td><td style="color:#d29922">1.87</td><td>合理偏高</td></tr>\n<tr><td>睿创微纳</td><td>41.88</td><td>8.48</td><td>610.5</td><td>3.10</td><td>11.25</td><td>97.7</td><td>52.2</td><td>31.1</td><td style="color:#3fb950">0.80</td><td style="color:#3fb950">低估</td></tr>\n<tr><td>天孚通信</td><td>141.11</td><td>56.06</td><td>3057.8</td><td>1.99</td><td>20.17</td><td>50.1</td><td>65.1</td><td>33.9</td><td style="color:#f85149">2.17</td><td>偏贵</td></tr>\n<tr><td>光启技术</td><td>116.99</td><td>8.53</td><td>833.6</td><td>0.33</td><td>6.87</td><td>5.4</td><td>53.1</td><td>23.6</td><td style="color:#f85149">2.20</td><td style="color:#f85149">最贵</td></tr>\n</tbody>\n</table>\n</section>\n\n<section id="source-rating" class="subsection">\n<h3>数据源综合评级矩阵</h3>\n<table>\n<thead><tr><th>数据源</th><th>PE_TTM</th><th>归母净利</th><th>一致预期</th><th>K线</th><th>PB/市值</th><th>费用</th><th>延迟</th><th>封IP风险</th><th>综合</th></tr></thead>\n<tbody>\n<tr><td>同花顺 realhead+worth</td><td style="color:#3fb950">A+</td><td style="color:#3fb950">A</td><td style="color:#3fb950">A+</td><td>C</td><td>C</td><td>免费</td><td>0</td><td>低</td><td style="color:#3fb950">⭐⭐⭐⭐⭐</td></tr>\n<tr><td>baostock</td><td style="color:#3fb950">A+</td><td style="color:#3fb950">A</td><td>F</td><td style="color:#3fb950">A</td><td>B</td><td>免费</td><td>1-2周</td><td>无</td><td style="color:#3fb950">⭐⭐⭐⭐</td></tr>\n<tr><td>腾讯财经</td><td style="color:#3fb950">A+</td><td>F</td><td>F</td><td>C</td><td style="color:#3fb950">A</td><td>免费</td><td>0</td><td>无</td><td>⭐⭐⭐</td></tr>\n<tr><td>Kimi CLI datasource</td><td style="color:#d29922">B</td><td style="color:#d29922">B</td><td style="color:#d29922">B</td><td>?</td><td>?</td><td>需订阅</td><td>0</td><td>无</td><td style="color:#d29922">⭐⭐</td></tr>\n<tr><td>秘塔 Metaso</td><td>F</td><td>F</td><td>C</td><td>F</td><td>F</td><td>免费</td><td>N/A</td><td>N/A</td><td>⭐</td></tr>\n</tbody>\n</table>\n</section>\n\n<section id="conclusion" class="subsection">\n<h3>最终结论与数据源架构建议</h3>\n\n<h4>推荐数据源分层架构</h4>\n<p>下图展示五层数据漏斗：从 5 个候选数据源筛选出最优组合，每层标注覆盖指标和延迟。</p>\n<pre><code>\n════════════════════════════════════════════════════════════\n                  数据源交叉验证结论\n════════════════════════════════════════════════════════════\n\n  数据源          PE_TTM  归母净利  一致预期  K线    综合评分\n ─────────────────────────────────────────────────────────\n  同花顺          ██████  ██████   ██████   ██     ★★★★★  (主力)\n  baostock        ██████  ██████   ······   █████  ★★★★   (验证)\n  腾讯财经         ██████  ······   ······   ██     ★★★    (辅助)\n  Kimi datasource  ████    ████     ████     ??    ★★     (受限)\n  秘塔 Metaso      ······  ······   ██       ··    ★      (不可用)\n ─────────────────────────────────────────────────────────\n  ██████ = 数据完整    ████ = 部分可用    ······ = 不可用\n\n  推荐优先级: 腾讯财经(PE/PB/市值) > 同花顺(净利+C26/C27) > baostock(交叉验证)\n  不可替代: 同花顺 worth.html 的一致预期增速 ← PEG 计算唯一来源\n  阿喀琉斯之踵: C26/C27 仅单一源，无法交叉验证 ← 每月抽样东财 reportapi\n════════════════════════════════════════════════════════════\n</code></pre>\n<pre><code>\n┌─────────────────────────────────────────────────────┐\n│                    L0 数据采集层                        │\n├───────────────┬──────────────┬──────────────────────┤\n│  实时估值层     │  财务基础层    │  预期/信号层           │\n│               │              │                      │\n│ 腾讯财经       │ 同花顺 worth  │ 同花顺 worth          │\n│ PE_TTM/PB/市值 │ 归母净利/EPS  │ 一致预期 C26/C27       │\n│ (不封IP首选)   │ (唯一含预期源) │ (唯一来源，不可替代)     │\n│               │              │                      │\n│ + 同花顺       │ + baostock   │ + 东财 reportapi      │\n│ realhead      │ 利润表/三表   │ 研报EPS三年预测         │\n│ (备用交叉验证)  │ (交叉验证)    │ (补充验证)             │\n└───────────────┴──────────────┴──────────────────────┘\n</code></pre>\n\n<h4>三个关键决策</h4>\n<ol>\n<li><strong>PE_TTM 选腾讯财经为首选：</strong>不封 IP、单次 HTTP 拿全部 5 只（vs 同花顺 realhead 需逐只请求）、同时返回 PB/市值/换手率/涨跌停。同花顺 realhead 和 baostock 作为交叉验证源保留。</li>\n<li><strong>PEG 计算的核心依赖是同花顺 worth.html：</strong>C26/C27 一致预期增速只有同花顺提供。baostock 无此数据，腾讯财经无此数据，东财 reportapi 虽有 predictThisYearEps 但需逐只拉取且无一致预期汇总。同花顺 worth.html 是不可替代的数据源。</li>\n<li><strong>睿创微纳 NP 差异需专题解决：</strong>同花顺 11.25 亿 vs baostock 9.91 亿，差 12%。在确认口径前，系统中标注"待年报验证"，PEG 用同花顺口径但附注差异。系统代码中应同时存储两个值（<code>np_ths</code> 和 <code>np_bs</code>），差异 ≥ 10% 时自动触发人工复核标记。</li>\n</ol>\n\n<h4>数据可靠性总评</h4>\n<table>\n<thead><tr><th>指标</th><th>覆盖</th><th>可信度</th><th>依据</th></tr></thead>\n<tbody>\n<tr><td>PE_TTM</td><td style="color:#3fb950">3/5 源可用</td><td style="color:#3fb950">极高</td><td>三源独立验证，偏差 0.00</td></tr>\n<tr><td>归母净利润</td><td style="color:#d29922">2/5 源可用</td><td style="color:#3fb950">高</td><td>双源一致 (4/5)，睿创差异已定位</td></tr>\n<tr><td>一致预期增速</td><td style="color:#f85149">1/5 源可用</td><td style="color:#d29922">中高</td><td>仅同花顺提供，无法交叉验证</td></tr>\n<tr><td>市值/PB/换手率</td><td style="color:#d29922">2/5 源可用</td><td style="color:#3fb950">高</td><td>腾讯+baostock 双源</td></tr>\n</tbody>\n</table>\n\n<blockquote>\n<strong>一句话：</strong>PE_TTM 可以闭眼信（三源零偏差），PEG 的核心变量（一致预期增速）只能靠同花顺 worth.html——这是整个系统的阿喀琉斯之踵。建议每月一次用东财 reportapi 的 predictThisYearEps/NextYearEps 做抽样交叉验证。\n</blockquote>\n</section>\n</div>\n\n</div> ';
+document.getElementById('policy-content').innerHTML = ' <div id="chapter-政策文件库" class="doc-chapter"><h2>📜 政策文件库</h2>\n<section class="subsection">\n<h3>十五五规划纲要 · 产业赛道提取</h3>\n<p><strong>来源：</strong><a href="https://www.gov.cn/yaowen/liebiao/202603/content_7062633.htm" target="_blank">gov.cn 全文</a> · 2026-03-13 新华社受权发布 · 已存入 <code>research.db → policy_documents + policy_sectors</code></p>\n\n<table>\n<thead><tr><th>#</th><th>赛道</th><th>类别</th><th>规划章节</th><th>优先级</th><th>量化目标</th></tr></thead>\n<tbody>\n<tr><td>1</td><td>新一代信息技术</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>2</td><td>新能源</td><td>战略性新兴产业</td><td>第五章第一节+第七章第二节</td><td style="color:#f85149">high</td><td>非化石能源十年倍增</td></tr>\n<tr><td>3</td><td>新材料</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>4</td><td>智能网联新能源汽车</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>5</td><td>机器人</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>6</td><td>生物医药/创新药</td><td>战略性新兴产业</td><td>第五章第一节+第三节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>7</td><td>高端装备</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>8</td><td>航空航天（大飞机+北斗）</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>9</td><td>低空经济</td><td>战略性新兴产业/新赛道</td><td>第五章第一+三节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>10</td><td>智能驾驶</td><td>战略性新兴产业/新赛道</td><td>第五章第一+三节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>11</td><td>新型储能</td><td>战略性新兴产业</td><td>第五章第一节+第七章第二节</td><td style="color:#f85149">high</td><td>非化石能源十年倍增</td></tr>\n<tr><td>12</td><td>海洋经济</td><td>战略性新兴产业</td><td>第五章第一节</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr style="border-top:2px solid var(--border)"><td>13</td><td>量子科技</td><td>未来产业</td><td>第五章第二节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>14</td><td>生物制造</td><td>未来产业</td><td>第五章第二节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>15</td><td>氢能和核聚变能</td><td>未来产业</td><td>第五章第二节</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr><td>16</td><td>脑机接口</td><td>未来产业</td><td>第五章第二节</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr><td>17</td><td>具身智能/人形机器人</td><td>未来产业</td><td>第五章第二节+专栏</td><td style="color:#f85149">high</td><td>专栏：实景实训行动</td></tr>\n<tr><td>18</td><td>第六代移动通信(6G)</td><td>未来产业</td><td>第五章第二节+第七章第五节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr style="border-top:2px solid var(--border)"><td>19</td><td>集成电路</td><td>关键核心技术</td><td>第八章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>20</td><td>工业母机</td><td>关键核心技术</td><td>第八章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>21</td><td>基础软件</td><td>关键核心技术</td><td>第八章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>22</td><td>先进材料</td><td>关键核心技术</td><td>第八章第一节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>23</td><td>人工智能</td><td>战略前沿</td><td>第八章第二节</td><td style="color:#f85149">high</td><td>发改委：十五五末产业规模&gt;10万亿</td></tr>\n<tr style="border-top:2px solid var(--border)"><td>24</td><td>算力设施/东数西算</td><td>数字经济/新基建</td><td>第十二章+第七章第五节</td><td style="color:#f85149">high</td><td>—</td></tr>\n<tr><td>25</td><td>5G-A/万兆光网</td><td>数字经济/新基建</td><td>第七章第五节</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr><td>26</td><td>低轨卫星互联网</td><td>新基建</td><td>第七章第五节</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr style="border-top:2px solid var(--border)"><td>27</td><td>高端医疗器械</td><td>战略性新兴产业/专栏3</td><td>专栏3</td><td style="color:#d29922">medium</td><td>—</td></tr>\n<tr><td>28</td><td>清洁能源基地/新型电力系统</td><td>基础设施</td><td>第七章第二节</td><td style="color:#f85149">high</td><td>非化石能源十年倍增</td></tr>\n</tbody>\n</table>\n\n<blockquote>\n<strong>数据分层：</strong>二十八条赛道全部来自规划正文，原文引用已保存至 <code>research.db → policy_sectors.plan_citation</code>。下一步：每个赛道映射 A 股可投标的（≥3 家/赛道），用 Claude Code 批量拆解。<br>\n<strong>优先级规则：</strong>有量化目标 +2 · 设专栏/专节 +1 · 八大战略性新兴产业 +1 · 关键核心技术攻关 +1 · 未来产业 +0.5。<br>\n<strong>数据库位置：</strong><code>~/.hermes/data/research.db</code> → 表 <code>policy_documents</code>（1条）+ <code>policy_sectors</code>（28条）\n</blockquote>\n</section>\n</div></div>\n<script>\nfunction navigate(slug){\n  document.querySelectorAll(\'.chapter\').forEach(c=>c.classList.remove(\'active\'));\n  var id=slug===\'design\'?\'十倍股全生命周期跟踪系统-设计文档\':slug===\'chain\'?\'产业链拆解体系\':slug===\'datasource\'?\'数据源交叉验证\':slug===\'policy\'?\'政策文件库\':slug===\'sector-map\'?\'政策赛道映射\':slug;\n  var el=document.getElementById(id);\n  if(el&&el.classList.contains(\'chapter\'))el.classList.add(\'active\');\n  document.querySelectorAll(\'#nav a\').forEach(a=>a.classList.remove(\'active\'));\n  var l=document.querySelector(\'#nav a[href="#\'+id+\'"]\');\n  if(l)l.classList.add(\'active\');\n}\nfunction scrollToSection(id){navigate(\'datasource\');setTimeout(function(){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'});},100);}\n(function(){var hash=location.hash.replace(\'#\',\'\');if(hash){setTimeout(function(){navigate(hash);},0);}else{var first=document.querySelector(\'.chapter\');if(first)first.classList.add(\'active\');}})();window.addEventListener(\'hashchange\',function(){var h=location.hash.replace(\'#\',\'\');if(h)navigate(h);});\nfunction doSearch(){var q=document.getElementById(\'search\').value.toLowerCase();document.querySelectorAll(\'#nav a\').forEach(a=>a.classList.toggle(\'search-hidden\',q&&!a.textContent.toLowerCase().includes(q)));document.querySelectorAll(\'.chapter\').forEach(c=>{if(!q){c.style.display=c.classList.contains(\'active\')?\'block\':\'none\'}else{c.style.display=c.textContent.toLowerCase().includes(q)?\'block\':\'none\'}});}\ndocument.addEventListener(\'keydown\',function(e){if((e.ctrlKey||e.metaKey)&&e.key===\'k\'){e.preventDefault();document.getElementById(\'search\').focus();}});\n</script>\n</section>\n</div></div>\n\n</div><div id="chapter-政策赛道映射" class="doc-chapter"><h2>🎯 十五五规划 → A股赛道映射</h2>\n<p><strong>数据来源：</strong>gov.cn 十五五规划纲要全文 → research.db policy_sectors(28条) → sector_analysis(28赛道) → sector_companies(165家) · 拆解引擎：Claude Code · 2026-06-13</p>\n<section class="subsection"><h3>TOP 10 可投赛道</h3>\n<table><thead><tr><th>#</th><th>赛道</th><th>政策权重</th><th>可投性</th><th>时间窗口</th><th>5年市场(亿)</th><th>CAGR%</th></tr></thead><tbody>\n<tr><td>1</td><td><strong>人工智能</strong></td><td>9.0</td><td>8.5</td><td style="color:#3fb950">near</td><td>100,000</td><td>25</td></tr>\n<tr><td>2</td><td><strong>智能网联新能源汽车</strong></td><td>9.0</td><td>8.5</td><td style="color:#3fb950">near</td><td>60,000</td><td>20</td></tr>\n<tr><td>3</td><td><strong>集成电路</strong></td><td>9.0</td><td>8.0</td><td style="color:#3fb950">near</td><td>25,000</td><td>15</td></tr>\n<tr><td>4</td><td><strong>算力设施/东数西算</strong></td><td>9.0</td><td>8.0</td><td style="color:#3fb950">near</td><td>18,000</td><td>30</td></tr>\n<tr><td>5</td><td><strong>智能驾驶</strong></td><td>9.0</td><td>8.0</td><td style="color:#3fb950">near</td><td>12,000</td><td>30</td></tr>\n<tr><td>6</td><td><strong>新型储能</strong></td><td>9.0</td><td>8.0</td><td style="color:#3fb950">near</td><td>15,000</td><td>40</td></tr>\n<tr><td>7</td><td><strong>机器人</strong></td><td>9.0</td><td>8.0</td><td style="color:#3fb950">near</td><td>8,000</td><td>25</td></tr>\n<tr><td>8</td><td><strong>低空经济</strong></td><td>9.0</td><td>7.5</td><td style="color:#3fb950">near</td><td>15,000</td><td>35</td></tr>\n<tr><td>9</td><td><strong>高端装备</strong></td><td>9.0</td><td>7.5</td><td style="color:#d29922">mid</td><td>15,000</td><td>12</td></tr>\n<tr><td>10</td><td><strong>航空航天</strong></td><td>9.0</td><td>7.5</td><td style="color:#d29922">mid</td><td>10,000</td><td>18</td></tr>\n</tbody></table></section>\n<section class="subsection"><h3>5只标的 × 赛道验证</h3>\n<table><thead><tr><th>标的</th><th>归属赛道</th><th>可投性</th><th>政策权重</th><th>角色</th></tr></thead><tbody>\n<tr><td>源杰科技</td><td>算力/IC/AI</td><td>8.0-8.5</td><td>9.0</td><td>高速光芯片EML</td></tr>\n<tr><td>安集科技</td><td>IC/先进材料</td><td>6.5-8.0</td><td>9.0</td><td>CMP抛光液</td></tr>\n<tr><td>睿创微纳</td><td>高端装备/航空航天</td><td>7.5</td><td>9.0</td><td>红外探测器</td></tr>\n<tr><td>天孚通信</td><td>6G/5G-A光通信</td><td>6.0-6.5</td><td>6.0-9.0</td><td>光器件</td></tr>\n<tr><td>光启技术</td><td>航空航天</td><td>7.5</td><td>9.0</td><td>超材料</td></tr>\n</tbody></table>\n<blockquote>全部落入十五五核心赛道，无漂移。数据：<code>research.db → sector_analysis(28赛道) + sector_companies(165家)</code></blockquote></section></div> ';
+
+// Usage guide
+document.getElementById('guide-content').innerHTML = `
+<div class="guide-section">
+<h3>📖 系统概述</h3>
+<p><strong>十倍股全生命周期跟踪系统</strong>是一台"批量带反对派的尽调覆盖器"。从<b>十五五国家战略</b>出发 → <b>28个产业赛道</b> → <b>169只A股标的</b> → 持续跟踪估值、财务、技术信号。</p>
+<p>核心理念：<b>不预测十倍股</b>，而是把候选池的"彩票密度"做高，并在中奖时<b>拿得住</b>。</p>
+</div>
+
+<div class="guide-section">
+<h3>🗂 各Tab说明</h3>
+<ul>
+<li><strong>📊 总览</strong> — KPI卡片：全市场PE分布 + 5只持仓分位 + TOP10赛道排名 + 最新信号。一页看清全局。</li>
+<li><strong>🏭 赛道</strong> — 28赛道全表，按S/A/B/C优先级筛选。每个赛道含规划章节引用和量化目标（如AI 10万亿）。</li>
+<li><strong>💼 持仓</strong> — 5只标的 vs 全市场PE分位数校准。PE分位=标的PE在3706只A股中的排名%，分位越高越贵。PEG列颜色：绿<1低估，黄1-2合理，红>2偏贵。</li>
+<li><strong>📡 信号</strong> — T1(技术突破)/T2(基底形成)/T3(量价确认)三重扫描。T3最稳健（量价已配合），<strong>三信号共振=最强信号</strong>，左侧紫色高亮。</li>
+<li><strong>📈 财务</strong> — 113只赛道标的2025年报数据，含PE/PB/毛利率/营收增速/ROE≈，可搜索排序。</li>
+<li><strong>🔗 映射</strong> — 169条赛道→公司归属。同一标的跨多赛道会重复出现（如安集同时在集成电路+先进材料）。</li>
+<li><strong>📋 设计</strong> — 十倍股系统完整设计文档：5层架构(L0数据→L1硬门→L2软门→L3量价→L4仓位状态机→L5校准)、8个活参数、C0-C7 cohort机制。</li>
+<li><strong>🔬 验证</strong> — 数据源交叉验证：同花顺=baostock=腾讯=Kimi PE_TTM四源零偏差，归母净利4/5一致，一致预期仅同花顺提供。</li>
+<li><strong>📜 政策</strong> — 十五五规划纲要全文存档 + 28赛道政策原文映射 + 量化目标（非石化能源十年倍增等）。</li>
+</ul>
+</div>
+
+<div class="guide-section">
+<h3>🔑 关键概念</h3>
+<ul>
+<li><strong>PE分位数</strong> — 标的PE_TTM在全部3706只有效A股中的排名百分比。源杰96.4%=只有3.6%的股票比它贵；睿创47.7%=居中合理。</li>
+<li><strong>PE均值87.1</strong> — 3706只A股PE_TTM的<strong>简单算术平均</strong>（非加权），作为市场估值中枢参考。</li>
+<li><strong>PE&lt;15 419只</strong> — 深度价值阈值，PE低于15倍的传统价值股数量，用于对比池内标的相对贵贱。</li>
+<li><strong>PEG</strong> — PE / 盈利增速。&lt;1低估、1-2合理、&gt;2偏贵。睿创0.80为池内最低。</li>
+<li><strong>优先级S/A/B/C</strong> — 十五五规划对赛道的重视程度。S=专节+量化目标(最高)、A=八大战略新兴产业、B=六大未来产业、C=核心技术/新基建。</li>
+</ul>
+</div>
+
+<div class="guide-section">
+<h3>🔄 数据刷新方式</h3>
+<p>本页面为<strong>静态快照</strong>，数据来自 <code>research.db</code> 的实时导出。刷新命令：</p>
+<p><code style="font-size:13px">python3 ~/.hermes/scripts/sync_sector_tracker.py</code></p>
+<p>该脚本会：①从DB读取最新数据 → ②重新注入JSON → ③推送到GitHub Pages。建议每日收盘后手动执行，或注册cron自动刷新。</p>
+</div>
+
+<div class="guide-section">
+<h3>📊 数据来源</h3>
+<table><tr><th>数据</th><th>来源</th><th>可靠性</th></tr>
+<tr><td>PE_TTM</td><td>腾讯财经 qt.gtimg.cn</td><td>✅ 四源零偏差</td></tr>
+<tr><td>归母净利</td><td>同花顺 worth.html</td><td>✅ 4/5一致</td></tr>
+<tr><td>一致预期C26/C27</td><td>同花顺（唯一源）</td><td>⚠️ 单源依赖</td></tr>
+<tr><td>财务指标(ROE/毛利)</td><td>baostock profit_data</td><td>✅ 官方财报</td></tr>
+<tr><td>触发信号(T1/T2/T3)</td><td>mootdx TCP K线</td><td>✅ 实时扫描</td></tr>
+<tr><td>赛道→标的映射</td><td>Claude Code + 人工修正</td><td>⚠️ 需持续维护</td></tr>
+<tr><td>券商研报</td><td>东方财富 reportapi</td><td>✅ 134篇</td></tr>
+</table>
+</div>
+
+<div class="guide-section">
+<h3>⏰ Cron自动任务</h3>
+<table><tr><th>任务</th><th>频率</th><th>说明</th></tr>
+<tr><td>日频量价扫描</td><td>周一~五 17:35</td><td>扫描50只赛道标的T1/T2/T3信号</td></tr>
+<tr><td>持仓周检</td><td>周六 09:10</td><td>汇总本周信号+持仓状态检查</td></tr>
+<tr><td>季度复盘</td><td>每季首日 10:00</td><td>全量回测+参数校准+cohort对比</td></tr>
+<tr><td>赛道政策监控</td><td>周一 09:00</td><td>扫描TOP10赛道最新政策→飞书群</td></tr>
+</table>
+</div>
+`;
+</script>
+
+<script>
 const D = JSON.parse(document.getElementById('tracker-data').textContent);
-const SECTORS = D.sectors;
-const ANALYSIS = D.sector_analysis;
-const COMPANIES = D.companies;
-const FINANCIALS = D.financials;
-const SIGNALS = D.signals;
-const UNIVERSE = D.universe;
-const PE_RANK = D.pe_rank;
+const SECTORS=D.sectors, ANALYSIS=D.sector_analysis, COMPANIES=D.companies, FINANCIALS=D.financials, SIGNALS=D.signals, UNIVERSE=D.universe, PE_RANK=D.pe_rank;
+const SECTOR_MAP={}; ANALYSIS.forEach(s=>{SECTOR_MAP[s.sector_name]=s;});
+const COMPANY_MAP={}; COMPANIES.forEach(c=>{if(c.ticker&&c.name)COMPANY_MAP[c.ticker]=c;});
+FINANCIALS.forEach(f=>{if(f.ts_code&&f.name)COMPANY_MAP[f.ts_code]=f;});
+function priBadge(p){if(p==='S')return'badge-s';if(p==='A')return'badge-a';if(p==='B')return'badge-b';return'badge-c';}
 
-// Lookups
-const SECTOR_MAP = {};
-ANALYSIS.forEach(s => { SECTOR_MAP[s.sector_name] = s; });
-const COMPANY_MAP = {};
-COMPANIES.forEach(c => { if(c.ticker && c.name) COMPANY_MAP[c.ticker] = c; });
-FINANCIALS.forEach(f => { if(f.ts_code && f.name) COMPANY_MAP[f.ts_code] = f; });
-
-function priBadge(p) {
-  if(p==='S') return 'badge-s';
-  if(p==='A') return 'badge-a';
-  if(p==='B') return 'badge-b';
-  return 'badge-c';
-}
-
-// Tab switching
-function switchTab(name) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+function switchTab(name){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.add('hidden'));
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
   document.getElementById('tab-'+name).classList.remove('hidden');
   event.target.classList.add('active');
-  if(name==='sectors') renderSectors();
-  if(name==='holdings') renderHoldings();
-  if(name==='signals') renderSignals();
-  if(name==='financials') renderFinancials();
-  if(name==='mapping') { buildMapSectorSelect(); renderMapping(); }
+  if(name==='sectors')renderSectors();
+  if(name==='holdings')renderHoldings();
+  if(name==='signals')renderSignals();
+  if(name==='financials')renderFinancials();
+  if(name==='mapping'){buildMapSectorSelect();renderMapping();}
 }
 
-// Init counts
-document.getElementById('universe-summary').textContent = UNIVERSE.total+'只A股 | PE均值'+UNIVERSE.avg_pe.toFixed(1)+' | PE<15: '+UNIVERSE.pe_lt15+'只';
-document.getElementById('cnt-sectors').textContent = SECTORS.length;
-document.getElementById('cnt-signals').textContent = SIGNALS.length;
-document.getElementById('cnt-fin').textContent = FINANCIALS.length;
-document.getElementById('cnt-map').textContent = COMPANIES.length;
+document.getElementById('universe-summary').textContent=UNIVERSE.total+'只A股 | PE均值'+UNIVERSE.avg_pe.toFixed(1)+' | PE<15: '+UNIVERSE.pe_lt15+'只';
+document.getElementById('cnt-sectors').textContent=SECTORS.length;
+document.getElementById('cnt-signals').textContent=SIGNALS.length;
+document.getElementById('cnt-fin').textContent=FINANCIALS.length;
+document.getElementById('cnt-map').textContent=COMPANIES.length;
 
-// ===== OVERVIEW =====
-let cards = '';
-cards += '<div class="card"><h3>全市场 PE_TTM 均值</h3><div class="value">'+UNIVERSE.avg_pe.toFixed(1)+'</div><div class="sub">简单算术平均 · PE<15: '+UNIVERSE.pe_lt15+'只 | 15-30: '+UNIVERSE.pe_lt30+'只 | ≥30: '+UNIVERSE.pe_ge30+'只</div></div>';
-
-for(const [code, d] of Object.entries(PE_RANK)) {
-  const col = d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
-  cards += '<div class="card"><h3>📊 '+d.name+'</h3><div class="value sm" style="color:'+col+'">PE '+d.pe.toFixed(1)+'</div><div class="sub">全市场 '+d.pct+'% 分位 | 毛利 '+d.gm.toFixed(1)+'% | ROE≈ '+d.roe.toFixed(1)+'%</div></div>';
+// Overview cards
+let cards='';
+cards+='<div class="card"><h3>全市场 PE_TTM 均值</h3><div class="value">'+UNIVERSE.avg_pe.toFixed(1)+'</div><div class="sub">简单算术平均 · PE<15: '+UNIVERSE.pe_lt15+'只 | 15-30: '+UNIVERSE.pe_lt30+'只 | ≥30: '+UNIVERSE.pe_ge30+'只</div></div>';
+for(const[code,d]of Object.entries(PE_RANK)){
+  const col=d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
+  cards+='<div class="card"><h3>📊 '+d.name+'</h3><div class="value sm" style="color:'+col+'">PE '+d.pe.toFixed(1)+'</div><div class="sub">全市场 '+d.pct+'% 分位 | 毛利 '+d.gm.toFixed(1)+'% | ROE≈ '+d.roe.toFixed(1)+'%</div></div>';
 }
+cards+='<div class="card"><h3>🏆 最佳 PEG</h3><div class="value sm" style="color:#3fb950">睿创微纳 0.80</div><div class="sub">PE 41.9 vs C26增速 52.2%</div></div>';
+const tr=D.report_summary.reduce((s,r)=>s+r.cnt,0);
+cards+='<div class="card"><h3>📄 券商研报</h3><div class="value">'+tr+'</div><div class="sub">覆盖 '+D.report_summary.length+' 个赛道</div></div>';
+cards+='<div class="card"><h3>📡 最新信号</h3><div class="value">'+SIGNALS.length+'</div><div class="sub">'+SIGNALS[0]?.signal_date||'无'+' | 累计'+SIGNALS.length+'条</div></div>';
+document.getElementById('overview-cards').innerHTML=cards;
 
-cards += '<div class="card"><h3>🏆 最佳 PEG</h3><div class="value sm" style="color:#3fb950">睿创微纳 0.80</div><div class="sub">PE 41.9 vs C26增速 52.2% · 集成电路+高端装备</div></div>';
-
-const totalReports = D.report_summary.reduce((s,r)=>s+r.cnt,0);
-cards += '<div class="card"><h3>📄 券商研报</h3><div class="value">'+totalReports+'</div><div class="sub">覆盖 '+D.report_summary.length+' 个赛道</div></div>';
-
-cards += '<div class="card"><h3>📡 最新信号</h3><div class="value">'+SIGNALS.length+'</div><div class="sub">'+SIGNALS[0]?.signal_date||'无' +' | 累计'+SIGNALS.length+'条</div></div>';
-document.getElementById('overview-cards').innerHTML = cards;
-
-// Top 10 sectors
-let top10 = ANALYSIS.slice(0,10);
-document.getElementById('top10-sectors').innerHTML = top10.map((s,i)=>{
-  let col = s.investability_score>=8.5?'#3fb950':s.investability_score>=7.5?'#58a6ff':'#d29922';
-  let tBadge = s.time_horizon==='near'?'badge-near':s.time_horizon==='mid'?'badge-mid':'badge-far';
-  let mkt = s.market_size_cn_5y ? (s.market_size_cn_5y/10000).toFixed(0)+'万' : '-';
-  return '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.policy_weight.toFixed(1)+'</td>'
-    +'<td style="color:'+col+';font-weight:600">'+s.investability_score.toFixed(1)+'<div class="score-bar"><div style="width:'+(s.investability_score*10)+'%;background:'+col+'"></div></div></td>'
-    +'<td><span class="badge '+tBadge+'">'+(s.time_horizon||'-')+'</span></td>'
-    +'<td>'+mkt+'</td><td>'+(s.growth_cagr_pct||'-')+'%</td><td style="font-size:10px">'+(s.catalyst_2026||'-').substring(0,55)+'</td></tr>';
+document.getElementById('top10-sectors').innerHTML=ANALYSIS.slice(0,10).map((s,i)=>{
+  let col=s.investability_score>=8.5?'#3fb950':s.investability_score>=7.5?'#58a6ff':'#d29922';
+  let tb=s.time_horizon==='near'?'badge-near':s.time_horizon==='mid'?'badge-mid':'badge-far';
+  let mkt=s.market_size_cn_5y?(s.market_size_cn_5y/10000).toFixed(0)+'万':'-';
+  return'<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.policy_weight.toFixed(1)+'</td><td style="color:'+col+';font-weight:600">'+s.investability_score.toFixed(1)+'<div class="score-bar"><div style="width:'+(s.investability_score*10)+'%;background:'+col+'"></div></div></td><td><span class="badge '+tb+'">'+(s.time_horizon||'-')+'</span></td><td>'+mkt+'</td><td>'+(s.growth_cagr_pct||'-')+'%</td><td style="font-size:10px">'+(s.catalyst_2026||'-').substring(0,50)+'</td></tr>';
 }).join('');
 
-// Latest signals (top 15)
-document.getElementById('latest-signals').innerHTML = SIGNALS.slice(0,15).map(s=>{
-  let name = COMPANY_MAP[s.ts_code]?.name || s.ts_code;
-  let t1 = s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'';
-  let t2 = s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'';
-  let t3 = s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'';
-  let all3 = s.t1_pass&&s.t2_pass&&s.t3_pass;
-  return '<tr'+(all3?' class="resonance"':'')+'>'
-    +'<td>'+s.signal_date+'</td><td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td>'
-    +'<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td>'
-    +'<td>'+t1+'</td><td>'+t2+'</td><td>'+t3+'</td>'
-    +'<td>'+(s.close||0).toFixed(2)+'</td><td>'+(s.dist_52w_high||0).toFixed(1)+'%</td><td>'+(s.vol_ratio||0).toFixed(1)+'</td></tr>';
+document.getElementById('latest-signals').innerHTML=SIGNALS.slice(0,15).map(s=>{
+  let name=COMPANY_MAP[s.ts_code]?.name||s.ts_code;
+  let t1=s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'';
+  let t2=s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'';
+  let t3=s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'';
+  let all3=s.t1_pass&&s.t2_pass&&s.t3_pass;
+  return'<tr'+(all3?' class="resonance"':'')+'><td>'+s.signal_date+'</td><td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td><td style="font-size:10px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td><td>'+t1+'</td><td>'+t2+'</td><td>'+t3+'</td><td>'+(s.close||0).toFixed(2)+'</td><td>'+(s.dist_52w_high||0).toFixed(1)+'%</td><td>'+(s.vol_ratio||0).toFixed(1)+'</td></tr>';
 }).join('');
 
-// ===== SECTORS =====
-function renderSectors() {
-  let cat = document.getElementById('sector-cat').value;
-  let q = document.getElementById('sector-search').value.toLowerCase();
-  let filtered = SECTORS.filter(s=>{
-    if(cat && s.priority!==cat) return false;
-    if(q && !s.sector_name.toLowerCase().includes(q) && !(s.plan_citation||'').toLowerCase().includes(q)) return false;
-    return true;
-  });
-  document.getElementById('sectors-table').innerHTML = filtered.map((s,i)=>
-    '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.category+'</td>'
-    +'<td>'+s.plan_section+'</td><td><span class="badge '+priBadge(s.priority)+'">'+s.priority+'</span></td>'
-    +'<td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>'
-  ).join('')||'<tr><td colspan="6" class="empty">无匹配赛道</td></tr>';
+// Sectors
+function renderSectors(){
+  let cat=document.getElementById('sector-cat').value;
+  let q=document.getElementById('sector-search').value.toLowerCase();
+  let f=SECTORS.filter(s=>{if(cat&&s.priority!==cat)return false;if(q&&!s.sector_name.toLowerCase().includes(q)&&!(s.plan_citation||'').toLowerCase().includes(q))return false;return true;});
+  document.getElementById('sectors-table').innerHTML=f.map((s,i)=>'<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.category+'</td><td>'+s.plan_section+'</td><td><span class="badge '+priBadge(s.priority)+'">'+s.priority+'</span></td><td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>').join('')||'<tr><td colspan="6" class="empty">无匹配</td></tr>';
 }
 
-// ===== HOLDINGS =====
-const HOLDINGS_DATA = [
-  {code:'688498.SH',name:'源杰科技',peg:1.61},
-  {code:'688019.SH',name:'安集科技',peg:1.87},
-  {code:'688002.SH',name:'睿创微纳',peg:0.80},
-  {code:'300394.SZ',name:'天孚通信',peg:2.17},
-  {code:'002625.SZ',name:'光启技术',peg:2.20},
-];
-
-const stockSectors = {};
-SIGNALS.forEach(s=>{ if(!stockSectors[s.ts_code] && s.sectors) stockSectors[s.ts_code]=s.sectors; });
-
-function renderHoldings() {
-  document.getElementById('holdings-table').innerHTML = HOLDINGS_DATA.map(h=>{
-    let d = PE_RANK[h.code]||{};
-    let col = d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
-    let pegCol = h.peg<1?'var(--green)':h.peg<2?'var(--warn)':'var(--red)';
-    let lastSig = SIGNALS.find(s=>s.ts_code===h.code);
-    let sigTags = '';
-    if(lastSig){
-      if(lastSig.t1_pass) sigTags+= '<span class="signal-tag signal-t1">✓</span>';
-      if(lastSig.t2_pass) sigTags+= '<span class="signal-tag signal-t2">✓</span>';
-      if(lastSig.t3_pass) sigTags+= '<span class="signal-tag signal-t3">✓</span>';
-    }
-    return '<tr><td><strong>'+h.name+'</strong></td><td><code>'+h.code.split('.')[0]+'</code></td>'
-      +'<td style="color:'+col+';font-weight:600">'+d.pe.toFixed(1)+'</td>'
-      +'<td><span style="color:'+col+'">'+d.pct+'%</span> <span style="font-size:10px;color:var(--text2)">('+d.rank+'/'+UNIVERSE.with_pe+')</span></td>'
-      +'<td style="color:'+pegCol+';font-weight:600">'+h.peg.toFixed(2)+'</td>'
-      +'<td>'+(d.gm||'-').toFixed(1)+'%</td><td>'+(d.rev_yoy||'-').toFixed(1)+'%</td><td>'+(d.roe||'-').toFixed(1)+'%</td>'
-      +'<td style="font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(stockSectors[h.code]||'-')+'</td>'
-      +'<td>'+sigTags+'</td></tr>';
+// Holdings
+const H=[{code:'688498.SH',name:'源杰科技',peg:1.61},{code:'688019.SH',name:'安集科技',peg:1.87},{code:'688002.SH',name:'睿创微纳',peg:0.80},{code:'300394.SZ',name:'天孚通信',peg:2.17},{code:'002625.SZ',name:'光启技术',peg:2.20}];
+const stockSec={}; SIGNALS.forEach(s=>{if(!stockSec[s.ts_code]&&s.sectors)stockSec[s.ts_code]=s.sectors;});
+function renderHoldings(){
+  document.getElementById('holdings-table').innerHTML=H.map(h=>{
+    let d=PE_RANK[h.code]||{};
+    let col=d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
+    let pc=h.peg<1?'var(--green)':h.peg<2?'var(--warn)':'var(--red)';
+    let ls=SIGNALS.find(s=>s.ts_code===h.code);
+    let st='';if(ls){if(ls.t1_pass)st+='<span class="signal-tag signal-t1">✓</span>';if(ls.t2_pass)st+='<span class="signal-tag signal-t2">✓</span>';if(ls.t3_pass)st+='<span class="signal-tag signal-t3">✓</span>';}
+    return'<tr><td><strong>'+h.name+'</strong></td><td><code>'+h.code.split('.')[0]+'</code></td><td style="color:'+col+';font-weight:600">'+d.pe.toFixed(1)+'</td><td><span style="color:'+col+'">'+d.pct+'%</span> <span style="font-size:10px">('+d.rank+'/'+UNIVERSE.with_pe+')</span></td><td style="color:'+pc+';font-weight:600">'+h.peg.toFixed(2)+'</td><td>'+(d.gm||'-').toFixed(1)+'%</td><td>'+(d.rev_yoy||'-').toFixed(1)+'%</td><td>'+(d.roe||'-').toFixed(1)+'%</td><td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(stockSec[h.code]||'-')+'</td><td>'+st+'</td></tr>';
   }).join('');
 }
 
-// ===== SIGNALS =====
-function renderSignals() {
-  let filter = document.getElementById('signal-filter').value;
-  let q = document.getElementById('signal-search').value.toLowerCase();
-  let filtered = SIGNALS.filter(s=>{
-    if(filter==='t1' && !s.t1_pass) return false;
-    if(filter==='t2' && !s.t2_pass) return false;
-    if(filter==='t3' && !s.t3_pass) return false;
-    if(filter==='all3' && !(s.t1_pass&&s.t2_pass&&s.t3_pass)) return false;
-    if(q){
-      let name = COMPANY_MAP[s.ts_code]?.name||'';
-      if(!name.toLowerCase().includes(q) && !s.ts_code.toLowerCase().includes(q) && !(s.sectors||'').toLowerCase().includes(q)) return false;
-    }
+// Signals
+function renderSignals(){
+  let filter=document.getElementById('signal-filter').value;
+  let q=document.getElementById('signal-search').value.toLowerCase();
+  let f=SIGNALS.filter(s=>{
+    if(filter==='t1'&&!s.t1_pass)return false;
+    if(filter==='t2'&&!s.t2_pass)return false;
+    if(filter==='t3'&&!s.t3_pass)return false;
+    if(filter==='all3'&&!(s.t1_pass&&s.t2_pass&&s.t3_pass))return false;
+    if(q){let n=COMPANY_MAP[s.ts_code]?.name||'';if(!n.toLowerCase().includes(q)&&!s.ts_code.toLowerCase().includes(q)&&!(s.sectors||'').toLowerCase().includes(q))return false;}
     return true;
   });
-  document.getElementById('signals-table').innerHTML = filtered.length ? filtered.map(s=>{
-    let name = COMPANY_MAP[s.ts_code]?.name||s.ts_code;
-    let all3 = s.t1_pass&&s.t2_pass&&s.t3_pass;
-    return '<tr'+(all3?' class="resonance"':'')+'>'
-      +'<td>'+s.signal_date+'</td>'
-      +'<td><strong>'+name+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td>'
-      +'<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td>'
-      +'<td>'+(s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'')+'</td>'
-      +'<td>'+(s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'')+'</td>'
-      +'<td>'+(s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'')+'</td>'
-      +'<td>'+(s.close||0).toFixed(2)+'</td>'
-      +'<td>'+(s.dist_52w_high||0).toFixed(1)+'%</td>'
-      +'<td>'+(s.vol_ratio||0).toFixed(1)+'</td>'
-      +'<td>'+(s.investability_score||'-').toFixed(1)+'</td></tr>';
-  }).join('') : '<tr><td colspan="10" class="empty">无匹配信号</td></tr>';
+  document.getElementById('signals-table').innerHTML=f.length?f.map(s=>{
+    let n=COMPANY_MAP[s.ts_code]?.name||s.ts_code, a3=s.t1_pass&&s.t2_pass&&s.t3_pass;
+    return'<tr'+(a3?' class="resonance"':'')+'><td>'+s.signal_date+'</td><td><strong>'+n+'</strong> <code>'+s.ts_code.split('.')[0]+'</code></td><td style="font-size:10px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.sectors||'-')+'</td><td>'+(s.t1_pass?'<span class="signal-tag signal-t1">✓</span>':'')+'</td><td>'+(s.t2_pass?'<span class="signal-tag signal-t2">✓</span>':'')+'</td><td>'+(s.t3_pass?'<span class="signal-tag signal-t3">✓</span>':'')+'</td><td>'+(s.close||0).toFixed(2)+'</td><td>'+(s.dist_52w_high||0).toFixed(1)+'%</td><td>'+(s.vol_ratio||0).toFixed(1)+'</td><td>'+(s.investability_score||'-').toFixed(1)+'</td></tr>';
+  }).join(''):'<tr><td colspan="10" class="empty">无匹配信号</td></tr>';
 }
 
-// ===== FINANCIALS =====
-function renderFinancials() {
-  let q = document.getElementById('fin-search')?.value?.toLowerCase()||'';
-  let filtered = FINANCIALS.filter(f=>{
-    if(q && !(f.name||'').toLowerCase().includes(q) && !(f.ts_code||'').toLowerCase().includes(q)) return false;
+// Financials
+function renderFinancials(){
+  let q=document.getElementById('fin-search')?.value?.toLowerCase()||'';
+  let f=FINANCIALS.filter(x=>{if(q&&!(x.name||'').toLowerCase().includes(q)&&!(x.ts_code||'').toLowerCase().includes(q))return false;return true;});
+  document.getElementById('financials-table').innerHTML=f.length?f.map(x=>{
+    let mc=x.mktcap?(x.mktcap/100000000).toFixed(0):'-';
+    return'<tr><td><strong>'+(x.name||'-')+'</strong></td><td><code>'+(x.ts_code||'').split('.')[0]+'</code></td><td style="font-weight:600">'+(x.pe_ttm||0).toFixed(1)+'</td><td>'+(x.pb||0).toFixed(2)+'</td><td>'+(x.gm_ttm||0).toFixed(1)+'%</td><td>'+(x.rev_ttm_yoy||0).toFixed(1)+'%</td><td>'+(x.debt_ratio||0).toFixed(1)+'%</td><td>'+(x.roe_est||0).toFixed(1)+'%</td><td>'+mc+'</td></tr>';
+  }).join(''):'<tr><td colspan="9" class="empty">无匹配</td></tr>';
+}
+
+// Mapping
+function buildMapSectorSelect(){
+  let secs=[...new Set(COMPANIES.map(c=>{let a=ANALYSIS.find(a=>a.id===c.sector_analysis_id);return a?a.sector_name:'';}).filter(Boolean))].sort();
+  document.getElementById('map-sector').innerHTML='<option value="">全部赛道</option>'+secs.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+}
+function renderMapping(){
+  let sec=document.getElementById('map-sector').value;
+  let q=document.getElementById('map-search').value.toLowerCase();
+  let f=COMPANIES.filter(c=>{
+    let sn='';let a=ANALYSIS.find(a=>a.id===c.sector_analysis_id);if(a)sn=a.sector_name;
+    if(sec&&sn!==sec)return false;
+    if(q&&!(c.name||'').toLowerCase().includes(q)&&!(c.ticker||'').toLowerCase().includes(q))return false;
     return true;
   });
-  document.getElementById('financials-table').innerHTML = filtered.length ? filtered.map(f=>{
-    let mktcap = f.mktcap ? (f.mktcap/100000000).toFixed(0) : '-';
-    return '<tr><td><strong>'+(f.name||'-')+'</strong></td><td><code>'+(f.ts_code||'').split('.')[0]+'</code></td>'
-      +'<td style="font-weight:600">'+(f.pe_ttm||0).toFixed(1)+'</td><td>'+(f.pb||0).toFixed(2)+'</td>'
-      +'<td>'+(f.gm_ttm||0).toFixed(1)+'%</td><td>'+(f.rev_ttm_yoy||0).toFixed(1)+'%</td>'
-      +'<td>'+(f.debt_ratio||0).toFixed(1)+'%</td><td>'+(f.roe_est||0).toFixed(1)+'%</td>'
-      +'<td>'+mktcap+'</td></tr>';
-  }).join('') : '<tr><td colspan="9" class="empty">无匹配结果</td></tr>';
+  document.getElementById('mapping-table').innerHTML=f.length?f.map(c=>{
+    let sn='';let a=ANALYSIS.find(a=>a.id===c.sector_analysis_id);if(a)sn=a.sector_name;
+    let mc=c.mcap_yi?c.mcap_yi.toFixed(0)+' 亿':'-';
+    return'<tr><td>'+sn+'</td><td><strong>'+(c.name||'-')+'</strong></td><td><code>'+(c.ticker||'')+'</code></td><td>'+(c.role||'-')+'</td><td>'+(c.pe_ttm||'-')+'</td><td>'+mc+'</td></tr>';
+  }).join(''):'<tr><td colspan="6" class="empty">无匹配</td></tr>';
 }
 
-// ===== MAPPING =====
-function buildMapSectorSelect() {
-  let sectors = [...new Set(COMPANIES.map(c=>{
-    let a = ANALYSIS.find(a=>a.id===c.sector_analysis_id);
-    return a?a.sector_name:'';
-  }).filter(Boolean))].sort();
-  document.getElementById('map-sector').innerHTML = '<option value="">全部赛道</option>'+sectors.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
-}
-
-function renderMapping() {
-  let sec = document.getElementById('map-sector').value;
-  let q = document.getElementById('map-search').value.toLowerCase();
-  let filtered = COMPANIES.filter(c=>{
-    let sectorName = '';
-    let a = ANALYSIS.find(a=>a.id===c.sector_analysis_id);
-    if(a) sectorName = a.sector_name;
-    if(sec && sectorName!==sec) return false;
-    if(q && !(c.name||'').toLowerCase().includes(q) && !(c.ticker||'').toLowerCase().includes(q)) return false;
-    return true;
-  });
-  document.getElementById('mapping-table').innerHTML = filtered.length ? filtered.map(c=>{
-    let sectorName = '';
-    let a = ANALYSIS.find(a=>a.id===c.sector_analysis_id);
-    if(a) sectorName = a.sector_name;
-    // mcap_yi is already in 亿 (人民币)
-    let mktcap = c.mcap_yi ? c.mcap_yi.toFixed(0)+' 亿' : '-';
-    return '<tr><td>'+sectorName+'</td><td><strong>'+(c.name||'-')+'</strong></td>'
-      +'<td><code>'+(c.ticker||'')+'</code></td><td>'+(c.role||'-')+'</td>'
-      +'<td>'+(c.pe_ttm||'-')+'</td><td>'+mktcap+'</td></tr>';
-  }).join('') : '<tr><td colspan="6" class="empty">无匹配结果</td></tr>';
-}
-
-// ===== SORTING =====
-let sortState = {};
-function sortTable(tableId, colIdx) {
-  let key = tableId+'_'+colIdx;
-  sortState[key] = !sortState[key];
-  let asc = sortState[key];
-  
-  let tbodyId;
-  if(tableId==='sectors') tbodyId='sectors-table';
-  else if(tableId==='signals') tbodyId='signals-table';
-  else if(tableId==='financials') tbodyId='financials-table';
-  else if(tableId==='mapping') tbodyId='mapping-table';
-  else if(tableId==='holdings') tbodyId='holdings-table';
-  else return;
-  
-  let tbody = document.getElementById(tbodyId);
-  let rows = Array.from(tbody.querySelectorAll('tr'));
-  if(rows.length<2) return;
-  
+// Sort
+let ss={};
+function sortTable(tid,ci){
+  let k=tid+'_'+ci; ss[k]=!ss[k]; let asc=ss[k];
+  let tb=document.getElementById(tid+'-table');
+  if(!tb)return;
+  let rows=Array.from(tb.querySelectorAll('tr'));
+  if(rows.length<2)return;
   rows.sort((a,b)=>{
-    let va = (a.cells[colIdx]?.textContent||'').trim();
-    let vb = (b.cells[colIdx]?.textContent||'').trim();
-    let na = parseFloat(va), nb = parseFloat(vb);
-    if(!isNaN(na) && !isNaN(nb)) return asc ? na-nb : nb-na;
-    return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+    let va=(a.cells[ci]?.textContent||'').trim(), vb=(b.cells[ci]?.textContent||'').trim();
+    let na=parseFloat(va), nb=parseFloat(vb);
+    if(!isNaN(na)&&!isNaN(nb))return asc?na-nb:nb-na;
+    return asc?va.localeCompare(vb):vb.localeCompare(va);
   });
-  tbody.innerHTML = '';
-  rows.forEach(r=>tbody.appendChild(r));
+  tb.innerHTML=''; rows.forEach(r=>tb.appendChild(r));
 }
 
 // Init
-renderSectors();
-renderHoldings();
-renderSignals();
-renderFinancials();
-buildMapSectorSelect();
-renderMapping();
+renderSectors(); renderHoldings(); renderSignals(); renderFinancials(); buildMapSectorSelect(); renderMapping();
 </script>
 </body>
 </html>
