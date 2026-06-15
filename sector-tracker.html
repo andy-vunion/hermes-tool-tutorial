@@ -69,7 +69,7 @@ tr.resonance{border-left:3px solid var(--purple)!important}
   <div>
     <h1>🎯 十五五赛道跟踪 <span style="font-size:12px;color:var(--green);font-weight:400">(DB驱动)</span></h1>
     <div class="meta">十五五规划纲要 → 28赛道 → 169标的 → 134研报 · 曼尼投研系统</div>
-    <div class="updated">📡 数据快照: 2026-06-15 12:55（运行 sync_sector_tracker.py 刷新）</div>
+    <div class="updated">📡 数据快照: 2026-06-15 12:57（运行 sync_sector_tracker.py 刷新）</div>
   </div>
   <div style="text-align:right">
     <div style="font-size:14px;color:var(--green)">█ 全市场分母</div>
@@ -137,7 +137,7 @@ tr.resonance{border-left:3px solid var(--purple)!important}
   </div>
   <div class="panel">
     <div class="panel-header">💼 持仓5只 · 全市场PE分位数校准</div>
-    <table><thead><tr><th onclick="sortTable('holdings',0)">标的</th><th onclick="sortTable('holdings',1)">代码</th><th onclick="sortTable('holdings',2)">PE_TTM</th><th onclick="sortTable('holdings',3)">全市场分位</th><th onclick="sortTable('holdings',4)">毛利率</th><th onclick="sortTable('holdings',5)">营收YoY</th><th onclick="sortTable('holdings',6)">ROE≈</th><th>所属赛道</th><th>最新信号</th></tr></thead>
+    <table><thead><tr><th onclick="sortTable('holdings',0)">标的</th><th onclick="sortTable('holdings',1)">代码</th><th onclick="sortTable('holdings',2)">PE_TTM</th><th onclick="sortTable('holdings',3)">全市场分位</th><th onclick="sortTable('holdings',4)">PEG</th><th onclick="sortTable('holdings',5)">毛利率</th><th onclick="sortTable('holdings',6)">营收YoY</th><th onclick="sortTable('holdings',7)">ROE≈</th><th>所属赛道</th><th>最新信号</th></tr></thead>
     <tbody id="holdings-table"></tbody></table>
   </div>
 </div>
@@ -344,16 +344,18 @@ function renderHoldings() {
   document.getElementById('holdings-table').innerHTML = HOLDINGS_DATA.map(h=>{
     let d = PE_RANK[h.code]||{};
     let col = d.pct>80?'var(--red)':d.pct>60?'var(--warn)':'var(--green)';
+    let pegCol = h.peg<1?'var(--green)':h.peg<2?'var(--warn)':'var(--red)';
     let lastSig = SIGNALS.find(s=>s.ts_code===h.code);
     let sigTags = '';
     if(lastSig){
-      if(lastSig.t1_pass) sigTags+= '<span class="signal-tag signal-t1">T1</span>';
-      if(lastSig.t2_pass) sigTags+= '<span class="signal-tag signal-t2">T2</span>';
-      if(lastSig.t3_pass) sigTags+= '<span class="signal-tag signal-t3">T3</span>';
+      if(lastSig.t1_pass) sigTags+= '<span class="signal-tag signal-t1">✓</span>';
+      if(lastSig.t2_pass) sigTags+= '<span class="signal-tag signal-t2">✓</span>';
+      if(lastSig.t3_pass) sigTags+= '<span class="signal-tag signal-t3">✓</span>';
     }
     return '<tr><td><strong>'+h.name+'</strong></td><td><code>'+h.code.split('.')[0]+'</code></td>'
       +'<td style="color:'+col+';font-weight:600">'+d.pe.toFixed(1)+'</td>'
       +'<td><span style="color:'+col+'">'+d.pct+'%</span> <span style="font-size:10px;color:var(--text2)">('+d.rank+'/'+UNIVERSE.with_pe+')</span></td>'
+      +'<td style="color:'+pegCol+';font-weight:600">'+h.peg.toFixed(2)+'</td>'
       +'<td>'+(d.gm||'-').toFixed(1)+'%</td><td>'+(d.rev_yoy||'-').toFixed(1)+'%</td><td>'+(d.roe||'-').toFixed(1)+'%</td>'
       +'<td style="font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(stockSectors[h.code]||'-')+'</td>'
       +'<td>'+sigTags+'</td></tr>';
