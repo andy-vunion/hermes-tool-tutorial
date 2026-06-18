@@ -208,8 +208,9 @@ function ST(n){
 }
 
 function RP(){
-  var h=SECTORS.map(function(s,i){return '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+s.category+'</td><td>'+s.plan_section+'</td><td><span class="badge badge-'+(s.priority||'c').toLowerCase()+'">'+s.priority+'</span></td><td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>';}).join('');
-  document.getElementById('policy-tbl').innerHTML=h;
+  var ps=D.policy.sectors||[];
+  var h=ps.map(function(s,i){return '<tr><td>'+(i+1)+'</td><td><strong>'+s.sector_name+'</strong></td><td>'+(s.category||'')+'</td><td>'+(s.plan_section||'')+'</td><td><span class="badge badge-'+(s.priority||'c').toLowerCase()+'">'+(s.priority||'')+'</span></td><td style="font-size:10px">'+(s.quant_target||'-')+'</td></tr>';}).join('');
+  document.getElementById('policy-tbl').innerHTML=h||'<tr><td colspan="6">加载中...</td></tr>';
 }
 
 function RSec(){
