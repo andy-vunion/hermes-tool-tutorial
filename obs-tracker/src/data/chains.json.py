@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+import json, sys
+
+# Hardcoded chain data for visualization
+chains = {
+    "集成电路": {
+        "nodes": [
+            {"name":"EDA/IP","pos":"上游","gm":"85-95%","local":"<5%","barrier":"极高","desc":"Synopsys/Cadence垄断，华大九天替代"},
+            {"name":"硅片/衬底","pos":"上游","gm":"30-45%","local":"<10%","barrier":"高","desc":"沪硅产业12寸硅片、天岳先进SiC"},
+            {"name":"光刻胶/化学品","pos":"上游","gm":"40-55%","local":"<15%","barrier":"极高","desc":"安集科技CMP抛光液、南大光电ArF光刻胶"},
+            {"name":"设备","pos":"上游","gm":"35-50%","local":"<20%","barrier":"极高","desc":"中微刻蚀、北方华创PVD、盛美清洗"},
+            {"name":"晶圆代工","pos":"中游","gm":"25-45%","local":"25%","barrier":"极高","desc":"中芯国际14nm、华虹宏力"},
+            {"name":"封装测试","pos":"下游","gm":"15-25%","local":"40%","barrier":"中","desc":"长电科技、通富微电、华天科技"},
+            {"name":"芯片设计","pos":"下游","gm":"40-60%","local":"30%","barrier":"中高","desc":"海思/韦尔/兆易创新/澜起科技"},
+        ]
+    },
+    "人工智能": {
+        "nodes": [
+            {"name":"AI芯片(GPU/NPU)","pos":"上游","gm":"55-70%","local":"<5%","barrier":"极高","desc":"英伟达H200垄断，华为昇腾/寒武纪"},
+            {"name":"HBM/存储","pos":"上游","gm":"40-50%","local":"<5%","barrier":"极高","desc":"SK海力士/三星垄断HBM3E"},
+            {"name":"光模块/互联","pos":"上游","gm":"30-50%","local":"40%","barrier":"中高","desc":"中际旭创800G、天孚通信光引擎"},
+            {"name":"服务器/PCB","pos":"中游","gm":"15-25%","local":"60%","barrier":"中","desc":"工业富联/浪潮，沪电股份高速PCB"},
+            {"name":"大模型平台","pos":"中游","gm":"50-70%","local":"50%","barrier":"高","desc":"百度文心/阿里千问/DeepSeek"},
+            {"name":"AI应用","pos":"下游","gm":"60-80%","local":"70%","barrier":"中","desc":"金山办公/科大讯飞/商汤"},
+        ]
+    },
+    "算力设施/东数西算": {
+        "nodes": [
+            {"name":"数据中心基建","pos":"上游","gm":"15-25%","local":"80%","barrier":"低","desc":"宝信软件/奥飞数据/光环新网"},
+            {"name":"液冷/电力","pos":"上游","gm":"25-40%","local":"60%","barrier":"中","desc":"英维克液冷/科华数据UPS"},
+            {"name":"算力芯片","pos":"中游","gm":"55-70%","local":"<10%","barrier":"极高","desc":"华为昇腾/海光DCU/寒武纪"},
+            {"name":"算力平台","pos":"中游","gm":"50-70%","local":"50%","barrier":"高","desc":"三大运营商云/阿里云"},
+            {"name":"算力租赁","pos":"下游","gm":"30-50%","local":"70%","barrier":"中","desc":"首都在线/优刻得/青云科技"},
+        ]
+    }
+}
+json.dump(chains, sys.stdout, ensure_ascii=False)
