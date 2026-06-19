@@ -20,31 +20,25 @@ chain.nodes.forEach(n => {
 
 ```js
 const icons = {"上游": "⬆️", "中游": "🔄", "下游": "⬇️"};
-
-function nodeCard(n) {
-  return `<div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
-    <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
-    <div style="font-size:12px;color:#8b949e;line-height:1.6">
-      毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
-      壁垒: ${n.barrier}<br>
-      ${n.desc}
-    </div>
-  </div>`;
+const grid = document.createElement("div");
+grid.className = "grid grid-cols-3";
+grid.style.gap = "20px";
+for (const p of ["上游", "中游", "下游"]) {
+  if (!groups[p]) continue;
+  const card = document.createElement("div");
+  card.style.cssText = "background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px";
+  card.innerHTML = `<h3 style="color:#58a6ff;margin-bottom:12px;text-align:center;margin-top:0">${icons[p]} ${p}</h3>` +
+    groups[p].map(n => `<div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
+      <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
+      <div style="font-size:12px;color:#8b949e;line-height:1.6">
+        毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
+        壁垒: ${n.barrier}<br>
+        ${n.desc}
+      </div>
+    </div>`).join("");
+  grid.appendChild(card);
 }
-
-function posCard(pos) {
-  if (!groups[pos]) return "";
-  const cards = groups[pos].map(nodeCard).join("");
-  return `<div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px">
-    <h3 style="color:#58a6ff;margin-bottom:12px;text-align:center">${icons[pos]} ${pos}</h3>
-    ${cards}
-  </div>`;
-}
-
-const frag = document.createRange().createContextualFragment(
-  `<div class="grid grid-cols-3" style="gap: 20px">${["上游","中游","下游"].map(posCard).join("")}</div>`
-);
-display(frag);
+display(grid);
 ```
 
 ---
