@@ -30,7 +30,7 @@ const {sectors, policy} = await FileAttachment("./data/sectors.json").json();
 return {sectors,policy};
 }});
 
-define({id: "bef9c304", mode: "inline", inputs: ["sectors","display"], body: async (sectors,display) => {
+define({id: "4c42bd18", mode: "inline", inputs: ["sectors","display"], body: async (sectors,display) => {
 display(await(
 sectors.map(s => {
     const col = s.investability_score >= 8.5 ? "#3fb950" : s.investability_score >= 7.5 ? "#58a6ff" : "#d29922";
@@ -38,7 +38,7 @@ sectors.map(s => {
     const mkt = s.market_size_cn_5y ? (s.market_size_cn_5y/10000).toFixed(0) + "万亿" : "-";
     return `
     <div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;cursor:pointer"
-         onclick="window.location.href='/chain'">
+         onclick="window.location.href='./chain'">
       <h3 style="color:#c9d1d9;margin-bottom:8px">${s.sector_name}</h3>
       <div style="font-size:2em;font-weight:700;color:${col};margin:8px 0">${s.investability_score.toFixed(1)}</div>
       <div style="font-size:12px;color:#8b949e;line-height:1.7">
@@ -88,7 +88,7 @@ display(Inputs.table(policy, {
 <main id="observablehq-main" class="observablehq">
 <div class="observablehq observablehq--block"><!--:5811f715:--></div>
 <div class="grid grid-cols-3" style="gap: 16px">
-  <observablehq-loading></observablehq-loading><!--:bef9c304:-->
+  <observablehq-loading></observablehq-loading><!--:4c42bd18:-->
 </div>
 <hr>
 <h2 id="" tabindex="-1"><a class="observablehq-header-anchor" href="#">📋 政策原文映射</a></h2>
@@ -96,7 +96,7 @@ display(Inputs.table(policy, {
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./chain"><span>产业链拆解</span></a><a rel="next" href="./stocks"><span>标的筛选</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:44:45">Jun 19, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:56:33">Jun 19, 2026</a>.</div>
 </footer>
 </div>
 </body>

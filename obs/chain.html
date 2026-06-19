@@ -105,19 +105,25 @@ display(grid);
 return {icons,grid};
 }});
 
-define({id: "f90597e9", inputs: ["chain","display","Plot"], outputs: ["valueDist"], body: (chain,display,Plot) => {
+define({id: "ce3fb8b8", inputs: ["chain","display","Plot"], outputs: ["valueDist"], body: (chain,display,Plot) => {
 // Calculate value distribution
-const valueDist = chain.nodes.map(n => ({
-  name: n.name,
-  pos: n.pos,
-  gm: n.gm
-}));
+const valueDist = chain.nodes.map(n => {
+  const gmRange = n.gm.replace("%", "").split("-");
+  const gmMid = gmRange.length === 2 ? (parseFloat(gmRange[0]) + parseFloat(gmRange[1])) / 2 : parseFloat(n.gm);
+  return {
+    name: n.name,
+    pos: n.pos,
+    gm: n.gm,
+    gmMid: gmMid
+  };
+});
 
 display(Plot.plot({
   marks: [
-    Plot.barX(valueDist, {x: "name", y: "gm", fill: "pos", sort: {x: "y", reverse: true}})
+    Plot.barX(valueDist, {x: "name", y: "gmMid", fill: "pos", sort: {x: "y", reverse: true},
+      tip: true, title: d => `${d.name} — 毛利率 ${d.gm}`})
   ],
-  x: {label: "毛利率区间"},
+  x: {label: "毛利率中位数 (%)"},
   y: {label: "环节"},
   color: {legend: true, domain: ["上游","中游","下游"], range: ["#3fb950","#58a6ff","#d29922"]},
   height: 300,
@@ -168,13 +174,13 @@ display(Inputs.table(sectors, {
 <div class="observablehq observablehq--block"><!--:9709c288:--></div>
 <hr>
 <h2 id="" tabindex="-1"><a class="observablehq-header-anchor" href="#">📊 价值分布</a></h2>
-<div class="observablehq observablehq--block"><!--:f90597e9:--></div>
+<div class="observablehq observablehq--block"><!--:ce3fb8b8:--></div>
 <h2 id="-1" tabindex="-1"><a class="observablehq-header-anchor" href="#-1">🏭 赛道可投性</a></h2>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:38ececd6:--></div>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./"><span>Home</span></a><a rel="next" href="./sectors"><span>赛道全景</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:44:45">Jun 19, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:56:33">Jun 19, 2026</a>.</div>
 </footer>
 </div>
 </body>

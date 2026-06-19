@@ -27,7 +27,7 @@ registerFile("./data/companies.json", {"name":"./data/companies.json","mimeType"
 registerFile("./data/sectors.json", {"name":"./data/sectors.json","mimeType":"application/json","path":"./_file/data/sectors.77fae350.json","lastModified":1781835129313,"size":76783});
 registerFile("./data/signals.json", {"name":"./data/signals.json","mimeType":"application/json","path":"./_file/data/signals.68ed2d93.json","lastModified":1781835129465,"size":18199});
 
-define({id: "41ae726d", inputs: ["FileAttachment","view","Inputs"], outputs: ["companies","financials","universe","pe_pct","sectors","signals","finMap","rows","selSector","filtered"], body: async (FileAttachment,view,Inputs) => {
+define({id: "552a2f07", inputs: ["FileAttachment","view","Inputs"], outputs: ["companies","financials","universe","pe_pct","sectors","signals","finMap","rows","sectorList","selSector","filtered"], body: async (FileAttachment,view,Inputs) => {
 const {companies, financials, universe, pe_pct} = await FileAttachment("./data/companies.json").json();
 const {sectors} = await FileAttachment("./data/sectors.json").json();
 const signals = await FileAttachment("./data/signals.json").json();
@@ -47,10 +47,10 @@ const rows = companies.map(c => {
   };
 });
 
-const selSector = view(Inputs.select([...new Set(rows.map(r => r.sector))].sort(), {label: "赛道筛选", value: ""}));
-
+const sectorList = [...new Set(rows.map(r => r.sector))].sort();
+const selSector = view(Inputs.select(sectorList, {label: "赛道筛选"}));
 const filtered = selSector ? rows.filter(r => r.sector === selSector) : rows;
-return {companies,financials,universe,pe_pct,sectors,signals,finMap,rows,selSector,filtered};
+return {companies,financials,universe,pe_pct,sectors,signals,finMap,rows,sectorList,selSector,filtered};
 }});
 
 define({id: "833cde9a", mode: "inline", inputs: ["companies","display"], body: async (companies,display) => {
@@ -97,13 +97,13 @@ display(Inputs.table(filtered, {
 }))
 }});
 
-define({id: "9ad02511", inputs: ["companies","signals","display","Inputs"], outputs: ["nameMap","sigRows"], body: (companies,signals,display,Inputs) => {
+define({id: "de0a1afe", inputs: ["companies","signals","display","Inputs"], outputs: ["nameMap","sigRows"], body: (companies,signals,display,Inputs) => {
 const nameMap = {};
 companies.forEach(c => { if (c.ticker) nameMap[c.ticker] = c.name; });
 const sigRows = signals.slice(0, 20).map(s => ({
   date: s.signal_date, name: nameMap[s.ts_code] || s.ts_code, code: s.ts_code,
   t1: s.t1_pass ? "✓" : "", t2: s.t2_pass ? "✓" : "", t3: s.t3_pass ? "✓" : "",
-  close: s.close?.toFixed(2), dist: s.dist_52w_high?.toFixed(1) + "%", vol: s.vol_ratio?.toFixed(1)
+  close: s.close?.toFixed(2), dist: s.dist_52w_high != null ? s.dist_52w_high.toFixed(1) + "%" : "-", vol: s.vol_ratio?.toFixed(1)
 }));
 
 display(Inputs.table(sigRows, {
@@ -141,7 +141,7 @@ return {nameMap,sigRows};
 </nav>
 </aside>
 <main id="observablehq-main" class="observablehq">
-<div class="observablehq observablehq--block"><!--:41ae726d:--></div>
+<div class="observablehq observablehq--block"><!--:552a2f07:--></div>
 <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
   <div class="kpi-card"><div class="value"><observablehq-loading></observablehq-loading><!--:833cde9a:--></div><div class="label">标的</div></div>
   <div class="kpi-card"><div class="value"><observablehq-loading></observablehq-loading><!--:32322cb5:--></div><div class="label">当前筛选</div></div>
@@ -150,11 +150,11 @@ return {nameMap,sigRows};
 </div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:ce408c82:--></div>
 <h2 id="" tabindex="-1"><a class="observablehq-header-anchor" href="#">📡 最新信号</a></h2>
-<div class="observablehq observablehq--block"><!--:9ad02511:--></div>
+<div class="observablehq observablehq--block"><!--:de0a1afe:--></div>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./sectors"><span>赛道全景</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:44:45">Jun 19, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:56:33">Jun 19, 2026</a>.</div>
 </footer>
 </div>
 </body>

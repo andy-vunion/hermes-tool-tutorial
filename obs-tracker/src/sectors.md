@@ -13,7 +13,7 @@ const {sectors, policy} = await FileAttachment("data/sectors.json").json();
     const mkt = s.market_size_cn_5y ? (s.market_size_cn_5y/10000).toFixed(0) + "万亿" : "-";
     return `
     <div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;cursor:pointer"
-         onclick="window.location.href='/chain'">
+         onclick="window.location.href='./chain'">
       <h3 style="color:#c9d1d9;margin-bottom:8px">${s.sector_name}</h3>
       <div style="font-size:2em;font-weight:700;color:${col};margin:8px 0">${s.investability_score.toFixed(1)}</div>
       <div style="font-size:12px;color:#8b949e;line-height:1.7">

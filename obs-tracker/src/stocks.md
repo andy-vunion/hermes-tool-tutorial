@@ -22,8 +22,8 @@ const rows = companies.map(c => {
   };
 });
 
-const selSector = view(Inputs.select([...new Set(rows.map(r => r.sector))].sort(), {label: "赛道筛选", value: ""}));
-
+const sectorList = [...new Set(rows.map(r => r.sector))].sort();
+const selSector = view(Inputs.select(sectorList, {label: "赛道筛选"}));
 const filtered = selSector ? rows.filter(r => r.sector === selSector) : rows;
 ```
 
@@ -62,7 +62,7 @@ companies.forEach(c => { if (c.ticker) nameMap[c.ticker] = c.name; });
 const sigRows = signals.slice(0, 20).map(s => ({
   date: s.signal_date, name: nameMap[s.ts_code] || s.ts_code, code: s.ts_code,
   t1: s.t1_pass ? "✓" : "", t2: s.t2_pass ? "✓" : "", t3: s.t3_pass ? "✓" : "",
-  close: s.close?.toFixed(2), dist: s.dist_52w_high?.toFixed(1) + "%", vol: s.vol_ratio?.toFixed(1)
+  close: s.close?.toFixed(2), dist: s.dist_52w_high != null ? s.dist_52w_high.toFixed(1) + "%" : "-", vol: s.vol_ratio?.toFixed(1)
 }));
 
 display(Inputs.table(sigRows, {

@@ -47,17 +47,23 @@ display(grid);
 
 ```js
 // Calculate value distribution
-const valueDist = chain.nodes.map(n => ({
-  name: n.name,
-  pos: n.pos,
-  gm: n.gm
-}));
+const valueDist = chain.nodes.map(n => {
+  const gmRange = n.gm.replace("%", "").split("-");
+  const gmMid = gmRange.length === 2 ? (parseFloat(gmRange[0]) + parseFloat(gmRange[1])) / 2 : parseFloat(n.gm);
+  return {
+    name: n.name,
+    pos: n.pos,
+    gm: n.gm,
+    gmMid: gmMid
+  };
+});
 
 display(Plot.plot({
   marks: [
-    Plot.barX(valueDist, {x: "name", y: "gm", fill: "pos", sort: {x: "y", reverse: true}})
+    Plot.barX(valueDist, {x: "name", y: "gmMid", fill: "pos", sort: {x: "y", reverse: true},
+      tip: true, title: d => `${d.name} — 毛利率 ${d.gm}`})
   ],
-  x: {label: "毛利率区间"},
+  x: {label: "毛利率中位数 (%)"},
   y: {label: "环节"},
   color: {legend: true, domain: ["上游","中游","下游"], range: ["#3fb950","#58a6ff","#d29922"]},
   height: 300,
