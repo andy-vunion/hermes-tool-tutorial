@@ -20,24 +20,23 @@ chain.nodes.forEach(n => {
 
 ```js
 const icons = {"上游": "⬆️", "中游": "🔄", "下游": "⬇️"};
-display(html`<div class="grid grid-cols-3" style="gap: 20px">
-  ${["上游", "中游", "下游"].map(pos => {
-    if (!groups[pos]) return null;
-    return html`<div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px">
-      <h3 style="color:#58a6ff;margin-bottom:12px;text-align:center">${icons[pos]} ${pos}</h3>
-      ${groups[pos].map(n => html`
-        <div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
-          <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
-          <div style="font-size:12px;color:#8b949e;line-height:1.6">
-            毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
-            壁垒: ${n.barrier}<br>
-            ${n.desc}
-          </div>
+const columns = ["上游", "中游", "下游"].map(pos => {
+  if (!groups[pos]) return null;
+  return html`<div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px">
+    <h3 style="color:#58a6ff;margin-bottom:12px;text-align:center">${icons[pos]} ${pos}</h3>
+    ${groups[pos].map(n => html`
+      <div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
+        <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
+        <div style="font-size:12px;color:#8b949e;line-height:1.6">
+          毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
+          壁垒: ${n.barrier}<br>
+          ${n.desc}
         </div>
-      `)}
-    </div>`;
-  })}
-</div>`)
+      </div>
+    `)}
+  </div>`;
+});
+display(html`<div class="grid grid-cols-3" style="gap: 20px">${columns}</div>`);
 ```
 
 ---

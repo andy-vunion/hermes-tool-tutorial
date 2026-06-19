@@ -81,27 +81,26 @@ chain.nodes.forEach(n => {
 return {chain,groups};
 }});
 
-define({id: "5858f38d", inputs: ["display","html","groups"], outputs: ["icons"], body: (display,html,groups) => {
+define({id: "d77735d6", inputs: ["groups","html","display"], outputs: ["icons","columns"], body: (groups,html,display) => {
 const icons = {"上游": "⬆️", "中游": "🔄", "下游": "⬇️"};
-display(html`<div class="grid grid-cols-3" style="gap: 20px">
-  ${["上游", "中游", "下游"].map(pos => {
-    if (!groups[pos]) return null;
-    return html`<div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px">
-      <h3 style="color:#58a6ff;margin-bottom:12px;text-align:center">${icons[pos]} ${pos}</h3>
-      ${groups[pos].map(n => html`
-        <div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
-          <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
-          <div style="font-size:12px;color:#8b949e;line-height:1.6">
-            毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
-            壁垒: ${n.barrier}<br>
-            ${n.desc}
-          </div>
+const columns = ["上游", "中游", "下游"].map(pos => {
+  if (!groups[pos]) return null;
+  return html`<div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px">
+    <h3 style="color:#58a6ff;margin-bottom:12px;text-align:center">${icons[pos]} ${pos}</h3>
+    ${groups[pos].map(n => html`
+      <div style="background:#1c2333;border:1px solid #2a3345;border-radius:6px;padding:12px;margin-bottom:8px">
+        <div style="font-weight:600;color:#c9d1d9;margin-bottom:4px">${n.name}</div>
+        <div style="font-size:12px;color:#8b949e;line-height:1.6">
+          毛利率 <span style="color:#3fb950">${n.gm}</span> · 国产化率 <span style="color:#d29922">${n.local}</span><br>
+          壁垒: ${n.barrier}<br>
+          ${n.desc}
         </div>
-      `)}
-    </div>`;
-  })}
-</div>`)
-return {icons};
+      </div>
+    `)}
+  </div>`;
+});
+display(html`<div class="grid grid-cols-3" style="gap: 20px">${columns}</div>`);
+return {icons,columns};
 }});
 
 define({id: "f90597e9", inputs: ["chain","display","Plot"], outputs: ["valueDist"], body: (chain,display,Plot) => {
@@ -164,7 +163,7 @@ display(Inputs.table(sectors, {
 <main id="observablehq-main" class="observablehq">
 <div class="observablehq observablehq--block"><!--:96c95111:--></div>
 <div class="observablehq observablehq--block"><!--:d481f838:--></div>
-<div class="observablehq observablehq--block"><!--:5858f38d:--></div>
+<div class="observablehq observablehq--block"><!--:d77735d6:--></div>
 <hr>
 <h2 id="" tabindex="-1"><a class="observablehq-header-anchor" href="#">📊 价值分布</a></h2>
 <div class="observablehq observablehq--block"><!--:f90597e9:--></div>
@@ -173,7 +172,7 @@ display(Inputs.table(sectors, {
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./"><span>Home</span></a><a rel="next" href="./sectors"><span>赛道全景</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:40:32">Jun 19, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:42:44">Jun 19, 2026</a>.</div>
 </footer>
 </div>
 </body>
