@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.4">
+<title>赛道全景</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.b050d634.css">
+<link rel="preload" as="style" href="./_observablehq/stdlib/inputs.f7bf0e12.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.b050d634.css">
+<link rel="stylesheet" type="text/css" href="./_observablehq/stdlib/inputs.f7bf0e12.css">
+<link rel="modulepreload" href="./_observablehq/client.49091e0e.js">
+<link rel="modulepreload" href="./_observablehq/runtime.607a8173.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.277aeab8.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/inputs.3feeafb9.js">
+<link rel="modulepreload" href="./_npm/htl@1.0.0/87d6f6ef.js">
+<link rel="modulepreload" href="./_npm/isoformat@0.2.1/18cbf477.js">
+<script type="module">
+
+import {define} from "./_observablehq/client.49091e0e.js";
+import {registerFile} from "./_observablehq/stdlib.277aeab8.js";
+
+registerFile("./data/sectors.json", {"name":"./data/sectors.json","mimeType":"application/json","path":"./_file/data/sectors.77fae350.json","lastModified":1781835129313,"size":76783});
+
+define({id: "5811f715", inputs: ["FileAttachment"], outputs: ["sectors","policy"], body: async (FileAttachment) => {
+const {sectors, policy} = await FileAttachment("./data/sectors.json").json();
+return {sectors,policy};
+}});
+
+define({id: "bef9c304", mode: "inline", inputs: ["sectors","display"], body: async (sectors,display) => {
+display(await(
+sectors.map(s => {
+    const col = s.investability_score >= 8.5 ? "#3fb950" : s.investability_score >= 7.5 ? "#58a6ff" : "#d29922";
+    const tb = s.time_horizon === "near" ? "🟢 近期" : s.time_horizon === "mid" ? "🟡 中期" : "⚪ 远期";
+    const mkt = s.market_size_cn_5y ? (s.market_size_cn_5y/10000).toFixed(0) + "万亿" : "-";
+    return `
+    <div class="card" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;cursor:pointer"
+         onclick="window.location.href='/chain'">
+      <h3 style="color:#c9d1d9;margin-bottom:8px">${s.sector_name}</h3>
+      <div style="font-size:2em;font-weight:700;color:${col};margin:8px 0">${s.investability_score.toFixed(1)}</div>
+      <div style="font-size:12px;color:#8b949e;line-height:1.7">
+        ${tb} · 权重${s.policy_weight.toFixed(1)} · ${mkt}<br>
+        CAGR ${s.growth_cagr_pct || "-"}%<br>
+        <span style="font-size:10px">${(s.catalyst_2026 || "").substring(0, 40)}</span>
+      </div>
+    </div>`;
+  }).join("")
+))
+}});
+
+define({id: "924b73f7", inputs: ["display","Inputs","policy"], body: (display,Inputs,policy) => {
+display(Inputs.table(policy, {
+  columns: ["sector_name", "category", "plan_section", "priority", "quant_target"],
+  header: { sector_name: "赛道", category: "类别", plan_section: "章节", priority: "优先级", quant_target: "量化目标" },
+  rows: 28
+}))
+}});
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="./">Home</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link"><a href="./chain">产业链拆解</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./sectors">赛道全景</a></li>
+    <li class="observablehq-link"><a href="./stocks">标的筛选</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#">📋 政策原文映射</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<div class="observablehq observablehq--block"><!--:5811f715:--></div>
+<div class="grid grid-cols-3" style="gap: 16px">
+  <observablehq-loading></observablehq-loading><!--:bef9c304:-->
+</div>
+<hr>
+<h2 id="" tabindex="-1"><a class="observablehq-header-anchor" href="#">📋 政策原文映射</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:924b73f7:--></div>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./chain"><span>产业链拆解</span></a><a rel="next" href="./stocks"><span>标的筛选</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-06-19T10:12:06">Jun 19, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>
