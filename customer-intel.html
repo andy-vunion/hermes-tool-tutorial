@@ -289,11 +289,21 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
 </script>
 
 <script>
-const DS_API_KEY = 'sk-9cd2150c397f4294934ef02d7cb15822';
-const DS_MODEL = 'deepseek-v4-flash';
-const DS_BASE_URL = 'https://api.deepseek.com/v1/chat/completions';
+const SF_API_URL = 'https://api.siliconflow.cn/v1/chat/completions';
+const SF_MODEL = 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B';
+const SF_HEALTH_URL = 'https://api.siliconflow.cn/v1/models';
 
-let appData = null;
+function getApiKey() {
+  return localStorage.getItem('sf_api_key') || '';
+}
+
+function promptForKey() {
+  var key = prompt('请输入 SiliconFlow API Key（注册: siliconflow.cn）：\n密钥仅存本地浏览器。');
+  if (key && key.trim()) { localStorage.setItem('sf_api_key', key.trim()); return key.trim(); }
+  return null;
+}
+
+let appData
 let currentFilter = 'all';
 let searchQuery = '';
 let selectedCustomerId = null;
@@ -638,14 +648,14 @@ async function checkAIHealth() {
   txt.textContent = '检查中...';
 
   try {
-    const resp = await fetch(DS_BASE_URL, {
+    const resp = await fetch(SF_API_URL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DS_API_KEY},
-      body: JSON.stringify({model: DS_MODEL, messages: [{role: 'user', content: 'hi'}], max_tokens: 5})
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getApiKey()},
+      body: JSON.stringify({model: SF_MODEL, messages: [{role: 'user', content: 'hi'}], max_tokens: 5})
     });
     if (resp.ok) {
       dot.style.background = '#22c55e';
-      txt.textContent = 'DeepSeek v4-flash 在线';
+      txt.textContent = 'SiliconFlow 在线';
       aiHealthy = true;
       aiMockMode = false;
     } else {
@@ -695,11 +705,11 @@ async function sendAIMessage() {
   container.scrollTop = container.scrollHeight;
 
   try {
-    const resp = await fetch(DS_BASE_URL, {
+    const resp = await fetch(SF_API_URL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DS_API_KEY},
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getApiKey()},
       body: JSON.stringify({
-        model: DS_MODEL,
+        model: SF_MODEL,
         messages: [
           {role: 'system', content: '你是资深销售情报分析师，熟悉半导体/芯片代理行业。请基于提供的客户数据给出简洁、 actionable 的分析建议。'},
           {role: 'user', content: getAIContext() + '\n用户问题：' + msg}

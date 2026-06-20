@@ -871,12 +871,20 @@ render();
   'use strict';
 
   /* ====== Config ====== */
-  var API_BASE = 'https://api.deepseek.com';
-  var API_URL = API_BASE + '/v1/chat/completions';
-  var API_KEY = 'sk-2e2955e8c62d4baca3a2c6f0ea7252e8';
-  var MODEL = 'deepseek-v4-flash';
+  var API_URL = 'https://api.siliconflow.cn/v1/chat/completions';
+  var MODEL = 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B';
   var HEALTH_TIMEOUT = 5000;
   var CHAT_TIMEOUT = 30000;
+
+  function getApiKey() {
+    return localStorage.getItem('sf_api_key') || '';
+  }
+
+  function promptForKey() {
+    var key = prompt('请输入 SiliconFlow API Key（注册: siliconflow.cn）：\n密钥仅存本地浏览器。');
+    if (key && key.trim()) { localStorage.setItem('sf_api_key', key.trim()); return key.trim(); }
+    return null;
+  }
 
   /* ====== State ====== */
   var isOnline = false;
@@ -1090,7 +1098,7 @@ render();
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + API_KEY
+        'Authorization': 'Bearer ' + getApiKey()
       },
       body: JSON.stringify({
         model: MODEL,
@@ -1126,9 +1134,9 @@ render();
     var ctrl = new AbortController();
     var timeoutId = setTimeout(function() { ctrl.abort(); }, HEALTH_TIMEOUT);
 
-    return fetch(API_BASE + '/v1/models', {
+    return fetch('https://api.siliconflow.cn/v1/models', {
       method: 'GET',
-      headers: { 'Authorization': 'Bearer ' + API_KEY },
+      headers: { 'Authorization': 'Bearer ' + getApiKey() },
       signal: ctrl.signal
     })
     .then(function(res) {

@@ -312,14 +312,14 @@ function RFin(){
 // AI Chat
 var chatOn=false;
 var CHAT_URL='https://api.siliconflow.cn/v1/chat/completions';
-var CHAT_KEY='sk-nvfaozgpfzdrmvyonmrrkrltfohwuytczuijlobdaieynzar';
+function getApiKey(){return localStorage.getItem('sf_api_key')||'';}
 function TC(){var p=document.getElementById('chat-panel');p.classList.toggle('hidden');document.getElementById('chat-btn').style.display=p.classList.contains('hidden')?'block':'none';}
-function SCH(){fetch('https://api.siliconflow.cn/v1/models',{headers:{'Authorization':'Bearer '+CHAT_KEY},signal:AbortSignal.timeout(5000)}).then(function(r){chatOn=r.ok;document.getElementById('chat-dot').className='dot '+(r.ok?'on':'off');document.getElementById('chat-st').textContent=r.ok?'SiliconFlow R1 在线':'离线(Mock)';document.getElementById('chat-btn').style.display='block';}).catch(function(){document.getElementById('chat-dot').className='dot off';document.getElementById('chat-st').textContent='离线(Mock)';document.getElementById('chat-btn').style.display='block';});}
+function SCH(){fetch('https://api.siliconflow.cn/v1/models',{headers:{'Authorization':'Bearer '+getApiKey()},signal:AbortSignal.timeout(5000)}).then(function(r){chatOn=r.ok;document.getElementById('chat-dot').className='dot '+(r.ok?'on':'off');document.getElementById('chat-st').textContent=r.ok?'SiliconFlow R1 在线':'离线(Mock)';document.getElementById('chat-btn').style.display='block';}).catch(function(){document.getElementById('chat-dot').className='dot off';document.getElementById('chat-st').textContent='离线(Mock)';document.getElementById('chat-btn').style.display='block';});}
 function SC(){
   var inp=document.getElementById('chat-in'),msg=inp.value.trim();if(!msg)return;inp.value='';
   AM('user',msg);
   if(!chatOn){setTimeout(function(){MR(msg);},600);return;}
-  fetch(CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CHAT_KEY},body:JSON.stringify({model:'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B',messages:[{role:'system',content:'你是十五五产业链投研助手。全市场5207只A股, 28赛道, 169标的, 55信号。简洁中文回答。'},{role:'user',content:msg}],max_tokens:400,temperature:.7}),signal:AbortSignal.timeout(30000)}).then(function(r){return r.json();}).then(function(d){AM('ai',d.choices?d.choices[0].message.content:'无回复');}).catch(function(){MR(msg);});
+  fetch(CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getApiKey()},body:JSON.stringify({model:'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B',messages:[{role:'system',content:'你是十五五产业链投研助手。全市场5207只A股, 28赛道, 169标的, 55信号。简洁中文回答。'},{role:'user',content:msg}],max_tokens:400,temperature:.7}),signal:AbortSignal.timeout(30000)}).then(function(r){return r.json();}).then(function(d){AM('ai',d.choices?d.choices[0].message.content:'无回复');}).catch(function(){MR(msg);});
 }
 function MR(msg){
   var q=msg.toLowerCase(),r;

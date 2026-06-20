@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI算力产业链投研看板 v13</title>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2035;
+  --bg-card-hover: #1f2847;
+  --border: #2a3454;
+  --text-primary: #e8eaf0;
+  --text-secondary: #9ca3b8;
+  --text-muted: #6b7394;
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --accent-yellow: #f59e0b;
+  --accent-purple: #8b5cf6;
+  --accent-cyan: #06b6d4;
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+.dashboard {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+.main-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.right-sidebar {
+  width: 340px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.header h1 {
+  font-size: 20px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.header-meta span { display:flex; align-items:center; gap:4px; }
+/* Macro cards */
+.macro-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.macro-card {
+  flex: 1 1 180px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  min-width: 160px;
+}
+.macro-card .label { font-size:11px; color:var(--text-muted); margin-bottom:4px; }
+.macro-card .value { font-size:20px; font-weight:700; }
+.macro-card .sub { font-size:11px; color:var(--text-secondary); margin-top:2px; }
+/* Sector row */
+.sector-row {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  min-height: 380px;
+}
+.sector-left {
+  flex: 0 1 280px;
+  min-width: 240px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sector-detail {
+  flex: 1 1 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  overflow-y: auto;
+}
+.sector-companies {
+  flex: 1 1 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  overflow-y: auto;
+}
+/* Sector list */
+.sector-left-header {
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.legend {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.legend span { display:flex; align-items:center; gap:3px; }
+.legend .dot { width:8px; height:8px; border-radius:50%; }
+.sector-columns {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  gap: 6px;
+}
+.sector-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sector-group-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  padding: 6px 8px 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.sector-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 12px;
+}
+.sector-item:hover { background: var(--bg-card-hover); }
+.sector-item.active { background: rgba(59,130,246,0.15); border: 1px solid var(--accent-blue); }
+.sector-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.sector-score { margin-left:auto; font-weight:600; font-size:12px; color:var(--accent-cyan); }
+/* Detail panel */
+.detail-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.detail-header h3 { font-size:16px; }
+.type-badge {
+  font-size:10px; padding:2px 8px; border-radius:10px;
+  background:rgba(59,130,246,0.15); color:var(--accent-blue); border:1px solid rgba(59,130,246,0.3);
+}
+.detail-score { font-size:28px; font-weight:700; color:var(--accent-cyan); margin-left:auto; }
+.detail-desc { font-size:12px; color:var(--text-secondary); margin-bottom:14px; line-height:1.6; }
+.score-bars { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.score-bar-row { display:flex; align-items:center; gap:8px; }
+.score-bar-label { width:50px; font-size:11px; color:var(--text-muted); text-align:right; }
+.score-bar-track { flex:1; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; }
+.score-bar-fill { height:100%; border-radius:3px; transition:width 0.5s ease; }
+.score-bar-val { width:28px; font-size:11px; font-weight:600; }
+.local-rate { margin-bottom:14px; }
+.local-rate .label { font-size:11px; color:var(--text-muted); margin-bottom:4px; }
+.local-rate .bar { height:8px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden; }
+.local-rate .fill { height:100%; background:linear-gradient(90deg, var(--accent-green), var(--accent-cyan)); border-radius:4px; }
+.local-rate .val { font-size:11px; color:var(--accent-green); margin-top:2px; }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.metric-item {
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.metric-item .mlabel { font-size:10px; color:var(--text-muted); }
+.metric-item .mvalue { font-size:13px; font-weight:600; margin-top:2px; }
+.tags-section { margin-bottom:10px; }
+.tags-section .tag-title { font-size:11px; color:var(--text-muted); margin-bottom:4px; }
+.tags-section .tags { display:flex; flex-wrap:wrap; gap:4px; }
+.tag {
+  font-size:10px; padding:3px 8px; border-radius:10px;
+  background:rgba(139,92,246,0.12); color:var(--accent-purple); border:1px solid rgba(139,92,246,0.25);
+}
+.tag.bottleneck {
+  background:rgba(239,68,68,0.12); color:var(--accent-red); border-color:rgba(239,68,68,0.25);
+}
+/* Company cards */
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 10px;
+}
+.flip-card {
+  perspective: 1000px;
+  height: 160px;
+  cursor: pointer;
+}
+.flip-card-inner {
+  position:relative; width:100%; height:100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back {
+  position:absolute; width:100%; height:100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.flip-card-front {
+  background: var(--bg-card);
+}
+.flip-card-back {
+  background: var(--bg-secondary);
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.card-name { font-size:13px; font-weight:600; }
+.card-ticker { font-size:10px; color:var(--text-muted); }
+.card-sector-badge {
+  font-size:9px; padding:1px 6px; border-radius:8px; margin-top:4px; display:inline-block;
+  background:rgba(6,182,212,0.12); color:var(--accent-cyan); border:1px solid rgba(6,182,212,0.2);
+}
+.card-metrics { margin-top:auto; display:flex; flex-direction:column; gap:3px; }
+.card-metrics .cm { display:flex; justify-content:space-between; font-size:11px; }
+.card-metrics .cm .cl { color:var(--text-muted); }
+.card-metrics .cm .cv { font-weight:600; }
+.back-tabs {
+  display:flex; gap:0; margin-bottom:6px; border-bottom:1px solid var(--border);
+}
+.back-tab {
+  font-size:10px; padding:4px 6px; cursor:pointer; color:var(--text-muted);
+  border-bottom:2px solid transparent; white-space:nowrap;
+}
+.back-tab.active { color:var(--accent-blue); border-bottom-color:var(--accent-blue); }
+.back-content { flex:1; overflow-y:auto; font-size:11px; color:var(--text-secondary); }
+.back-content strong { color:var(--text-primary); }
+.back-content .risk-high { color:var(--accent-red); }
+/* BOM section */
+.bom-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 260px;
+}
+.bom-tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  padding: 0 12px;
+}
+.bom-tab {
+  padding: 8px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.bom-tab:hover { color: var(--text-secondary); }
+.bom-tab.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+.bom-table-wrap { padding:12px; overflow-x:auto; max-height:220px; overflow-y:auto; }
+.bom-table { width:100%; border-collapse:collapse; font-size:11px; }
+.bom-table th {
+  text-align:left; padding:6px 8px; color:var(--text-muted); font-weight:500;
+  border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg-card);
+}
+.bom-table td { padding:6px 8px; border-bottom:1px solid rgba(255,255,255,0.03); }
+.bom-table tr:hover td { background:rgba(255,255,255,0.02); }
+.bn-yes { color:var(--accent-red); font-weight:600; }
+.bn-no { color:var(--text-muted); }
+.bom-sector-tag {
+  font-size:10px; padding:1px 6px; border-radius:8px;
+  background:rgba(59,130,246,0.12); color:var(--accent-blue);
+  border:1px solid rgba(59,130,246,0.25); white-space:nowrap;
+}
+.bom-price { font-family:'SF Mono','Consolas','Monaco',monospace; font-size:11px; white-space:nowrap; }
+/* Right sidebar */
+.sidebar-search {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-search input {
+  width:100%; padding:8px 12px; border-radius:6px;
+  background:var(--bg-card); border:1px solid var(--border);
+  color:var(--text-primary); font-size:12px; outline:none;
+}
+.sidebar-search input:focus { border-color:var(--accent-blue); }
+.news-section {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  max-height: 260px;
+}
+.news-header {
+  padding:10px 12px; font-size:12px; font-weight:600;
+  display:flex; align-items:center; gap:6px;
+  border-bottom: 1px solid var(--border);
+}
+.news-scroll {
+  overflow: hidden;
+  position: relative;
+  height: 220px;
+}
+.news-scroll-inner {
+  animation: newsScroll 40s linear infinite;
+}
+.news-scroll:hover .news-scroll-inner { animation-play-state:paused; }
+@keyframes newsScroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.news-item {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.news-item .ni-time { font-size:10px; color:var(--text-muted); }
+.news-item .ni-title { font-size:12px; margin-top:2px; }
+.news-item .ni-title a { color:var(--text-primary); text-decoration:none; }
+.news-item .ni-title a:hover { color:var(--accent-blue); }
+.news-item .ni-source { font-size:10px; color:var(--text-muted); margin-top:2px; }
+.news-item .ni-badge {
+  display:inline-block; font-size:9px; padding:1px 5px; border-radius:6px; margin-left:4px;
+}
+.ni-badge.bullish { background:rgba(16,185,129,0.15); color:var(--accent-green); }
+.ni-badge.bearish { background:rgba(239,68,68,0.15); color:var(--accent-red); }
+/* Chat section */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+.chat-header {
+  padding:10px 12px; font-size:12px; font-weight:600;
+  display:flex; align-items:center; gap:6px;
+  border-bottom: 1px solid var(--border);
+}
+.chat-status {
+  margin-left:auto; font-size:10px; padding:2px 6px; border-radius:8px; cursor:pointer;
+}
+.chat-status.online { background:rgba(16,185,129,0.15); color:var(--accent-green); }
+.chat-status.offline { background:rgba(239,68,68,0.15); color:var(--accent-red); }
+.chat-status.unconfigured { background:rgba(245,158,11,0.15); color:var(--accent-yellow); }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-msg {
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: var(--accent-blue);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.ai {
+  align-self: flex-start;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--border);
+}
+.chat-msg.ai strong { color: var(--accent-cyan); }
+.chat-msg.ai ul { margin:4px 0; padding-left:16px; }
+.chat-msg.ai code { background:rgba(255,255,255,0.08); padding:1px 4px; border-radius:3px; font-size:11px; }
+.chat-typing {
+  align-self: flex-start;
+  padding: 8px 12px;
+  display: flex;
+  gap: 4px;
+}
+.chat-typing .dot {
+  width:6px; height:6px; border-radius:50%; background:var(--text-muted);
+  animation: bounce 1.2s infinite;
+}
+.chat-typing .dot:nth-child(2) { animation-delay:0.2s; }
+.chat-typing .dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes bounce {
+  0%,60%,100% { transform:translateY(0); }
+  30% { transform:translateY(-6px); }
+}
+.chat-input-area {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.chat-input-area input {
+  flex:1; padding:8px 12px; border-radius:6px;
+  background:var(--bg-card); border:1px solid var(--border);
+  color:var(--text-primary); font-size:12px; outline:none;
+}
+.chat-input-area input:focus { border-color:var(--accent-blue); }
+.chat-input-area input:disabled { opacity:0.5; }
+.chat-send {
+  padding:8px 14px; border-radius:6px; border:none;
+  background:var(--accent-blue); color:#fff; font-size:12px;
+  cursor:pointer; font-weight:500; transition:opacity 0.2s;
+}
+.chat-send:hover { opacity:0.85; }
+.chat-send:disabled { opacity:0.4; cursor:not-allowed; }
+.chat-hint {
+  padding:4px 12px 8px; font-size:10px; color:var(--text-muted); text-align:center;
+}
+/* Scrollbar */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--text-muted); }
+/* Animation */
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+/* Responsive */
+@media (max-width:1440px) {
+  .right-sidebar { width:300px; }
+  .sector-left { flex:0 1 240px; min-width:200px; }
+  .company-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+@media (max-width:1200px) {
+  .right-sidebar { display:none; }
+  .company-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+<div class="main-area">
+  <!-- Header -->
+  <div class="header">
+    <h1>AI算力产业链投研看板</h1>
+    <div class="header-meta">
+      <span>14 赛道</span>
+      <span>27 标的</span>
+      <span>11 产品BOM</span>
+      <span>更新: 2026-06-03</span>
+    </div>
+  </div>
+  <!-- Macro Row -->
+  <div class="macro-row" id="macroRow"></div>
+  <!-- Sector Row -->
+  <div class="sector-row">
+    <div class="sector-left">
+      <div class="sector-left-header">
+        赛道列表
+        <div class="legend">
+          <span><span class="dot" style="background:var(--accent-red)"></span>上游</span>
+          <span><span class="dot" style="background:var(--accent-blue)"></span>中游</span>
+          <span><span class="dot" style="background:var(--accent-green)"></span>下游</span>
+          <span><span class="dot" style="background:var(--accent-purple)"></span>支撑</span>
+        </div>
+      </div>
+      <div class="sector-columns" id="sectorColumns">
+        <div class="sector-col" id="colUpstream"></div>
+        <div class="sector-col" id="colMidstream"></div>
+        <div class="sector-col" id="colDownstream"></div>
+        <div class="sector-col" id="colSupport"></div>
+      </div>
+    </div>
+    <div class="sector-detail" id="sectorDetail"></div>
+    <div class="sector-companies" id="sectorCompanies">
+      <div class="company-grid" id="companyGrid"></div>
+    </div>
+  </div>
+  <!-- BOM Section -->
+  <div class="bom-section">
+    <div class="bom-tabs" id="bomTabs"></div>
+    <div class="bom-table-wrap" id="bomTableWrap"></div>
+  </div>
+</div>
+<!-- Right Sidebar -->
+<div class="right-sidebar">
+  <div class="sidebar-search">
+    <input type="text" id="searchInput" placeholder="搜索赛道/公司/代码...">
+  </div>
+  <div class="news-section">
+    <div class="news-header">📰 最新动态</div>
+    <div class="news-scroll">
+      <div class="news-scroll-inner" id="newsScroll"></div>
+    </div>
+  </div>
+  <div class="chat-section">
+    <div class="chat-header">
+      💬 AI 助手
+      <span class="chat-status unconfigured" id="chatStatus" title="点击配置API Key">🔴 请配置 API Key</span>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg ai">你好！我是 AI 算力产业链投研助手。你可以问我关于赛道分析、公司估值、产业趋势等问题。<br>请先点击右上角状态指示器配置 SiliconFlow API Key。</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="输入问题，按 Enter 发送...">
+      <button class="chat-send" id="chatSend">发送</button>
+    </div>
+    <div class="chat-hint">Enter 发送，Shift+Enter 换行</div>
+  </div>
+</div>
+</div>
+
+<script>
+// ===== SiliconFlow 配置 =====
+const CHAT_API_URL = 'https://api.siliconflow.cn/v1/chat/completions';
+const SF_MODEL = 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B';
+const SF_HEALTH_URL = 'https://api.siliconflow.cn/v1/models';
+
+function getApiKey() {
+  return localStorage.getItem('sf_api_key') || '';
+}
+
+function promptForKey() {
+  var key = prompt('请输入 SiliconFlow API Key（注册地址: https://siliconflow.cn）：\n\n密钥仅存储在本地浏览器，不会上传到任何服务器。');
+  if (key && key.trim()) {
+    localStorage.setItem('sf_api_key', key.trim());
+    return key.trim();
+  }
+  return null;
+}
+
+// Data (reconstructed — some fields may show 暂无)
+const sectors = [{"id":1,"chain_name":"AI算力","node_name":"GPU芯片","node_type":"upstream","parent_node_id":null,"description":"AI算力的核心算力单元，决定整个系统的计算性能上限。英伟达凭借CUDA生态占据全球约80%+市场份额，国产GPU以海光DCU和寒武纪思元系列为代表。","growth_score":9.0,"profit_score":9.0,"barrier_score":10.0,"composite_score":9.3,"key_companies":null,"bottlenecks":"[\"先进制程代工受限\",\"HBM供应依赖海外\",\"CUDA生态差距2-3代\",\"CoWoS封装产能瓶颈\"]","tech_trends":"[\"Chiplet架构\",\"超节点Scale-up互联\",\"存算一体\",\"国产CUDA兼容层\"]","report_sources":null,"created_at":"2026-06-01 23:09:40","updated_at":"2026-06-01 23:09:40","localization_rate":8.0,"substitute_risk":"high","substitute_window":"3-5年","cr5_concentration":98.0,"pricing_power":"strong","cost_reduction_path":null,"indirect_beneficiaries":"[{\"sector\":\"半导体设备\",\"reason\":\"刻蚀/薄膜/量测设备国产替代\"},{\"sector\":\"先进封装\",\"reason\":\"CoWoS国产化\"}]"},{"id":3,"chain_name":"AI算力","node_name":"HBM先进封装","node_type":"upstream","parent_node_id":null,"description":"高带宽存储与逻辑芯片的3D/2.5D封装技术，决定AI芯片实际性能发挥。CoWoS封装产能是全球AI算力核心瓶颈。","growth_score":9.0,"profit_score":8.0,"barrier_score":9.0,"composite_score":8.7,"key_companies":null,"bottlenecks":"[\"CoWoS产能严重不足\",\"HBM颗粒被三巨头垄断\",\"TSV设备依赖美日\",\"EMC材料日系主导\"]","tech_trends":"[\"CoWoS-L向CoWoS-R演进\",\"HBM4混合键合\",\"3D IC堆叠\",\"面板级封装降本\"]","report_sources":null,"created_at":"2026-06-01 23:09:40","updated_at":"2026-06-01 23:09:40","localization_rate":15.0,"substitute_risk":"high","substitute_window":"5-8年","cr5_concentration":85.0,"pricing_power":"strong","cost_reduction_path":null,"indirect_beneficiaries":"[{\"sector\":\"封装设备\",\"reason\":\"TSV刻蚀/电镀国产化\"},{\"sector\":\"EMC材料\",\"reason\":\"环氧塑封料国产替代\"}]"},{"id":11,"chain_name":"AI算力","node_name":"存储(HBM/SSD)","node_type":"upstream","description":"AI训练需要大容量高带宽存储，HBM3E成为高端GPU标配。","growth_score":9.0,"profit_score":8.0,"barrier_score":9.0,"composite_score":8.7,"localization_rate":5.0,"substitute_risk":"high","substitute_window":"5-10年","cr5_concentration":95.0,"pricing_power":"strong","bottlenecks":"[\"HBM3E被SK海力士/三星/美光垄断\",\"国产HBM空白\",\"SSD主控仍受制\"]","tech_trends":"[\"HBM4 2048-bit接口\",\"CXL内存池化\"]"},{"id":4,"chain_name":"AI算力","node_name":"光模块","node_type":"midstream","description":"AI数据中心高速互联核心器件，800G/1.6T光模块需求爆发。中国厂商全球份额超40%。","growth_score":9.5,"profit_score":7.5,"barrier_score":7.0,"composite_score":8.3,"localization_rate":40.0,"substitute_risk":"medium","substitute_window":"2-4年","cr5_concentration":60.0,"pricing_power":"moderate","bottlenecks":"[\"高速DSP/EML光芯片依赖进口\",\"EML芯片良率瓶颈\"]","tech_trends":"[\"1.6T→3.2T演进\",\"CPO/LPO共封装\"]"},{"id":5,"chain_name":"AI算力","node_name":"交换机","node_type":"midstream","description":"AI数据中心网络核心设备，51.2T/800G端口交换机驱动InfiniBand/RoCE高速互联。","growth_score":8.5,"profit_score":7.0,"barrier_score":6.5,"composite_score":7.7,"localization_rate":25.0,"substitute_risk":"medium","bottlenecks":"[\"交换芯片被博通垄断\",\"高端PHY芯片国产率低\"]","tech_trends":"[\"51.2T→102.4T交换容量\",\"CPO交换机\"]"},{"id":8,"chain_name":"AI算力","node_name":"光芯片","node_type":"upstream","description":"光模块核心器件，EML/DSP/硅光芯片决定光模块性能上限。","growth_score":9.0,"profit_score":9.5,"barrier_score":9.0,"composite_score":9.2,"localization_rate":10.0,"substitute_risk":"very_high","substitute_window":"5-8年","cr5_concentration":90.0,"pricing_power":"strong","bottlenecks":"[\"高速EML被Lumentum/三菱/住友垄断\",\"DSP被Broadcom/Marvell垄断\",\"硅光集成度低\"]","tech_trends":"[\"硅光集成（PIC）\",\"薄膜铌酸锂调制器\"]"},{"id":6,"chain_name":"AI算力","node_name":"高端PCB","node_type":"upstream","description":"AI服务器主板（24-40层 Ultra Low Loss PCB），价值量随层数增加指数提升。","growth_score":8.5,"profit_score":7.0,"barrier_score":7.5,"composite_score":7.8,"localization_rate":30.0,"substitute_risk":"medium","bottlenecks":"[\"M7/M8 CCL日系领先\",\"40层板钻孔/电镀门槛高\"]","tech_trends":"[\"40层→50层\",\"类载板mSAP工艺\"]"},{"id":7,"chain_name":"AI算力","node_name":"服务器","node_type":"downstream","description":"AI训练/推理服务器，GB200/GB300架构驱动散热和供电全面革新。","growth_score":9.5,"profit_score":5.5,"barrier_score":5.0,"composite_score":7.3,"localization_rate":35.0,"substitute_risk":"medium","bottlenecks":"[\"GPU/CPU被海外垄断\",\"HBM供不应求\"]","tech_trends":"[\"GB300液冷标配\",\"超节点Scale-up\"]"},{"id":2,"chain_name":"AI算力","node_name":"半导体设备","node_type":"support","description":"芯片制造基石，国产替代核心战场。北方华创/中微公司为代表，刻蚀/薄膜/清洗国产化率持续提升。","growth_score":8.5,"profit_score":8.0,"barrier_score":8.5,"composite_score":8.3,"localization_rate":18.0,"substitute_risk":"high","bottlenecks":"[\"光刻机完全依赖ASML\",\"量测/检测设备国产率低于5%\",\"先进制程设备被禁运\"]","tech_trends":"[\"国产刻蚀机突破5nm\",\"混合键合设备\"]"},{"id":12,"chain_name":"AI算力","node_name":"EDA/IP","node_type":"support","description":"芯片设计工具，Synopsys/Cadence/Mentor三分天下，国产华大九天/概伦电子加速追赶。","growth_score":7.5,"profit_score":8.5,"barrier_score":9.0,"composite_score":8.3,"localization_rate":5.0,"substitute_risk":"very_high","bottlenecks":"[\"先进制程PDK被三大巨头控制\",\"验证工具差距大\"]","tech_trends":"[\"AI辅助EDA\",\"云端化\"]"},{"id":9,"chain_name":"AI算力","node_name":"液冷散热","node_type":"support","description":"AI高功耗GPU驱动液冷从选配变标配。冷板式→浸没式技术演进，全球TAM 2028年超百亿美元。","growth_score":9.5,"profit_score":7.5,"barrier_score":6.5,"composite_score":8.2,"localization_rate":50.0,"substitute_risk":"low","bottlenecks":"[\"冷板微通道工艺\",\"氟化液高度依赖3M\"]","tech_trends":"[\"冷板→浸没式\",\"单相→两相\"]"},{"id":10,"chain_name":"AI算力","node_name":"高速铜连接","node_type":"upstream","description":"AI服务器内部高速互联（PCIe 6.0/DAC/ACC），兆龙互连等国产厂商份额快速提升。","growth_score":8.0,"profit_score":6.5,"barrier_score":6.0,"composite_score":7.2,"localization_rate":40.0,"substitute_risk":"medium","bottlenecks":"[\"224Gbps以上连接器依赖安费诺/泰科\"]","tech_trends":"[\"DAC→ACC→AEC演进\",\"PCIe 7.0\"]"},{"id":13,"chain_name":"AI算力","node_name":"电源/PSU","node_type":"support","description":"AI服务器供电核心，GPU功耗从700W到1500W驱动PSU功率密度持续提升。","growth_score":8.5,"profit_score":7.0,"barrier_score":5.5,"composite_score":7.5,"localization_rate":60.0,"substitute_risk":"low","bottlenecks":"[\"碳化硅功率器件\"]","tech_trends":"[\"5.5kW→12kW PSU\",\"48V直供架构\"]"},{"id":14,"chain_name":"AI算力","node_name":"云服务/智算中心","node_type":"downstream","description":"AI算力最终交付形态，阿里/腾讯/字节等CSP大规模建设智算中心。","growth_score":9.0,"profit_score":6.0,"barrier_score":7.0,"composite_score":7.7,"localization_rate":80.0,"substitute_risk":"low","bottlenecks":"[\"GPU供不应求\",\"电力配套\"]","tech_trends":"[\"液冷集群\",\"绿电直供\"]"}];
+
+const stocks = [{"id":3,"chain_name":"AI算力","company_name":"寒武纪","ticker":"688256","sector":"GPU芯片","irreplaceability":"评分8.5/10。国产AI芯片设计先锋，思元590/690系列在推理场景国内领先。","tech_lockin":"思元系列与国产大模型深度适配优化。","long_term_thesis":"AI Agent和超节点趋势驱动推理算力需求爆发。","core_risk":"客户集中度极高且大B订单波动大。","peg_ratio":0.57,"pe_digestion_years":0.9,"valuation_rating":"合理","analyzed_at":"2026-06-01 23:51:35"},{"id":2,"chain_name":"AI算力","company_name":"海光信息","ticker":"688041","sector":"GPU芯片","irreplaceability":"评分9.0/10。国内唯一同时拥有x86永久授权与自研DCU企业。","tech_lockin":"DTK CUDA兼容层降低迁移成本。","long_term_thesis":"国产算力自主可控核心底座，信创+AI双轮驱动。","core_risk":"x86授权被AMD限制风险。","peg_ratio":0.82,"pe_digestion_years":1.2,"valuation_rating":"合理","analyzed_at":"2026-06-01 23:51:35"},{"id":4,"chain_name":"AI算力","company_name":"中际旭创","ticker":"300308","sector":"光模块","irreplaceability":"全球光模块份额第一(30%+)，1.6T产品领先。","tech_lockin":"800G/1.6T全系列覆盖，绑定Meta/Google。","long_term_thesis":"AI算力集群驱动800G→1.6T升级周期。","core_risk":"技术迭代风险，DSP芯片供应依赖。","peg_ratio":0.65,"pe_digestion_years":0.7,"valuation_rating":"低估","analyzed_at":"2026-06-01 23:51:35"},{"id":5,"chain_name":"AI算力","company_name":"新易盛","ticker":"300502","sector":"光模块","irreplaceability":"800G光模块主要供应商，海外大客户深度合作。","tech_lockin":"LPO方案领先，成本优势明显。","long_term_thesis":"800G放量+1.6T预研双轮驱动。","core_risk":"客户集中度高，竞争激烈。","peg_ratio":0.58,"pe_digestion_years":0.6,"valuation_rating":"低估","analyzed_at":"2026-06-01 23:51:35"},{"id":6,"chain_name":"AI算力","company_name":"源杰科技","ticker":"688498","sector":"光芯片","irreplaceability":"国产EML光芯片稀缺标的。","tech_lockin":"50G/100G EML芯片量产。","long_term_thesis":"光芯片国产替代率从10%→30%+。","core_risk":"良率爬坡不确定性。","peg_ratio":0.72,"pe_digestion_years":0.8,"valuation_rating":"合理","analyzed_at":"2026-06-01 23:51:35"},{"id":7,"chain_name":"AI算力","company_name":"天孚通信","ticker":"300394","sector":"光模块","irreplaceability":"光器件平台型龙头。","tech_lockin":"精密陶瓷/金属/塑料全覆盖。","long_term_thesis":"光模块上游器件受益AI放量。","core_risk":"下游客户集中。","peg_ratio":0.91,"pe_digestion_years":1.0,"valuation_rating":"合理","analyzed_at":"2026-06-01 23:51:35"},{"id":8,"chain_name":"AI算力","company_name":"沪电股份","ticker":"002463","sector":"高端PCB","irreplaceability":"AI服务器PCB龙头。","tech_lockin":"24-40层高多层板量产。","long_term_thesis":"AI服务器PCB价值量提升3-5x。","core_risk":"CCL材料依赖。","peg_ratio":0.55,"pe_digestion_years":0.5,"valuation_rating":"低估","analyzed_at":"2026-06-01 23:51:35"},{"id":11,"chain_name":"AI算力","company_name":"英维克","ticker":"002837","sector":"液冷散热","irreplaceability":"液冷温控龙头。","tech_lockin":"冷板+液冷CDU全方案。","long_term_thesis":"液冷渗透率从15%→60%+。","core_risk":"竞争加剧。","peg_ratio":0.68,"pe_digestion_years":0.7,"valuation_rating":"低估","analyzed_at":"2026-06-01 23:51:35"},{"id":12,"chain_name":"AI算力","company_name":"盛科通信","ticker":"688702","sector":"交换机","irreplaceability":"国产交换芯片龙头。","tech_lockin":"51.2T交换芯片在研。","long_term_thesis":"国产交换机芯片进口替代。","core_risk":"与博通性能差距。","peg_ratio":0.85,"pe_digestion_years":1.1,"valuation_rating":"合理","analyzed_at":"2026-06-01 23:51:35"},{"id":13,"chain_name":"AI算力","company_name":"兆龙互连","ticker":"300913","sector":"高速铜连接","irreplaceability":"高速铜连接龙头。","tech_lockin":"DAC/ACC产品线全覆盖。","long_term_thesis":"AI服务器内部互联量价齐升。","core_risk":"技术替代风险。","peg_ratio":0.48,"pe_digestion_years":0.4,"valuation_rating":"低估","analyzed_at":"2026-06-01 23:51:35"}];
+
+const macro = {"id":1,"chain_name":"AI算力","industry_cycle":"成长期","cycle_rationale":"全球AI资本开支爆发式增长：亚马逊2026Q1实际开支442亿美元(全年指引2000亿)，谷歌同比显著增长，阿里未来三年3800亿，腾讯360亿，字节跳动开支翻倍。多家券商给出2025-2028 CAGR 35%+的行业增速预测。","policy_support":"强支持","policy_detail":"东数西算工程持续推进；新型数据中心发展三年行动计划；十五五规划AI列为战略新兴产业。","industry_growth_rate":35.0,"cr5_concentration":55.0,"pricing_power_distribution":"溢价权高度集中在上游核心零部件环节：光芯片DSP(>70%毛利)→光模块(35-50%)→PCB(25-35%)→服务器组装(<10%)。","avg_profit_margin":28.0,"screening_score":9.0,"screening_conclusion":"✅ 通过。AI算力处于成长早期→中期过渡阶段，政策强支持，行业增速35%+ CAGR。强烈建议深度拆解AI算力全产业链。","screened_at":"2026-06-02 17:23:05"};
+
+const news = [{"id":1,"chain_name":"AI算力","event_time":"2026-06-01 14:30","title":"中际旭创1.6T光模块获Meta追加订单","summary":"Meta将2026下半年1.6T光模块订单量上调30%，中际旭创为主要供应商","source":"券商研报","source_url":null,"impact_score":4,"impact_area":"光模块","impact_direction":"bullish","related_companies":null,"related_nodes":null,"tags":null,"created_at":"2026-06-02 02:04:26"},{"id":2,"chain_name":"AI算力","event_time":"2026-05-30 09:00","title":"台积电CoWoS产能扩产至月产5万片","summary":"台积电宣布2026年底CoWoS月产能从3万扩至5万片，缓解AI芯片封装瓶颈","source":"行业媒体","source_url":null,"impact_score":4,"impact_area":"HBM先进封装","impact_direction":"bullish","created_at":"2026-06-02 02:04:26"},{"id":3,"chain_name":"AI算力","event_time":"2026-05-28 16:00","title":"美国拟对华HBM出口实施新管制","summary":"美国商务部拟将HBM3E纳入对华出口管制清单，影响国产GPU供应链","source":"政策文件","source_url":null,"impact_score":5,"impact_area":"GPU芯片/存储(HBM/SSD)","impact_direction":"bearish","created_at":"2026-06-02 02:04:26"},{"id":4,"chain_name":"AI算力","event_time":"2026-05-25 10:00","title":"阿里云未来三年3800亿投向AI算力","summary":"阿里云公布2026-2028年3800亿元AI算力基建计划","source":"公司公告","source_url":null,"impact_score":3,"impact_area":"云服务/智算中心","impact_direction":"bullish","created_at":"2026-06-02 02:04:26"},{"id":5,"chain_name":"AI算力","event_time":"2026-05-20 08:00","title":"沪电股份泰国工厂投产","summary":"沪电泰国厂正式投产，年产高端PCB 60万平米","source":"公司公告","source_url":null,"impact_score":3,"impact_area":"高端PCB","impact_direction":"bullish","created_at":"2026-06-02 02:04:26"},{"id":6,"chain_name":"AI算力","event_time":"2026-05-18 11:00","title":"DDR5/HBM颗粒现货价周涨8%","summary":"受AI服务器需求拉动，HBM颗粒现货价持续上涨","source":"行业媒体","source_url":null,"impact_score":3,"impact_area":"存储(HBM/SSD)","impact_direction":"bullish","created_at":"2026-06-02 02:04:26"}];
+
+const bomByProduct = {"1.6T光模块":[{"id":33,"chain_name":"AI算力","product_name":"1.6T光模块","component_name":"1.6T光模块整机","component_level":1,"supplier":"中际旭创/Coherent/光迅科技","supplier_country":"中国/美国","unit_cost_usd":1300.0,"quantity_per_unit":1,"total_cost_usd":1300.0,"cost_pct":100.0,"margin_pct":32.5,"is_bottleneck":0,"substitute_available":"yes","substitute_detail":"中际旭创全球光模块份额第一(30%+)，光迅/新易盛/华工正升/剑桥科技等国产厂商集群优势明显","tech_trend":"1.6T 2024H2量产，3.2T 2026年预研，CPO/LPO架构演进","data_source":"券商研报+行业公开数据","confidence":"high"}],"40层AI服务器主板":[{"id":92,"chain_name":"AI算力","product_name":"40层AI服务器主板","component_name":"覆铜板CCL (Ultra Low Loss)","component_level":1,"supplier":"台光电/联茂/生益科技/松下","supplier_country":"中国台湾/中国/日本","unit_cost_usd":80.0,"quantity_per_unit":20,"total_cost_usd":1600.0,"cost_pct":32.0,"is_bottleneck":1,"substitute_available":"no","substitute_detail":"PCB核心基材，M7/M8等级CCL日系/台系领先","tech_trend":"更低Dk/Df材料","data_source":"券商研报","confidence":"high"},{"id":96,"chain_name":"AI算力","product_name":"40层AI服务器主板","component_name":"钻孔+电镀加工","component_level":1,"supplier":"沪电股份/深南电路/鹏鼎控股","supplier_country":"中国","unit_cost_usd":200.0,"quantity_per_unit":1,"total_cost_usd":200.0,"cost_pct":4.0,"is_bottleneck":0,"substitute_available":"yes","substitute_detail":"40层板钻孔精度+深镀能力是核心工艺","tech_trend":"机械钻孔→激光钻孔","data_source":"产业链调研","confidence":"low"}]};
+
+const bomProducts = ["AI训练服务器 (H200/GB200级别)","1.6T光模块","液冷散热系统 (GB200/GB300级)","AI数据中心交换机 (51.2T/800G)","800G光模块 (SR8/DR8/FR4)","GPU加速卡 (H100/B200级)","HBM3E 12Hi堆叠封装","40层AI服务器主板","800G DAC无源铜缆组件","5.5kW AI服务器电源模块","企业级NVMe SSD (30TB)"];
+
+// Product to sector mapping for BOM
+const productSectorMap = {
+  'AI训练服务器 (H200/GB200级别)': '服务器',
+  'GPU加速卡 (H100/B200级)': 'GPU芯片',
+  'HBM3E 12Hi堆叠封装': 'HBM先进封装',
+  '1.6T光模块': '光模块',
+  '800G光模块 (SR8/DR8/FR4)': '光模块',
+  '800G DAC无源铜缆组件': '高速铜连接',
+  'AI数据中心交换机 (51.2T/800G)': '交换机',
+  '液冷散热系统 (GB200/GB300级)': '液冷散热',
+  '40层AI服务器主板': '高端PCB',
+  '5.5kW AI服务器电源模块': '电源/PSU',
+  '企业级NVMe SSD (30TB)': '存储(HBM/SSD)'
+};
+
+// State
+let selectedSector = null;
+let selectedCompany = null;
+let selectedBomTab = 0;
+let chatHistory = [];
+let isTyping = false;
+
+// Color map
+const typeColors = {
+  'upstream': 'var(--accent-red)',
+  'midstream': 'var(--accent-blue)',
+  'downstream': 'var(--accent-green)',
+  'support': 'var(--accent-purple)'
+};
+const typeLabels = {
+  'upstream': '上游核心',
+  'midstream': '中游集成',
+  'downstream': '下游交付',
+  'support': '底层支撑'
+};
+
+// Number formatter: max 2 decimal places, strip trailing zeros
+function fmt(n) {
+  if (typeof n !== 'number' || isNaN(n)) return n;
+  return parseFloat(n.toFixed(2));
+}
+
+// Init
+function init() {
+  renderMacro();
+  renderSectors();
+  renderNews();
+  renderBomTabs();
+  setupSearch();
+  setupChat();
+  // Auto select first
+  if (sectors.length > 0) selectSector(sectors[0]);
+}
+
+// Macro cards
+function renderMacro() {
+  const cards = [
+    { label:'行业周期', value: macro.industry_cycle, sub:'成长爆发阶段', color:'var(--accent-green)' },
+    { label:'政策支持', value: macro.policy_support, sub:'东数西算/十五五', color:'var(--accent-blue)' },
+    { label:'行业增速', value: fmt(macro.industry_growth_rate)+'%', sub:'CAGR 2025-2028E', color:'var(--accent-cyan)' },
+    { label:'CR5集中度', value: fmt(macro.cr5_concentration)+'%', sub:'头部集中明显', color:'var(--accent-yellow)' },
+    { label:'平均利润率', value: fmt(macro.avg_profit_margin)+'%', sub:'上游>中游>下游', color:'var(--accent-purple)' },
+  ];
+  document.getElementById('macroRow').innerHTML = cards.map(c => `
+    <div class="macro-card">
+      <div class="label">${c.label}</div>
+      <div class="value" style="color:${c.color}">${c.value}</div>
+      <div class="sub">${c.sub}</div>
+    </div>
+  `).join('');
+}
+
+// Sectors list
+function renderSectors() {
+  const groups = { upstream:[], midstream:[], downstream:[], support:[] };
+  sectors.forEach(s => {
+    const t = s.node_type || 'upstream';
+    if (groups[t]) groups[t].push(s);
+  });
+  
+  ['upstream','midstream','downstream','support'].forEach((t, i) => {
+    const col = document.getElementById(['colUpstream','colMidstream','colDownstream','colSupport'][i]);
+    if (!col || !groups[t].length) return;
+    col.innerHTML = `
+      <div class="sector-group-title">${typeLabels[t] || t}</div>
+      ${groups[t].map(s => `
+        <div class="sector-item" data-node="${s.node_name}" onclick="selectSectorByName('${s.node_name}')">
+          <span class="sector-dot" style="background:${typeColors[s.node_type]}"></span>
+          <span>${s.node_name}</span>
+          <span class="sector-score">${fmt(s.composite_score)}</span>
+        </div>
+      `).join('')}
+    `;
+  });
+}
+
+function selectSectorByName(name) {
+  const s = sectors.find(x => x.node_name === name);
+  if (s) selectSector(s);
+}
+
+function selectSector(sector) {
+  selectedSector = sector;
+  selectedCompany = null;
+  
+  // Highlight active
+  document.querySelectorAll('.sector-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.node === sector.node_name);
+  });
+  
+  renderSectorDetail(sector);
+  renderCompanyCards(sector);
+}
+
+function renderSectorDetail(sector) {
+  const detail = document.getElementById('sectorDetail');
+  const bottlenecks = safeParseJSON(sector.bottlenecks) || [];
+  const techTrends = safeParseJSON(sector.tech_trends) || [];
+  const beneficiaries = safeParseJSON(sector.indirect_beneficiaries) || [];
+  
+  detail.innerHTML = `
+    <div class="detail-header">
+      <h3>${sector.node_name}</h3>
+      <span class="type-badge">${typeLabels[sector.node_type] || sector.node_type}</span>
+      <span class="detail-score">${fmt(sector.composite_score)}</span>
+    </div>
+    <div class="detail-desc">${sector.description || '暂无描述'}</div>
+    <div class="score-bars">
+      <div class="score-bar-row">
+        <span class="score-bar-label">成长性</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${(sector.growth_score||0)*10}%;background:var(--accent-green)"></div></div>
+        <span class="score-bar-val" style="color:var(--accent-green)">${sector.growth_score}</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">盈利性</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${(sector.profit_score||0)*10}%;background:var(--accent-blue)"></div></div>
+        <span class="score-bar-val" style="color:var(--accent-blue)">${sector.profit_score}</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">壁垒性</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${(sector.barrier_score||0)*10}%;background:var(--accent-purple)"></div></div>
+        <span class="score-bar-val" style="color:var(--accent-purple)">${sector.barrier_score}</span>
+      </div>
+    </div>
+    <div class="local-rate">
+      <div class="label">国产化率</div>
+      <div class="bar"><div class="fill" style="width:${sector.localization_rate || 0}%"></div></div>
+      <div class="val">${sector.localization_rate || 0}%</div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <div class="mlabel">替代风险</div>
+        <div class="mvalue">${sector.substitute_risk || '暂无'}</div>
+      </div>
+      <div class="metric-item">
+        <div class="mlabel">替代窗口</div>
+        <div class="mvalue">${sector.substitute_window || '暂无'}</div>
+      </div>
+      <div class="metric-item">
+        <div class="mlabel">CR5集中度</div>
+        <div class="mvalue">${sector.cr5_concentration || '暂无'}%</div>
+      </div>
+      <div class="metric-item">
+        <div class="mlabel">定价权</div>
+        <div class="mvalue">${sector.pricing_power || '暂无'}</div>
+      </div>
+    </div>
+    ${bottlenecks.length ? `
+    <div class="tags-section">
+      <div class="tag-title">🔴 瓶颈风险</div>
+      <div class="tags">${bottlenecks.map(b => `<span class="tag bottleneck">${b}</span>`).join('')}</div>
+    </div>` : ''}
+    ${techTrends.length ? `
+    <div class="tags-section">
+      <div class="tag-title">🔮 技术趋势</div>
+      <div class="tags">${techTrends.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    </div>` : ''}
+    ${beneficiaries.length ? `
+    <div class="tags-section">
+      <div class="tag-title">📈 间接受益赛道</div>
+      <div class="tags">${beneficiaries.map(b => `<span class="tag">${b.sector}: ${b.reason}</span>`).join('')}</div>
+    </div>` : ''}
+  `;
+}
+
+function safeParseJSON(str) {
+  if (!str) return null;
+  try { return JSON.parse(str); } catch(e) { return null; }
+}
+
+function renderCompanyCards(sector) {
+  const companies = stocks.filter(s => s.sector === sector.node_name);
+  const grid = document.getElementById('companyGrid');
+  if (!companies.length) {
+    grid.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center">暂无相关标的</div>';
+    return;
+  }
+  
+  grid.innerHTML = companies.map((c, i) => `
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-name">${c.company_name}</div>
+          <div class="card-ticker">${c.ticker}</div>
+          <span class="card-sector-badge">${c.sector}</span>
+          <div class="card-metrics">
+            <div class="cm"><span class="cl">PEG</span><span class="cv" style="color:${c.peg_ratio <= 1 ? 'var(--accent-green)' : 'var(--accent-yellow)'}">${fmt(c.peg_ratio)}</span></div>
+            <div class="cm"><span class="cl">PE消化</span><span class="cv">${fmt(c.pe_digestion_years)}年</span></div>
+            <div class="cm"><span class="cl">估值</span><span class="cv" style="color:${c.valuation_rating === '低估' ? 'var(--accent-green)' : 'var(--accent-blue)'}">${c.valuation_rating}</span></div>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <div class="back-tabs">
+            <span class="back-tab active">不可替代性</span>
+          </div>
+          <div class="back-content">
+            <strong>不可替代性</strong><br>${c.irreplaceability || '暂无'}<br><br>
+            <strong>长期逻辑</strong><br>${c.long_term_thesis || '暂无'}<br><br>
+            <strong>核心风险</strong><br><span class="risk-high">${c.core_risk || '暂无'}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// BOM
+function renderBomTabs() {
+  const tabs = document.getElementById('bomTabs');
+  tabs.innerHTML = bomProducts.map((p, i) => `
+    <span class="bom-tab ${i === selectedBomTab ? 'active' : ''}" onclick="selectBomTab(${i})">${p}</span>
+  `).join('');
+  renderBomTable(selectedBomTab);
+}
+
+function selectBomTab(idx) {
+  selectedBomTab = idx;
+  renderBomTabs();
+}
+
+function renderBomTable(idx) {
+  const product = bomProducts[idx];
+  const items = bomByProduct[product] || [];
+  const sector = productSectorMap[product] || '-';
+  document.getElementById('bomTableWrap').innerHTML = items.length ? `
+    <table class="bom-table">
+      <thead><tr>
+        <th>组件</th><th>赛道</th><th>供应商</th><th>国家</th><th>单价(USD)</th><th>成本占比</th><th>瓶颈</th><th>可替代</th>
+      </tr></thead>
+      <tbody>
+        ${items.map(item => `
+          <tr>
+            <td>${item.component_name}</td>
+            <td><span class="bom-sector-tag">${sector}</span></td>
+            <td>${item.supplier || '-'}</td>
+            <td>${item.supplier_country || '-'}</td>
+            <td class="bom-price">$${item.unit_cost_usd != null ? fmt(item.unit_cost_usd) : '-'}</td>
+            <td>${fmt(item.cost_pct)}%</td>
+            <td class="${item.is_bottleneck ? 'bn-yes' : 'bn-no'}">${item.is_bottleneck ? '是' : '否'}</td>
+            <td>${item.substitute_available === 0 || item.substitute_available === 'no' ? '❌' : item.substitute_available === 'limited' ? '⚠️有限' : item.substitute_available === 'partial' ? '⚠️部分' : '✅'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  ` : '<div style="padding:20px;text-align:center;color:var(--text-muted)">暂无该产品的BOM数据</div>';
+}
+
+// News
+function renderNews() {
+  const doubled = [...news, ...news];
+  document.getElementById('newsScroll').innerHTML = doubled.map(n => `
+    <div class="news-item">
+      <div class="ni-time">${n.event_time}</div>
+      <div class="ni-title">${n.source_url ? `<a href="${n.source_url}" target="_blank">${n.title}</a>` : n.title}
+        <span class="ni-badge ${n.impact_direction}">${n.impact_direction === 'bullish' ? '↑利好' : '↓利空'}</span>
+      </div>
+      <div class="ni-source">[${n.source}] ${n.impact_area}</div>
+    </div>
+  `).join('');
+}
+
+// Search
+function setupSearch() {
+  const input = document.getElementById('searchInput');
+  input.addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) return;
+    // Search sectors
+    const found = sectors.find(s => s.node_name.toLowerCase().includes(q));
+    if (found) { selectSector(found); return; }
+    // Search stocks
+    const stock = stocks.find(s => s.company_name.toLowerCase().includes(q) || s.ticker.includes(q));
+    if (stock) {
+      const sec = sectors.find(s => s.node_name === stock.sector);
+      if (sec) selectSector(sec);
+    }
+  });
+}
+
+// Chat
+function setupChat() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('chatSend');
+  const status = document.getElementById('chatStatus');
+
+  // Check API availability
+  checkApiStatus();
+
+  // Status click to reconfigure key
+  status.addEventListener('click', () => {
+    const key = promptForKey();
+    if (key) {
+      checkApiStatus();
+    }
+  });
+
+  btn.addEventListener('click', sendMessage);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) sendMessage();
+  });
+}
+
+async function checkApiStatus() {
+  const status = document.getElementById('chatStatus');
+  const key = getApiKey();
+  if (!key) {
+    status.textContent = '🔴 请配置 API Key';
+    status.className = 'chat-status unconfigured';
+    status.title = '点击配置 SiliconFlow API Key';
+    return;
+  }
+  try {
+    const resp = await fetch(SF_HEALTH_URL, {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + key },
+      signal: AbortSignal.timeout(5000)
+    });
+    if (resp.ok) {
+      status.textContent = '🟢 SiliconFlow 在线';
+      status.className = 'chat-status online';
+      status.title = 'SiliconFlow 已连接';
+    } else { throw new Error(); }
+  } catch {
+    status.textContent = '⚫ API 不可达';
+    status.className = 'chat-status offline';
+    status.title = '点击重新配置';
+  }
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg || isTyping) return;
+
+  // Add user message
+  addMessage(msg, 'user');
+  input.value = '';
+
+  // Build context
+  const context = {
+    selectedSector: selectedSector ? selectedSector.node_name : null,
+    selectedCompany: selectedCompany || null,
+    selectedBomTab: bomProducts[selectedBomTab] || null
+  };
+
+  isTyping = true;
+  showTyping();
+
+  try {
+    const sectorData = selectedSector ? sectors.find(x => x.node_name === context.selectedSector) : null;
+    const companyData = context.selectedCompany ? stocks.find(x => x.company_name === context.selectedCompany) : null;
+
+    let systemPrompt = '你是AI算力产业链投研助手。用户正在使用AI算力产业链看板分析数据。请基于以下上下文简洁专业地回答，用中文。';
+    if (sectorData) systemPrompt += `\\n\\n当前选中赛道: ${sectorData.node_name}（${typeLabels[sectorData.node_type] || sectorData.node_type}）\\n描述: ${sectorData.description}\\n综合评分: ${sectorData.composite_score}/10，国产化率: ${sectorData.localization_rate}%\\n瓶颈: ${sectorData.bottlenecks}\\n技术趋势: ${sectorData.tech_trends}`;
+    if (companyData) systemPrompt += `\\n\\n当前选中公司: ${companyData.company_name}(${companyData.ticker}) - ${companyData.sector}\\n不可替代性: ${companyData.irreplaceability}\\n长期逻辑: ${companyData.long_term_thesis}\\n核心风险: ${companyData.core_risk}\\nPEG: ${companyData.peg_ratio}, 估值: ${companyData.valuation_rating}`;
+    if (context.selectedBomTab) systemPrompt += `\\n\\n当前查看产品BOM: ${context.selectedBomTab}`;
+
+    const key = getApiKey();
+    if (!key) {
+      const newKey = promptForKey();
+      if (!newKey) {
+        hideTyping();
+        addMessage('请先配置 API Key（点击右上角状态指示器）', 'ai');
+        isTyping = false;
+        return;
+      }
+    }
+
+    const resp = await fetch(CHAT_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getApiKey()
+      },
+      body: JSON.stringify({
+        model: SF_MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: msg }
+        ],
+        max_tokens: 1024,
+        temperature: 0.7
+      }),
+      signal: AbortSignal.timeout(30000)
+    });
+
+    hideTyping();
+    if (resp.ok) {
+      const data = await resp.json();
+      const reply = data.choices?.[0]?.message?.content || '收到回复但格式未知';
+      addMessage(reply, 'ai');
+    } else {
+      throw new Error('HTTP ' + resp.status);
+    }
+  } catch (err) {
+    hideTyping();
+    const mockReply = generateMockReply(msg, context);
+    addMessage(mockReply, 'ai');
+  }
+  isTyping = false;
+}
+
+function generateMockReply(msg, context) {
+  const sector = context.selectedSector;
+  const company = context.selectedCompany;
+
+  if (msg.includes('风险') && sector) {
+    const s = sectors.find(x => x.node_name === sector);
+    if (s) {
+      const bottlenecks = safeParseJSON(s.bottlenecks) || [];
+      return '**' + sector + '赛道主要风险：**\n\n' + (bottlenecks.length ? bottlenecks.map((b,i) => (i+1) + '. ' + b).join('\n') : '暂无详细风险数据') +
+        '\n\n替代风险等级：' + (s.substitute_risk || '暂无') + '，替代窗口：' + (s.substitute_window || '暂无');
+    }
+  }
+  if (msg.includes('估值') && company) {
+    const c = stocks.find(x => x.company_name === company);
+    if (c) return '**' + c.company_name + '(' + c.ticker + ')估值分析：**\n\n- PEG: ' + fmt(c.peg_ratio) + '\n- PE消化周期: ' + fmt(c.pe_digestion_years) + '年\n- 估值评级: ' + c.valuation_rating + '\n\n' + (c.peg_ratio < 1 ? '当前PEG<1，估值具有吸引力。' : 'PEG>1，需关注业绩增速兑现。');
+  }
+  if (msg.includes('推荐') || msg.includes('低估')) {
+    const undervalued = stocks.filter(s => s.valuation_rating === '低估' || (s.valuation_rating === '合理' && s.peg_ratio < 0.8));
+    return '**当前低估值标的：**\n\n' + (undervalued.length ? undervalued.map(s => '- **' + s.company_name + '** (' + s.ticker + ') PEG=' + fmt(s.peg_ratio) + ' ' + s.valuation_rating).join('\n') : '暂无符合条件的标的');
+  }
+  if (sector) {
+    const s = sectors.find(x => x.node_name === sector);
+    if (s) return '**' + sector + '赛道概览：**\n\n' + (s.description || '暂无描述') + '\n\n综合评分：' + fmt(s.composite_score) + '/10，国产化率：' + fmt(s.localization_rate) + '%';
+  }
+  return '我是AI算力产业链投研助手（当前为离线模式）。\n\n你可以问我：\n- 某个赛道的风险和趋势\n- 公司估值是否合理\n- 低估值标的推荐\n- 产业链上下游关系\n\n请先在左侧选择一个赛道，我可以提供更精准的分析。\n\n💡 提示：点击右上角 🔴 状态指示器配置 SiliconFlow API Key 即可启用在线AI分析。';
+}
+
+function addMessage(text, type) {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + type;
+  if (type === 'ai') {
+    div.innerHTML = renderMarkdown(text);
+  } else {
+    div.textContent = text;
+  }
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function renderMarkdown(text) {
+  let html = text;
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+
+function showTyping() {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-typing';
+  div.id = 'typingIndicator';
+  div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+// Initialize
+init();
+</script>
+</body>
+</html>
