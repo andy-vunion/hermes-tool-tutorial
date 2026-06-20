@@ -714,6 +714,10 @@ render();
 }
 .ai-chat-header .status-dot.online  { background: #10b981; }
 .ai-chat-header .status-dot.offline { background: #999999; }
+.ai-chat-header .status-dot.nokey   { background: #ef4444; animation: aiNokeyBlink 1.2s ease-in-out infinite; }
+@keyframes aiNokeyBlink { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.ai-chat-header .status-dot,
+.ai-chat-header .status-text { cursor: pointer; }
 .ai-chat-header .status-text {
   font-size: 10px;
   color: var(--chat-muted);
@@ -854,8 +858,8 @@ render();
 <div class="ai-chat-panel" id="aiChatPanel">
   <div class="ai-chat-header">
     <span class="title">AI 助手</span>
-    <span class="status-dot online" id="aiChatStatusDot"></span>
-    <span class="status-text" id="aiChatStatusText">在线</span>
+    <span class="status-dot" id="aiChatStatusDot" title="点击配置 API Key"></span>
+    <span class="status-text" id="aiChatStatusText" title="点击配置 API Key">检查中…</span>
     <button class="close-btn" id="aiChatClose">✕</button>
   </div>
   <div class="ai-chat-offline-notice" id="aiChatOfflineNotice">AI助手离线，使用本地数据回答</div>
@@ -927,6 +931,22 @@ render();
       statusDot.className = 'status-dot offline';
       statusText.textContent = '离线';
       offlineNotice.classList.add('show');
+    }
+  }
+
+  function setNoKey() {
+    isOnline = false;
+    statusDot.className = 'status-dot nokey';
+    statusText.textContent = '请配置 API Key';
+    offlineNotice.classList.add('show');
+  }
+
+  function handleStatusClick() {
+    var key = promptForKey();
+    if (key) {
+      statusDot.className = 'status-dot';
+      statusText.textContent = '检测中…';
+      healthCheck();
     }
   }
 
@@ -1131,6 +1151,10 @@ render();
 
   /* ====== Health check ====== */
   function healthCheck() {
+    if (!getApiKey()) {
+      setNoKey();
+      return Promise.resolve();
+    }
     var ctrl = new AbortController();
     var timeoutId = setTimeout(function() { ctrl.abort(); }, HEALTH_TIMEOUT);
 
@@ -1223,6 +1247,9 @@ render();
   });
 
   closeBtn.addEventListener('click', closePanel);
+
+  statusDot.addEventListener('click', handleStatusClick);
+  statusText.addEventListener('click', handleStatusClick);
 
   sendBtn.addEventListener('click', sendMessage);
 

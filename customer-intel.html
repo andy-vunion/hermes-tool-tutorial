@@ -163,7 +163,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
 .ai-input{display:flex;gap:8px}
 .ai-input input{flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none}
 .ai-input input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
-.ai-status{font-size:11px;color:#6b7280;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.ai-status{font-size:11px;color:#6b7280;margin-bottom:6px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
 .status-dot{width:6px;height:6px;border-radius:50%;background:#9ca3af}
 .status-dot.ok{background:#22c55e}
 .status-dot.fail{background:#ef4444}
@@ -270,7 +270,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Ro
 
     <div class="right-section" style="flex:1;display:flex;flex-direction:column">
       <h3>AI 销售助手</h3>
-      <div class="ai-status" id="ai-status"><span class="status-dot" id="ai-dot"></span><span id="ai-status-text">检查中...</span></div>
+      <div class="ai-status" id="ai-status" onclick="handleStatusClick()" title="点击配置 API Key"><span class="status-dot" id="ai-dot"></span><span id="ai-status-text">检查中...</span></div>
       <div class="ai-panel">
         <div class="ai-messages" id="ai-messages">
           <div class="ai-msg bot">你好，我是你的AI销售助手。可以帮你分析客户情报、生成跟进策略或回答业务问题。</div>
@@ -644,14 +644,24 @@ function refreshData() {
 async function checkAIHealth() {
   const dot = document.getElementById('ai-dot');
   const txt = document.getElementById('ai-status-text');
+
+  const key = getApiKey();
+  if (!key) {
+    dot.style.background = '#ef4444';
+    txt.textContent = '请配置 API Key';
+    aiHealthy = false;
+    aiMockMode = true;
+    return;
+  }
+
   dot.style.background = '#f59e0b';
   txt.textContent = '检查中...';
 
   try {
-    const resp = await fetch(SF_API_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getApiKey()},
-      body: JSON.stringify({model: SF_MODEL, messages: [{role: 'user', content: 'hi'}], max_tokens: 5})
+    const resp = await fetch(SF_HEALTH_URL, {
+      method: 'GET',
+      headers: {'Authorization': 'Bearer ' + key},
+      signal: AbortSignal.timeout(5000)
     });
     if (resp.ok) {
       dot.style.background = '#22c55e';
@@ -662,10 +672,19 @@ async function checkAIHealth() {
       throw new Error('status ' + resp.status);
     }
   } catch (e) {
-    dot.style.background = '#ef4444';
-    txt.textContent = 'API离线，已切换Mock模式';
+    dot.style.background = '#9ca3af';
+    txt.textContent = 'API 不可达，已切换Mock模式';
     aiHealthy = false;
     aiMockMode = true;
+  }
+}
+
+function handleStatusClick() {
+  const key = promptForKey();
+  if (key) {
+    document.getElementById('ai-dot').style.background = '#f59e0b';
+    document.getElementById('ai-status-text').textContent = '检测中...';
+    checkAIHealth();
   }
 }
 

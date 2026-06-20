@@ -344,6 +344,11 @@ body{
   background: #9ca3af; transition: background .3s;
 }
 .ai-chat-header .status-dot.online { background: #22c55e; }
+.ai-chat-header .status-dot.nokey { background: #ef4444; animation: aiNokeyBlink 1.2s ease-in-out infinite; }
+@keyframes aiNokeyBlink { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.ai-chat-header .status-dot,
+.ai-chat-header .status-text { cursor: pointer; }
+.ai-chat-header .status-text { font-size: 11px; color: var(--muted); }
 .ai-chat-header .close-btn {
   margin-left: auto; background: none; border: none;
   font-size: 20px; cursor: pointer; color: var(--muted);
@@ -601,8 +606,9 @@ function R(){
 
 <div class="ai-chat-panel" id="aiChatPanel">
   <div class="ai-chat-header">
-    <span class="status-dot" id="aiStatusDot"></span>
+    <span class="status-dot" id="aiStatusDot" title="点击配置 API Key"></span>
     <span>AI 助手</span>
+    <span class="status-text" id="aiStatusText" title="点击配置 API Key"></span>
     <button class="close-btn" id="aiChatClose">✕</button>
   </div>
   <div class="ai-chat-messages" id="aiChatMessages">
@@ -644,6 +650,7 @@ function R(){
   const $input = document.getElementById('aiChatInput');
   const $send = document.getElementById('aiChatSend');
   const $status = document.getElementById('aiStatusDot');
+  const $statusText = document.getElementById('aiStatusText');
 
   // ── Build system prompt from page context ──
   function buildSystemPrompt() {
@@ -718,10 +725,27 @@ function R(){
   function setOnline(on) {
     isOnline = on;
     $status.className = 'status-dot ' + (on ? 'online' : '');
+    $statusText.textContent = on ? '在线' : '离线';
+  }
+
+  function setNoKey() {
+    isOnline = false;
+    $status.className = 'status-dot nokey';
+    $statusText.textContent = '请配置 API Key';
+  }
+
+  function handleStatusClick() {
+    var key = promptForKey();
+    if (key) {
+      $status.className = 'status-dot';
+      $statusText.textContent = '检测中…';
+      healthCheck();
+    }
   }
 
   // ── Health check ──
   function healthCheck() {
+    if (!getApiKey()) { setNoKey(); return; }
     var controller = new AbortController();
     var timeout = setTimeout(function(){ controller.abort(); }, 5000);
     fetch(HEALTH_URL, {
@@ -824,6 +848,10 @@ function R(){
   $input.addEventListener('keydown', function(e){
     if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
   });
+
+  // ── Status click to configure key ──
+  $status.addEventListener('click', handleStatusClick);
+  $statusText.addEventListener('click', handleStatusClick);
 
   // ── Init ──
   healthCheck();
